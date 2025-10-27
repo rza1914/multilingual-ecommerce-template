@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout:*)",
+      "Read(//e/template1/multilingual-ecommerce-template/**)",
+      "Bash(python:*)",
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
+      "Bash(sqlite3:*)",
+      "Bash(echo:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

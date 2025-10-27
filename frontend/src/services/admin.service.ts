@@ -1,0 +1,168 @@
+import api from './api';
+
+export interface DashboardStats {
+  total_users: number;
+  total_products: number;
+  total_orders: number;
+  total_revenue: number;
+  orders_by_status: Record<string, number>;
+  recent_orders_count: number;
+  recent_revenue: number;
+  low_stock_count: number;
+  new_users_count: number;
+}
+
+export interface RecentOrder {
+  id: number;
+  user_id: number;
+  full_name: string;
+  total: number;
+  status: string;
+  created_at: string;
+}
+
+export interface RevenueChartData {
+  date: string;
+  revenue: number;
+  orders: number;
+}
+
+// Get dashboard statistics
+export const getDashboardStats = async (): Promise<DashboardStats> => {
+  return await api.get('/admin/dashboard/stats');
+};
+
+// Get recent orders
+export const getRecentOrders = async (limit: number = 10): Promise<RecentOrder[]> => {
+  return await api.get(`/admin/dashboard/recent-orders?limit=${limit}`);
+};
+
+// Get revenue chart data
+export const getRevenueChart = async (days: number = 30): Promise<RevenueChartData[]> => {
+  return await api.get(`/admin/dashboard/revenue-chart?days=${days}`);
+};
+
+// Product Management Interfaces
+export interface Product {
+  id: number;
+  title_en: string;
+  title_fa: string;
+  description_en: string;
+  description_fa: string;
+  price: number;
+  discount: number;
+  category: string;
+  image_url: string;
+  stock: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProductsResponse {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface ProductFormData {
+  title_en: string;
+  title_fa: string;
+  description_en: string;
+  description_fa: string;
+  price: number;
+  category: string;
+  image_url: string;
+}
+
+// Product Management Functions
+export const getAdminProducts = async (
+  skip: number = 0,
+  limit: number = 100,
+  search?: string
+): Promise<ProductsResponse> => {
+  let url = `/admin/products?skip=${skip}&limit=${limit}`;
+  if (search) url += `&search=${search}`;
+  return await api.get(url);
+};
+
+export const getAdminProduct = async (id: number): Promise<Product> => {
+  return await api.get(`/admin/products/${id}`);
+};
+
+export const createProduct = async (data: ProductFormData): Promise<Product> => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value.toString());
+  });
+  return await api.post('/admin/products', formData);
+};
+
+export const updateProduct = async (id: number, data: ProductFormData): Promise<Product> => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value.toString());
+  });
+  return await api.put(`/admin/products/${id}`, formData);
+};
+
+export const deleteProduct = async (id: number): Promise<void> => {
+  return await api.delete(`/admin/products/${id}`);
+};
+
+// Order Management Interfaces
+export interface AdminOrder {
+  id: number;
+  user_id: number;
+  full_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  shipping_method: string;
+  payment_method: string;
+  subtotal: number;
+  shipping_cost: number;
+  tax: number;
+  discount: number;
+  total: number;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  items_count: number;
+}
+
+export interface OrdersResponse {
+  orders: AdminOrder[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+// Order Management Functions
+export const getAdminOrders = async (
+  skip: number = 0,
+  limit: number = 100,
+  status?: string
+): Promise<OrdersResponse> => {
+  let url = `/admin/orders?skip=${skip}&limit=${limit}`;
+  if (status && status !== 'all') url += `&status=${status}`;
+  return await api.get(url);
+};
+
+export const getAdminOrderDetails = async (id: number): Promise<any> => {
+  return await api.get(`/admin/orders/${id}`);
+};
+
+export const updateOrderStatus = async (id: number, status: string): Promise<any> => {
+  const formData = new FormData();
+  formData.append('status', status);
+  return await api.put(`/admin/orders/${id}/status`, formData);
+};
+
+export const deleteAdminOrder = async (id: number): Promise<void> => {
+  return await api.delete(`/admin/orders/${id}`);
+};
