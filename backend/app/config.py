@@ -158,6 +158,14 @@ class Settings:
                 default=""
             )
             
+            # Default production origins
+            default_origins = [
+                "https://multilingual-ecommerce-template-j0yyw6oms.vercel.app",
+                "https://multilingual-ecommerce-template.onrender.com",
+                "http://localhost:5173",
+                "http://localhost:3000",
+            ]
+            
             if origins_env:
                 # Parse comma-separated string to list
                 origins = [origin.strip() for origin in origins_env.split(",")]
@@ -170,13 +178,12 @@ class Settings:
                 return origins
             
             else:
-                # Production without CORS config
-                print("⚠️  WARNING: Production mode but ALLOWED_ORIGINS not set!")
-                print("   Defaulting to HTTPS-only for security.")
-                print("   Please set ALLOWED_ORIGINS in your .env file.")
+                # Production with default origins
+                print("🔒 Production CORS using default origins:")
+                for origin in default_origins:
+                    print(f"   ✅ {origin}")
                 
-                # Only HTTPS (most secure)
-                return ["https://"]
+                return default_origins
     
     # ========================================
     # Helper Properties

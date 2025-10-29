@@ -10,8 +10,7 @@
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "type-check": "tsc --noEmit",
-    "preview": "vite preview",
-    "prepare": "cd .. && husky frontend/.husky"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
