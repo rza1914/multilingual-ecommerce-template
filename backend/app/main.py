@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+from pathlib import Path  # Add this import
 from .config import settings
 from .database import engine, Base
 from .api.v1 import api_router
@@ -38,8 +39,10 @@ app.add_middleware(
 # Include API router
 app.include_router(api_router, prefix="/api/v1")
 
-# Serve static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Serve static files (only if directory exists)
+static_dir = Path(__file__).parent.parent / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
