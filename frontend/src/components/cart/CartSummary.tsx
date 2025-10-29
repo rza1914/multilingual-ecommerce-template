@@ -26,7 +26,6 @@ const CartSummary: React.FC<CartSummaryProps> = ({
     getTax,
     getShipping,
     getDiscount,
-    getTotalPrice,
     cartItems,
   } = useCart();
 

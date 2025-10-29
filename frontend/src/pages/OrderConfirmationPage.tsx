@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getOrder } from '../services/order.service';
 import { CheckCircle, Package, Truck, Home, ShoppingBag } from 'lucide-react';

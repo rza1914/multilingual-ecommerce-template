@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserOrders } from '../services/order.service';
 import { useAuth } from '../contexts/AuthContext';

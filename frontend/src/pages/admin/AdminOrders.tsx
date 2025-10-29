@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -8,7 +8,7 @@ import {
   AdminOrder
 } from '../../services/admin.service';
 import {
-  ShoppingCart, Eye, Edit2, Trash2, Package, Filter, X
+  ShoppingCart, Eye, Edit2, Trash2, Package, X
 } from 'lucide-react';
 
 export default function AdminOrders() {

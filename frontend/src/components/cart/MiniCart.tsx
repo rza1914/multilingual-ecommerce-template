@@ -156,7 +156,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
               {cartItems.map((item, index) => {
                 const hasDiscount = item.product.discount && item.product.discount > 0;
                 const price = hasDiscount
-                  ? item.product.price * (1 - item.product.discount / 100)
+                  ? item.product.price * (1 - (item.product.discount ?? 0) / 100)
                   : item.product.price;
                 const itemSubtotal = price * item.quantity;
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -10,7 +10,7 @@ import {
   ProductFormData
 } from '../../services/admin.service';
 import {
-  Package, Plus, Edit2, Trash2, Search, X, Save, AlertCircle
+  Package, Plus, Edit2, Trash2, Search, X, Save
 } from 'lucide-react';
 
 export default function AdminProducts() {
@@ -21,7 +21,6 @@ export default function AdminProducts() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
   const [saving, setSaving] = useState(false);
 
   const [formData, setFormData] = useState<ProductFormData>({

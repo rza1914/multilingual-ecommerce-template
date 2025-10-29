@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { getUserProfile, updateUserProfile, changePassword } from '../services/user.service';
+import { getUserProfile, updateUserProfile, changePassword, UserProfile } from '../services/user.service';
 import { getUserOrders } from '../services/order.service';
 import {
   User, Mail, Phone, Calendar, ShoppingBag, Package,
@@ -10,8 +10,8 @@ import {
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user: authUser, isAuthenticated } = useAuth();
-  const [user, setUser] = useState<any>(null);
+  const { isAuthenticated } = useAuth();
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 

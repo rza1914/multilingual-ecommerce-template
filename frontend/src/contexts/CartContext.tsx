@@ -132,7 +132,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       // Calculate discounted price if discount exists
       const hasDiscount = item.product.discount && item.product.discount > 0;
       const price = hasDiscount
-        ? item.product.price * (1 - item.product.discount / 100)
+        ? item.product.price * (1 - (item.product.discount ?? 0) / 100)
         : item.product.price;
       return total + (price * item.quantity);
     }, 0);
@@ -149,7 +149,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return cartItems.reduce((total, item) => {
       const hasDiscount = item.product.discount && item.product.discount > 0;
       const price = hasDiscount
-        ? item.product.price * (1 - item.product.discount / 100)
+        ? item.product.price * (1 - (item.product.discount ?? 0) / 100)
         : item.product.price;
       return total + (price * item.quantity);
     }, 0);

@@ -26,8 +26,8 @@ export const getProducts = async (filters?: ProductFilters): Promise<Product[]> 
     const queryString = params.toString();
     const url = queryString ? `/products/?${queryString}` : '/products/';
 
-    const response = await api.get(url);
-    return response;
+    const response = await api.get<Product[]>(url);
+    return response as unknown as Product[];
   } catch (error) {
     console.error('Error fetching products:', error);
     throw error;
@@ -41,8 +41,8 @@ export const getProducts = async (filters?: ProductFilters): Promise<Product[]> 
  */
 export const getProduct = async (id: number): Promise<Product> => {
   try {
-    const response = await api.get(`/products/${id}`);
-    return response;
+    const response = await api.get<Product>(`/products/${id}`);
+    return response as unknown as Product;
   } catch (error) {
     console.error(`Error fetching product ${id}:`, error);
     throw error;
@@ -70,8 +70,8 @@ export const getFeaturedProducts = async (limit: number = 6): Promise<Product[]>
  */
 export const createProduct = async (data: CreateProductData): Promise<Product> => {
   try {
-    const response = await api.post('/products/', data);
-    return response;
+    const response = await api.post<Product>('/products/', data);
+    return response as unknown as Product;
   } catch (error) {
     console.error('Error creating product:', error);
     throw error;
@@ -86,8 +86,8 @@ export const createProduct = async (data: CreateProductData): Promise<Product> =
  */
 export const updateProduct = async (id: number, data: UpdateProductData): Promise<Product> => {
   try {
-    const response = await api.put(`/products/${id}`, data);
-    return response;
+    const response = await api.put<Product>(`/products/${id}`, data);
+    return response as unknown as Product;
   } catch (error) {
     console.error(`Error updating product ${id}:`, error);
     throw error;

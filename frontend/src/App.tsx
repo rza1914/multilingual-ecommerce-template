@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { useTheme } from './contexts/ThemeContext';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProductsProvider } from './contexts/ProductsContext';
@@ -22,7 +21,6 @@ import AdminOrders from './pages/admin/AdminOrders';
 import NotFoundPage from './pages/NotFoundPage';
 
 function AppContent() {
-  const { theme } = useTheme();
   const { loading } = useAuth();
 
   // Show loading spinner while checking authentication

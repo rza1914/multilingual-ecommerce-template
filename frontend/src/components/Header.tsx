@@ -9,7 +9,7 @@ import Toast, { ToastType } from './Toast';
 import { ShoppingCart, User, Menu, X, Search, Sparkles, LogOut, UserCircle, Package, Shield } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { Product } from '../data/mockData';
+import { Product } from '../types/product.types';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);

@@ -27,7 +27,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
   // Calculate price
   const hasDiscount = product.discount && product.discount > 0;
   const price = hasDiscount
-    ? product.price * (1 - product.discount / 100)
+    ? product.price * (1 - (product.discount ?? 0) / 100)
     : product.price;
   const itemSubtotal = price * quantity;
 

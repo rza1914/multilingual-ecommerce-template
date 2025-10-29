@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X, Search, TrendingUp, Clock } from 'lucide-react';
-import { mockProducts, Product } from '../../data/mockData';
+import { mockProducts } from '../../data/mockData';
+import { Product } from '../../types/product.types';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -44,9 +45,9 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
       const query = searchQuery.toLowerCase();
       const results = mockProducts.filter(
         (product) =>
-          product.title.toLowerCase().includes(query) ||
-          product.description.toLowerCase().includes(query) ||
-          product.category.toLowerCase().includes(query)
+          product.title_en.toLowerCase().includes(query) ||
+          product.description_en.toLowerCase().includes(query) ||
+          (product.category?.toLowerCase() || '').includes(query)
       );
       setSearchResults(results.slice(0, 6)); // Limit to 6 results
     } else {
@@ -125,21 +126,23 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                         >
                           <img
                             src={product.image_url}
-                            alt={product.title}
+                            alt={product.title_en}
                             className="w-16 h-16 object-cover rounded-xl"
                           />
                           <div className="flex-1 text-left">
                             <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-orange-500 transition-colors">
-                              {product.title}
+                              {product.title_en}
                             </h4>
                             <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
-                              {product.description}
+                              {product.description_en}
                             </p>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-sm font-bold text-gradient-orange">
-                                ${product.discount_price || product.price}
+                                ${product.discount && product.discount > 0
+                                  ? (product.price * (1 - product.discount / 100)).toFixed(2)
+                                  : product.price.toFixed(2)}
                               </span>
-                              <span className="text-xs badge-glass">{product.category}</span>
+                              <span className="text-xs badge-glass">{product.category || 'General'}</span>
                             </div>
                           </div>
                         </button>
@@ -196,18 +199,20 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                       >
                         <img
                           src={product.image_url}
-                          alt={product.title}
+                          alt={product.title_en}
                           className="w-20 h-20 object-cover rounded-xl"
                         />
                         <div className="flex-1">
                           <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-orange-500 transition-colors line-clamp-1">
-                            {product.title}
+                            {product.title_en}
                           </h4>
                           <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-1 mb-2">
-                            {product.description}
+                            {product.description_en}
                           </p>
                           <span className="text-sm font-bold text-gradient-orange">
-                            ${product.discount_price || product.price}
+                            ${product.discount && product.discount > 0
+                              ? (product.price * (1 - product.discount / 100)).toFixed(2)
+                              : product.price.toFixed(2)}
                           </span>
                         </div>
                       </button>

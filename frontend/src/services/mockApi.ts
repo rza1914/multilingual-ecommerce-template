@@ -1,4 +1,5 @@
-import { mockProducts, Product } from '../data/mockData';
+import { mockProducts } from '../data/mockData';
+import { Product } from '../types/product.types';
 
 // Simulate network delay
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));

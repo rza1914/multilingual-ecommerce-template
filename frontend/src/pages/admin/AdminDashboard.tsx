@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { getDashboardStats, getRecentOrders, getRevenueChart, DashboardStats, RecentOrder, RevenueChartData } from '../../services/admin.service';
 import {
   Users, Package, ShoppingCart, DollarSign,
-  TrendingUp, Calendar, Eye, ArrowRight
+  TrendingUp, Eye, ArrowRight
 } from 'lucide-react';
 
 export default function AdminDashboard() {
