@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست احراز هویت - Authentication Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status-badge.online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .token-display {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+        .step {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 تست سیستم احراز هویت</h1>
+        <p class="subtitle">Authentication Testing Tool</p>
+
+        <!-- Server Status -->
+        <div class="section">
+            <div class="section-title">📡 وضعیت سرور</div>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>بررسی اتصال به سرور</strong>
+            </div>
+            <button onclick="checkServer()">بررسی سرور</button>
+            <div id="serverStatus"></div>
+        </div>
+
+        <!-- Login -->
+        <div class="section">
+            <div class="section-title">🔑 ورود به سیستم</div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>دریافت توکن احراز هویت</strong>
+            </div>
+            <div class="input-group">
+                <label>ایمیل یا نام کاربری:</label>
+                <input type="text" id="loginEmail" value="admin@test.com" placeholder="admin@test.com">
+            </div>
+            <div class="input-group">
+                <label>رمز عبور:</label>
+                <input type="password" id="loginPassword" value="admin123" placeholder="admin123">
+            </div>
+            <button onclick="login()">ورود و دریافت توکن</button>
+            <div id="loginResult"></div>
+        </div>
+
+        <!-- Test Endpoints -->
+        <div class="section">
+            <div class="section-title">🧪 تست Endpoint ها</div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>تست دسترسی به API</strong>
+            </div>
+            <button onclick="testAuthMe()" id="testAuthMeBtn" disabled>تست /auth/me</button>
+            <div id="authMeResult"></div>
+            <br><br>
+            <button onclick="testUsersMe()" id="testUsersMeBtn" disabled>تست /users/me</button>
+            <div id="usersMeResult"></div>
+            <br><br>
+            <button onclick="testUsersList()" id="testUsersListBtn" disabled>تست /users (فقط ادمین)</button>
+            <div id="usersListResult"></div>
+        </div>
+
+        <!-- Token Display -->
+        <div class="section">
+            <div class="section-title">🎫 اطلاعات توکن</div>
+            <div id="tokenInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/v1';
+        let authToken = localStorage.getItem('authToken') || null;
+
+        // Update token info display
+        function updateTokenDisplay() {
+            const tokenInfo = document.getElementById('tokenInfo');
+            if (authToken) {
+                tokenInfo.innerHTML = `
+                    <div class="result success">
+                        ✅ توکن فعال موجود است
+                        <div class="token-display">${authToken.substring(0, 50)}...</div>
+                        <button onclick="clearToken()" style="margin-top: 10px; width: auto; padding: 8px 20px;">پاک کردن توکن</button>
+                    </div>
+                `;
+                // Enable test buttons
+                document.getElementById('testAuthMeBtn').disabled = false;
+                document.getElementById('testUsersMeBtn').disabled = false;
+                document.getElementById('testUsersListBtn').disabled = false;
+            } else {
+                tokenInfo.innerHTML = '<div class="result error">❌ توکن موجود نیست. لطفاً ابتدا وارد شوید.</div>';
+                // Disable test buttons
+                document.getElementById('testAuthMeBtn').disabled = true;
+                document.getElementById('testUsersMeBtn').disabled = true;
+                document.getElementById('testUsersListBtn').disabled = true;
+            }
+        }
+
+        function clearToken() {
+            authToken = null;
+            localStorage.removeItem('authToken');
+            updateTokenDisplay();
+        }
+
+        async function checkServer() {
+            const resultDiv = document.getElementById('serverStatus');
+            resultDiv.innerHTML = '<div class="result info">⏳ در حال بررسی...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE.replace('/api/v1', '')}/`);
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ سرور فعال است!
+                            <span class="status-badge online">ONLINE</span>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Server returned error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        ❌ خطا در اتصال به سرور!
+                        <span class="status-badge offline">OFFLINE</span>
+                        <br><br>
+                        مطمئن شوید سرور در حال اجرا است:
+                        <br>cd backend
+                        <br>python -m uvicorn app.main:app --reload
+                    </div>
+                `;
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const resultDiv = document.getElementById('loginResult');
+
+            resultDiv.innerHTML = '<div class="result info">⏳ در حال ورود...</div>';
+
+            try {
+                const formData = new URLSearchParams();
+                formData.append('username', email);
+                formData.append('password', password);
+
+                const response = await fetch(`${API_BASE}/auth/token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.access_token;
+                    localStorage.setItem('authToken', authToken);
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ ورود موفقیت‌آمیز!
+                            <br><br>
+                            <strong>Access Token:</strong>
+                            <div class="token-display">${authToken.substring(0, 80)}...</div>
+                            <br>
+                            <strong>Token Type:</strong> ${data.token_type}
+                        </div>
+                    `;
+                    updateTokenDisplay();
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            ❌ خطا در ورود!
+                            <br><br>
+                            <strong>Status:</strong> ${response.status}
+                            <br>
+                            <strong>پیام:</strong> ${data.detail || JSON.stringify(data)}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        ❌ خطا در ارتباط با سرور!
+                        <br><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function testAuthMe() {
+            const resultDiv = document.getElementById('authMeResult');
+            resultDiv.innerHTML = '<div class="result info">⏳ در حال تست...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ تست موفق - /auth/me
+                            <br><br>
+                            <strong>کاربر:</strong> ${data.full_name || data.username}
+                            <br><strong>ایمیل:</strong> ${data.email}
+                            <br><strong>نقش:</strong> ${data.role}
+                            <br><strong>وضعیت:</strong> ${data.is_active ? 'فعال' : 'غیرفعال'}
+                            <br><br>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            ❌ خطای ${response.status}
+                            <br><br>
+                            ${data.detail || JSON.stringify(data)}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ خطا: ${error.message}</div>`;
+            }
+        }
+
+        async function testUsersMe() {
+            const resultDiv = document.getElementById('usersMeResult');
+            resultDiv.innerHTML = '<div class="result info">⏳ در حال تست...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/users/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ تست موفق - /users/me
+                            <br><br>
+                            <strong>کاربر:</strong> ${data.full_name || data.username}
+                            <br><strong>ایمیل:</strong> ${data.email}
+                            <br><strong>نقش:</strong> ${data.role}
+                            <br><strong>وضعیت:</strong> ${data.is_active ? 'فعال' : 'غیرفعال'}
+                            <br><br>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            ❌ خطای ${response.status}
+                            <br><br>
+                            ${data.detail || JSON.stringify(data)}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ خطا: ${error.message}</div>`;
+            }
+        }
+
+        async function testUsersList() {
+            const resultDiv = document.getElementById('usersListResult');
+            resultDiv.innerHTML = '<div class="result info">⏳ در حال تست...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/users`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ تست موفق - /users (دسترسی ادمین)
+                            <br><br>
+                            <strong>تعداد کاربران:</strong> ${data.length}
+                            <br><br>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            ❌ خطای ${response.status}
+                            <br><br>
+                            ${data.detail || JSON.stringify(data)}
+                            <br><br>
+                            ${response.status === 403 ? '⚠️ شما دسترسی ادمین ندارید!' : ''}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ خطا: ${error.message}</div>`;
+            }
+        }
+
+        // Initialize
+        updateTokenDisplay();
+        checkServer();
+    </script>
+</body>
+</html>
