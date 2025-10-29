@@ -99,92 +99,9 @@ class Settings:
     )
     
     # ========================================
-    # Smart CORS - Dynamic Origins
+    # CORS - Allowed Origins
     # ========================================
-    
-    @property
-    def ALLOWED_ORIGINS(self) -> List[str]:
-        """
-        Smart CORS Origins
-        
-        Development Mode (Automatic):
-        - All localhost and 127.0.0.1 addresses allowed
-        - Common ports: 3000, 5173, 8080, 4200
-        - No configuration needed!
-        
-        Production Mode:
-        - Reads from .env file: ALLOWED_ORIGINS
-        - Example: ALLOWED_ORIGINS=https://myapp.com,https://www.myapp.com
-        - If not configured, only HTTPS is allowed
-        
-        Returns:
-            List[str]: List of allowed origins
-        """
-        
-        # Check current environment
-        env = self.ENVIRONMENT.lower()
-        
-        if env == "development":
-            # Development: All localhost allowed
-            return [
-                # Vite (React, Vue, Svelte)
-                "http://localhost:5173",
-                "http://127.0.0.1:5173",
-                
-                # Next.js, Create React App
-                "http://localhost:3000",
-                "http://127.0.0.1:3000",
-                
-                # Angular
-                "http://localhost:4200",
-                "http://127.0.0.1:4200",
-                
-                # Vue CLI, Alternative
-                "http://localhost:8080",
-                "http://127.0.0.1:8080",
-                
-                # Custom / Alternative ports
-                "http://localhost:8000",
-                "http://127.0.0.1:8000",
-                
-                "http://localhost:8888",
-                "http://127.0.0.1:8888",
-            ]
-        
-        else:
-            # Production: Read from environment
-            origins_env = config(
-                "ALLOWED_ORIGINS", 
-                default=""
-            )
-            
-            # Default production origins
-            default_origins = [
-                "https://multilingual-ecommerce-template-ohimnpkxr.vercel.app",
-                "https://multilingual-ecommerce-template-j0yyw6oms.vercel.app",
-                "https://multilingual-ecommerce-template.onrender.com",
-                "http://localhost:5173",
-                "http://localhost:3000",
-            ]
-            
-            if origins_env:
-                # Parse comma-separated string to list
-                origins = [origin.strip() for origin in origins_env.split(",")]
-                
-                # Log configured origins
-                print("🔒 Production CORS configured:")
-                for origin in origins:
-                    print(f"   ✅ {origin}")
-                
-                return origins
-            
-            else:
-                # Production with default origins
-                print("🔒 Production CORS using default origins:")
-                for origin in default_origins:
-                    print(f"   ✅ {origin}")
-                
-                return default_origins
+    ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
     
     # ========================================
     # Helper Properties
