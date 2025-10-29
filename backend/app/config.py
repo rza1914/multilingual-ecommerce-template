@@ -160,6 +160,7 @@ class Settings:
             
             # Default production origins
             default_origins = [
+                "https://multilingual-ecommerce-template-ohimnpkxr.vercel.app",
                 "https://multilingual-ecommerce-template-j0yyw6oms.vercel.app",
                 "https://multilingual-ecommerce-template.onrender.com",
                 "http://localhost:5173",
