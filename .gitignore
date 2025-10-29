@@ -1,18 +1,23 @@
 # OS Files
 .DS_Store
 Thumbs.db
+Desktop.ini
 
 # IDE
 .vscode/
 .idea/
 *.swp
+*.swo
+*~
 
 # Logs
 *.log
+logs/
 
 # Environment
 .env
 .env.local
+.env.*.local
 
 # Database
 *.db
@@ -21,4 +26,64 @@ Thumbs.db
 
 # Temporary
 *.tmp
+tmp/
+temp/
 .cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+dist-ssr/
+*.local
+.vite/
+coverage/
+.eslintcache
+
+# Claude
+.claude/
+
+# Build artifacts
+build/
+*.tsbuildinfo
+
+# Test files
+*_FIXED.*
+*_NEW.*
+*_BACKUP.*
+*.backup
+
+# Documentation (temporary/debug files)
+*FIX*.md
+*DIAGNOSIS*.md
+*TEST*.md
+QUICK_REFERENCE.txt
+
+# Batch scripts (temporary)
+diagnose*.bat
+test-*.bat
+start-*.bat
+verify-*.py
+test-*.py
+fix-*.py

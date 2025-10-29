@@ -56,7 +56,7 @@ export const getProduct = async (id: number): Promise<Product> => {
  */
 export const getFeaturedProducts = async (limit: number = 6): Promise<Product[]> => {
   try {
-    return await getProducts({ is_featured: true, limit });
+    return await getProducts({ limit });
   } catch (error) {
     console.error('Error fetching featured products:', error);
     throw error;

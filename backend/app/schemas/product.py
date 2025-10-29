@@ -33,7 +33,7 @@ class ProductUpdate(BaseModel):
 
 class Product(ProductBase):
     id: int
-    owner_id: int
+    owner_id: Optional[int] = None  # ✅ Fixed!
     created_at: datetime
     updated_at: Optional[datetime] = None
 

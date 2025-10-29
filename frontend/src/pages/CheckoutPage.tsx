@@ -192,6 +192,7 @@ export default function CheckoutPage() {
                   </label>
                   <input
                     type="text"
+                    autoComplete="name"
                     value={shippingData.fullName}
                     onChange={(e) => setShippingData({ ...shippingData, fullName: e.target.value })}
                     className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -216,6 +217,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="email"
+                      autoComplete="email"
                       value={shippingData.email}
                       onChange={(e) => setShippingData({ ...shippingData, email: e.target.value })}
                       className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -238,6 +240,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="tel"
+                      autoComplete="tel"
                       value={shippingData.phone}
                       onChange={(e) => setShippingData({ ...shippingData, phone: e.target.value })}
                       className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -261,6 +264,7 @@ export default function CheckoutPage() {
                   </label>
                   <input
                     type="text"
+                    autoComplete="street-address"
                     value={shippingData.address}
                     onChange={(e) => setShippingData({ ...shippingData, address: e.target.value })}
                     className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -285,6 +289,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="address-level2"
                       value={shippingData.city}
                       onChange={(e) => setShippingData({ ...shippingData, city: e.target.value })}
                       className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -307,6 +312,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="address-level1"
                       value={shippingData.state}
                       onChange={(e) => setShippingData({ ...shippingData, state: e.target.value })}
                       className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -329,6 +335,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="postal-code"
                       value={shippingData.zipCode}
                       onChange={(e) => setShippingData({ ...shippingData, zipCode: e.target.value })}
                       className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 rounded-xl
@@ -351,6 +358,7 @@ export default function CheckoutPage() {
                     Country
                   </label>
                   <select
+                    autoComplete="country-name"
                     value={shippingData.country}
                     onChange={(e) => setShippingData({ ...shippingData, country: e.target.value })}
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none transition-colors"
@@ -623,6 +631,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="cc-number"
                       value={cardData.cardNumber}
                       onChange={(e) => setCardData({ ...cardData, cardNumber: e.target.value })}
                       placeholder="1234 5678 9012 3456"
@@ -638,6 +647,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="cc-name"
                       value={cardData.cardName}
                       onChange={(e) => setCardData({ ...cardData, cardName: e.target.value })}
                       placeholder="John Doe"
@@ -653,6 +663,7 @@ export default function CheckoutPage() {
                       </label>
                       <input
                         type="text"
+                        autoComplete="cc-exp"
                         value={cardData.expiryDate}
                         onChange={(e) => setCardData({ ...cardData, expiryDate: e.target.value })}
                         placeholder="MM/YY"
@@ -666,6 +677,7 @@ export default function CheckoutPage() {
                       </label>
                       <input
                         type="text"
+                        autoComplete="cc-csc"
                         value={cardData.cvv}
                         onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
                         placeholder="123"

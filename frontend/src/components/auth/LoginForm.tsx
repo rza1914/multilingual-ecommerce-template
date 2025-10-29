@@ -84,6 +84,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
           <input
             type="email"
             id="email"
+            autoComplete="email"
             disabled={isLoading}
             {...register('email', {
               required: 'Email is required',
@@ -120,6 +121,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
           <input
             type={showPassword ? 'text' : 'password'}
             id="password"
+            autoComplete="current-password"
             disabled={isLoading}
             {...register('password', {
               required: 'Password is required',

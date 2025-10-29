@@ -11,11 +11,23 @@ class Product(Base):
     description = Column(Text, nullable=True)
     price = Column(Float, nullable=False)
     discount_price = Column(Float, nullable=True)
+    discount = Column(Float, default=0.0)  # Discount percentage
+    stock = Column(Integer, default=100)  # Stock quantity
+    rating = Column(Float, default=0.0)  # Product rating
     is_active = Column(Boolean, default=True)
     is_featured = Column(Boolean, default=False)
     image_url = Column(String, nullable=True)
     category = Column(String, index=True, nullable=True)
     tags = Column(String, nullable=True)
+    
+    # Multilingual fields
+    title_en = Column(String, nullable=True)
+    title_ar = Column(String, nullable=True)
+    title_fa = Column(String, nullable=True)
+    description_en = Column(Text, nullable=True)
+    description_ar = Column(Text, nullable=True)
+    description_fa = Column(Text, nullable=True)
+    
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     owner_id = Column(Integer, ForeignKey("users.id"))

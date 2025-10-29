@@ -15,7 +15,11 @@ from .security import verify_password
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/token")
 
 def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
-    user = db.query(User).filter(User.username == username).first()
+    # Try to find user by email first (frontend sends email as username)
+    user = db.query(User).filter(User.email == username).first()
+    # If not found by email, try username
+    if not user:
+        user = db.query(User).filter(User.username == username).first()
     if not user:
         return None
     if not verify_password(password, user.hashed_password):

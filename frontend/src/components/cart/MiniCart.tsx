@@ -1,6 +1,6 @@
 /**
- * Mini Cart Sidebar
- * Solid background design matching other modals
+ * Mini Cart Sidebar - NEW VERSION
+ * Fixed with inline styles for proper flex layout
  */
 
 import React from 'react';
@@ -37,29 +37,44 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
 
   return (
     <>
-      {/* Backdrop - Darker like modals */}
+      {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/70 dark:bg-black/85 backdrop-blur-md z-[60] animate-fadeIn"
+        className={`fixed inset-0 bg-black/70 dark:bg-black/85 backdrop-blur-md z-[60]
+                    transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Sidebar - SOLID background like modals */}
+      {/* Sidebar with PROPER FLEX LAYOUT */}
       <div
-        className="fixed top-0 right-0 h-full w-[90vw] sm:w-[450px] md:w-[500px]
-                   bg-white dark:bg-gray-900
-                   shadow-[0_0_50px_rgba(0,0,0,0.3)] dark:shadow-[0_0_50px_rgba(0,0,0,0.7)]
-                   z-[70]
-                   flex flex-col
-                   animate-slideInRight
-                   border-l-4 border-orange-500
-                   overflow-hidden"
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          height: '100vh',
+          width: 'clamp(90vw, 500px, 90vw)',
+          zIndex: 70,
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'var(--color-bg)',
+          boxShadow: '0 0 50px rgba(0,0,0,0.3)',
+          borderLeft: '4px solid #FF6B35',
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 300ms ease-out',
+          overflow: 'hidden',
+        }}
+        className="dark:bg-gray-900 bg-white"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header with gradient background */}
-        <div className="p-6 border-b-2 border-orange-500/20
-                        bg-gradient-to-br from-orange-50 to-white
-                        dark:from-gray-800 dark:to-gray-900">
+        {/* HEADER - Fixed height */}
+        <div
+          className="p-6 border-b-2 border-orange-500/20
+                      bg-gradient-to-br from-orange-50 to-white
+                      dark:from-gray-800 dark:to-gray-900"
+          style={{
+            flexShrink: 0,
+          }}
+        >
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-2xl font-bold text-orange-500">
               Shopping Cart
@@ -83,12 +98,29 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
           </p>
         </div>
 
-        {/* Cart Items - Solid background */}
-        <div className="flex-1 overflow-y-auto p-6
-                        bg-gray-50 dark:bg-gray-950">
+        {/* CONTENT - Scrollable */}
+        <div
+          className="bg-gray-50 dark:bg-gray-950 p-6"
+          style={{
+            flex: 1,
+            minHeight: 0, // CRITICAL: allows flex child to shrink below content size
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          }}
+        >
           {cartItems.length === 0 ? (
             // Empty State
-            <div className="flex flex-col items-center justify-center h-full text-center py-12">
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                textAlign: 'center',
+              }}
+              className="py-12"
+            >
               <div className="w-24 h-24 rounded-full
                             bg-gradient-to-br from-orange-100 to-orange-50
                             dark:from-orange-900/20 dark:to-orange-800/10
@@ -119,7 +151,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
               </button>
             </div>
           ) : (
-            // Cart Items List - Solid cards
+            // Cart Items List
             <div className="space-y-4">
               {cartItems.map((item, index) => {
                 const hasDiscount = item.product.discount && item.product.discount > 0;
@@ -136,8 +168,11 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                              shadow-lg hover:shadow-xl
                              border-2 border-gray-100 dark:border-gray-800
                              hover:border-orange-500/50
-                             transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                             transition-all duration-300 animate-fadeInUp"
+                    style={{ 
+                      animationDelay: `${index * 100}ms`,
+                      animationFillMode: 'forwards',
+                    }}
                   >
                     <div className="flex gap-4">
                       {/* Product Image */}
@@ -225,11 +260,16 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
           )}
         </div>
 
-        {/* Footer - Summary with solid background */}
+        {/* FOOTER - Fixed height */}
         {cartItems.length > 0 && (
-          <div className="border-t-2 border-orange-500/30 p-6
-                          bg-white dark:bg-gray-900
-                          shadow-[0_-10px_30px_rgba(0,0,0,0.1)]">
+          <div
+            className="border-t-2 border-orange-500/30 p-6
+                        bg-white dark:bg-gray-900
+                        shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
+            style={{
+              flexShrink: 0,
+            }}
+          >
             {/* Total */}
             <div className="flex justify-between items-center mb-4 pb-4
                           border-b-2 border-gray-200 dark:border-gray-800">
@@ -277,6 +317,24 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
           </div>
         )}
       </div>
+
+      {/* CSS Animations */}
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeInUp {
+          animation: fadeInUp 0.4s ease-out;
+        }
+      `}</style>
     </>
   );
 }

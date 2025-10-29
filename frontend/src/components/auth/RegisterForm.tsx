@@ -99,6 +99,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           <input
             type="text"
             id="name"
+            autoComplete="name"
             disabled={isLoading}
             {...register('name', {
               required: 'Name is required',
@@ -135,6 +136,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           <input
             type="email"
             id="register-email"
+            autoComplete="email"
             disabled={isLoading}
             {...register('email', {
               required: 'Email is required',
@@ -171,6 +173,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           <input
             type={showPassword ? 'text' : 'password'}
             id="register-password"
+            autoComplete="new-password"
             disabled={isLoading}
             {...register('password', {
               required: 'Password is required',
@@ -241,6 +244,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           <input
             type={showConfirmPassword ? 'text' : 'password'}
             id="confirm-password"
+            autoComplete="new-password"
             disabled={isLoading}
             {...register('confirmPassword', {
               required: 'Please confirm your password',

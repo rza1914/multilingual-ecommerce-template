@@ -23,15 +23,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [toastType, setToastType] = useState<ToastType>('success');
   const { addToCart } = useCart();
 
-  // Calculate discount
+  // Calculate discount with safe number handling
   const hasDiscount = product.discount && product.discount > 0;
+  const safePrice = Number(product.price) || 0;
+  const safeDiscount = Number(product.discount) || 0;
+  
   const discountedPrice = hasDiscount
-    ? product.price * (1 - product.discount / 100)
-    : product.price;
+    ? safePrice * (1 - safeDiscount / 100)
+    : safePrice;
 
-  // Stock status
-  const isOutOfStock = product.stock === 0;
-  const isLowStock = product.stock > 0 && product.stock < 10;
+  // Stock status with safe number handling
+  const safeStock = Number(product.stock) || 0;
+  const isOutOfStock = safeStock === 0;
+  const isLowStock = safeStock > 0 && safeStock < 10;
 
   // Handle quick add to cart
   const handleQuickAdd = (e: React.MouseEvent) => {
@@ -111,7 +115,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {hasDiscount && !isOutOfStock && (
             <div className="absolute top-4 right-4 badge-orange animate-pulse-slow">
               <Sparkles className="w-3 h-3 mr-1" />
-              -{product.discount}%
+              -{safeDiscount}%
             </div>
           )}
 
@@ -125,7 +129,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Low Stock Badge */}
           {isLowStock && !isOutOfStock && (
             <div className="absolute bottom-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-              Only {product.stock} left!
+              Only {safeStock} left!
             </div>
           )}
 
@@ -160,14 +164,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   <Star
                     key={i}
                     className={`w-4 h-4 ${
-                      i < Math.floor(product.rating!)
+                      i < Math.floor(Number(product.rating) || 0)
                         ? 'fill-yellow-400 text-yellow-400'
                         : 'text-gray-300 dark:text-gray-600'
                     }`}
                   />
                 ))}
                 <span className="ml-1 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  {product.rating.toFixed(1)}
+                  {(Number(product.rating) || 0).toFixed(1)}
                 </span>
               </div>
             )}
@@ -192,12 +196,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     ${discountedPrice.toFixed(2)}
                   </span>
                   <span className="text-sm line-through text-gray-400 dark:text-gray-500">
-                    ${product.price.toFixed(2)}
+                    ${safePrice.toFixed(2)}
                   </span>
                 </>
               ) : (
                 <span className="text-2xl font-bold text-gradient-orange">
-                  ${product.price.toFixed(2)}
+                  ${safePrice.toFixed(2)}
                 </span>
               )}
             </div>

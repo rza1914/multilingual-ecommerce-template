@@ -45,17 +45,18 @@ export const getRevenueChart = async (days: number = 30): Promise<RevenueChartDa
 // Product Management Interfaces
 export interface Product {
   id: number;
-  title_en: string;
-  title_fa: string;
-  description_en: string;
-  description_fa: string;
+  title: string;
+  description: string;
   price: number;
-  discount: number;
+  discount_price: number | null;
+  is_active: boolean;
+  is_featured: boolean;
   category: string;
   image_url: string;
-  stock: number;
+  tags: string | null;
   created_at: string;
   updated_at: string;
+  owner_id: number;
 }
 
 export interface ProductsResponse {
@@ -66,13 +67,15 @@ export interface ProductsResponse {
 }
 
 export interface ProductFormData {
-  title_en: string;
-  title_fa: string;
-  description_en: string;
-  description_fa: string;
+  title: string;
+  description: string;
   price: number;
+  discount_price?: number;
+  is_active?: boolean;
+  is_featured?: boolean;
   category: string;
   image_url: string;
+  tags?: string;
 }
 
 // Product Management Functions

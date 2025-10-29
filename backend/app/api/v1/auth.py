@@ -30,6 +30,14 @@ def login_for_access_token(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+# Alias for /token endpoint - more intuitive naming
+@router.post("/login", response_model=dict)
+def login(
+    db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
+) -> Any:
+    """Login endpoint - alias for /token"""
+    return login_for_access_token(db, form_data)
+
 @router.post("/register", response_model=User)
 def register(
     user_data: dict,

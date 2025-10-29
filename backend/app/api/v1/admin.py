@@ -16,57 +16,74 @@ def get_dashboard_stats(
     current_admin: user_models.User = Depends(get_current_admin_user)
 ) -> Dict[str, Any]:
     """Get dashboard statistics for admin"""
+    
+    try:
+        # Total users
+        total_users = db.query(user_models.User).count()
 
-    # Total users
-    total_users = db.query(user_models.User).count()
+        # Total products
+        total_products = db.query(product_models.Product).count()
 
-    # Total products
-    total_products = db.query(product_models.Product).count()
+        # Total orders
+        total_orders = db.query(order_models.Order).count()
 
-    # Total orders
-    total_orders = db.query(order_models.Order).count()
+        # Total revenue - using SQLAlchemy query with proper error handling
+        try:
+            total_revenue = db.query(func.sum(order_models.Order.total)).scalar() or 0
+        except Exception as e:
+            print(f"Warning: Could not calculate total revenue: {e}")
+            total_revenue = 0
 
-    # Total revenue
-    total_revenue = db.query(func.sum(order_models.Order.total)).scalar() or 0
+        # Orders by status
+        orders_by_status = db.query(
+            order_models.Order.status,
+            func.count(order_models.Order.id)
+        ).group_by(order_models.Order.status).all()
 
-    # Orders by status
-    orders_by_status = db.query(
-        order_models.Order.status,
-        func.count(order_models.Order.id)
-    ).group_by(order_models.Order.status).all()
+        status_counts = {str(status.value): count for status, count in orders_by_status}
 
-    status_counts = {str(status.value): count for status, count in orders_by_status}
+        # Recent orders (last 30 days)
+        thirty_days_ago = datetime.utcnow() - timedelta(days=30)
+        recent_orders_count = db.query(order_models.Order).filter(
+            order_models.Order.created_at >= thirty_days_ago
+        ).count()
 
-    # Recent orders (last 30 days)
-    thirty_days_ago = datetime.utcnow() - timedelta(days=30)
-    recent_orders_count = db.query(order_models.Order).filter(
-        order_models.Order.created_at >= thirty_days_ago
-    ).count()
+        # Recent revenue (last 30 days)
+        try:
+            recent_revenue = db.query(func.sum(order_models.Order.total)).filter(
+                order_models.Order.created_at >= thirty_days_ago
+            ).scalar() or 0
+        except Exception as e:
+            print(f"Warning: Could not calculate recent revenue: {e}")
+            recent_revenue = 0
 
-    # Recent revenue (last 30 days)
-    recent_revenue = db.query(func.sum(order_models.Order.total)).filter(
-        order_models.Order.created_at >= thirty_days_ago
-    ).scalar() or 0
+        # Low stock products (not available - no stock field in Product model)
+        low_stock_count = 0
 
-    # Low stock products (not available - no stock field in Product model)
-    low_stock_count = 0
+        # New users (last 30 days)
+        new_users_count = db.query(user_models.User).filter(
+            user_models.User.created_at >= thirty_days_ago
+        ).count()
 
-    # New users (last 30 days)
-    new_users_count = db.query(user_models.User).filter(
-        user_models.User.created_at >= thirty_days_ago
-    ).count()
-
-    return {
-        "total_users": total_users,
-        "total_products": total_products,
-        "total_orders": total_orders,
-        "total_revenue": float(total_revenue),
-        "orders_by_status": status_counts,
-        "recent_orders_count": recent_orders_count,
-        "recent_revenue": float(recent_revenue),
-        "low_stock_count": low_stock_count,
-        "new_users_count": new_users_count
-    }
+        return {
+            "total_users": total_users,
+            "total_products": total_products,
+            "total_orders": total_orders,
+            "total_revenue": float(total_revenue),
+            "orders_by_status": status_counts,
+            "recent_orders_count": recent_orders_count,
+            "recent_revenue": float(recent_revenue),
+            "low_stock_count": low_stock_count,
+            "new_users_count": new_users_count
+        }
+    except Exception as e:
+        print(f"Error in get_dashboard_stats: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error calculating dashboard statistics: {str(e)}"
+        )
 
 @router.get("/dashboard/recent-orders")
 def get_recent_orders(
@@ -90,31 +107,38 @@ def get_revenue_chart(
     current_admin: user_models.User = Depends(get_current_admin_user)
 ):
     """Get revenue data for chart (last N days)"""
+    
+    try:
+        start_date = datetime.utcnow() - timedelta(days=days)
 
-    start_date = datetime.utcnow() - timedelta(days=days)
+        # Get orders grouped by date
+        daily_revenue = db.query(
+            func.date(order_models.Order.created_at).label('date'),
+            func.sum(order_models.Order.total).label('revenue'),
+            func.count(order_models.Order.id).label('orders')
+        ).filter(
+            order_models.Order.created_at >= start_date
+        ).group_by(
+            func.date(order_models.Order.created_at)
+        ).all()
 
-    # Get orders grouped by date
-    daily_revenue = db.query(
-        func.date(order_models.Order.created_at).label('date'),
-        func.sum(order_models.Order.total).label('revenue'),
-        func.count(order_models.Order.id).label('orders')
-    ).filter(
-        order_models.Order.created_at >= start_date
-    ).group_by(
-        func.date(order_models.Order.created_at)
-    ).all()
+        # Format for chart
+        chart_data = [
+            {
+                "date": str(date),
+                "revenue": float(revenue or 0),
+                "orders": orders
+            }
+            for date, revenue, orders in daily_revenue
+        ]
 
-    # Format for chart
-    chart_data = [
-        {
-            "date": str(date),
-            "revenue": float(revenue or 0),
-            "orders": orders
-        }
-        for date, revenue, orders in daily_revenue
-    ]
-
-    return chart_data
+        return chart_data
+    except Exception as e:
+        print(f"Error in get_revenue_chart: {e}")
+        import traceback
+        traceback.print_exc()
+        # Return empty data instead of failing
+        return []
 
 # ============================================
 # Product Management Endpoints

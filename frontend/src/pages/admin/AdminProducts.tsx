@@ -25,13 +25,15 @@ export default function AdminProducts() {
   const [saving, setSaving] = useState(false);
 
   const [formData, setFormData] = useState<ProductFormData>({
-    title_en: '',
-    title_fa: '',
-    description_en: '',
-    description_fa: '',
+    title: '',
+    description: '',
     price: 0,
+    discount_price: 0,
+    is_active: true,
+    is_featured: false,
     category: '',
-    image_url: ''
+    image_url: '',
+    tags: ''
   });
 
   useEffect(() => {
@@ -61,13 +63,15 @@ export default function AdminProducts() {
   const openCreateModal = () => {
     setEditingProduct(null);
     setFormData({
-      title_en: '',
-      title_fa: '',
-      description_en: '',
-      description_fa: '',
+      title: '',
+      description: '',
       price: 0,
+      discount_price: 0,
+      is_active: true,
+      is_featured: false,
       category: '',
-      image_url: ''
+      image_url: '',
+      tags: ''
     });
     setShowModal(true);
   };
@@ -75,13 +79,15 @@ export default function AdminProducts() {
   const openEditModal = (product: Product) => {
     setEditingProduct(product);
     setFormData({
-      title_en: product.title_en,
-      title_fa: product.title_fa,
-      description_en: product.description_en,
-      description_fa: product.description_fa,
+      title: product.title,
+      description: product.description,
       price: product.price,
+      discount_price: product.discount_price || 0,
+      is_active: product.is_active,
+      is_featured: product.is_featured,
       category: product.category,
-      image_url: product.image_url
+      image_url: product.image_url,
+      tags: product.tags || ''
     });
     setShowModal(true);
   };
@@ -107,7 +113,7 @@ export default function AdminProducts() {
   };
 
   const handleDelete = async (product: Product) => {
-    if (!window.confirm(`Are you sure you want to delete "${product.title_en}"?`)) {
+    if (!window.confirm(`Are you sure you want to delete "${product.title}"?`)) {
       return;
     }
 
@@ -220,17 +226,17 @@ export default function AdminProducts() {
               >
                 <img
                   src={product.image_url}
-                  alt={product.title_en}
+                  alt={product.title}
                   className="w-full h-48 object-cover rounded-xl mb-4"
                   onError={(e) => {
                     e.currentTarget.src = 'https://via.placeholder.com/300x200?text=Product';
                   }}
                 />
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">
-                  {product.title_en}
+                  {product.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-                  {product.description_en}
+                  {product.description}
                 </p>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-2xl font-bold text-orange-500">
@@ -285,63 +291,37 @@ export default function AdminProducts() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* English Title */}
+                {/* Title */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Title (English) *
+                    Product Title *
                   </label>
                   <input
                     type="text"
-                    value={formData.title_en}
-                    onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     required
+                    placeholder="Enter product title"
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                   />
                 </div>
 
-                {/* Persian Title */}
+                {/* Description */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Title (Persian) *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.title_fa}
-                    onChange={(e) => setFormData({ ...formData, title_fa: e.target.value })}
-                    required
-                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
-                  />
-                </div>
-
-                {/* English Description */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Description (English) *
+                    Description *
                   </label>
                   <textarea
-                    value={formData.description_en}
-                    onChange={(e) => setFormData({ ...formData, description_en: e.target.value })}
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     required
-                    rows={3}
+                    rows={4}
+                    placeholder="Enter product description"
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                   />
                 </div>
 
-                {/* Persian Description */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Description (Persian) *
-                  </label>
-                  <textarea
-                    value={formData.description_fa}
-                    onChange={(e) => setFormData({ ...formData, description_fa: e.target.value })}
-                    required
-                    rows={3}
-                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
-                  />
-                </div>
-
-                {/* Price & Category */}
+                {/* Price & Discount Price */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -350,13 +330,31 @@ export default function AdminProducts() {
                     <input
                       type="number"
                       step="0.01"
+                      min="0"
                       value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                      onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
                       required
                       className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                     />
                   </div>
 
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Discount Price ($)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={formData.discount_price || ''}
+                      onChange={(e) => setFormData({ ...formData, discount_price: parseFloat(e.target.value) || 0 })}
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Category & Tags */}
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Category *
@@ -374,7 +372,22 @@ export default function AdminProducts() {
                       <option value="Home">Home</option>
                       <option value="Sports">Sports</option>
                       <option value="Toys">Toys</option>
+                      <option value="Beauty">Beauty</option>
+                      <option value="Food">Food</option>
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Tags
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.tags || ''}
+                      onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                      placeholder="tag1, tag2, tag3"
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
+                    />
                   </div>
                 </div>
 
@@ -391,6 +404,33 @@ export default function AdminProducts() {
                     placeholder="https://example.com/image.jpg"
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                   />
+                </div>
+
+                {/* Status Checkboxes */}
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-750 transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={formData.is_active}
+                      onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                      className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500"
+                    />
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">
+                      Active
+                    </span>
+                  </label>
+
+                  <label className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-750 transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={formData.is_featured}
+                      onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
+                      className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500"
+                    />
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">
+                      Featured
+                    </span>
+                  </label>
                 </div>
 
                 {/* Buttons */}

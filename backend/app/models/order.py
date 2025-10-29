@@ -1,9 +1,10 @@
-from sqlalchemy import Boolean, Column, Integer, String, Float, DateTime, Text, ForeignKey, Enum
+from sqlalchemy import Boolean, Column, Integer, String, Float, DateTime, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from ..database import Base
 import enum
 
+# Keep enum for validation/reference
 class OrderStatus(enum.Enum):
     PENDING = "pending"
     PROCESSING = "processing"
@@ -38,8 +39,8 @@ class Order(Base):
     discount = Column(Float, default=0)
     total = Column(Float, nullable=False)
 
-    # Status
-    status = Column(Enum(OrderStatus), default=OrderStatus.PENDING)
+    # Status - Changed from Enum to String
+    status = Column(String, default="pending")
 
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())

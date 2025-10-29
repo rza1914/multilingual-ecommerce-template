@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ...core.auth import get_current_active_user, get_current_admin_user
 from ...database import get_db
 from ...models.user import User
-from ...models.product import Product
+from ...models.product import Product as ProductModel
 from ...schemas.product import Product, ProductCreate, ProductUpdate
 
 router = APIRouter()
@@ -21,20 +21,20 @@ def read_products(
     is_active: Optional[bool] = Query(True),
     is_featured: Optional[bool] = Query(None)
 ) -> Any:
-    query = db.query(Product)
-    
+    query = db.query(ProductModel)
+
     if category:
-        query = query.filter(Product.category == category)
-    
+        query = query.filter(ProductModel.category == category)
+
     if search:
-        query = query.filter(Product.title.contains(search))
-    
+        query = query.filter(ProductModel.title.contains(search))
+
     if is_active is not None:
-        query = query.filter(Product.is_active == is_active)
-    
+        query = query.filter(ProductModel.is_active == is_active)
+
     if is_featured is not None:
-        query = query.filter(Product.is_featured == is_featured)
-    
+        query = query.filter(ProductModel.is_featured == is_featured)
+
     products = query.offset(skip).limit(limit).all()
     return products
 
@@ -44,7 +44,7 @@ def create_product(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
 ) -> Any:
-    db_product = Product(
+    db_product = ProductModel(
         **product.dict(),
         owner_id=current_user.id
     )
@@ -58,7 +58,7 @@ def read_product(
     product_id: int,
     db: Session = Depends(get_db)
 ) -> Any:
-    product = db.query(Product).filter(Product.id == product_id).first()
+    product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
     if not product:
         raise HTTPException(
             status_code=404,
@@ -73,17 +73,17 @@ def update_product(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
 ) -> Any:
-    product = db.query(Product).filter(Product.id == product_id).first()
+    product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
     if not product:
         raise HTTPException(
             status_code=404,
             detail="Product not found"
         )
-    
+
     update_data = product_update.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(product, field, value)
-    
+
     db.add(product)
     db.commit()
     db.refresh(product)
@@ -95,13 +95,13 @@ def delete_product(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
 ) -> Any:
-    product = db.query(Product).filter(Product.id == product_id).first()
+    product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
     if not product:
         raise HTTPException(
             status_code=404,
             detail="Product not found"
         )
-    
+
     db.delete(product)
     db.commit()
     return product

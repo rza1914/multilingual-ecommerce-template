@@ -47,12 +47,18 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const hasDiscount = product.discount && product.discount > 0;
   const discountPercentage = product.discount || 0;
 
-  const currentPrice = hasDiscount
-    ? product.price * (1 - product.discount! / 100)
-    : product.price;
+  // Ensure price is a valid number
+  const safePrice = Number(product.price) || 0;
+  const safeDiscount = Number(product.discount) || 0;
 
-  const isOutOfStock = product.stock === 0;
-  const isLowStock = product.stock > 0 && product.stock < 10;
+  const currentPrice = hasDiscount
+    ? safePrice * (1 - safeDiscount / 100)
+    : safePrice;
+
+  // Ensure stock is a valid number
+  const safeStock = Number(product.stock) || 0;
+  const isOutOfStock = safeStock === 0;
+  const isLowStock = safeStock > 0 && safeStock < 10;
 
   // Multilingual content
   const title = product.title_en;
@@ -119,12 +125,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   </div>
                 ) : isLowStock ? (
                   <div className="bg-orange-500 text-white px-4 py-2 rounded-full font-bold shadow-lg">
-                    Only {product.stock} left!
+                    Only {safeStock} left!
                   </div>
                 ) : (
                   <div className="badge-glass flex items-center gap-2">
                     <Check className="w-4 h-4 text-green-500" />
-                    <span className="text-green-600 dark:text-green-400">In Stock ({product.stock})</span>
+                    <span className="text-green-600 dark:text-green-400">In Stock ({safeStock})</span>
                   </div>
                 )}
               </div>
@@ -150,7 +156,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                       <Star
                         key={i}
                         className={`w-5 h-5 ${
-                          i < Math.floor(product.rating!)
+                          i < Math.floor(Number(product.rating) || 0)
                             ? 'fill-yellow-400 text-yellow-400'
                             : 'text-gray-300 dark:text-gray-600'
                         }`}
@@ -158,7 +164,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                     ))}
                   </div>
                   <span className="text-sm text-gray-600 dark:text-gray-400">
-                    ({product.rating.toFixed(1)} / 5)
+                    ({(Number(product.rating) || 0).toFixed(1)} / 5)
                   </span>
                 </div>
               )}
@@ -170,7 +176,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 </span>
                 {hasDiscount && (
                   <span className="text-xl text-gray-400 line-through">
-                    ${product.price.toFixed(2)}
+                    ${safePrice.toFixed(2)}
                   </span>
                 )}
               </div>
@@ -203,9 +209,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   </span>
 
                   <button
-                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                    onClick={() => setQuantity(Math.min(safeStock, quantity + 1))}
                     className="glass-orange p-3 rounded-xl hover:scale-110 transition-transform"
-                    disabled={quantity >= product.stock}
+                    disabled={quantity >= safeStock}
                     aria-label="Increase quantity"
                   >
                     <Plus className="w-5 h-5 text-orange-600 dark:text-orange-400" />

@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Navigate to frontend directory
+cd frontend || exit 1
+
+# Run lint-staged for frontend
+echo "📝 Checking frontend code (ESLint + Prettier)..."
+npx lint-staged
+
+# TypeScript type check
+echo "🔷 Running TypeScript type check..."
+npm run type-check
+
+# Navigate to backend directory
+cd ../backend || exit 1
+
+# Check if Python is available
+if command -v python &> /dev/null; then
+    # Run Black formatter check on backend
+    echo "🐍 Checking Python code formatting (Black)..."
+    python -m black --check app/ || {
+        echo "❌ Black formatting issues found. Run: cd backend && black app/"
+        exit 1
+    }
+
+    # Run Flake8 linting on backend
+    echo "🔍 Running Python linting (Flake8)..."
+    python -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics || {
+        echo "❌ Flake8 errors found. Fix them before committing."
+        exit 1
+    }
+else
+    echo "⚠️  Python not found. Skipping backend checks."
+fi
+
+echo "✅ Pre-commit checks passed!"

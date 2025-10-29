@@ -322,6 +322,7 @@ export default function ProfilePage() {
                   {isEditingProfile ? (
                     <input
                       type="text"
+                      autoComplete="name"
                       value={profileData.full_name}
                       onChange={(e) => setProfileData({ ...profileData, full_name: e.target.value })}
                       className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
@@ -358,6 +359,7 @@ export default function ProfilePage() {
                   {isEditingProfile ? (
                     <input
                       type="tel"
+                      autoComplete="tel"
                       value={profileData.phone}
                       onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
                       placeholder="+1 (555) 123-4567"
@@ -402,6 +404,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <input
                         type={showPasswords.current ? 'text' : 'password'}
+                        autoComplete="current-password"
                         value={passwordData.current_password}
                         onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
                         className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
@@ -424,6 +427,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <input
                         type={showPasswords.new ? 'text' : 'password'}
+                        autoComplete="new-password"
                         value={passwordData.new_password}
                         onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
                         className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
@@ -446,6 +450,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <input
                         type={showPasswords.confirm ? 'text' : 'password'}
+                        autoComplete="new-password"
                         value={passwordData.confirm_password}
                         onChange={(e) => setPasswordData({ ...passwordData, confirm_password: e.target.value })}
                         className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"

@@ -15,13 +15,24 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Set up CORS
+# Set up CORS - Must be configured before routes
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=[
+        "Content-Type",
+        "Authorization",
+        "Accept",
+        "Origin",
+        "User-Agent",
+        "DNT",
+        "Cache-Control",
+        "X-Requested-With",
+    ],
+    expose_headers=["*"],
+    max_age=3600,
 )
 
 # Include API router

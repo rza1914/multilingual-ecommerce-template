@@ -171,7 +171,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
           <button
             onClick={() => navigate('/admin/products')}
             className="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg border-2 border-gray-100 dark:border-gray-800 hover:border-orange-500 transition-all text-left group"
@@ -195,19 +195,6 @@ export default function AdminDashboard() {
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               View and update order status
-            </p>
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/users')}
-            className="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg border-2 border-gray-100 dark:border-gray-800 hover:border-orange-500 transition-all text-left group"
-          >
-            <Users className="w-8 h-8 text-purple-500 mb-3 group-hover:scale-110 transition-transform" />
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              Manage Users
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              View and manage user accounts
             </p>
           </button>
         </div>
