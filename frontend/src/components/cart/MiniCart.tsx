@@ -5,9 +5,11 @@
 
 import React from 'react';
 import { X, ShoppingCart, Trash2, Plus, Minus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import { getLocalizedTitle, formatCurrency } from '../../utils/i18n';
 
 interface MiniCartProps {
   isOpen: boolean;
@@ -15,6 +17,7 @@ interface MiniCartProps {
 }
 
 export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
+  const { t } = useTranslation();
   const { cartItems, removeFromCart, updateQuantity, getTotalItems, getTotalPrice } = useCart();
   const navigate = useNavigate();
 
@@ -77,7 +80,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
         >
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-2xl font-bold text-orange-500">
-              Shopping Cart
+              {t('cart.title')}
             </h2>
             <button
               onClick={onClose}
@@ -94,7 +97,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
             </button>
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            {getTotalItems()} {getTotalItems() === 1 ? 'item' : 'items'}
+            {getTotalItems() === 1 ? t('cart.itemInCart', { count: getTotalItems() }) : t('cart.itemsInCart', { count: getTotalItems() })}
           </p>
         </div>
 
@@ -129,10 +132,10 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                 <ShoppingCart className="w-12 h-12 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Your cart is empty
+                {t('cart.empty')}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Add some products to get started!
+                {t('cart.emptyMessage')}
               </p>
               <button
                 onClick={() => {
@@ -147,7 +150,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                          transition-all duration-300
                          border-2 border-orange-400"
               >
-                Start Shopping
+                {t('cart.continueShopping')}
               </button>
             </div>
           ) : (
@@ -187,13 +190,13 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                       {/* Product Info */}
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-gray-900 dark:text-white truncate mb-1">
-                          {item.product.title_en}
+                          {getLocalizedTitle(item.product, item.product.title_en)}
                         </h4>
                         <p className="text-orange-500 font-bold text-sm mb-2">
-                          ${price.toFixed(2)}
+                          {formatCurrency(price)}
                           {hasDiscount && (
                             <span className="ml-2 text-xs text-gray-400 line-through">
-                              ${item.product.price.toFixed(2)}
+                              {formatCurrency(item.product.price)}
                             </span>
                           )}
                         </p>
@@ -247,9 +250,9 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                     {/* Item Subtotal */}
                     <div className="mt-3 pt-3 border-t-2 border-gray-100 dark:border-gray-800">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-400">Subtotal:</span>
+                        <span className="text-gray-600 dark:text-gray-400">{t('cart.subtotal')}:</span>
                         <span className="font-semibold text-orange-500">
-                          ${itemSubtotal.toFixed(2)}
+                          {formatCurrency(itemSubtotal)}
                         </span>
                       </div>
                     </div>
@@ -274,10 +277,10 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
             <div className="flex justify-between items-center mb-4 pb-4
                           border-b-2 border-gray-200 dark:border-gray-800">
               <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                Total:
+                {t('cart.total')}:
               </span>
               <span className="text-2xl font-bold text-orange-500">
-                ${getTotalPrice().toFixed(2)}
+                {formatCurrency(getTotalPrice())}
               </span>
             </div>
 
@@ -296,7 +299,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                          shadow-lg hover:shadow-xl
                          transition-all duration-300"
               >
-                View Full Cart
+                {t('cart.title')}
               </button>
               <button
                 onClick={() => {
@@ -311,7 +314,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                          border-2 border-orange-400
                          transition-all duration-300"
               >
-                Proceed to Checkout
+                {t('cart.proceedToCheckout')}
               </button>
             </div>
           </div>

@@ -1,14 +1,16 @@
 import { useTheme } from '../contexts/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const ThemeToggle = () => {
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
       className="relative glass-orange p-2.5 rounded-xl hover:scale-110 transition-all duration-300 glow-orange group overflow-hidden"
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      aria-label={theme === 'light' ? t('theme.switchToDark') : t('theme.switchToLight')}
     >
       {/* Background Glow Effect */}
       <div className="absolute inset-0 bg-gradient-orange opacity-0 group-hover:opacity-20 transition-opacity" />

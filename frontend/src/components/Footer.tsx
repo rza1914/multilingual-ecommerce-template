@@ -1,27 +1,29 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Sparkles } from 'lucide-react';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
     shop: [
-      { name: 'All Products', path: '/products' },
-      { name: 'Featured', path: '/products?featured=true' },
-      { name: 'New Arrivals', path: '/products?new=true' },
-      { name: 'Best Sellers', path: '/products?bestsellers=true' },
+      { name: t('nav.products'), path: '/products' },
+      { name: t('product.featured'), path: '/products?featured=true' },
+      { name: t('product.newArrival'), path: '/products?new=true' },
+      { name: t('product.bestSeller'), path: '/products?bestsellers=true' },
     ],
     company: [
-      { name: 'About Us', path: '/about' },
-      { name: 'Contact', path: '/contact' },
+      { name: t('nav.about'), path: '/about' },
+      { name: t('nav.contact'), path: '/contact' },
       { name: 'Careers', path: '/careers' },
       { name: 'Blog', path: '/blog' },
     ],
     support: [
-      { name: 'Help Center', path: '/help' },
-      { name: 'Shipping Info', path: '/shipping' },
-      { name: 'Returns', path: '/returns' },
-      { name: 'FAQ', path: '/faq' },
+      { name: t('footer.support'), path: '/help' },
+      { name: t('footer.shippingInfo'), path: '/shipping' },
+      { name: t('footer.returns'), path: '/returns' },
+      { name: t('footer.faq'), path: '/faq' },
     ],
   };
 
@@ -49,7 +51,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm leading-relaxed">
-              Your destination for premium quality products. We curate the finest items to elevate your lifestyle.
+              {t('footer.description')}
             </p>
 
             {/* Contact Info */}
@@ -79,7 +81,7 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-orange rounded-full" />
-              Shop
+              {t('nav.products')}
             </h3>
             <ul className="space-y-3">
               {footerLinks.shop.map((link) => (
@@ -119,7 +121,7 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-orange rounded-full" />
-              Support
+              {t('footer.customerService')}
             </h3>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
@@ -144,9 +146,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="text-center md:text-left">
             <p className="text-gray-600 dark:text-gray-400 flex items-center justify-center md:justify-start gap-1">
-              <span>&copy; {currentYear} LuxStore. Made with</span>
-              <Heart className="w-4 h-4 text-orange-500 fill-current animate-pulse-slow" />
-              <span>by Your Team</span>
+              <span>&copy; {currentYear} LuxStore. {t('footer.allRightsReserved')}</span>
             </p>
           </div>
 
@@ -168,10 +168,10 @@ const Footer = () => {
         {/* Extra Links */}
         <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm text-gray-600 dark:text-gray-400">
           <Link to="/privacy" className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
-            Privacy Policy
+            {t('footer.privacyPolicy')}
           </Link>
           <Link to="/terms" className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
-            Terms of Service
+            {t('footer.termsOfService')}
           </Link>
           <Link to="/cookies" className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
             Cookie Policy

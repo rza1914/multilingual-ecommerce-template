@@ -6,9 +6,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Minus, Trash2, AlertTriangle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { CartItem } from '../../contexts/CartContext';
 import { useCart } from '../../contexts/CartContext';
 import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 import RemoveItemModal from './RemoveItemModal';
 
 interface CartItemCardProps {
@@ -16,13 +18,14 @@ interface CartItemCardProps {
 }
 
 const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
+  const { t } = useTranslation();
   const { updateQuantity, removeFromCart } = useCart();
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [quantity, setQuantity] = useState(item.quantity);
 
   const { product } = item;
-  const title = product.title_en;
-  const description = product.description_en;
+  const title = getLocalizedTitle(product);
+  const description = getLocalizedDescription(product);
 
   // Calculate price
   const hasDiscount = product.discount && product.discount > 0;
@@ -127,14 +130,14 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
             {isInsufficientStock && (
               <div className="flex items-center gap-2 mb-3 text-red-500 text-sm">
                 <AlertTriangle className="w-4 h-4" />
-                <span>Insufficient stock! Only {product.stock} available</span>
+                <span>{t('cart.insufficientStock', { count: product.stock })}</span>
               </div>
             )}
 
             {isLowStock && !isInsufficientStock && (
               <div className="flex items-center gap-2 mb-3 text-orange-500 text-sm">
                 <AlertTriangle className="w-4 h-4" />
-                <span>Only {product.stock} left in stock</span>
+                <span>{t('product.lowStock', { count: product.stock })}</span>
               </div>
             )}
 
@@ -144,17 +147,17 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-bold text-gradient-orange">
-                    ${price.toFixed(2)}
+                    {formatCurrency(price)}
                   </span>
                   {hasDiscount && (
                     <span className="text-sm text-gray-400 line-through">
-                      ${product.price.toFixed(2)}
+                      {formatCurrency(product.price)}
                     </span>
                   )}
                 </div>
                 <span className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                  Subtotal: <span className="font-semibold text-orange-600 dark:text-orange-400">
-                    ${itemSubtotal.toFixed(2)}
+                  {t('cart.subtotal')}: <span className="font-semibold text-orange-600 dark:text-orange-400">
+                    {formatCurrency(itemSubtotal)}
                   </span>
                 </span>
               </div>

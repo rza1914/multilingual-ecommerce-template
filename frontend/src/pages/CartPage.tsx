@@ -10,8 +10,10 @@ import { useCart } from '../contexts/CartContext';
 import CartItemCard from '../components/cart/CartItemCard';
 import CartSummary from '../components/cart/CartSummary';
 import ShippingBanner from '../components/cart/ShippingBanner';
+import { useTranslation } from '../utils/i18n';
 
 const CartPage: React.FC = () => {
+  const { t } = useTranslation();
   const { cartItems, getTotalItems } = useCart();
 
   const isEmpty = cartItems.length === 0;
@@ -25,20 +27,20 @@ const CartPage: React.FC = () => {
           className="inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors mb-4"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span className="font-semibold">Continue Shopping</span>
+          <span className="font-semibold">{t('cart.continueShopping')}</span>
         </Link>
 
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-hero text-gradient-orange mb-2">
-              Shopping Cart
+              {t('cart.title')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
               {isEmpty ? (
-                'Your cart is empty'
+                t('cart.empty')
               ) : (
                 <>
-                  {getTotalItems()} {getTotalItems() === 1 ? 'item' : 'items'} in your cart
+                  {t(getTotalItems() === 1 ? 'cart.itemInCart' : 'cart.itemsInCart', { count: getTotalItems() })}
                 </>
               )}
             </p>
@@ -55,12 +57,11 @@ const CartPage: React.FC = () => {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-              Your cart is empty
+              {t('cart.empty')}
             </h2>
 
             <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-              Looks like you haven't added any products to your cart yet.
-              Start shopping to fill it up!
+              {t('cart.emptyMessage')}
             </p>
 
             <Link
@@ -68,7 +69,7 @@ const CartPage: React.FC = () => {
               className="btn-primary inline-flex items-center gap-2"
             >
               <ShoppingBag className="w-5 h-5" />
-              Start Shopping
+              {t('cart.continueShopping')}
             </Link>
           </div>
         </div>
@@ -103,7 +104,7 @@ const CartPage: React.FC = () => {
                 className="btn-glass w-full text-center flex items-center justify-center gap-2"
               >
                 <ArrowLeft className="w-5 h-5" />
-                Continue Shopping
+                {t('cart.continueShopping')}
               </Link>
             </div>
           </div>

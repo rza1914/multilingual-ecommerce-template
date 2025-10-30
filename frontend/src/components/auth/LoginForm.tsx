@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Loader } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface LoginFormProps {
@@ -13,6 +14,7 @@ interface LoginFormData {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -56,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       onSuccess();
     } catch (error: any) {
       // Display error message
-      setApiError(error.message || 'Login failed. Please try again.');
+      setApiError(error.message || t('common.errorOccurred'));
     } finally {
       setIsLoading(false);
     }
@@ -75,7 +77,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       {/* Email Input */}
       <div>
         <label htmlFor="email" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Email Address
+          {t('auth.email')}
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -87,10 +89,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             autoComplete="email"
             disabled={isLoading}
             {...register('email', {
-              required: 'Email is required',
+              required: t('auth.emailRequired'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid email address',
+                message: t('auth.emailInvalid'),
               },
             })}
             className={`w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 rounded-2xl border-2 ${
@@ -112,7 +114,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       {/* Password Input */}
       <div>
         <label htmlFor="password" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Password
+          {t('auth.password')}
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -124,10 +126,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             autoComplete="current-password"
             disabled={isLoading}
             {...register('password', {
-              required: 'Password is required',
+              required: t('auth.passwordRequired'),
               minLength: {
                 value: 6,
-                message: 'Password must be at least 6 characters',
+                message: t('auth.passwordMin'),
               },
             })}
             className={`w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-800 rounded-2xl border-2 ${
@@ -165,7 +167,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-2 focus:ring-orange-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
           />
           <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-orange-500 transition-colors">
-            Remember me
+            {t('auth.rememberMe')}
           </span>
         </label>
         <button
@@ -173,7 +175,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
           className="text-sm font-semibold text-orange-500 hover:text-orange-600 transition-colors"
           disabled={isLoading}
         >
-          Forgot Password?
+          {t('auth.forgotPassword')}
         </button>
       </div>
 
@@ -186,10 +188,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         {isLoading ? (
           <>
             <Loader className="w-5 h-5 animate-spin" />
-            Logging in...
+            {t('common.loading')}
           </>
         ) : (
-          'Login'
+          t('auth.login')
         )}
       </button>
 

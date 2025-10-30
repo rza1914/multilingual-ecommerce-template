@@ -12,8 +12,10 @@ import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
 import SearchBar from '../components/search/SearchBar';
 import FiltersSidebar from '../components/products/FiltersSidebar';
 import EmptyState from '../components/EmptyState';
+import { useTranslation } from '../utils/i18n';
 
 const ProductsPage = () => {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,7 @@ const ProductsPage = () => {
       });
       setProducts(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load products';
+      const errorMessage = err instanceof Error ? err.message : t('products.loadError');
       setError(errorMessage);
       console.error('Error fetching products:', err);
     } finally {
@@ -99,10 +101,10 @@ const ProductsPage = () => {
       {/* Page Header */}
       <div className="text-center mb-8">
         <h1 className="text-hero text-gradient-orange mb-4">
-          Our Products
+          {t('products.title')}
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">
-          Browse our collection of premium products
+          {t('products.subtitle')}
         </p>
       </div>
 
@@ -110,7 +112,7 @@ const ProductsPage = () => {
       <div className="max-w-3xl mx-auto mb-8">
         <SearchBar
           onSearch={handleSearch}
-          placeholder="Search products by name or description..."
+          placeholder={t('products.searchPlaceholder')}
           loading={loading}
         />
       </div>
@@ -134,10 +136,10 @@ const ProductsPage = () => {
                 <span className="font-semibold text-orange-500">
                   {products.length}
                 </span>{' '}
-                {products.length === 1 ? 'product' : 'products'} found
+                {t(products.length === 1 ? 'products.productFound' : 'products.productsFound')}
                 {hasActiveFilters && (
                   <span className="ml-2 text-sm">
-                    (filtered)
+                    ({t('products.filtered')})
                   </span>
                 )}
               </p>
@@ -147,7 +149,7 @@ const ProductsPage = () => {
                   onClick={handleClearFilters}
                   className="text-sm text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
                 >
-                  Clear all filters
+                  {t('products.clearAllFilters')}
                 </button>
               )}
             </div>
@@ -162,14 +164,14 @@ const ProductsPage = () => {
               <div className="glass-card p-12 max-w-md mx-auto">
                 <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                  Oops! Something went wrong
+                  {t('products.errorTitle')}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">
                   {error}
                 </p>
                 <button onClick={handleRetry} className="btn-primary">
                   <RefreshCw className="w-4 h-4 inline mr-2" />
-                  Try Again
+                  {t('products.tryAgain')}
                 </button>
               </div>
             </div>
@@ -179,13 +181,13 @@ const ProductsPage = () => {
           {!loading && !error && products.length === 0 && (
             <EmptyState
               icon="🔍"
-              title={hasActiveFilters ? 'No products found' : 'No products available'}
+              title={hasActiveFilters ? t('products.noProductsFound') : t('products.noProductsAvailable')}
               message={
                 hasActiveFilters
-                  ? 'Try adjusting your search or filters to find what you are looking for.'
-                  : 'There are no products available at the moment. Please check back later!'
+                  ? t('products.noProductsFoundMessage')
+                  : t('products.noProductsAvailableMessage')
               }
-              actionLabel={hasActiveFilters ? 'Clear Filters' : undefined}
+              actionLabel={hasActiveFilters ? t('products.clearFilters') : undefined}
               onAction={hasActiveFilters ? handleClearFilters : undefined}
             />
           )}

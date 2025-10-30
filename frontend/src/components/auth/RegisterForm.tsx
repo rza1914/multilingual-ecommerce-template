@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { User, Mail, Lock, Eye, EyeOff, Check, X, AlertCircle, Loader } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface RegisterFormProps {
@@ -15,6 +16,7 @@ interface RegisterFormData {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
+  const { t } = useTranslation();
   const { register: registerUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -39,23 +41,21 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   const passwordStrength = useMemo(() => {
     if (password.length === 0) return { label: '', color: '', width: '0%' };
 
-    // Check for numbers and special characters
     const hasNumber = /\d/.test(password);
     const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
     if (password.length < 6) {
-      return { label: 'Weak', color: 'bg-red-500', width: '33%' };
+      return { label: t('auth.passwordWeak'), color: 'bg-red-500', width: '33%' };
     }
     if (password.length >= 10 && hasNumber && hasSpecial) {
-      return { label: 'Strong', color: 'bg-green-500', width: '100%' };
+      return { label: t('auth.passwordStrong'), color: 'bg-green-500', width: '100%' };
     }
-    return { label: 'Medium', color: 'bg-yellow-500', width: '66%' };
-  }, [password]);
+    return { label: t('auth.passwordMedium'), color: 'bg-yellow-500', width: '66%' };
+  }, [password, t]);
 
   const onSubmit = async (data: RegisterFormData) => {
-    // Check terms agreement
     if (!agreeToTerms) {
-      setTermsError('You must agree to the terms and conditions');
+      setTermsError(t('auth.termsRequired'));
       return;
     }
 
@@ -64,14 +64,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     setTermsError('');
 
     try {
-      // Call register API (will auto-login after registration)
       await registerUser(data.name, data.email, data.password);
-
-      // Success - call parent success handler
       onSuccess();
     } catch (error: any) {
-      // Display error message
-      setApiError(error.message || 'Registration failed. Please try again.');
+      setApiError(error.message || t('common.errorOccurred'));
     } finally {
       setIsLoading(false);
     }
@@ -90,7 +86,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       {/* Name Input */}
       <div>
         <label htmlFor="name" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Full Name
+          {t('auth.name')}
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -102,10 +98,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             autoComplete="name"
             disabled={isLoading}
             {...register('name', {
-              required: 'Name is required',
+              required: t('auth.nameRequired'),
               minLength: {
                 value: 2,
-                message: 'Name must be at least 2 characters',
+                message: t('auth.nameMin'),
               },
             })}
             className={`w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 rounded-2xl border-2 ${
@@ -127,7 +123,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       {/* Email Input */}
       <div>
         <label htmlFor="register-email" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Email Address
+          {t('auth.email')}
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -139,10 +135,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             autoComplete="email"
             disabled={isLoading}
             {...register('email', {
-              required: 'Email is required',
+              required: t('auth.emailRequired'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid email address',
+                message: t('auth.emailInvalid'),
               },
             })}
             className={`w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 rounded-2xl border-2 ${
@@ -164,7 +160,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       {/* Password Input */}
       <div>
         <label htmlFor="register-password" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Password
+          {t('auth.password')}
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -176,10 +172,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             autoComplete="new-password"
             disabled={isLoading}
             {...register('password', {
-              required: 'Password is required',
+              required: t('auth.passwordRequired'),
               minLength: {
                 value: 6,
-                message: 'Password must be at least 6 characters',
+                message: t('auth.passwordMin'),
               },
             })}
             className={`w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-800 rounded-2xl border-2 ${
@@ -235,7 +231,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       {/* Confirm Password Input */}
       <div>
         <label htmlFor="confirm-password" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Confirm Password
+          {t('auth.confirmPassword')}
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -247,8 +243,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             autoComplete="new-password"
             disabled={isLoading}
             {...register('confirmPassword', {
-              required: 'Please confirm your password',
-              validate: (value) => value === password || 'Passwords do not match',
+              required: t('auth.confirmPasswordRequired'),
+              validate: (value) => value === password || t('auth.passwordMismatch'),
             })}
             className={`w-full pl-12 pr-16 py-3 bg-white dark:bg-gray-800 rounded-2xl border-2 ${
               errors.confirmPassword
@@ -302,21 +298,21 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             } text-orange-500 focus:ring-2 focus:ring-orange-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50`}
           />
           <span className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-            I agree to the{' '}
+            {t('auth.agreeToTerms')}{' '}
             <button
               type="button"
               className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
               disabled={isLoading}
             >
-              Terms and Conditions
+              {t('footer.termsOfService')}
             </button>{' '}
-            and{' '}
+            {t('common.and')}{' '}
             <button
               type="button"
               className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
               disabled={isLoading}
             >
-              Privacy Policy
+              {t('footer.privacyPolicy')}
             </button>
           </span>
         </label>
@@ -337,10 +333,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         {isLoading ? (
           <>
             <Loader className="w-5 h-5 animate-spin" />
-            Creating Account...
+            {t('common.loading')}
           </>
         ) : (
-          'Create Account'
+          t('auth.createAccount')
         )}
       </button>
 

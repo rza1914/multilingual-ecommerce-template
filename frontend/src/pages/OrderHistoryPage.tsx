@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserOrders } from '../services/order.service';
 import { useAuth } from '../contexts/AuthContext';
 import { Package, Calendar, DollarSign, Eye, ChevronRight, ShoppingBag } from 'lucide-react';
+import { useTranslation } from '../utils/i18n';
 
 interface OrderListItem {
   id: number;
@@ -14,6 +15,7 @@ interface OrderListItem {
 }
 
 export default function OrderHistoryPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [orders, setOrders] = useState<OrderListItem[]>([]);
@@ -92,7 +94,7 @@ export default function OrderHistoryPage() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Loading your orders...</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('order.loadingOrders')}</p>
             </div>
           </div>
         </div>
@@ -107,10 +109,10 @@ export default function OrderHistoryPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            My Orders
+            {t('order.myOrders')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Track and manage your orders
+            {t('order.trackAndManage')}
           </p>
         </div>
 
@@ -118,12 +120,12 @@ export default function OrderHistoryPage() {
         <div className="mb-8 overflow-x-auto">
           <div className="flex gap-2 min-w-max">
             {[
-              { value: 'all', label: 'All Orders' },
-              { value: 'pending', label: 'Pending' },
-              { value: 'processing', label: 'Processing' },
-              { value: 'shipped', label: 'Shipped' },
-              { value: 'delivered', label: 'Delivered' },
-              { value: 'cancelled', label: 'Cancelled' },
+              { value: 'all', label: t('order.allOrders') },
+              { value: 'pending', label: t('order.pending') },
+              { value: 'processing', label: t('order.processing') },
+              { value: 'shipped', label: t('order.shipped') },
+              { value: 'delivered', label: t('order.delivered') },
+              { value: 'cancelled', label: t('order.cancelled') },
             ].map((tab) => (
               <button
                 key={tab.value}
@@ -153,12 +155,12 @@ export default function OrderHistoryPage() {
               <ShoppingBag className="w-16 h-16 text-orange-500" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-              {filter === 'all' ? 'No orders yet' : `No ${filter} orders`}
+              {filter === 'all' ? t('order.noOrdersYet') : t('order.noFilteredOrders', { filter })}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-8">
               {filter === 'all'
-                ? "You haven't placed any orders yet. Start shopping to see your orders here!"
-                : `You don't have any ${filter} orders at the moment.`
+                ? t('order.noOrdersYetMessage')
+                : t('order.noFilteredOrdersMessage', { filter })
               }
             </p>
             {filter === 'all' && (
@@ -166,7 +168,7 @@ export default function OrderHistoryPage() {
                 onClick={() => navigate('/products')}
                 className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/50 transition-all"
               >
-                Start Shopping
+                {t('order.startShopping')}
               </button>
             )}
           </div>
@@ -191,7 +193,7 @@ export default function OrderHistoryPage() {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                          Order #{order.id.toString().padStart(6, '0')}
+                          {t('order.orderNumber')} #{order.id.toString().padStart(6, '0')}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                           {order.full_name}
@@ -201,7 +203,7 @@ export default function OrderHistoryPage() {
                       {/* Status Badge */}
                       <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm ${getStatusColor(order.status)}`}>
                         <span>{getStatusIcon(order.status)}</span>
-                        <span className="capitalize">{order.status}</span>
+                        <span className="capitalize">{t(`order.${order.status.toLowerCase()}`)}</span>
                       </span>
                     </div>
 
@@ -212,7 +214,7 @@ export default function OrderHistoryPage() {
                           <Calendar className="w-5 h-5 text-orange-500" />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Date</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{t('order.date')}</p>
                           <p className="font-semibold text-gray-900 dark:text-white">
                             {formatDate(order.created_at)}
                           </p>
@@ -224,9 +226,9 @@ export default function OrderHistoryPage() {
                           <Package className="w-5 h-5 text-orange-500" />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Items</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{t('order.items')}</p>
                           <p className="font-semibold text-gray-900 dark:text-white">
-                            {order.items_count} {order.items_count === 1 ? 'item' : 'items'}
+                            {order.items_count} {t(order.items_count === 1 ? 'order.item' : 'order.itemsPlural')}
                           </p>
                         </div>
                       </div>
@@ -236,7 +238,7 @@ export default function OrderHistoryPage() {
                           <DollarSign className="w-5 h-5 text-orange-500" />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Total</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{t('order.total')}</p>
                           <p className="font-bold text-orange-500 text-lg">
                             ${order.total.toFixed(2)}
                           </p>
@@ -254,7 +256,7 @@ export default function OrderHistoryPage() {
                     }}
                   >
                     <Eye className="w-5 h-5" />
-                    <span>View Details</span>
+                    <span>{t('order.viewDetails')}</span>
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
@@ -270,7 +272,7 @@ export default function OrderHistoryPage() {
               onClick={() => navigate('/products')}
               className="px-8 py-4 bg-white dark:bg-gray-900 border-2 border-orange-500 text-orange-500 rounded-xl font-semibold hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all"
             >
-              Continue Shopping
+              {t('order.continueShopping')}
             </button>
           </div>
         )}

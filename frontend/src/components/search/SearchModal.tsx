@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { X, Search, TrendingUp, Clock } from 'lucide-react';
 import { mockProducts } from '../../data/mockData';
 import { Product } from '../../types/product.types';
+import { useTranslation } from '../../config/i18n';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface SearchModalProps {
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductClick }) => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [recentSearches] = useState<string[]>(['Laptop', 'Headphones', 'Smartwatch']);
@@ -92,14 +94,14 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for products..."
+                placeholder={t('search.searchPlaceholder')}
                 autoFocus
                 className="w-full pl-14 pr-14 py-4 glass-orange rounded-2xl border-2 border-transparent focus:border-orange-500 outline-none transition-all text-lg text-gray-900 dark:text-white placeholder-gray-500"
               />
               <button
                 onClick={onClose}
                 className="absolute right-4 top-1/2 -translate-y-1/2 glass-orange p-2 rounded-xl hover:scale-110 transition-transform"
-                aria-label="Close search"
+                aria-label={t('search.closeSearch')}
               >
                 <X className="w-5 h-5 text-orange-600 dark:text-orange-400" />
               </button>
@@ -115,7 +117,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                   <div>
                     <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4 flex items-center gap-2">
                       <Search className="w-4 h-4" />
-                      Search Results ({searchResults.length})
+                      {t('search.searchResults', { count: searchResults.length })}
                     </h3>
                     <div className="space-y-3">
                       {searchResults.map((product) => (
@@ -142,7 +144,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                                   ? (product.price * (1 - product.discount / 100)).toFixed(2)
                                   : product.price.toFixed(2)}
                               </span>
-                              <span className="text-xs badge-glass">{product.category || 'General'}</span>
+                              <span className="text-xs badge-glass">{product.category || t('search.generalCategory')}</span>
                             </div>
                           </div>
                         </button>
@@ -153,10 +155,10 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                   <div className="text-center py-12">
                     <Search className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                      No results found
+                      {t('search.noResults')}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Try searching with different keywords
+                      {t('search.tryDifferentKeywords')}
                     </p>
                   </div>
                 )}
@@ -168,7 +170,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                   <div className="mb-8">
                     <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4 flex items-center gap-2">
                       <Clock className="w-4 h-4" />
-                      Recent Searches
+                      {t('search.recentSearches')}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {recentSearches.map((search, index) => (
@@ -188,7 +190,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onProductCli
                 <div>
                   <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4 flex items-center gap-2">
                     <TrendingUp className="w-4 h-4" />
-                    Popular Products
+                    {t('search.popularProducts')}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {popularProducts.map((product) => (

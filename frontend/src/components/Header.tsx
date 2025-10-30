@@ -1,6 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import ThemeToggle from './ThemeToggle';
+import LanguageSwitcher from './LanguageSwitcher';
 import MiniCart from './cart/MiniCart';
 import AuthModal from './auth/AuthModal';
 import SearchModal from './search/SearchModal';
@@ -12,6 +14,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Product } from '../types/product.types';
 
 const Header = () => {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -65,15 +68,15 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     setIsUserMenuOpen(false);
-    setToastMessage('Goodbye! See you soon 👋');
+    setToastMessage(t('auth.logoutSuccess'));
     setToastType('success');
     setShowToast(true);
   };
 
   const navLinks = [
-    { name: 'Products', path: '/products' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav.products'), path: '/products' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.contact'), path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -184,7 +187,7 @@ const Header = () => {
                           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all text-left font-semibold"
                         >
                           <Shield className="w-5 h-5" />
-                          <span className="text-sm">Admin Dashboard</span>
+                          <span className="text-sm">{t('nav.admin')}</span>
                         </button>
                         <div className="border-t border-gray-200 dark:border-gray-700 my-2" />
                       </>
@@ -198,7 +201,7 @@ const Header = () => {
                       className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all text-left"
                     >
                       <UserCircle className="w-5 h-5 text-orange-500" />
-                      <span className="text-sm font-medium">My Profile</span>
+                      <span className="text-sm font-medium">{t('nav.profile')}</span>
                     </button>
 
                     <button
@@ -209,7 +212,7 @@ const Header = () => {
                       className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all text-left"
                     >
                       <Package className="w-5 h-5 text-orange-500" />
-                      <span className="text-sm font-medium">My Orders</span>
+                      <span className="text-sm font-medium">{t('nav.orders')}</span>
                     </button>
 
                     <div className="border-t border-gray-200 dark:border-gray-700 my-2" />
@@ -219,7 +222,7 @@ const Header = () => {
                       className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all text-left"
                     >
                       <LogOut className="w-5 h-5" />
-                      <span className="text-sm font-medium">Logout</span>
+                      <span className="text-sm font-medium">{t('auth.logout')}</span>
                     </button>
                   </div>
                 </div>
@@ -235,7 +238,7 @@ const Header = () => {
                 }}
                 className="hidden md:flex glass-orange px-4 py-2 rounded-xl hover:scale-105 transition-transform text-sm font-semibold text-gray-900 dark:text-white"
               >
-                Login
+                {t('auth.login')}
               </button>
               <button
                 onClick={() => {
@@ -244,10 +247,13 @@ const Header = () => {
                 }}
                 className="hidden md:flex btn-primary text-sm px-4 py-2"
               >
-                Sign Up
+                {t('auth.signup')}
               </button>
             </>
           )}
+
+          {/* Language Switcher */}
+          <LanguageSwitcher />
 
           {/* Theme Toggle */}
           <ThemeToggle />
@@ -303,7 +309,7 @@ const Header = () => {
                       className="px-4 py-3 rounded-2xl font-semibold text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all flex items-center gap-2 w-full text-left"
                     >
                       <Shield className="w-5 h-5" />
-                      Admin Dashboard
+                      {t('nav.admin')}
                     </button>
                   )}
                   <button
@@ -314,7 +320,7 @@ const Header = () => {
                     className="px-4 py-3 rounded-2xl font-medium text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all flex items-center gap-2 w-full text-left"
                   >
                     <UserCircle className="w-5 h-5" />
-                    My Profile
+                    {t('nav.profile')}
                   </button>
                   <button
                     onClick={() => {
@@ -324,7 +330,7 @@ const Header = () => {
                     className="px-4 py-3 rounded-2xl font-medium text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all flex items-center gap-2 w-full text-left"
                   >
                     <Package className="w-5 h-5" />
-                    My Orders
+                    {t('nav.orders')}
                   </button>
                   <button
                     onClick={() => {
@@ -334,7 +340,7 @@ const Header = () => {
                     className="px-4 py-3 rounded-2xl font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all flex items-center gap-2 w-full text-left"
                   >
                     <LogOut className="w-5 h-5" />
-                    Logout
+                    {t('auth.logout')}
                   </button>
                 </>
               ) : (
@@ -348,7 +354,7 @@ const Header = () => {
                     className="px-4 py-3 rounded-2xl font-medium text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all flex items-center gap-2 w-full text-left"
                   >
                     <User className="w-5 h-5" />
-                    Login
+                    {t('auth.login')}
                   </button>
                   <button
                     onClick={() => {
@@ -358,7 +364,7 @@ const Header = () => {
                     }}
                     className="btn-primary w-full"
                   >
-                    Sign Up
+                    {t('auth.signup')}
                   </button>
                 </>
               )}

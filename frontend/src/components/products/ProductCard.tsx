@@ -6,16 +6,19 @@
 import { Product } from '../../types/product.types';
 import { Star, ShoppingCart, Sparkles } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
 import ProductModal from './ProductModal';
 import Toast, { ToastType } from '../Toast';
 import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -42,14 +45,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.stopPropagation();
 
     if (isOutOfStock) {
-      setToastMessage('Product is out of stock');
+      setToastMessage(t('product.outOfStock'));
       setToastType('error');
       setShowToast(true);
       return;
     }
 
     addToCart(product, 1);
-    setToastMessage('Added to cart! 🛒');
+    setToastMessage(t('product.productAdded'));
     setToastType('success');
     setShowToast(true);
   };
@@ -61,14 +64,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   // Handle add to cart from modal
   const handleAddToCartFromModal = () => {
-    setToastMessage('Added to cart! 🛒');
+    setToastMessage(t('product.productAdded'));
     setToastType('success');
     setShowToast(true);
   };
 
-  // Get multilingual content (currently using English, TODO: add language context)
-  const title = product.title_en;
-  const description = product.description_en;
+  // Get multilingual content
+  const title = getLocalizedTitle(product, product.title_en);
+  const description = getLocalizedDescription(product, product.description_en);
 
   return (
     <>
@@ -106,7 +109,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center">
               <div className="bg-red-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl">
-                Out of Stock
+                {t('product.outOfStock')}
               </div>
             </div>
           )}
@@ -122,14 +125,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Featured Badge with Glass Effect */}
           {product.is_featured && (
             <div className="absolute top-4 left-4 badge-glass backdrop-blur-xl">
-              ⭐ Featured
+              ⭐ {t('product.featured')}
             </div>
           )}
 
           {/* Low Stock Badge */}
           {isLowStock && !isOutOfStock && (
             <div className="absolute bottom-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-              Only {safeStock} left!
+              {t('product.lowStock', { count: safeStock })}
             </div>
           )}
 
@@ -145,7 +148,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 className="btn-primary flex items-center gap-2 shadow-2xl"
               >
                 <ShoppingCart className="w-5 h-5" />
-                Quick Add
+                {t('product.addToCart')}
               </button>
             </div>
           )}
@@ -193,15 +196,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               {hasDiscount ? (
                 <>
                   <span className="text-2xl font-bold text-gradient-orange">
-                    ${discountedPrice.toFixed(2)}
+                    {formatCurrency(discountedPrice)}
                   </span>
                   <span className="text-sm line-through text-gray-400 dark:text-gray-500">
-                    ${safePrice.toFixed(2)}
+                    {formatCurrency(safePrice)}
                   </span>
                 </>
               ) : (
                 <span className="text-2xl font-bold text-gradient-orange">
-                  ${safePrice.toFixed(2)}
+                  {formatCurrency(safePrice)}
                 </span>
               )}
             </div>

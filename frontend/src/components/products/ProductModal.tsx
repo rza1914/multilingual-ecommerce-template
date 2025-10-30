@@ -3,6 +3,7 @@ import { X, Plus, Minus, ShoppingCart, Star, Check } from 'lucide-react';
 import { Product } from '../../types/product.types';
 import { useCart } from '../../contexts/CartContext';
 import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import { useTranslation, getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 
 interface ProductModalProps {
   product: Product | null;
@@ -17,6 +18,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
   onClose,
   onAddToCart
 }) => {
+  const { t, language } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
@@ -61,8 +63,8 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const isLowStock = safeStock > 0 && safeStock < 10;
 
   // Multilingual content
-  const title = product.title_en;
-  const description = product.description_en;
+  const title = getLocalizedTitle(product, language);
+  const description = getLocalizedDescription(product, language);
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -107,12 +109,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
               <div className="absolute top-4 left-4 flex flex-col gap-2">
                 {hasDiscount && (
                   <div className="badge-orange">
-                    -{discountPercentage}% OFF
+                    -{discountPercentage}% {t('productModal.off')}
                   </div>
                 )}
                 {product.is_featured && (
                   <div className="badge-glass">
-                    ⭐ Featured
+                    ⭐ {t('product.featured')}
                   </div>
                 )}
               </div>
@@ -121,16 +123,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
               <div className="absolute bottom-4 left-4">
                 {isOutOfStock ? (
                   <div className="bg-red-500 text-white px-4 py-2 rounded-full font-bold shadow-lg">
-                    Out of Stock
+                    {t('product.outOfStock')}
                   </div>
                 ) : isLowStock ? (
                   <div className="bg-orange-500 text-white px-4 py-2 rounded-full font-bold shadow-lg">
-                    Only {safeStock} left!
+                    {t('product.lowStock', { count: safeStock })}
                   </div>
                 ) : (
                   <div className="badge-glass flex items-center gap-2">
                     <Check className="w-4 h-4 text-green-500" />
-                    <span className="text-green-600 dark:text-green-400">In Stock ({safeStock})</span>
+                    <span className="text-green-600 dark:text-green-400">{t('productModal.inStock', { count: safeStock })}</span>
                   </div>
                 )}
               </div>
@@ -140,7 +142,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <div className="flex flex-col">
               {/* Category */}
               <span className="badge-glass inline-flex w-fit mb-4">
-                {product.category || 'General'}
+                {product.category || t('productModal.general')}
               </span>
 
               {/* Title */}
@@ -172,11 +174,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
               {/* Price */}
               <div className="flex items-baseline gap-3 mb-6">
                 <span className="text-4xl font-bold text-gradient-orange">
-                  ${currentPrice.toFixed(2)}
+                  {formatCurrency(currentPrice, language)}
                 </span>
                 {hasDiscount && (
                   <span className="text-xl text-gray-400 line-through">
-                    ${safePrice.toFixed(2)}
+                    {formatCurrency(safePrice, language)}
                   </span>
                 )}
               </div>
@@ -192,7 +194,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
               {/* Quantity Selector */}
               <div className="mb-8">
                 <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                  Quantity
+                  {t('productModal.quantity')}
                 </label>
                 <div className="flex items-center gap-4">
                   <button
@@ -223,21 +225,22 @@ const ProductModal: React.FC<ProductModalProps> = ({
               <button
                 onClick={handleAddToCart}
                 className="btn-primary w-full text-lg flex items-center justify-center gap-3"
+                disabled={isOutOfStock}
               >
                 <ShoppingCart className="w-6 h-6" />
-                Add to Cart • ${(currentPrice * quantity).toFixed(2)}
+                {t('productModal.addToCart')} • {formatCurrency(currentPrice * quantity, language)}
               </button>
 
               {/* Product Info */}
               <div className="mt-8 grid grid-cols-2 gap-4 text-sm">
                 <div className="glass-orange p-4 rounded-2xl">
-                  <span className="text-gray-600 dark:text-gray-400 block">SKU:</span>
+                  <span className="text-gray-600 dark:text-gray-400 block">{t('productModal.sku')}:</span>
                   <span className="font-semibold text-gray-900 dark:text-white">
                     #{product.id.toString().padStart(6, '0')}
                   </span>
                 </div>
                 <div className="glass-orange p-4 rounded-2xl">
-                  <span className="text-gray-600 dark:text-gray-400 block">Category:</span>
+                  <span className="text-gray-600 dark:text-gray-400 block">{t('productModal.category')}:</span>
                   <span className="font-semibold text-gray-900 dark:text-white">
                     {product.category}
                   </span>

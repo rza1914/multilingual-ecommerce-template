@@ -1,55 +1,58 @@
 import { Award, Users, Globe, Shield, Heart, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const AboutPage = () => {
+  const { t } = useTranslation();
+  
   const stats = [
-    { value: '10K+', label: 'Happy Customers' },
-    { value: '500+', label: 'Premium Products' },
-    { value: '50+', label: 'Countries' },
-    { value: '99.9%', label: 'Satisfaction Rate' },
+    { value: '10K+', label: t('about.happyCustomers') },
+    { value: '500+', label: t('about.premiumProducts') },
+    { value: '50+', label: t('about.countries') },
+    { value: '99.9%', label: t('about.satisfactionRate') },
   ];
 
   const values = [
     {
       icon: Award,
-      title: 'Quality First',
-      description: 'We only source the finest products from trusted manufacturers worldwide.',
+      title: t('about.qualityFirst'),
+      description: t('about.qualityFirstDesc'),
     },
     {
       icon: Users,
-      title: 'Customer Focused',
-      description: 'Your satisfaction is our top priority. We\'re here to help 24/7.',
+      title: t('about.customerFocused'),
+      description: t('about.customerFocusedDesc'),
     },
     {
       icon: Globe,
-      title: 'Global Reach',
-      description: 'Shipping to over 50 countries with fast and reliable delivery.',
+      title: t('about.globalReach'),
+      description: t('about.globalReachDesc'),
     },
     {
       icon: Shield,
-      title: 'Secure Shopping',
-      description: 'Your data is protected with enterprise-level security.',
+      title: t('about.secureShopping'),
+      description: t('about.secureShoppingDesc'),
     },
   ];
 
   const team = [
     {
       name: 'Sarah Johnson',
-      role: 'Founder & CEO',
+      role: t('about.founderCEO'),
       image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
     },
     {
       name: 'Michael Chen',
-      role: 'Head of Design',
+      role: t('about.headOfDesign'),
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
     },
     {
       name: 'Emily Rodriguez',
-      role: 'Customer Experience',
+      role: t('about.customerExperience'),
       image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
     },
     {
       name: 'David Kim',
-      role: 'Tech Lead',
+      role: t('about.techLead'),
       image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400',
     },
   ];
@@ -65,11 +68,10 @@ const AboutPage = () => {
           <div className="relative z-10">
             <Sparkles className="w-16 h-16 text-orange-500 mx-auto mb-6 animate-float" />
             <h1 className="text-5xl md:text-6xl font-bold text-gradient-orange mb-6 animate-slide-up">
-              About LuxStore
+              {t('about.title')}
             </h1>
             <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto animate-fade-in">
-              We're on a mission to bring you the finest premium products from around the world.
-              Quality, style, and exceptional service are at the heart of everything we do.
+              {t('about.subtitle')}
             </p>
           </div>
         </div>
@@ -100,27 +102,13 @@ const AboutPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="glass-card p-8 rounded-3xl">
             <h2 className="text-4xl font-bold text-gradient-orange mb-6">
-              Our Story
+              {t('about.ourStory')}
             </h2>
             <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-              <p>
-                Founded in 2020, LuxStore began with a simple vision: to make premium,
-                high-quality products accessible to everyone, everywhere.
-              </p>
-              <p>
-                What started as a small online boutique has grown into a global marketplace
-                trusted by thousands of customers worldwide. We've built our reputation on
-                three core principles: quality, authenticity, and exceptional customer service.
-              </p>
-              <p>
-                Today, we partner with leading brands and manufacturers to bring you the
-                latest in technology, fashion, home goods, and lifestyle products. Every
-                item in our collection is carefully curated to meet our high standards.
-              </p>
-              <p>
-                But we're more than just a store. We're a community of people who appreciate
-                the finer things in life and believe that everyone deserves access to quality products.
-              </p>
+              <p>{t('about.storyPara1')}</p>
+              <p>{t('about.storyPara2')}</p>
+              <p>{t('about.storyPara3')}</p>
+              <p>{t('about.storyPara4')}</p>
             </div>
           </div>
 
@@ -138,10 +126,10 @@ const AboutPage = () => {
       <div className="container mx-auto px-4 mb-16">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gradient-orange mb-4">
-            Our Values
+            {t('about.ourValues')}
           </h2>
           <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            The principles that guide everything we do
+            {t('about.valuesSubtitle')}
           </p>
         </div>
 
@@ -170,10 +158,10 @@ const AboutPage = () => {
       <div className="container mx-auto px-4 mb-16">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gradient-orange mb-4">
-            Meet Our Team
+            {t('about.meetTheTeam')}
           </h2>
           <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            The passionate people behind LuxStore
+            {t('about.teamSubtitle')}
           </p>
         </div>
 
@@ -211,17 +199,17 @@ const AboutPage = () => {
           <div className="relative z-10">
             <Heart className="w-16 h-16 text-orange-500 mx-auto mb-6 animate-pulse-slow" />
             <h2 className="text-4xl font-bold text-gradient-orange mb-4">
-              Join Our Journey
+              {t('about.joinOurJourney')}
             </h2>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Be part of a community that values quality, style, and exceptional service
+              {t('about.joinSubtitle')}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a href="/products" className="btn-primary">
-                Shop Now
+                {t('about.shopNow')}
               </a>
               <a href="/contact" className="btn-glass">
-                Get In Touch
+                {t('about.getInTouch')}
               </a>
             </div>
           </div>

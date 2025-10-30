@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Toast, { ToastType } from '../Toast';
@@ -11,6 +12,7 @@ interface AuthModalProps {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'login' }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>(initialTab);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -41,7 +43,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   }, [isOpen, initialTab]);
 
   const handleLoginSuccess = () => {
-    setToastMessage('Welcome back! Login successful 🎉');
+    setToastMessage(t('auth.loginSuccess'));
     setToastType('success');
     setShowToast(true);
     setTimeout(() => {
@@ -50,7 +52,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   };
 
   const handleRegisterSuccess = () => {
-    setToastMessage('Account created successfully! Welcome aboard 🚀');
+    setToastMessage(t('auth.signupSuccess'));
     setToastType('success');
     setShowToast(true);
     setTimeout(() => {
@@ -91,12 +93,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
             {/* Header */}
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gradient-orange mb-2">
-                Welcome to LuxStore
+                {t('messages.welcome')}
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
                 {activeTab === 'login'
-                  ? 'Sign in to access your account'
-                  : 'Create an account to get started'}
+                  ? t('auth.welcomeBack')
+                  : t('auth.createAccount')}
               </p>
             </div>
 
@@ -110,7 +112,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                     : 'text-gray-700 dark:text-gray-300 hover:bg-white/20 dark:hover:bg-black/20'
                 }`}
               >
-                Login
+                {t('auth.login')}
               </button>
               <button
                 onClick={() => setActiveTab('signup')}
@@ -120,7 +122,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                     : 'text-gray-700 dark:text-gray-300 hover:bg-white/20 dark:hover:bg-black/20'
                 }`}
               >
-                Sign Up
+                {t('auth.signup')}
               </button>
             </div>
 
@@ -137,22 +139,22 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
             <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
               {activeTab === 'login' ? (
                 <p>
-                  Don't have an account?{' '}
+                  {t('auth.noAccount')}{' '}
                   <button
                     onClick={() => setActiveTab('signup')}
                     className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
                   >
-                    Sign up now
+                    {t('auth.signup')}
                   </button>
                 </p>
               ) : (
                 <p>
-                  Already have an account?{' '}
+                  {t('auth.haveAccount')}{' '}
                   <button
                     onClick={() => setActiveTab('login')}
                     className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
                   >
-                    Login here
+                    {t('auth.login')}
                   </button>
                 </p>
               )}

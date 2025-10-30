@@ -7,8 +7,10 @@ import {
   User, Mail, Phone, Calendar, ShoppingBag, Package,
   Edit2, Save, X, Lock, Eye, EyeOff
 } from 'lucide-react';
+import { useTranslation } from '../utils/i18n';
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -74,10 +76,10 @@ export default function ProfilePage() {
       const updatedUser = await updateUserProfile(profileData);
       setUser(updatedUser);
       setIsEditingProfile(false);
-      alert('Profile updated successfully!');
+      alert(t('profile.profileUpdated'));
     } catch (error) {
       console.error('Failed to update profile:', error);
-      alert('Failed to update profile. Please try again.');
+      alert(t('profile.updateProfileError'));
     } finally {
       setSavingProfile(false);
     }
@@ -86,17 +88,17 @@ export default function ProfilePage() {
   const handleChangePassword = async () => {
     // Validation
     if (!passwordData.current_password || !passwordData.new_password) {
-      alert('Please fill in all password fields');
+      alert(t('profile.fillAllPasswordFields'));
       return;
     }
 
     if (passwordData.new_password.length < 6) {
-      alert('New password must be at least 6 characters');
+      alert(t('profile.passwordMinLength'));
       return;
     }
 
     if (passwordData.new_password !== passwordData.confirm_password) {
-      alert('New passwords do not match');
+      alert(t('profile.passwordsDoNotMatch'));
       return;
     }
 
@@ -112,10 +114,10 @@ export default function ProfilePage() {
         new_password: '',
         confirm_password: '',
       });
-      alert('Password changed successfully!');
+      alert(t('profile.passwordChanged'));
     } catch (error: any) {
       console.error('Failed to change password:', error);
-      alert(error.response?.data?.detail || 'Failed to change password. Please try again.');
+      alert(error.response?.data?.detail || t('profile.changePasswordError'));
     } finally {
       setSavingPassword(false);
     }
@@ -136,7 +138,7 @@ export default function ProfilePage() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Loading profile...</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('profile.loadingProfile')}</p>
             </div>
           </div>
         </div>
@@ -149,13 +151,13 @@ export default function ProfilePage() {
       <div className="min-h-screen pt-24 pb-12 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Profile Not Found
+            {t('profile.notFound')}
           </h1>
           <button
             onClick={() => navigate('/')}
             className="px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600"
           >
-            Go Home
+            {t('profile.goHome')}
           </button>
         </div>
       </div>
@@ -175,10 +177,10 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            My Profile
+            {t('profile.title')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Manage your account information and settings
+            {t('profile.subtitle')}
           </p>
         </div>
 
@@ -195,7 +197,7 @@ export default function ProfilePage() {
               </div>
 
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                {user.full_name || 'User'}
+                {user.full_name || t('profile.user')}
               </h2>
 
               <p className="text-gray-600 dark:text-gray-400 mb-4">
@@ -204,21 +206,21 @@ export default function ProfilePage() {
 
               <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                 <Calendar className="w-4 h-4" />
-                <span>Joined {formatDate(user.created_at)}</span>
+                <span>{t('profile.joined')} {formatDate(user.created_at)}</span>
               </div>
             </div>
 
             {/* Order Stats */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border-2 border-gray-100 dark:border-gray-800">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                Order Statistics
+                {t('profile.orderStatistics')}
               </h3>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-900/20 rounded-xl">
                   <div className="flex items-center gap-3">
                     <ShoppingBag className="w-5 h-5 text-orange-500" />
-                    <span className="text-gray-700 dark:text-gray-300">Total Orders</span>
+                    <span className="text-gray-700 dark:text-gray-300">{t('profile.totalOrders')}</span>
                   </div>
                   <span className="text-xl font-bold text-orange-500">{totalOrders}</span>
                 </div>
@@ -226,7 +228,7 @@ export default function ProfilePage() {
                 <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                   <div className="flex items-center gap-3">
                     <Package className="w-5 h-5 text-blue-500" />
-                    <span className="text-gray-700 dark:text-gray-300">Pending</span>
+                    <span className="text-gray-700 dark:text-gray-300">{t('profile.pending')}</span>
                   </div>
                   <span className="text-xl font-bold text-blue-500">{pendingOrders}</span>
                 </div>
@@ -234,7 +236,7 @@ export default function ProfilePage() {
                 <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
                   <div className="flex items-center gap-3">
                     <Package className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700 dark:text-gray-300">Delivered</span>
+                    <span className="text-gray-700 dark:text-gray-300">{t('profile.delivered')}</span>
                   </div>
                   <span className="text-xl font-bold text-green-500">{deliveredOrders}</span>
                 </div>
@@ -242,7 +244,7 @@ export default function ProfilePage() {
                 <div className="pt-4 border-t-2 border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                      Total Spent
+                      {t('profile.totalSpent')}
                     </span>
                     <span className="text-2xl font-bold text-orange-500">
                       ${totalSpent.toFixed(2)}
@@ -255,7 +257,7 @@ export default function ProfilePage() {
                 onClick={() => navigate('/orders')}
                 className="w-full mt-4 px-4 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
               >
-                View All Orders
+                {t('profile.viewAllOrders')}
               </button>
             </div>
           </div>
@@ -267,7 +269,7 @@ export default function ProfilePage() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg border-2 border-gray-100 dark:border-gray-800">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Profile Information
+                  {t('profile.personalInfo')}
                 </h2>
                 {!isEditingProfile ? (
                   <button
@@ -275,7 +277,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 px-4 py-2 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-xl transition-colors font-semibold"
                   >
                     <Edit2 className="w-4 h-4" />
-                    Edit
+                    {t('profile.edit')}
                   </button>
                 ) : (
                   <div className="flex gap-2">
@@ -290,7 +292,7 @@ export default function ProfilePage() {
                       className="flex items-center gap-2 px-4 py-2 border-2 border-gray-300 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
                       <X className="w-4 h-4" />
-                      Cancel
+                      {t('profile.cancel')}
                     </button>
                     <button
                       onClick={handleUpdateProfile}
@@ -300,12 +302,12 @@ export default function ProfilePage() {
                       {savingProfile ? (
                         <>
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Saving...
+                          {t('profile.saving')}
                         </>
                       ) : (
                         <>
                           <Save className="w-4 h-4" />
-                          Save
+                          {t('profile.save')}
                         </>
                       )}
                     </button>
@@ -317,7 +319,7 @@ export default function ProfilePage() {
                 {/* Full Name */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Full Name
+                    {t('profile.fullName')}
                   </label>
                   {isEditingProfile ? (
                     <input
@@ -331,7 +333,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
                       <User className="w-5 h-5 text-gray-500" />
                       <span className="text-gray-900 dark:text-white">
-                        {user.full_name || 'Not set'}
+                        {user.full_name || t('profile.notSet')}
                       </span>
                     </div>
                   )}
@@ -340,13 +342,13 @@ export default function ProfilePage() {
                 {/* Email (read-only) */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Email Address
+                    {t('profile.emailAddress')}
                   </label>
                   <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
                     <Mail className="w-5 h-5 text-gray-500" />
                     <span className="text-gray-900 dark:text-white">{user.email}</span>
                     <span className="ml-auto text-xs text-gray-500 dark:text-gray-400">
-                      Cannot be changed
+                      {t('profile.cannotBeChanged')}
                     </span>
                   </div>
                 </div>
@@ -354,7 +356,7 @@ export default function ProfilePage() {
                 {/* Phone */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Phone Number
+                    {t('profile.phoneNumber')}
                   </label>
                   {isEditingProfile ? (
                     <input
@@ -362,14 +364,14 @@ export default function ProfilePage() {
                       autoComplete="tel"
                       value={profileData.phone}
                       onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                      placeholder="+1 (555) 123-4567"
+                      placeholder={t('profile.phonePlaceholder')}
                       className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                     />
                   ) : (
                     <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
                       <Phone className="w-5 h-5 text-gray-500" />
                       <span className="text-gray-900 dark:text-white">
-                        {user.phone || 'Not set'}
+                        {user.phone || t('profile.notSet')}
                       </span>
                     </div>
                   )}
@@ -381,7 +383,7 @@ export default function ProfilePage() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg border-2 border-gray-100 dark:border-gray-800">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Change Password
+                  {t('profile.changePassword')}
                 </h2>
                 {!isChangingPassword && (
                   <button
@@ -389,7 +391,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 px-4 py-2 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-xl transition-colors font-semibold"
                   >
                     <Lock className="w-4 h-4" />
-                    Change
+                    {t('profile.change')}
                   </button>
                 )}
               </div>
@@ -399,7 +401,7 @@ export default function ProfilePage() {
                   {/* Current Password */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Current Password
+                      {t('profile.currentPassword')}
                     </label>
                     <div className="relative">
                       <input
@@ -422,7 +424,7 @@ export default function ProfilePage() {
                   {/* New Password */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      New Password
+                      {t('profile.newPassword')}
                     </label>
                     <div className="relative">
                       <input
@@ -445,7 +447,7 @@ export default function ProfilePage() {
                   {/* Confirm Password */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Confirm New Password
+                      {t('profile.confirmNewPassword')}
                     </label>
                     <div className="relative">
                       <input
@@ -478,7 +480,7 @@ export default function ProfilePage() {
                       }}
                       className="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
-                      Cancel
+                      {t('profile.cancel')}
                     </button>
                     <button
                       onClick={handleChangePassword}
@@ -488,17 +490,17 @@ export default function ProfilePage() {
                       {savingPassword ? (
                         <span className="flex items-center justify-center gap-2">
                           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Saving...
+                          {t('profile.saving')}
                         </span>
                       ) : (
-                        'Update Password'
+                        t('profile.updatePassword')
                       )}
                     </button>
                   </div>
                 </div>
               ) : (
                 <p className="text-gray-600 dark:text-gray-400">
-                  Click "Change" to update your password
+                  {t('profile.changePasswordHint')}
                 </p>
               )}
             </div>

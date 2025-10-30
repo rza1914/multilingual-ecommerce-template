@@ -6,8 +6,10 @@ import {
   Users, Package, ShoppingCart, DollarSign,
   TrendingUp, Eye, ArrowRight
 } from 'lucide-react';
+import { useTranslation } from '../../config/i18n';
 
 export default function AdminDashboard() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAdmin, isAuthenticated } = useAuth();
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -74,7 +76,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Loading dashboard...</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('admin.loadingDashboard')}</p>
             </div>
           </div>
         </div>
@@ -87,13 +89,13 @@ export default function AdminDashboard() {
       <div className="min-h-screen pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Failed to Load Dashboard
+            {t('admin.failedToLoad')}
           </h1>
           <button
             onClick={fetchDashboardData}
             className="px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600"
           >
-            Retry
+            {t('admin.retry')}
           </button>
         </div>
       </div>
@@ -105,10 +107,10 @@ export default function AdminDashboard() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Admin Dashboard
+            {t('admin.dashboard')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Welcome back! Here's what's happening with your store.
+            {t('admin.welcomeMessage')}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -118,13 +120,13 @@ export default function AdminDashboard() {
                 <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                +{stats.new_users_count} this month
+                {t('admin.newThisMonth', { count: stats.new_users_count })}
               </span>
             </div>
             <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {stats.total_users}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">Total Users</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('admin.totalUsers')}</p>
           </div>
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border-2 border-gray-100 dark:border-gray-800 hover:border-orange-500/50 transition-all">
             <div className="flex items-center justify-between mb-4">
@@ -132,13 +134,13 @@ export default function AdminDashboard() {
                 <Package className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                Active
+                {t('admin.active')}
               </span>
             </div>
             <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {stats.total_products}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">Total Products</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('admin.totalProducts')}</p>
           </div>
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border-2 border-gray-100 dark:border-gray-800 hover:border-orange-500/50 transition-all">
             <div className="flex items-center justify-between mb-4">
@@ -146,13 +148,13 @@ export default function AdminDashboard() {
                 <ShoppingCart className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                +{stats.recent_orders_count} this month
+                {t('admin.newThisMonth', { count: stats.recent_orders_count })}
               </span>
             </div>
             <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {stats.total_orders}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">Total Orders</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('admin.totalOrders')}</p>
           </div>
           <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 shadow-xl">
             <div className="flex items-center justify-between mb-4">
@@ -160,13 +162,13 @@ export default function AdminDashboard() {
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
               <span className="text-sm text-white/80">
-                +{formatCurrency(stats.recent_revenue)} this month
+                {t('admin.revenueThisMonth', { amount: formatCurrency(stats.recent_revenue) })}
               </span>
             </div>
             <h3 className="text-3xl font-bold text-white mb-1">
               {formatCurrency(stats.total_revenue)}
             </h3>
-            <p className="text-white/80">Total Revenue</p>
+            <p className="text-white/80">{t('admin.totalRevenue')}</p>
           </div>
         </div>
 
@@ -178,10 +180,10 @@ export default function AdminDashboard() {
           >
             <Package className="w-8 h-8 text-orange-500 mb-3 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              Manage Products
+              {t('admin.manageProducts')}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Add, edit, or remove products
+              {t('admin.manageProductsDesc')}
             </p>
           </button>
 
@@ -191,10 +193,10 @@ export default function AdminDashboard() {
           >
             <ShoppingCart className="w-8 h-8 text-blue-500 mb-3 group-hover:scale-110 transition-transform" />
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              Manage Orders
+              {t('admin.manageOrders')}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              View and update order status
+              {t('admin.manageOrdersDesc')}
             </p>
           </button>
         </div>
@@ -204,10 +206,10 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Revenue Overview
+                  {t('admin.revenueOverview')}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  Last 7 days
+                  {t('admin.last7Days')}
                 </p>
               </div>
               <TrendingUp className="w-6 h-6 text-orange-500" />
@@ -234,7 +236,7 @@ export default function AdminDashboard() {
                         />
                       </div>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {day.orders} {day.orders === 1 ? 'order' : 'orders'}
+                        {t('admin.ordersCount', { count: day.orders })}
                       </p>
                     </div>
                   );
@@ -242,13 +244,13 @@ export default function AdminDashboard() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-500 dark:text-gray-400">No revenue data available</p>
+                <p className="text-gray-500 dark:text-gray-400">{t('admin.noRevenueData')}</p>
               </div>
             )}
           </div>
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border-2 border-gray-100 dark:border-gray-800">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Orders by Status
+              {t('admin.ordersByStatus')}
             </h2>
             <div className="space-y-4">
               {Object.entries(stats.orders_by_status).length > 0 ? (
@@ -263,7 +265,7 @@ export default function AdminDashboard() {
                         'bg-red-500'
                       }`} />
                       <span className="text-gray-700 dark:text-gray-300 capitalize">
-                        {status}
+                        {t(`order.${status}`)}
                       </span>
                     </div>
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
@@ -272,7 +274,7 @@ export default function AdminDashboard() {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-center py-4">No orders yet</p>
+                <p className="text-gray-500 dark:text-gray-400 text-center py-4">{t('admin.noOrdersYet')}</p>
               )}
             </div>
           </div>
@@ -280,13 +282,13 @@ export default function AdminDashboard() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border-2 border-gray-100 dark:border-gray-800">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Recent Orders
+              {t('admin.recentOrders')}
             </h2>
             <button
               onClick={() => navigate('/admin/orders')}
               className="flex items-center gap-2 text-orange-500 hover:text-orange-600 font-semibold transition-colors"
             >
-              View All
+              {t('admin.viewAll')}
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -296,22 +298,22 @@ export default function AdminDashboard() {
                 <thead>
                   <tr className="border-b-2 border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-semibold">
-                      Order ID
+                      {t('admin.orderID')}
                     </th>
                     <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-semibold">
-                      Customer
+                      {t('admin.customer')}
                     </th>
                     <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-semibold">
-                      Date
+                      {t('admin.date')}
                     </th>
                     <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-semibold">
-                      Total
+                      {t('admin.total')}
                     </th>
                     <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-semibold">
-                      Status
+                      {t('admin.status')}
                     </th>
                     <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-semibold">
-                      Actions
+                      {t('admin.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -339,7 +341,7 @@ export default function AdminDashboard() {
                       </td>
                       <td className="py-4 px-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
-                          {order.status}
+                          {t(`order.${order.status}`)}
                         </span>
                       </td>
                       <td className="py-4 px-4">
@@ -358,7 +360,7 @@ export default function AdminDashboard() {
           ) : (
             <div className="text-center py-12">
               <ShoppingCart className="w-16 h-16 text-gray-300 dark:text-gray-700 mx-auto mb-4" />
-              <p className="text-gray-500 dark:text-gray-400">No orders yet</p>
+              <p className="text-gray-500 dark:text-gray-400">{t('admin.noOrdersYet')}</p>
             </div>
           )}
         </div>

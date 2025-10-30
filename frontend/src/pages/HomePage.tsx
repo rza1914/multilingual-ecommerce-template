@@ -5,8 +5,10 @@ import * as productService from '../services/product.service';
 import ProductCard from '../components/products/ProductCard';
 import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
 import { ArrowRight, Truck, Shield, Sparkles, Zap, Award } from 'lucide-react';
+import { useTranslation } from '../utils/i18n';
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,18 +44,17 @@ const HomePage = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 badge-glass px-4 py-2 mb-8 animate-scale-in">
             <Sparkles className="w-4 h-4 text-orange-500" />
-            <span>Luxury Shopping Experience</span>
+            <span>{t('home.badge')}</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-display text-gradient-orange mb-6 animate-slide-up font-extrabold tracking-tight">
-            Welcome to LuxStore
+            {t('home.heroTitle')}
           </h1>
 
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in font-light">
-            Discover premium products curated for those who appreciate quality.
-            Elevate your lifestyle with our exclusive collection.
+            {t('home.heroSubtitle')}
           </p>
 
           {/* CTA Buttons */}
@@ -62,22 +63,22 @@ const HomePage = () => {
               to="/products"
               className="btn-primary inline-flex items-center gap-2 text-lg"
             >
-              Explore Collection <ArrowRight className="w-6 h-6" />
+              {t('home.exploreCollection')} <ArrowRight className="w-6 h-6" />
             </Link>
             <Link
               to="/about"
               className="btn-glass inline-flex items-center gap-2 text-lg"
             >
-              Learn More
+              {t('home.learnMore')}
             </Link>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
             {[
-              { number: '10K+', label: 'Happy Customers' },
-              { number: '500+', label: 'Premium Products' },
-              { number: '4.9', label: 'Average Rating' },
+              { number: '10K+', label: t('home.happyCustomers') },
+              { number: '500+', label: t('home.premiumProducts') },
+              { number: '4.9', label: t('home.averageRating') },
             ].map((stat, index) => (
               <div key={index} className="text-center animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className="text-3xl md:text-4xl font-bold text-gradient-orange mb-2">
@@ -95,9 +96,9 @@ const HomePage = () => {
       {/* Features Section */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
         {[
-          { icon: Truck, title: 'Free Shipping', desc: 'On all orders over $100', color: 'orange' },
-          { icon: Shield, title: 'Secure Payment', desc: '100% secure transactions', color: 'orange' },
-          { icon: Award, title: 'Premium Quality', desc: 'Certified authentic products', color: 'orange' },
+          { icon: Truck, title: t('home.freeShipping'), desc: t('home.freeShippingDesc'), color: 'orange' },
+          { icon: Shield, title: t('home.securePayment'), desc: t('home.securePaymentDesc'), color: 'orange' },
+          { icon: Award, title: t('home.premiumQuality'), desc: t('home.premiumQualityDesc'), color: 'orange' },
         ].map((feature, index) => (
           <div
             key={index}
@@ -125,17 +126,17 @@ const HomePage = () => {
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
           <div className="text-center md:text-left">
             <h2 className="text-hero text-gradient-orange mb-3">
-              Featured Products
+              {t('home.featuredProducts')}
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Handpicked luxury items just for you
+              {t('home.featuredProductsSubtitle')}
             </p>
           </div>
           <Link
             to="/products"
             className="btn-glass inline-flex items-center gap-2"
           >
-            View All <ArrowRight className="w-5 h-5" />
+            {t('home.viewAll')} <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
 
@@ -144,7 +145,7 @@ const HomePage = () => {
         ) : featuredProducts.length === 0 ? (
           <div className="text-center py-20 glass-card">
             <p className="text-gray-600 dark:text-gray-400 text-lg">
-              No featured products available at the moment.
+              {t('home.noFeaturedProducts')}
             </p>
           </div>
         ) : (
@@ -170,17 +171,16 @@ const HomePage = () => {
         <div className="relative glass-panel p-16 text-center text-white">
           <Zap className="w-20 h-20 mx-auto mb-6 animate-bounce-slow" />
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Start Your Premium Journey
+            {t('home.ctaTitle')}
           </h2>
           <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
-            Join thousands of satisfied customers who trust LuxStore for their lifestyle needs.
-            Get exclusive access to premium products and special offers.
+            {t('home.ctaSubtitle')}
           </p>
           <Link
             to="/register"
             className="inline-flex items-center gap-2 px-10 py-4 bg-white text-orange-600 font-bold rounded-2xl hover:scale-105 transition-transform shadow-2xl"
           >
-            Create Free Account <ArrowRight className="w-6 h-6" />
+            {t('home.ctaButton')} <ArrowRight className="w-6 h-6" />
           </Link>
         </div>
       </section>

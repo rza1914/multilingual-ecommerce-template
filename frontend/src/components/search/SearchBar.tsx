@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Loader2 } from 'lucide-react';
+import { useTranslation } from '../../config/i18n';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -15,13 +16,16 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
-  placeholder = 'Search products...',
+  placeholder,
   debounceMs = 500,
   loading = false,
 }) => {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const defaultPlaceholder = placeholder || t('search.placeholder');
 
   /**
    * Debounced search effect
@@ -86,7 +90,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder={placeholder}
+          placeholder={defaultPlaceholder}
           className="
             w-full pl-12 pr-20 py-4 bg-transparent
             text-gray-900 dark:text-white
@@ -111,7 +115,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 transition-colors duration-200
                 group
               "
-              aria-label="Clear search"
+              aria-label={t('search.clearButton')}
             >
               <X className="w-4 h-4 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />
             </button>
@@ -123,7 +127,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       {isFocused && !query && (
         <div className="absolute top-full mt-2 left-0 right-0">
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            Type to search products by name or description
+            {t('search.hint')}
           </p>
         </div>
       )}

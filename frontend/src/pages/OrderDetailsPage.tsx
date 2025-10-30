@@ -6,8 +6,10 @@ import {
   ArrowLeft, Package, Truck, Home, CheckCircle, Clock,
   MapPin, CreditCard, Phone, Mail, X, AlertCircle
 } from 'lucide-react';
+import { useTranslation } from '../utils/i18n';
 
 export default function OrderDetailsPage() {
+  const { t } = useTranslation();
   const { orderId } = useParams<{ orderId: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -47,7 +49,7 @@ export default function OrderDetailsPage() {
       setShowCancelModal(false);
     } catch (error) {
       console.error('Failed to cancel order:', error);
-      alert('Failed to cancel order. Please try again.');
+      alert(t('order.cancelFailed'));
     } finally {
       setCancelling(false);
     }
@@ -104,7 +106,7 @@ export default function OrderDetailsPage() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Loading order details...</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('order.loadingDetails')}</p>
             </div>
           </div>
         </div>
@@ -120,16 +122,16 @@ export default function OrderDetailsPage() {
             <AlertCircle className="w-16 h-16 text-red-500" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Order Not Found
+            {t('order.notFoundTitle')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            The order you're looking for doesn't exist or you don't have access to it.
+            {t('order.notFoundMessage')}
           </p>
           <button
             onClick={() => navigate('/orders')}
             className="px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
           >
-            Back to Orders
+            {t('order.backToOrders')}
           </button>
         </div>
       </div>
@@ -149,7 +151,7 @@ export default function OrderDetailsPage() {
           className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-6 font-semibold transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back to Orders
+          {t('order.backToOrders')}
         </button>
 
         {/* Header */}
@@ -157,22 +159,22 @@ export default function OrderDetailsPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Order #{order.id.toString().padStart(6, '0')}
+                {t('order.orderNumber')} #{order.id.toString().padStart(6, '0')}
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                Placed on {formatDate(order.created_at)}
+                {t('order.placedOn')} {formatDate(order.created_at)}
               </p>
             </div>
             <div className="flex items-center gap-3">
               <span className={`text-2xl font-bold capitalize ${getStatusColor(order.status)}`}>
-                {order.status}
+                {t(`order.${order.status.toLowerCase()}`)}
               </span>
               {canCancel && (
                 <button
                   onClick={() => setShowCancelModal(true)}
                   className="px-4 py-2 border-2 border-red-500 text-red-500 rounded-xl font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                 >
-                  Cancel Order
+                  {t('order.cancelOrder')}
                 </button>
               )}
             </div>
@@ -198,7 +200,7 @@ export default function OrderDetailsPage() {
                   <p className={`text-sm font-semibold ${
                     currentStep >= 1 ? 'text-green-500' : 'text-gray-500'
                   }`}>
-                    Confirmed
+                    {t('order.confirmed')}
                   </p>
                 </div>
 
@@ -218,7 +220,7 @@ export default function OrderDetailsPage() {
                   <p className={`text-sm font-semibold ${
                     currentStep >= 2 ? 'text-green-500' : 'text-gray-500'
                   }`}>
-                    Processing
+                    {t('order.processing')}
                   </p>
                 </div>
 
@@ -238,7 +240,7 @@ export default function OrderDetailsPage() {
                   <p className={`text-sm font-semibold ${
                     currentStep >= 3 ? 'text-green-500' : 'text-gray-500'
                   }`}>
-                    Shipped
+                    {t('order.shipped')}
                   </p>
                 </div>
 
@@ -258,7 +260,7 @@ export default function OrderDetailsPage() {
                   <p className={`text-sm font-semibold ${
                     currentStep >= 4 ? 'text-green-500' : 'text-gray-500'
                   }`}>
-                    Delivered
+                    {t('order.delivered')}
                   </p>
                 </div>
               </div>
@@ -272,10 +274,10 @@ export default function OrderDetailsPage() {
                 <X className="w-6 h-6 text-red-500" />
                 <div>
                   <p className="font-semibold text-red-700 dark:text-red-400">
-                    Order Cancelled
+                    {t('order.orderCancelled')}
                   </p>
                   <p className="text-sm text-red-600 dark:text-red-300">
-                    This order has been cancelled and will not be processed.
+                    {t('order.orderCancelledMessage')}
                   </p>
                 </div>
               </div>
@@ -290,7 +292,7 @@ export default function OrderDetailsPage() {
             {/* Order Items */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border-2 border-gray-100 dark:border-gray-800">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Order Items ({order.items?.length || 0})
+                {t('order.orderItems')} ({order.items?.length || 0})
               </h2>
               <div className="space-y-4">
                 {order.items?.map((item: any) => (
@@ -312,10 +314,10 @@ export default function OrderDetailsPage() {
                         {item.product?.title_en}
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        Quantity: {item.quantity}
+                        {t('order.quantity')}: {item.quantity}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        ${item.price_at_time.toFixed(2)} each
+                        ${item.price_at_time.toFixed(2)} {t('order.each')}
                       </p>
                     </div>
                     <div className="text-right">
@@ -335,7 +337,7 @@ export default function OrderDetailsPage() {
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Shipping Address
+                  {t('order.shippingAddress')}
                 </h2>
               </div>
               <div className="space-y-2 text-gray-700 dark:text-gray-300">
@@ -361,7 +363,7 @@ export default function OrderDetailsPage() {
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xl border-2 border-gray-100 dark:border-gray-800 sticky top-24">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Order Summary
+                {t('order.orderSummary')}
               </h2>
 
               {/* Delivery Method */}
@@ -369,13 +371,13 @@ export default function OrderDetailsPage() {
                 <div className="flex items-center gap-2 mb-2">
                   <Truck className="w-5 h-5 text-orange-500" />
                   <h3 className="font-semibold text-gray-900 dark:text-white">
-                    Delivery Method
+                    {t('order.deliveryMethod')}
                   </h3>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">
-                  {order.shipping_method === 'standard' && 'Standard Shipping (5-7 days)'}
-                  {order.shipping_method === 'express' && 'Express Shipping (2-3 days)'}
-                  {order.shipping_method === 'nextday' && 'Next Day Delivery'}
+                  {order.shipping_method === 'standard' && t('order.standardShipping')}
+                  {order.shipping_method === 'express' && t('order.expressShipping')}
+                  {order.shipping_method === 'nextday' && t('order.nextDayDelivery')}
                 </p>
               </div>
 
@@ -384,31 +386,31 @@ export default function OrderDetailsPage() {
                 <div className="flex items-center gap-2 mb-2">
                   <CreditCard className="w-5 h-5 text-orange-500" />
                   <h3 className="font-semibold text-gray-900 dark:text-white">
-                    Payment Method
+                    {t('order.paymentMethod')}
                   </h3>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">
-                  {order.payment_method === 'card' ? 'Credit / Debit Card' : 'Cash on Delivery'}
+                  {order.payment_method === 'card' ? t('order.creditDebitCard') : t('order.cashOnDelivery')}
                 </p>
               </div>
 
               {/* Price Breakdown */}
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                  <span>Subtotal</span>
+                  <span>{t('order.subtotal')}</span>
                   <span>${order.subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                  <span>Shipping</span>
+                  <span>{t('order.shipping')}</span>
                   <span>${order.shipping_cost.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                  <span>Tax</span>
+                  <span>{t('order.tax')}</span>
                   <span>${order.tax.toFixed(2)}</span>
                 </div>
                 {order.discount > 0 && (
                   <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold">
-                    <span>Discount</span>
+                    <span>{t('order.discount')}</span>
                     <span>-${order.discount.toFixed(2)}</span>
                   </div>
                 )}
@@ -418,7 +420,7 @@ export default function OrderDetailsPage() {
               <div className="pt-4 border-t-2 border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-gray-900 dark:text-white">
-                    Total
+                    {t('order.total')}
                   </span>
                   <span className="text-3xl font-bold text-orange-500">
                     ${order.total.toFixed(2)}
@@ -431,7 +433,7 @@ export default function OrderDetailsPage() {
                 onClick={() => navigate('/products')}
                 className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/50 transition-all"
               >
-                Continue Shopping
+                {t('order.continueShopping')}
               </button>
             </div>
           </div>
@@ -452,10 +454,10 @@ export default function OrderDetailsPage() {
                   <AlertCircle className="w-10 h-10 text-red-500" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                  Cancel Order?
+                  {t('order.cancelOrderConfirm')}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Are you sure you want to cancel this order? This action cannot be undone.
+                  {t('order.cancelOrderMessage')}
                 </p>
               </div>
               <div className="flex gap-3">
@@ -464,7 +466,7 @@ export default function OrderDetailsPage() {
                   disabled={cancelling}
                   className="flex-1 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
-                  Keep Order
+                  {t('order.keepOrder')}
                 </button>
                 <button
                   onClick={handleCancelOrder}
@@ -474,10 +476,10 @@ export default function OrderDetailsPage() {
                   {cancelling ? (
                     <span className="flex items-center justify-center gap-2">
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Cancelling...
+                      {t('order.cancelling')}
                     </span>
                   ) : (
-                    'Yes, Cancel'
+                    t('order.yesCancel')
                   )}
                 </button>
               </div>

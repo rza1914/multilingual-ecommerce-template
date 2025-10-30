@@ -10,8 +10,10 @@ import {
 import {
   ShoppingCart, Eye, Edit2, Trash2, Package, X
 } from 'lucide-react';
+import { useTranslation } from '../../config/i18n';
 
 export default function AdminOrders() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAdmin, isAuthenticated } = useAuth();
   const [orders, setOrders] = useState<AdminOrder[]>([]);
@@ -61,14 +63,14 @@ export default function AdminOrders() {
       fetchOrders(selectedStatus);
     } catch (error) {
       console.error('Failed to update status:', error);
-      alert('Failed to update order status. Please try again.');
+      alert(t('admin.updateStatusError'));
     } finally {
       setUpdating(false);
     }
   };
 
   const handleDelete = async (order: AdminOrder) => {
-    if (!window.confirm(`Are you sure you want to delete order #${order.id}?`)) {
+    if (!window.confirm(t('admin.deleteOrderConfirm', { id: order.id }))) {
       return;
     }
 
@@ -77,7 +79,7 @@ export default function AdminOrders() {
       fetchOrders(selectedStatus);
     } catch (error) {
       console.error('Failed to delete order:', error);
-      alert('Failed to delete order. Please try again.');
+      alert(t('admin.deleteOrderError'));
     }
   };
 
@@ -110,12 +112,12 @@ export default function AdminOrders() {
   };
 
   const statusFilters = [
-    { value: 'all', label: 'All Orders', count: orders.length },
-    { value: 'pending', label: 'Pending', icon: '⏱️' },
-    { value: 'processing', label: 'Processing', icon: '📦' },
-    { value: 'shipped', label: 'Shipped', icon: '🚚' },
-    { value: 'delivered', label: 'Delivered', icon: '✅' },
-    { value: 'cancelled', label: 'Cancelled', icon: '❌' },
+    { value: 'all', label: t('admin.allOrders'), count: orders.length },
+    { value: 'pending', label: t('order.pending'), icon: '⏱️' },
+    { value: 'processing', label: t('order.processing'), icon: '📦' },
+    { value: 'shipped', label: t('order.shipped'), icon: '🚚' },
+    { value: 'delivered', label: t('order.delivered'), icon: '✅' },
+    { value: 'cancelled', label: t('order.cancelled'), icon: '❌' },
   ];
 
   if (loading) {
@@ -125,7 +127,7 @@ export default function AdminOrders() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Loading orders...</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('admin.loadingOrders')}</p>
             </div>
           </div>
         </div>
@@ -140,10 +142,10 @@ export default function AdminOrders() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Order Management
+            {t('admin.orderManagement')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Manage and track customer orders
+            {t('admin.orderManagementDesc')}
           </p>
         </div>
 
@@ -172,12 +174,12 @@ export default function AdminOrders() {
           <div className="text-center py-16 bg-white dark:bg-gray-900 rounded-2xl">
             <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              No orders found
+              {t('admin.noOrdersFound')}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               {selectedStatus === 'all'
-                ? 'No orders have been placed yet'
-                : `No ${selectedStatus} orders`
+                ? t('admin.noOrdersPlaced')
+                : t('admin.noStatusOrders', { status: t(`order.${selectedStatus}`) })
               }
             </p>
           </div>
@@ -188,25 +190,25 @@ export default function AdminOrders() {
                 <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Order ID
+                      {t('admin.orderID')}
                     </th>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Customer
+                      {t('admin.customer')}
                     </th>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Date
+                      {t('admin.date')}
                     </th>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Items
+                      {t('admin.items')}
                     </th>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Total
+                      {t('admin.total')}
                     </th>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Status
+                      {t('admin.status')}
                     </th>
                     <th className="text-left py-4 px-6 text-gray-600 dark:text-gray-400 font-semibold">
-                      Actions
+                      {t('admin.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -247,7 +249,7 @@ export default function AdminOrders() {
                       </td>
                       <td className="py-4 px-6">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusColor(order.status)}`}>
-                          {order.status}
+                          {t(`order.${order.status}`)}
                         </span>
                       </td>
                       <td className="py-4 px-6">
@@ -255,21 +257,21 @@ export default function AdminOrders() {
                           <button
                             onClick={() => navigate(`/orders/${order.id}`)}
                             className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                            title="View Details"
+                            title={t('admin.viewDetails')}
                           >
                             <Eye className="w-5 h-5" />
                           </button>
                           <button
                             onClick={() => openEditModal(order)}
                             className="p-2 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors"
-                            title="Update Status"
+                            title={t('admin.updateStatus')}
                           >
                             <Edit2 className="w-5 h-5" />
                           </button>
                           <button
                             onClick={() => handleDelete(order)}
                             className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                            title="Delete Order"
+                            title={t('admin.deleteOrder')}
                           >
                             <Trash2 className="w-5 h-5" />
                           </button>
@@ -295,7 +297,7 @@ export default function AdminOrders() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-md w-full shadow-2xl border-2 border-gray-200 dark:border-gray-800">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Update Order Status
+                  {t('admin.updateOrderStatus')}
                 </h2>
                 <button
                   onClick={() => setEditingOrder(null)}
@@ -308,12 +310,12 @@ export default function AdminOrders() {
 
               <div className="mb-6">
                 <p className="text-gray-600 dark:text-gray-400 mb-2">
-                  Order: <span className="font-semibold text-gray-900 dark:text-white">
+                  {t('admin.orderLabel')}: <span className="font-semibold text-gray-900 dark:text-white">
                     #{editingOrder.id.toString().padStart(6, '0')}
                   </span>
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Customer: <span className="font-semibold text-gray-900 dark:text-white">
+                  {t('admin.customerLabel')}: <span className="font-semibold text-gray-900 dark:text-white">
                     {editingOrder.full_name}
                   </span>
                 </p>
@@ -321,18 +323,18 @@ export default function AdminOrders() {
 
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  New Status
+                  {t('admin.newStatus')}
                 </label>
                 <select
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value)}
                   className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                 >
-                  <option value="pending">⏱️ Pending</option>
-                  <option value="processing">📦 Processing</option>
-                  <option value="shipped">🚚 Shipped</option>
-                  <option value="delivered">✅ Delivered</option>
-                  <option value="cancelled">❌ Cancelled</option>
+                  <option value="pending">⏱️ {t('order.pending')}</option>
+                  <option value="processing">📦 {t('order.processing')}</option>
+                  <option value="shipped">🚚 {t('order.shipped')}</option>
+                  <option value="delivered">✅ {t('order.delivered')}</option>
+                  <option value="cancelled">❌ {t('order.cancelled')}</option>
                 </select>
               </div>
 
@@ -342,7 +344,7 @@ export default function AdminOrders() {
                   disabled={updating}
                   className="flex-1 px-6 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
                 <button
                   onClick={handleUpdateStatus}
@@ -352,10 +354,10 @@ export default function AdminOrders() {
                   {updating ? (
                     <span className="flex items-center justify-center gap-2">
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Updating...
+                      {t('admin.updating')}
                     </span>
                   ) : (
-                    'Update Status'
+                    t('admin.updateStatus')
                   )}
                 </button>
               </div>

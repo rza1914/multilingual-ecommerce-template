@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { ArrowLeft, Check, Truck, Package, Zap, CreditCard, Wallet, MapPin, Phone, Mail, ShoppingBag } from 'lucide-react';
 import { createOrder } from '../services/order.service';
+import { useTranslation } from '../utils/i18n';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { cartItems, getTotalItems, getSubtotal, getTax, getShipping, getDiscount, clearCart } = useCart();
   const [currentStep, setCurrentStep] = useState(1);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -42,33 +44,33 @@ export default function CheckoutPage() {
     const newErrors: Record<string, string> = {};
 
     if (!shippingData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
+      newErrors.fullName = t('checkout.fullNameRequired');
     }
 
     if (!shippingData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('checkout.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(shippingData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = t('checkout.emailInvalid');
     }
 
     if (!shippingData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
+      newErrors.phone = t('checkout.phoneRequired');
     }
 
     if (!shippingData.address.trim()) {
-      newErrors.address = 'Address is required';
+      newErrors.address = t('checkout.addressRequired');
     }
 
     if (!shippingData.city.trim()) {
-      newErrors.city = 'City is required';
+      newErrors.city = t('checkout.cityRequired');
     }
 
     if (!shippingData.state.trim()) {
-      newErrors.state = 'State is required';
+      newErrors.state = t('checkout.stateRequired');
     }
 
     if (!shippingData.zipCode.trim()) {
-      newErrors.zipCode = 'ZIP code is required';
+      newErrors.zipCode = t('checkout.zipRequired');
     }
 
     setErrors(newErrors);
@@ -81,16 +83,16 @@ export default function CheckoutPage() {
       <div className="min-h-screen pt-24 pb-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Your cart is empty
+            {t('checkout.emptyCartTitle')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Add some items to your cart before checking out
+            {t('checkout.emptyCartMessage')}
           </p>
           <button
             onClick={() => navigate('/products')}
             className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all"
           >
-            Browse Products
+            {t('checkout.browseProducts')}
           </button>
         </div>
       </div>
@@ -98,10 +100,10 @@ export default function CheckoutPage() {
   }
 
   const steps = [
-    { number: 1, name: 'Shipping' },
-    { number: 2, name: 'Delivery' },
-    { number: 3, name: 'Payment' },
-    { number: 4, name: 'Review' },
+    { number: 1, name: t('checkout.steps.shipping') },
+    { number: 2, name: t('checkout.steps.delivery') },
+    { number: 3, name: t('checkout.steps.payment') },
+    { number: 4, name: t('checkout.steps.review') },
   ];
 
   return (
@@ -115,15 +117,15 @@ export default function CheckoutPage() {
             className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 mb-4 font-semibold transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Cart
+            {t('checkout.backToCart')}
           </button>
 
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Checkout
+            {t('checkout.title')}
           </h1>
 
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            {getTotalItems()} {getTotalItems() === 1 ? 'item' : 'items'} • Total: ${finalTotal.toFixed(2)}
+            {t(getTotalItems() === 1 ? 'checkout.itemCountSingular' : 'checkout.itemCount', { count: getTotalItems() })} • {t('checkout.total')}: ${finalTotal.toFixed(2)}
           </p>
         </div>
 
@@ -181,14 +183,14 @@ export default function CheckoutPage() {
           {currentStep === 1 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Shipping Address
+                {t('checkout.shippingAddress')}
               </h2>
 
               <form className="space-y-6">
                 {/* Full Name */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Full Name *
+                    {t('checkout.fullName')} {t('checkout.required')}
                   </label>
                   <input
                     type="text"
@@ -201,7 +203,7 @@ export default function CheckoutPage() {
                                 ? 'border-red-500 focus:border-red-500'
                                 : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                               }`}
-                    placeholder="John Doe"
+                    placeholder={t('checkout.fullNamePlaceholder')}
                   />
                   {errors.fullName && (
                     <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
@@ -213,7 +215,7 @@ export default function CheckoutPage() {
                   {/* Email */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Email Address *
+                      {t('checkout.emailAddress')} {t('checkout.required')}
                     </label>
                     <input
                       type="email"
@@ -226,7 +228,7 @@ export default function CheckoutPage() {
                                   ? 'border-red-500 focus:border-red-500'
                                   : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                                 }`}
-                      placeholder="john@example.com"
+                      placeholder={t('checkout.emailPlaceholder')}
                     />
                     {errors.email && (
                       <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -236,7 +238,7 @@ export default function CheckoutPage() {
                   {/* Phone */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Phone Number *
+                      {t('checkout.phoneNumber')} {t('checkout.required')}
                     </label>
                     <input
                       type="tel"
@@ -249,7 +251,7 @@ export default function CheckoutPage() {
                                   ? 'border-red-500 focus:border-red-500'
                                   : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                                 }`}
-                      placeholder="+1 (555) 123-4567"
+                      placeholder={t('checkout.phonePlaceholder')}
                     />
                     {errors.phone && (
                       <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -260,7 +262,7 @@ export default function CheckoutPage() {
                 {/* Address */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Street Address *
+                    {t('checkout.streetAddress')} {t('checkout.required')}
                   </label>
                   <input
                     type="text"
@@ -273,7 +275,7 @@ export default function CheckoutPage() {
                                 ? 'border-red-500 focus:border-red-500'
                                 : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                               }`}
-                    placeholder="123 Main Street, Apt 4B"
+                    placeholder={t('checkout.addressPlaceholder')}
                   />
                   {errors.address && (
                     <p className="text-red-500 text-sm mt-1">{errors.address}</p>
@@ -285,7 +287,7 @@ export default function CheckoutPage() {
                   {/* City */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      City *
+                      {t('checkout.city')} {t('checkout.required')}
                     </label>
                     <input
                       type="text"
@@ -298,7 +300,7 @@ export default function CheckoutPage() {
                                   ? 'border-red-500 focus:border-red-500'
                                   : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                                 }`}
-                      placeholder="New York"
+                      placeholder={t('checkout.cityPlaceholder')}
                     />
                     {errors.city && (
                       <p className="text-red-500 text-sm mt-1">{errors.city}</p>
@@ -308,7 +310,7 @@ export default function CheckoutPage() {
                   {/* State */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      State *
+                      {t('checkout.state')} {t('checkout.required')}
                     </label>
                     <input
                       type="text"
@@ -321,7 +323,7 @@ export default function CheckoutPage() {
                                   ? 'border-red-500 focus:border-red-500'
                                   : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                                 }`}
-                      placeholder="NY"
+                      placeholder={t('checkout.statePlaceholder')}
                     />
                     {errors.state && (
                       <p className="text-red-500 text-sm mt-1">{errors.state}</p>
@@ -331,7 +333,7 @@ export default function CheckoutPage() {
                   {/* ZIP Code */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      ZIP Code *
+                      {t('checkout.zipCode')} {t('checkout.required')}
                     </label>
                     <input
                       type="text"
@@ -344,7 +346,7 @@ export default function CheckoutPage() {
                                   ? 'border-red-500 focus:border-red-500'
                                   : 'border-gray-200 dark:border-gray-700 focus:border-orange-500'
                                 }`}
-                      placeholder="10001"
+                      placeholder={t('checkout.zipPlaceholder')}
                     />
                     {errors.zipCode && (
                       <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>
@@ -355,7 +357,7 @@ export default function CheckoutPage() {
                 {/* Country */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Country
+                    {t('checkout.country')}
                   </label>
                   <select
                     autoComplete="country-name"
@@ -363,10 +365,10 @@ export default function CheckoutPage() {
                     onChange={(e) => setShippingData({ ...shippingData, country: e.target.value })}
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none transition-colors"
                   >
-                    <option value="United States">United States</option>
-                    <option value="Canada">Canada</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Australia">Australia</option>
+                    <option value="United States">{t('checkout.countries.us')}</option>
+                    <option value="Canada">{t('checkout.countries.ca')}</option>
+                    <option value="United Kingdom">{t('checkout.countries.uk')}</option>
+                    <option value="Australia">{t('checkout.countries.au')}</option>
                   </select>
                 </div>
 
@@ -378,7 +380,7 @@ export default function CheckoutPage() {
                     className="w-5 h-5 rounded border-2 border-orange-500 text-orange-500 focus:ring-orange-500"
                   />
                   <label htmlFor="saveAddress" className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                    Save this address for future orders
+                    {t('checkout.saveAddress')}
                   </label>
                 </div>
               </form>
@@ -389,10 +391,10 @@ export default function CheckoutPage() {
           {currentStep === 2 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Delivery Method
+                {t('checkout.deliveryMethod')}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Choose your preferred shipping method
+                {t('checkout.chooseShippingMethod')}
               </p>
 
               <div className="space-y-4">
@@ -416,14 +418,14 @@ export default function CheckoutPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                            Standard Shipping
+                            {t('checkout.standardShipping')}
                           </h3>
                           {shippingMethod === 'standard' && (
                             <Check className="w-5 h-5 text-orange-500" />
                           )}
                         </div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Delivery in 5-7 business days
+                          {t('checkout.standardShippingDays')}
                         </p>
                       </div>
                     </div>
@@ -461,14 +463,14 @@ export default function CheckoutPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                            Express Shipping
+                            {t('checkout.expressShipping')}
                           </h3>
                           {shippingMethod === 'express' && (
                             <Check className="w-5 h-5 text-orange-500" />
                           )}
                         </div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Delivery in 2-3 business days
+                          {t('checkout.expressShippingDays')}
                         </p>
                       </div>
                     </div>
@@ -506,14 +508,14 @@ export default function CheckoutPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                            Next Day Delivery
+                            {t('checkout.nextDayDelivery')}
                           </h3>
                           {shippingMethod === 'nextday' && (
                             <Check className="w-5 h-5 text-orange-500" />
                           )}
                         </div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Delivery by tomorrow
+                          {t('checkout.nextDayDeliveryDesc')}
                         </p>
                       </div>
                     </div>
@@ -538,10 +540,10 @@ export default function CheckoutPage() {
           {currentStep === 3 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Payment Method
+                {t('checkout.paymentMethod')}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Choose how you'd like to pay
+                {t('checkout.choosePaymentMethod')}
               </p>
 
               {/* Payment Method Selection */}
@@ -564,7 +566,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-bold text-gray-900 dark:text-white">
-                        Credit / Debit Card
+                        {t('checkout.creditDebitCard')}
                       </h3>
                     </div>
                     {paymentMethod === 'card' && (
@@ -599,7 +601,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-bold text-gray-900 dark:text-white">
-                        Cash on Delivery
+                        {t('checkout.cashOnDelivery')}
                       </h3>
                     </div>
                     {paymentMethod === 'cod' && (
@@ -621,20 +623,20 @@ export default function CheckoutPage() {
               {paymentMethod === 'card' && (
                 <div className="space-y-6 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                    Card Details
+                    {t('checkout.cardDetails')}
                   </h3>
 
                   {/* Card Number */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Card Number
+                      {t('checkout.cardNumber')}
                     </label>
                     <input
                       type="text"
                       autoComplete="cc-number"
                       value={cardData.cardNumber}
                       onChange={(e) => setCardData({ ...cardData, cardNumber: e.target.value })}
-                      placeholder="1234 5678 9012 3456"
+                      placeholder={t('checkout.cardNumberPlaceholder')}
                       maxLength={19}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                     />
@@ -643,14 +645,14 @@ export default function CheckoutPage() {
                   {/* Cardholder Name */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Cardholder Name
+                      {t('checkout.cardholderName')}
                     </label>
                     <input
                       type="text"
                       autoComplete="cc-name"
                       value={cardData.cardName}
                       onChange={(e) => setCardData({ ...cardData, cardName: e.target.value })}
-                      placeholder="John Doe"
+                      placeholder={t('checkout.cardholderNamePlaceholder')}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                     />
                   </div>
@@ -659,28 +661,28 @@ export default function CheckoutPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        Expiry Date
+                        {t('checkout.expiryDate')}
                       </label>
                       <input
                         type="text"
                         autoComplete="cc-exp"
                         value={cardData.expiryDate}
                         onChange={(e) => setCardData({ ...cardData, expiryDate: e.target.value })}
-                        placeholder="MM/YY"
+                        placeholder={t('checkout.expiryDatePlaceholder')}
                         maxLength={5}
                         className="w-full px-4 py-3 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        CVV
+                        {t('checkout.cvv')}
                       </label>
                       <input
                         type="text"
                         autoComplete="cc-csc"
                         value={cardData.cvv}
                         onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
-                        placeholder="123"
+                        placeholder={t('checkout.cvvPlaceholder')}
                         maxLength={3}
                         className="w-full px-4 py-3 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                       />
@@ -691,7 +693,7 @@ export default function CheckoutPage() {
                   <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
                     <span className="text-2xl">🔒</span>
                     <p className="text-sm text-blue-800 dark:text-blue-300">
-                      Your payment information is encrypted and secure. We never store your card details.
+                      {t('checkout.securePaymentInfo')}
                     </p>
                   </div>
                 </div>
@@ -704,10 +706,10 @@ export default function CheckoutPage() {
                     <span className="text-2xl">💵</span>
                     <div>
                       <h4 className="font-bold text-green-800 dark:text-green-300 mb-2">
-                        Cash on Delivery
+                        {t('checkout.codTitle')}
                       </h4>
                       <p className="text-sm text-green-700 dark:text-green-400">
-                        You'll pay in cash when your order is delivered to your doorstep. Please have exact change ready.
+                        {t('checkout.codDescription')}
                       </p>
                     </div>
                   </div>
@@ -720,10 +722,10 @@ export default function CheckoutPage() {
           {currentStep === 4 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Review Your Order
+                {t('checkout.reviewOrder')}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-8">
-                Please review your order details before placing your order
+                {t('checkout.reviewOrderMessage')}
               </p>
 
               <div className="space-y-6">
@@ -735,7 +737,7 @@ export default function CheckoutPage() {
                       <MapPin className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Shipping Address
+                      {t('checkout.shippingAddress')}
                     </h3>
                   </div>
                   <div className="space-y-2 text-gray-700 dark:text-gray-300">
@@ -758,7 +760,7 @@ export default function CheckoutPage() {
                     onClick={() => setCurrentStep(1)}
                     className="mt-4 text-orange-500 hover:text-orange-600 text-sm font-semibold"
                   >
-                    Edit Address
+                    {t('checkout.editAddress')}
                   </button>
                 </div>
 
@@ -769,15 +771,15 @@ export default function CheckoutPage() {
                       <Truck className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Delivery Method
+                      {t('checkout.deliveryMethod')}
                     </h3>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-gray-900 dark:text-white">
-                        {shippingMethod === 'standard' && 'Standard Shipping (5-7 days)'}
-                        {shippingMethod === 'express' && 'Express Shipping (2-3 days)'}
-                        {shippingMethod === 'nextday' && 'Next Day Delivery'}
+                        {shippingMethod === 'standard' && `${t('checkout.standardShipping')} (5-7 ${t('common.and')})`}
+                        {shippingMethod === 'express' && `${t('checkout.expressShipping')} (2-3 ${t('common.and')})`}
+                        {shippingMethod === 'nextday' && t('checkout.nextDayDelivery')}
                       </p>
                     </div>
                     <p className="text-lg font-bold text-orange-500">
@@ -790,7 +792,7 @@ export default function CheckoutPage() {
                     onClick={() => setCurrentStep(2)}
                     className="mt-4 text-orange-500 hover:text-orange-600 text-sm font-semibold"
                   >
-                    Change Method
+                    {t('checkout.changeMethod')}
                   </button>
                 </div>
 
@@ -805,12 +807,12 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Payment Method
+                      {t('checkout.paymentMethod')}
                     </h3>
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white mb-2">
-                      {paymentMethod === 'card' ? 'Credit / Debit Card' : 'Cash on Delivery'}
+                      {paymentMethod === 'card' ? t('checkout.creditDebitCard') : t('checkout.cashOnDelivery')}
                     </p>
                     {paymentMethod === 'card' && cardData.cardNumber && (
                       <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -819,7 +821,7 @@ export default function CheckoutPage() {
                     )}
                     {paymentMethod === 'cod' && (
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Pay in cash when your order arrives
+                        {t('checkout.payInCash')}
                       </p>
                     )}
                   </div>
@@ -827,7 +829,7 @@ export default function CheckoutPage() {
                     onClick={() => setCurrentStep(3)}
                     className="mt-4 text-orange-500 hover:text-orange-600 text-sm font-semibold"
                   >
-                    Change Payment
+                    {t('checkout.changePayment')}
                   </button>
                 </div>
 
@@ -838,7 +840,7 @@ export default function CheckoutPage() {
                       <ShoppingBag className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Order Items ({getTotalItems()})
+                      {t('checkout.orderItems')} ({getTotalItems()})
                     </h3>
                   </div>
                   <div className="space-y-4">
@@ -857,7 +859,7 @@ export default function CheckoutPage() {
                             {item.product.title_en}
                           </h4>
                           <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Quantity: {item.quantity}
+                            {t('checkout.quantity')}: {item.quantity}
                           </p>
                         </div>
                         <p className="font-bold text-gray-900 dark:text-white">
@@ -871,15 +873,15 @@ export default function CheckoutPage() {
                 {/* Order Summary */}
                 <div className="p-6 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl border-2 border-orange-200 dark:border-orange-800">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                    Order Summary
+                    {t('checkout.orderSummary')}
                   </h3>
                   <div className="space-y-3">
                     <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                      <span>Subtotal</span>
+                      <span>{t('checkout.subtotal')}</span>
                       <span>${getSubtotal().toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                      <span>Shipping</span>
+                      <span>{t('checkout.shipping')}</span>
                       <span>
                         {shippingMethod === 'standard' && '$10.00'}
                         {shippingMethod === 'express' && '$25.00'}
@@ -887,19 +889,19 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                     <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                      <span>Tax (10%)</span>
+                      <span>{t('checkout.tax')}</span>
                       <span>${getTax().toFixed(2)}</span>
                     </div>
                     {getDiscount() > 0 && (
                       <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold">
-                        <span>Discount</span>
+                        <span>{t('checkout.discount')}</span>
                         <span>-${getDiscount().toFixed(2)}</span>
                       </div>
                     )}
                     <div className="pt-3 border-t-2 border-orange-300 dark:border-orange-700">
                       <div className="flex justify-between items-center">
                         <span className="text-xl font-bold text-gray-900 dark:text-white">
-                          Total
+                          {t('checkout.total')}
                         </span>
                         <span className="text-3xl font-bold text-orange-500">
                           ${finalTotal.toFixed(2)}
@@ -918,13 +920,13 @@ export default function CheckoutPage() {
                     required
                   />
                   <label htmlFor="terms" className="text-sm text-blue-800 dark:text-blue-300">
-                    I agree to the{' '}
+                    {t('checkout.agreeToTerms')}{' '}
                     <a href="#" className="underline font-semibold hover:text-blue-600">
-                      Terms & Conditions
+                      {t('checkout.termsAndConditions')}
                     </a>{' '}
-                    and{' '}
+                    {t('checkout.and')}{' '}
                     <a href="#" className="underline font-semibold hover:text-blue-600">
-                      Privacy Policy
+                      {t('checkout.privacyPolicy')}
                     </a>
                   </label>
                 </div>
@@ -945,7 +947,7 @@ export default function CheckoutPage() {
               }}
               className="px-6 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
-              {currentStep === 1 ? 'Back to Cart' : 'Previous'}
+              {currentStep === 1 ? t('checkout.backToCart') : t('checkout.previous')}
             </button>
 
             {/* Next/Complete Button */}
@@ -960,7 +962,7 @@ export default function CheckoutPage() {
                   // Place Order
                   const termsCheckbox = document.getElementById('terms') as HTMLInputElement;
                   if (!termsCheckbox?.checked) {
-                    alert('Please accept the Terms & Conditions');
+                    alert(t('checkout.acceptTermsAlert'));
                     return;
                   }
 
@@ -1009,7 +1011,7 @@ export default function CheckoutPage() {
 
                     } catch (error: any) {
                       console.error('Order error:', error);
-                      alert('Failed to place order. Please try again.');
+                      alert(t('checkout.orderErrorMessage'));
                     } finally {
                       setIsPlacingOrder(false);
                     }
@@ -1024,10 +1026,10 @@ export default function CheckoutPage() {
               {isPlacingOrder ? (
                 <span className="flex items-center gap-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Placing Order...
+                  {t('checkout.placingOrder')}
                 </span>
               ) : (
-                currentStep === 4 ? 'Place Order' : 'Continue'
+                currentStep === 4 ? t('checkout.placeOrder') : t('checkout.continue')
               )}
             </button>
           </div>

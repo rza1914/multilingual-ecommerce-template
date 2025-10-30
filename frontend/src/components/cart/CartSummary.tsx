@@ -6,7 +6,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
+import { formatCurrency } from '../../utils/i18n';
 import CouponInput from './CouponInput';
 
 interface CartSummaryProps {
@@ -20,6 +22,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   showCheckoutButton = true,
   showContinueShopping = true,
 }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const {
     getSubtotal,
@@ -52,7 +55,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           <ShoppingCart className="w-5 h-5 text-orange-600 dark:text-orange-400" />
         </div>
         <h2 className="text-2xl font-bold text-gradient-orange">
-          Order Summary
+          {t('checkout.orderSummary')}
         </h2>
       </div>
 
@@ -60,22 +63,22 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       <div className="space-y-4 mb-6">
         {/* Subtotal */}
         <div className="flex justify-between items-center">
-          <span className="text-gray-700 dark:text-gray-300">Subtotal</span>
+          <span className="text-gray-700 dark:text-gray-300">{t('cart.subtotal')}</span>
           <span className="font-semibold text-gray-900 dark:text-white">
-            ${subtotal.toFixed(2)}
+            {formatCurrency(subtotal)}
           </span>
         </div>
 
         {/* Shipping */}
         <div className="flex justify-between items-center">
-          <span className="text-gray-700 dark:text-gray-300">Shipping</span>
+          <span className="text-gray-700 dark:text-gray-300">{t('checkout.shipping')}</span>
           {shipping === 0 ? (
             <span className="font-semibold text-green-600 dark:text-green-400">
-              FREE
+              {t('checkout.free')}
             </span>
           ) : (
             <span className="font-semibold text-gray-900 dark:text-white">
-              ${shipping.toFixed(2)}
+              {formatCurrency(shipping)}
             </span>
           )}
         </div>
@@ -83,19 +86,19 @@ const CartSummary: React.FC<CartSummaryProps> = ({
         {/* Tax */}
         <div className="flex justify-between items-center">
           <span className="text-gray-700 dark:text-gray-300">
-            Tax (10%)
+            {t('checkout.tax')}
           </span>
           <span className="font-semibold text-gray-900 dark:text-white">
-            ${tax.toFixed(2)}
+            {formatCurrency(tax)}
           </span>
         </div>
 
         {/* Discount */}
         {discount > 0 && (
           <div className="flex justify-between items-center text-green-600 dark:text-green-400">
-            <span>Discount</span>
+            <span>{t('checkout.discount')}</span>
             <span className="font-semibold">
-              -${discount.toFixed(2)}
+              -{formatCurrency(discount)}
             </span>
           </div>
         )}
@@ -107,10 +110,10 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       {/* Total */}
       <div className="flex justify-between items-center mb-6">
         <span className="text-xl font-bold text-gray-900 dark:text-white">
-          Total
+          {t('cart.total')}
         </span>
         <span className="text-3xl font-bold text-gradient-orange">
-          ${total.toFixed(2)}
+          {formatCurrency(total)}
         </span>
       </div>
 
@@ -128,7 +131,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           disabled={isEmpty}
           className="w-full btn-primary text-center mb-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          Proceed to Checkout
+          {t('cart.proceedToCheckout')}
           <ArrowRight className="w-5 h-5" />
         </button>
       )}
@@ -139,14 +142,14 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           to="/products"
           className="block text-center text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-semibold transition-colors"
         >
-          Continue Shopping
+          {t('cart.continueShopping')}
         </Link>
       )}
 
       {/* Security Note */}
       <div className="mt-6 glass p-4 rounded-2xl">
         <p className="text-xs text-gray-600 dark:text-gray-400 text-center leading-relaxed">
-          🔒 Secure checkout with SSL encryption
+          🔒 {t('checkout.secureCheckout')}
         </p>
       </div>
     </div>

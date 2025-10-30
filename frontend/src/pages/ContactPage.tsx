@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Toast, { ToastType } from '../components/Toast';
 
 const ContactPage = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,23 +30,23 @@ const ContactPage = () => {
     } = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('contact.nameRequired');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('contact.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = t('contact.emailInvalid');
     }
 
     if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
+      newErrors.subject = t('contact.subjectRequired');
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = t('contact.messageRequired');
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+      newErrors.message = t('contact.messageMinLength');
     }
 
     setErrors(newErrors);
@@ -59,7 +61,7 @@ const ContactPage = () => {
       console.log('Contact form submitted:', formData);
 
       // Show success toast
-      setToastMessage('Message sent successfully! We\'ll get back to you soon. 📧');
+      setToastMessage(t('contact.messageSent'));
       setToastType('success');
       setShowToast(true);
 
@@ -84,27 +86,27 @@ const ContactPage = () => {
   const contactInfo = [
     {
       icon: MapPin,
-      title: 'Address',
-      content: '123 Luxury Street, Premium District',
-      subcontent: 'New York, NY 10001',
+      title: t('contact.address'),
+      content: t('contact.addressLine1'),
+      subcontent: t('contact.addressLine2'),
     },
     {
       icon: Phone,
-      title: 'Phone',
-      content: '+1 (555) 123-4567',
-      subcontent: 'Mon-Fri: 9AM - 6PM',
+      title: t('contact.phone'),
+      content: t('contact.phoneNumber'),
+      subcontent: t('contact.phoneHours'),
     },
     {
       icon: Mail,
-      title: 'Email',
-      content: 'support@luxstore.com',
-      subcontent: 'We reply within 24 hours',
+      title: t('contact.email'),
+      content: t('contact.emailAddress'),
+      subcontent: t('contact.emailResponse'),
     },
     {
       icon: Clock,
-      title: 'Working Hours',
-      content: 'Monday - Friday: 9AM - 6PM',
-      subcontent: 'Saturday - Sunday: 10AM - 4PM',
+      title: t('contact.workingHours'),
+      content: t('contact.hoursWeekdays'),
+      subcontent: t('contact.hoursWeekends'),
     },
   ];
 
@@ -125,10 +127,10 @@ const ContactPage = () => {
 
           <div className="relative z-10">
             <h1 className="text-5xl md:text-6xl font-bold text-gradient-orange mb-6 animate-slide-up">
-              Get In Touch
+              {t('contact.title')}
             </h1>
             <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto animate-fade-in">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              {t('contact.subtitle')}
             </p>
           </div>
         </div>
@@ -166,13 +168,13 @@ const ContactPage = () => {
           {/* Contact Form */}
           <div className="glass-card p-8 rounded-3xl">
             <h2 className="text-3xl font-bold text-gradient-orange mb-6">
-              Send Us a Message
+              {t('contact.sendUsMessage')}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Input */}
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                  Your Name
+                  {t('contact.yourName')}
                 </label>
                 <input
                   type="text"
@@ -185,7 +187,7 @@ const ContactPage = () => {
                       ? 'border-red-500 focus:border-red-500'
                       : 'border-transparent focus:border-orange-500'
                   } outline-none transition-all text-gray-900 dark:text-white placeholder-gray-500`}
-                  placeholder="John Doe"
+                  placeholder={t('contact.namePlaceholder')}
                 />
                 {errors.name && <p className="mt-2 text-sm text-red-500">{errors.name}</p>}
               </div>
@@ -193,7 +195,7 @@ const ContactPage = () => {
               {/* Email Input */}
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                  Email Address
+                  {t('contact.emailAddress2')}
                 </label>
                 <input
                   type="email"
@@ -206,7 +208,7 @@ const ContactPage = () => {
                       ? 'border-red-500 focus:border-red-500'
                       : 'border-transparent focus:border-orange-500'
                   } outline-none transition-all text-gray-900 dark:text-white placeholder-gray-500`}
-                  placeholder="your@email.com"
+                  placeholder={t('contact.emailPlaceholder')}
                 />
                 {errors.email && <p className="mt-2 text-sm text-red-500">{errors.email}</p>}
               </div>
@@ -214,7 +216,7 @@ const ContactPage = () => {
               {/* Subject Input */}
               <div>
                 <label htmlFor="subject" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                  Subject
+                  {t('contact.subject')}
                 </label>
                 <input
                   type="text"
@@ -227,7 +229,7 @@ const ContactPage = () => {
                       ? 'border-red-500 focus:border-red-500'
                       : 'border-transparent focus:border-orange-500'
                   } outline-none transition-all text-gray-900 dark:text-white placeholder-gray-500`}
-                  placeholder="How can we help?"
+                  placeholder={t('contact.subjectPlaceholder')}
                 />
                 {errors.subject && <p className="mt-2 text-sm text-red-500">{errors.subject}</p>}
               </div>
@@ -235,7 +237,7 @@ const ContactPage = () => {
               {/* Message Textarea */}
               <div>
                 <label htmlFor="message" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                  Message
+                  {t('contact.message')}
                 </label>
                 <textarea
                   id="message"
@@ -248,7 +250,7 @@ const ContactPage = () => {
                       ? 'border-red-500 focus:border-red-500'
                       : 'border-transparent focus:border-orange-500'
                   } outline-none transition-all text-gray-900 dark:text-white placeholder-gray-500 resize-none`}
-                  placeholder="Tell us more about your inquiry..."
+                  placeholder={t('contact.messagePlaceholder')}
                 />
                 {errors.message && <p className="mt-2 text-sm text-red-500">{errors.message}</p>}
               </div>
@@ -256,7 +258,7 @@ const ContactPage = () => {
               {/* Submit Button */}
               <button type="submit" className="w-full btn-primary text-lg flex items-center justify-center gap-2">
                 <Send className="w-5 h-5" />
-                Send Message
+                {t('contact.sendMessage')}
               </button>
             </form>
           </div>
@@ -268,14 +270,14 @@ const ContactPage = () => {
               <div className="text-center">
                 <MapPin className="w-16 h-16 text-orange-500 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  Visit Our Store
+                  {t('contact.visitOurStore')}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  123 Luxury Street, Premium District<br />
-                  New York, NY 10001
+                  {t('contact.addressLine1')}<br />
+                  {t('contact.addressLine2')}
                 </p>
                 <button className="mt-6 btn-primary">
-                  Get Directions
+                  {t('contact.getDirections')}
                 </button>
               </div>
             </div>
@@ -283,10 +285,10 @@ const ContactPage = () => {
             {/* Social Media */}
             <div className="glass-card p-8 rounded-3xl">
               <h3 className="text-2xl font-bold text-gradient-orange mb-6">
-                Follow Us
+                {t('contact.followUs')}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Stay connected with us on social media for the latest updates and offers.
+                {t('contact.followUsSubtitle')}
               </p>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (

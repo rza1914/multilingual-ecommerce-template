@@ -12,8 +12,10 @@ import {
 import {
   Package, Plus, Edit2, Trash2, Search, X, Save
 } from 'lucide-react';
+import { useTranslation } from '../../config/i18n';
 
 export default function AdminProducts() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAdmin, isAuthenticated } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
@@ -105,14 +107,14 @@ export default function AdminProducts() {
       fetchProducts(searchTerm);
     } catch (error) {
       console.error('Failed to save product:', error);
-      alert('Failed to save product. Please try again.');
+      alert(t('admin.saveProductError'));
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (product: Product) => {
-    if (!window.confirm(`Are you sure you want to delete "${product.title}"?`)) {
+    if (!window.confirm(t('admin.deleteProductConfirm', { title: product.title }))) {
       return;
     }
 
@@ -121,7 +123,7 @@ export default function AdminProducts() {
       fetchProducts(searchTerm);
     } catch (error) {
       console.error('Failed to delete product:', error);
-      alert('Failed to delete product. Please try again.');
+      alert(t('admin.deleteProductError'));
     }
   };
 
@@ -132,7 +134,7 @@ export default function AdminProducts() {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Loading products...</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('admin.loadingProducts')}</p>
             </div>
           </div>
         </div>
@@ -148,10 +150,10 @@ export default function AdminProducts() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              Product Management
+              {t('admin.productManagement')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Manage your store products
+              {t('admin.productManagementDesc')}
             </p>
           </div>
           <button
@@ -159,7 +161,7 @@ export default function AdminProducts() {
             className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/50 transition-all"
           >
             <Plus className="w-5 h-5" />
-            Add Product
+            {t('admin.addProduct')}
           </button>
         </div>
 
@@ -173,7 +175,7 @@ export default function AdminProducts() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Search products..."
+                placeholder={t('admin.searchProductsPlaceholder')}
                 className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-800 rounded-xl focus:border-orange-500 focus:outline-none"
               />
             </div>
@@ -181,7 +183,7 @@ export default function AdminProducts() {
               onClick={handleSearch}
               className="px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
             >
-              Search
+              {t('admin.searchButton')}
             </button>
             {searchTerm && (
               <button
@@ -191,7 +193,7 @@ export default function AdminProducts() {
                 }}
                 className="px-4 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
-                Clear
+                {t('admin.clearButton')}
               </button>
             )}
           </div>
@@ -202,17 +204,17 @@ export default function AdminProducts() {
           <div className="text-center py-16 bg-white dark:bg-gray-900 rounded-2xl">
             <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              No products found
+              {t('admin.noProductsFound')}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              {searchTerm ? 'Try a different search term' : 'Start by adding your first product'}
+              {searchTerm ? t('admin.tryDifferentSearch') : t('admin.addFirstProduct')}
             </p>
             {!searchTerm && (
               <button
                 onClick={openCreateModal}
                 className="px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
               >
-                Add Product
+                {t('admin.addProduct')}
               </button>
             )}
           </div>
@@ -251,14 +253,14 @@ export default function AdminProducts() {
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
-                    Edit
+                    {t('common.edit')}
                   </button>
                   <button
                     onClick={() => handleDelete(product)}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
-                    Delete
+                    {t('common.delete')}
                   </button>
                 </div>
               </div>
@@ -278,7 +280,7 @@ export default function AdminProducts() {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-2xl w-full shadow-2xl border-2 border-gray-200 dark:border-gray-800 my-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {editingProduct ? 'Edit Product' : 'Create Product'}
+                  {editingProduct ? t('admin.editProduct') : t('admin.createProduct')}
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
@@ -293,14 +295,14 @@ export default function AdminProducts() {
                 {/* Title */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Product Title *
+                    {t('admin.productTitleLabel')}
                   </label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     required
-                    placeholder="Enter product title"
+                    placeholder={t('admin.productTitlePlaceholder')}
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                   />
                 </div>
@@ -308,14 +310,14 @@ export default function AdminProducts() {
                 {/* Description */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Description *
+                    {t('admin.productDescLabel')}
                   </label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     required
                     rows={4}
-                    placeholder="Enter product description"
+                    placeholder={t('admin.productDescPlaceholder')}
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                   />
                 </div>
@@ -324,7 +326,7 @@ export default function AdminProducts() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Price ($) *
+                      {t('admin.priceLabel')}
                     </label>
                     <input
                       type="number"
@@ -339,7 +341,7 @@ export default function AdminProducts() {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Discount Price ($)
+                      {t('admin.discountPriceLabel')}
                     </label>
                     <input
                       type="number"
@@ -356,7 +358,7 @@ export default function AdminProducts() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Category *
+                      {t('admin.categoryLabel')}
                     </label>
                     <select
                       value={formData.category}
@@ -364,27 +366,27 @@ export default function AdminProducts() {
                       required
                       className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                     >
-                      <option value="">Select category</option>
-                      <option value="Electronics">Electronics</option>
-                      <option value="Clothing">Clothing</option>
-                      <option value="Books">Books</option>
-                      <option value="Home">Home</option>
-                      <option value="Sports">Sports</option>
-                      <option value="Toys">Toys</option>
-                      <option value="Beauty">Beauty</option>
-                      <option value="Food">Food</option>
+                      <option value="">{t('admin.selectCategory')}</option>
+                      <option value="Electronics">{t('admin.categoryElectronics')}</option>
+                      <option value="Clothing">{t('admin.categoryClothing')}</option>
+                      <option value="Books">{t('admin.categoryBooks')}</option>
+                      <option value="Home">{t('admin.categoryHome')}</option>
+                      <option value="Sports">{t('admin.categorySports')}</option>
+                      <option value="Toys">{t('admin.categoryToys')}</option>
+                      <option value="Beauty">{t('admin.categoryBeauty')}</option>
+                      <option value="Food">{t('admin.categoryFood')}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Tags
+                      {t('admin.tagsLabel')}
                     </label>
                     <input
                       type="text"
                       value={formData.tags || ''}
                       onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                      placeholder="tag1, tag2, tag3"
+                      placeholder={t('admin.tagsPlaceholder')}
                       className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                     />
                   </div>
@@ -393,14 +395,14 @@ export default function AdminProducts() {
                 {/* Image URL */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Image URL *
+                    {t('admin.imageURLLabel')}
                   </label>
                   <input
                     type="url"
                     value={formData.image_url}
                     onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
                     required
-                    placeholder="https://example.com/image.jpg"
+                    placeholder={t('admin.imageURLPlaceholder')}
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-orange-500 focus:outline-none"
                   />
                 </div>
@@ -415,7 +417,7 @@ export default function AdminProducts() {
                       className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500"
                     />
                     <span className="font-semibold text-gray-700 dark:text-gray-300">
-                      Active
+                      {t('admin.activeCheckbox')}
                     </span>
                   </label>
 
@@ -427,7 +429,7 @@ export default function AdminProducts() {
                       className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500"
                     />
                     <span className="font-semibold text-gray-700 dark:text-gray-300">
-                      Featured
+                      {t('admin.featuredCheckbox')}
                     </span>
                   </label>
                 </div>
@@ -440,7 +442,7 @@ export default function AdminProducts() {
                     disabled={saving}
                     className="flex-1 px-6 py-3 border-2 border-gray-300 dark:border-gray-700 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </button>
                   <button
                     type="submit"
@@ -450,12 +452,12 @@ export default function AdminProducts() {
                     {saving ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        Saving...
+                        {t('admin.saving')}
                       </>
                     ) : (
                       <>
                         <Save className="w-5 h-5" />
-                        {editingProduct ? 'Update' : 'Create'}
+                        {editingProduct ? t('admin.updateButton') : t('admin.createButton')}
                       </>
                     )}
                   </button>
