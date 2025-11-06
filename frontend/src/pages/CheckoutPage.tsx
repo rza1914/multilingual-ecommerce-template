@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { ArrowLeft, Check, Truck, Package, Zap, CreditCard, Wallet, MapPin, Phone, Mail, ShoppingBag } from 'lucide-react';
 import { createOrder } from '../services/order.service';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();

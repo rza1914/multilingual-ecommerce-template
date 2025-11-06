@@ -10,7 +10,7 @@ import { useCart } from '../contexts/CartContext';
 import CartItemCard from '../components/cart/CartItemCard';
 import CartSummary from '../components/cart/CartSummary';
 import ShippingBanner from '../components/cart/ShippingBanner';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 const CartPage: React.FC = () => {
   const { t } = useTranslation();

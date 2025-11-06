@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserOrders } from '../services/order.service';
 import { useAuth } from '../contexts/AuthContext';
 import { Package, Calendar, DollarSign, Eye, ChevronRight, ShoppingBag } from 'lucide-react';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface OrderListItem {
   id: number;

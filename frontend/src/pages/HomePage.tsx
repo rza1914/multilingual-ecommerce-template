@@ -5,7 +5,7 @@ import * as productService from '../services/product.service';
 import ProductCard from '../components/products/ProductCard';
 import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
 import { ArrowRight, Truck, Shield, Sparkles, Zap, Award } from 'lucide-react';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
   const { t } = useTranslation();

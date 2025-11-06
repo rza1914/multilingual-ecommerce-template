@@ -3,7 +3,8 @@ import { X, Plus, Minus, ShoppingCart, Star, Check } from 'lucide-react';
 import { Product } from '../../types/product.types';
 import { useCart } from '../../contexts/CartContext';
 import { getProductImage, handleImageError } from '../../utils/imageUtils';
-import { useTranslation, getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
+import { useTranslation } from 'react-i18next';
+import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 
 interface ProductModalProps {
   product: Product | null;
@@ -18,7 +19,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
   onClose,
   onAddToCart
 }) => {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
@@ -63,8 +64,8 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const isLowStock = safeStock > 0 && safeStock < 10;
 
   // Multilingual content
-  const title = getLocalizedTitle(product, language);
-  const description = getLocalizedDescription(product, language);
+  const title = getLocalizedTitle(product);
+  const description = getLocalizedDescription(product);
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -174,11 +175,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
               {/* Price */}
               <div className="flex items-baseline gap-3 mb-6">
                 <span className="text-4xl font-bold text-gradient-orange">
-                  {formatCurrency(currentPrice, language)}
+                  {formatCurrency(currentPrice)}
                 </span>
                 {hasDiscount && (
                   <span className="text-xl text-gray-400 line-through">
-                    {formatCurrency(safePrice, language)}
+                    {formatCurrency(safePrice)}
                   </span>
                 )}
               </div>
@@ -228,7 +229,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 disabled={isOutOfStock}
               >
                 <ShoppingCart className="w-6 h-6" />
-                {t('productModal.addToCart')} • {formatCurrency(currentPrice * quantity, language)}
+                {t('productModal.addToCart')} • {formatCurrency(currentPrice * quantity)}
               </button>
 
               {/* Product Info */}

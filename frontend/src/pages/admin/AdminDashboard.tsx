@@ -6,7 +6,7 @@ import {
   Users, Package, ShoppingCart, DollarSign,
   TrendingUp, Eye, ArrowRight
 } from 'lucide-react';
-import { useTranslation } from '../../config/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function AdminDashboard() {
   const { t } = useTranslation();

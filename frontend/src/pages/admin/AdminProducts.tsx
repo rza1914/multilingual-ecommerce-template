@@ -12,7 +12,7 @@ import {
 import {
   Package, Plus, Edit2, Trash2, Search, X, Save
 } from 'lucide-react';
-import { useTranslation } from '../../config/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function AdminProducts() {
   const { t } = useTranslation();

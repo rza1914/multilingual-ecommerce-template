@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Loader2 } from 'lucide-react';
-import { useTranslation } from '../../config/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;

@@ -12,7 +12,7 @@ import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
 import SearchBar from '../components/search/SearchBar';
 import FiltersSidebar from '../components/products/FiltersSidebar';
 import EmptyState from '../components/EmptyState';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 const ProductsPage = () => {
   const { t } = useTranslation();

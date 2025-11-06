@@ -6,7 +6,7 @@ import {
   ArrowLeft, Package, Truck, Home, CheckCircle, Clock,
   MapPin, CreditCard, Phone, Mail, X, AlertCircle
 } from 'lucide-react';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function OrderDetailsPage() {
   const { t } = useTranslation();

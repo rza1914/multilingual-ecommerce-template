@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { X, Search, TrendingUp, Clock } from 'lucide-react';
 import { mockProducts } from '../../data/mockData';
 import { Product } from '../../types/product.types';
-import { useTranslation } from '../../config/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface SearchModalProps {
   isOpen: boolean;

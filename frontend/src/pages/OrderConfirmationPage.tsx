@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getOrder } from '../services/order.service';
 import { CheckCircle, Package, Truck, Home, ShoppingBag } from 'lucide-react';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function OrderConfirmationPage() {
   const { t } = useTranslation();

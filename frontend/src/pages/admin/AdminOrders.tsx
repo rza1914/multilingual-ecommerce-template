@@ -10,7 +10,7 @@ import {
 import {
   ShoppingCart, Eye, Edit2, Trash2, Package, X
 } from 'lucide-react';
-import { useTranslation } from '../../config/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function AdminOrders() {
   const { t } = useTranslation();

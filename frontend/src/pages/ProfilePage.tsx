@@ -7,7 +7,7 @@ import {
   User, Mail, Phone, Calendar, ShoppingBag, Package,
   Edit2, Save, X, Lock, Eye, EyeOff
 } from 'lucide-react';
-import { useTranslation } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
