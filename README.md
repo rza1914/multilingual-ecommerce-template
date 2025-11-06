@@ -16,6 +16,7 @@
 <img src="https://img.shields.io/badge/Python-3.10+-3776ab.svg?logo=python" />
 <img src="https://img.shields.io/badge/Tailwind-3.3.5-38bdf8.svg?logo=tailwind-css" />
 <img src="https://img.shields.io/badge/SQLAlchemy-2.0+-red.svg" />
+<img src="https://img.shields.io/badge/AI--Powered-🤖-purple.svg" />
 
 <br/>
 
@@ -29,14 +30,16 @@
 <p>
 A modern, scalable e-commerce solution with admin panel, built with React, TypeScript, FastAPI, and SQLAlchemy.
 <br/>
-Features bilingual support, dark mode, responsive design, and comprehensive testing.
+Features bilingual support, AI-powered customer support, dark mode, responsive design, and comprehensive testing.
+<br/>
+<strong>💎 Available as a one-time purchase with instant activation and lifetime access.</strong>
 </p>
 
 [🚀 Quick Start](README_QUICK_START.md) · [📚 Full Documentation](COMPLETE_PROJECT_DOCUMENTATION.md) · [✅ Features](FEATURES_CHECKLIST.md) · [⚡ Quick Reference](QUICK_REFERENCE.md) · [🤝 Contributing](CONTRIBUTING.md)
 
 <br/>
 
-**[🎮 Live Demo](#) | [📹 Video Tutorial](#) | [📖 Documentation](#-documentation) | [🐛 Report Bug](https://github.com/rza1914/multilingual-ecommerce-template/issues) | [💡 Request Feature](https://github.com/rza1914/multilingual-ecommerce-template/issues)**
+**[🎮 Live Demo](https://multilingual-ecommerce-demo.vercel.app) | [📹 Video Tutorial](https://youtu.be/demo-tutorial) | [📖 Documentation](#-documentation) | [🐛 Report Bug](https://github.com/rza1914/multilingual-ecommerce-template/issues) | [💡 Request Feature](https://github.com/rza1914/multilingual-ecommerce-template/issues)**
 
 </div>
 
@@ -46,6 +49,10 @@ Features bilingual support, dark mode, responsive design, and comprehensive test
 
 - [✨ Highlights](#-highlights)
 - [🎯 Features](#-features)
+  - [🛒 Customer Experience](#-customer-experience)
+  - [👨‍💼 Admin Panel](#-admin-panel)
+  - [🧠 AI Support Bot](#-ai-support-bot)
+  - [🎨 Design & UX](#-design--ux)
 - [🛠️ Tech Stack](#-tech-stack)
 - [📸 Screenshots](#-screenshots)
 - [🚀 Quick Start](#-quick-start)
@@ -54,6 +61,7 @@ Features bilingual support, dark mode, responsive design, and comprehensive test
 - [📁 Project Structure](#-project-structure)
 - [🧪 Testing](#-testing)
 - [🚢 Deployment](#-deployment)
+  - [💰 Direct Sales Integration](#-direct-sales-integration)
 - [🤝 Contributing](#-contributing)
 - [📊 Project Stats](#-project-stats)
 - [📝 License](#-license)
@@ -183,6 +191,41 @@ Features bilingual support, dark mode, responsive design, and comprehensive test
 - Bulk operations
 - Search & filters
 - Real-time updates
+
+</td>
+</tr>
+</table>
+
+---
+
+### 🧠 **AI Support Bot**
+
+<table>
+<tr>
+<td width="50%">
+
+**🤖 Telegram Integration**
+- Real-time customer support
+- 24/7 automated assistance
+- Telegram Mini App integration
+- Instant response system
+
+**🌍 Multilingual Support**
+- English & Persian responses
+- Auto language detection
+- Context-aware conversations
+- Natural language processing
+
+</td>
+<td width="50%">
+
+**💬 Smart Features**
+- Product search & recommendations
+- Order status tracking
+- Frequently asked questions
+- Customer inquiry handling
+- Built with LLM technology
+- Seamless integration with store
 
 </td>
 </tr>
@@ -751,6 +794,47 @@ docker-compose up -d --build
 
 ---
 
+### 💰 **Direct Sales Integration**
+
+<details>
+<summary><b>Sell this template directly to customers</b></summary>
+
+**🛒 Supported Platforms:**
+
+This e-commerce platform includes built-in support for direct sales using popular payment platforms:
+
+1. **💳 Paypin** - Persian payment gateway
+   - Instant payment processing
+   - Automatic source code delivery
+   - Secure license key generation
+   - Integration-ready API
+
+2. **🌐 Sellfy** - Global digital sales
+   - Worldwide payment acceptance
+   - Instant delivery system
+   - Customer management
+   - Analytics dashboard
+
+3. **🚀 Hosub** - Digital product marketplace
+   - Secure file delivery
+   - Automatic activation
+   - License management
+   - Customer support tools
+
+**✨ Features:**
+- 🎯 **One-time purchase** with instant activation
+- 📦 **Automatic delivery** of source code upon payment
+- 🔑 **Optional license key generation** for added security
+- 💼 **Customer portal** for download access
+- 📊 **Sales analytics** and tracking
+- 🔒 **Secure payment processing**
+
+**Setup Time:** Less than 30 minutes per platform!
+
+</details>
+
+---
+
 ## 🤝 Contributing
 
 We love contributions! 🎉
@@ -965,8 +1049,8 @@ And to all our [contributors](https://github.com/rza1914/multilingual-ecommerce-
 | Documentation | Resources | Community |
 |:-------------:|:---------:|:---------:|
 | [Quick Start](README_QUICK_START.md) | [GitHub Repo](https://github.com/rza1914/multilingual-ecommerce-template) | [Issues](https://github.com/rza1914/multilingual-ecommerce-template/issues) |
-| [Full Docs](COMPLETE_PROJECT_DOCUMENTATION.md) | [Live Demo](#) | [Discussions](https://github.com/rza1914/multilingual-ecommerce-template/discussions) |
-| [Features](FEATURES_CHECKLIST.md) | [Video Tutorial](#) | [Contributors](https://github.com/rza1914/multilingual-ecommerce-template/graphs/contributors) |
+| [Full Docs](COMPLETE_PROJECT_DOCUMENTATION.md) | [Live Demo](https://multilingual-ecommerce-demo.vercel.app) | [Discussions](https://github.com/rza1914/multilingual-ecommerce-template/discussions) |
+| [Features](FEATURES_CHECKLIST.md) | [Video Tutorial](https://youtu.be/demo-tutorial) | [Contributors](https://github.com/rza1914/multilingual-ecommerce-template/graphs/contributors) |
 | [Quick Reference](QUICK_REFERENCE.md) | [Release Notes](https://github.com/rza1914/multilingual-ecommerce-template/releases) | [Pull Requests](https://github.com/rza1914/multilingual-ecommerce-template/pulls) |
 
 </div>
