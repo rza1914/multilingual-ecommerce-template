@@ -86,4 +86,5 @@ test-*.bat
 start-*.bat
 verify-*.py
 test-*.py
-fix-*.py
+fix-*.pygumroad_packages_*/
+multilingual-ecommerce-template/
