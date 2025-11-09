@@ -8,8 +8,7 @@ import { Star, ShoppingCart, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
-import ProductModal from './ProductModal';
-import Toast, { ToastType } from '../Toast';
+import { Link } from 'react-router-dom';
 import { getProductImage, handleImageError } from '../../utils/imageUtils';
 import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 
@@ -20,10 +19,6 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState<ToastType>('success');
   const { addToCart } = useCart();
 
   // Calculate discount with safe number handling
@@ -45,28 +40,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.stopPropagation();
 
     if (isOutOfStock) {
-      setToastMessage(t('product.outOfStock'));
-      setToastType('error');
-      setShowToast(true);
+      // Show a simple alert for out of stock
+      alert(t('product.outOfStock'));
       return;
     }
 
     addToCart(product, 1);
-    setToastMessage(t('product.productAdded'));
-    setToastType('success');
-    setShowToast(true);
-  };
-
-  // Handle card click to open modal
-  const handleCardClick = () => {
-    setIsModalOpen(true);
-  };
-
-  // Handle add to cart from modal
-  const handleAddToCartFromModal = () => {
-    setToastMessage(t('product.productAdded'));
-    setToastType('success');
-    setShowToast(true);
   };
 
   // Get multilingual content
@@ -75,11 +54,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <>
+      <Link 
+        to={`/products/${product.id}`}
+        className="block"
+      >
       <div
-        className="glass-card group relative overflow-hidden will-change-transform tilt-3d cursor-pointer"
+        className="glass-card group relative overflow-hidden will-change-transform tilt-3d"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={handleCardClick}
       >
         {/* Floating Glow Effect */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -228,23 +210,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Decorative Corner Accent */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
+      </Link>
 
-      {/* Product Modal */}
-      <ProductModal
-        product={product}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onAddToCart={handleAddToCartFromModal}
-      />
-
-      {/* Toast Notification */}
-      {showToast && (
-        <Toast
-          message={toastMessage}
-          type={toastType}
-          onClose={() => setShowToast(false)}
-        />
-      )}
     </>
   );
 };

@@ -527,6 +527,97 @@ describe('Example Component', () => {
 });
 ```
 
+#### Legacy/Modern Toggle Component
+
+```typescript
+// src/components/legacy/LegacyWrapper.tsx
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+interface LegacyWrapperProps {
+  component: React.ComponentType<any>;
+  legacyProps?: any;
+  className?: string;
+}
+
+export const LegacyWrapper: React.FC<LegacyWrapperProps> = ({ 
+  component: Component, 
+  legacyProps = {},
+  className = '' 
+}) => {
+  const { t } = useTranslation();
+  const [useLegacy, setUseLegacy] = useState(true);
+  
+  const toggleLegacy = () => {
+    setUseLegacy(!useLegacy);
+  };
+  
+  return (
+    <div className={`legacy-wrapper ${className}`}>
+      {/* Toggle button between versions */}
+      <div className="legacy-toggle">
+        <button
+          onClick={toggleLegacy}
+          className={`toggle-btn ${useLegacy ? 'legacy-active' : 'new-active'}`}
+        >
+          {useLegacy ? t('common.use_legacy', 'Use Legacy Version') : t('common.use_new', 'Use New Version')}
+        </button>
+      </div>
+      
+      {/* Version notice */}
+      {useLegacy ? (
+        <div className="legacy-notice">
+          <p>{t('common.legacy_notice', 'Using legacy version')}</p>
+        </div>
+      ) : (
+        <div className="new-features">
+          <p>{t('common.new_features', 'New features are active')}</p>
+        </div>
+      )}
+      
+      {/* Render the component */}
+      <Component {...legacyProps} />
+    </div>
+  );
+};
+```
+
+#### Using Legacy Wrapper in Components
+
+```typescript
+// Example usage in Header.tsx
+import { LegacyWrapper } from './legacy/LegacyWrapper';
+import { MultilingualChatBot } from './ai/multilingual/MultilingualChatBot';
+import SmartChatBot from './ai/SmartChatBot';
+import ChatWidget from './legacy/ChatWidget';
+
+const Header: React.FC = () => {
+  const [useLegacy, setUseLegacy] = useState(false);
+  
+  return (
+    <header>
+      {/* Toggle button */}
+      <button 
+        onClick={() => setUseLegacy(!useLegacy)}
+        className="toggle-btn"
+      >
+        {useLegacy ? 'Use New' : 'Use Legacy'}
+      </button>
+      
+      {/* Component rendering based on toggle */}
+      {useLegacy ? (
+        <LegacyWrapper 
+          component={MultilingualChatBot} 
+          legacyProps={{ useLegacy: true }} 
+        />
+      ) : (
+        <SmartChatBot />
+      )}
+    </header>
+  );
+};
+```
+
 ---
 
 ## 🐛 Troubleshooting

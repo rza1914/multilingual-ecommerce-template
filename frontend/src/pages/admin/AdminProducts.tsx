@@ -10,7 +10,7 @@ import {
   ProductFormData
 } from '../../services/admin.service';
 import {
-  Package, Plus, Edit2, Trash2, Search, X, Save
+  Package, Plus, Edit2, Trash2, Search, X, Save, Sparkles
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -147,7 +147,7 @@ export default function AdminProducts() {
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
               {t('admin.productManagement')}
@@ -156,13 +156,15 @@ export default function AdminProducts() {
               {t('admin.productManagementDesc')}
             </p>
           </div>
-          <button
-            onClick={openCreateModal}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/50 transition-all"
-          >
-            <Plus className="w-5 h-5" />
-            {t('admin.addProduct')}
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={openCreateModal}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/50 transition-all"
+            >
+              <Plus className="w-5 h-5" />
+              {t('admin.addProduct')}
+            </button>
+          </div>
         </div>
 
         {/* Search Bar */}
@@ -467,6 +469,7 @@ export default function AdminProducts() {
           </div>
         </>
       )}
+
     </div>
   );
 }

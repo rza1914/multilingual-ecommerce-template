@@ -1,4 +1,5 @@
 import api from './api';
+import { API_CONFIG } from '../config/api.config';
 
 export interface UserProfile {
   id: number;
@@ -22,17 +23,17 @@ export interface PasswordChange {
 
 // Get current user profile
 export const getUserProfile = async (): Promise<UserProfile> => {
-  const response = await api.get<UserProfile>('/users/me');
+  const response = await api.get<UserProfile>(API_CONFIG.ENDPOINTS.USERS.ME);
   return response as unknown as UserProfile;
 };
 
 // Update user profile
 export const updateUserProfile = async (data: UserUpdate): Promise<UserProfile> => {
-  const response = await api.put<UserProfile>('/users/me', data);
+  const response = await api.put<UserProfile>(API_CONFIG.ENDPOINTS.USERS.ME, data);
   return response as unknown as UserProfile;
 };
 
 // Change password
 export const changePassword = async (data: PasswordChange): Promise<void> => {
-  await api.put('/users/me/password', data);
+  await api.put(`${API_CONFIG.ENDPOINTS.USERS.ME}/password`, data);
 };

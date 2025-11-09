@@ -7,10 +7,10 @@ import MiniCart from './cart/MiniCart';
 import AuthModal from './auth/AuthModal';
 import SearchModal from './search/SearchModal';
 import ProductModal from './products/ProductModal';
+import { useAuth } from '../contexts/AuthContext';
 import Toast, { ToastType } from './Toast';
 import { ShoppingCart, User, Menu, X, Search, Sparkles, LogOut, UserCircle, Package, Shield } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
-import { useAuth } from '../contexts/AuthContext';
 import { Product } from '../types/product.types';
 
 const Header = () => {
@@ -137,6 +137,8 @@ const Header = () => {
           >
             <Search className="w-5 h-5 text-orange-600 dark:text-orange-400" />
           </button>
+
+
 
           {/* Cart Button with Badge */}
           <button
@@ -389,6 +391,8 @@ const Header = () => {
         onClose={() => setIsSearchModalOpen(false)}
         onProductClick={handleProductClick}
       />
+
+
 
       {/* Product Modal (from search) */}
       {selectedProduct && (

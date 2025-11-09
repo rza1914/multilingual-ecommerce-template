@@ -12,7 +12,7 @@ from ..models.user import User, UserRole
 from ..schemas.user import UserInDB
 from .security import verify_password
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
     # Try to find user by email first (frontend sends email as username)

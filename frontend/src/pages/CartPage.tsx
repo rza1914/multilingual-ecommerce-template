@@ -10,13 +10,22 @@ import { useCart } from '../contexts/CartContext';
 import CartItemCard from '../components/cart/CartItemCard';
 import CartSummary from '../components/cart/CartSummary';
 import ShippingBanner from '../components/cart/ShippingBanner';
+import CartSuggestions from '../components/legacy/CartSuggestions';
 import { useTranslation } from 'react-i18next';
 
 const CartPage: React.FC = () => {
   const { t } = useTranslation();
-  const { cartItems, getTotalItems } = useCart();
+  const { cartItems, getTotalItems, addToCart } = useCart();
 
   const isEmpty = cartItems.length === 0;
+
+  const handleAddToCart = (productId: number) => {
+    const product = cartItems.find(item => item.id === productId);
+    if (product) {
+      // If item is already in cart, increase quantity
+      addToCart(product, 1);
+    }
+  };
 
   return (
     <div className="animate-fade-in">
@@ -96,6 +105,16 @@ const CartPage: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            {/* Cart Suggestions */}
+            <CartSuggestions 
+              cartItems={cartItems.map(item => ({ 
+                product_id: item.id, 
+                quantity: item.quantity, 
+                price: item.price 
+              }))} 
+              onAddToCart={handleAddToCart} 
+            />
 
             {/* Mobile: Continue Shopping (visible on mobile only) */}
             <div className="lg:hidden">

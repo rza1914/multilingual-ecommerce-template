@@ -163,6 +163,8 @@ const HomePage = () => {
         )}
       </section>
 
+
+
       {/* CTA Section */}
       <section className="relative overflow-hidden rounded-3xl mb-8">
         <div className="absolute inset-0 bg-gradient-orange opacity-90" />
@@ -184,6 +186,7 @@ const HomePage = () => {
           </Link>
         </div>
       </section>
+      
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import api from './api';
+import { API_CONFIG } from '../config/api.config';
 
 export interface DashboardStats {
   total_users: number;
@@ -29,17 +30,17 @@ export interface RevenueChartData {
 
 // Get dashboard statistics
 export const getDashboardStats = async (): Promise<DashboardStats> => {
-  return await api.get('/admin/dashboard/stats');
+  return await api.get(API_CONFIG.ENDPOINTS.ADMIN.DASHBOARD_STATS);
 };
 
 // Get recent orders
 export const getRecentOrders = async (limit: number = 10): Promise<RecentOrder[]> => {
-  return await api.get(`/admin/dashboard/recent-orders?limit=${limit}`);
+  return await api.get(API_CONFIG.ENDPOINTS.ADMIN.DASHBOARD_RECENT_ORDERS(limit));
 };
 
 // Get revenue chart data
 export const getRevenueChart = async (days: number = 30): Promise<RevenueChartData[]> => {
-  return await api.get(`/admin/dashboard/revenue-chart?days=${days}`);
+  return await api.get(API_CONFIG.ENDPOINTS.ADMIN.DASHBOARD_REVENUE_CHART(days));
 };
 
 // Product Management Interfaces
@@ -84,13 +85,13 @@ export const getAdminProducts = async (
   limit: number = 100,
   search?: string
 ): Promise<ProductsResponse> => {
-  let url = `/admin/products?skip=${skip}&limit=${limit}`;
+  let url = `${API_CONFIG.ENDPOINTS.ADMIN.PRODUCTS_LIST}?skip=${skip}&limit=${limit}`;
   if (search) url += `&search=${search}`;
   return await api.get(url);
 };
 
 export const getAdminProduct = async (id: number): Promise<Product> => {
-  return await api.get(`/admin/products/${id}`);
+  return await api.get(API_CONFIG.ENDPOINTS.ADMIN.PRODUCT_DETAIL(id));
 };
 
 export const createProduct = async (data: ProductFormData): Promise<Product> => {
@@ -98,7 +99,7 @@ export const createProduct = async (data: ProductFormData): Promise<Product> => 
   Object.entries(data).forEach(([key, value]) => {
     formData.append(key, value.toString());
   });
-  return await api.post('/admin/products', formData);
+  return await api.post(API_CONFIG.ENDPOINTS.ADMIN.PRODUCTS_LIST, formData);
 };
 
 export const updateProduct = async (id: number, data: ProductFormData): Promise<Product> => {
@@ -106,11 +107,11 @@ export const updateProduct = async (id: number, data: ProductFormData): Promise<
   Object.entries(data).forEach(([key, value]) => {
     formData.append(key, value.toString());
   });
-  return await api.put(`/admin/products/${id}`, formData);
+  return await api.put(API_CONFIG.ENDPOINTS.ADMIN.PRODUCT_DETAIL(id), formData);
 };
 
 export const deleteProduct = async (id: number): Promise<void> => {
-  return await api.delete(`/admin/products/${id}`);
+  return await api.delete(API_CONFIG.ENDPOINTS.ADMIN.PRODUCT_DETAIL(id));
 };
 
 // Order Management Interfaces
@@ -151,21 +152,21 @@ export const getAdminOrders = async (
   limit: number = 100,
   status?: string
 ): Promise<OrdersResponse> => {
-  let url = `/admin/orders?skip=${skip}&limit=${limit}`;
+  let url = `${API_CONFIG.ENDPOINTS.ADMIN.ORDERS_LIST}?skip=${skip}&limit=${limit}`;
   if (status && status !== 'all') url += `&status=${status}`;
   return await api.get(url);
 };
 
 export const getAdminOrderDetails = async (id: number): Promise<any> => {
-  return await api.get(`/admin/orders/${id}`);
+  return await api.get(API_CONFIG.ENDPOINTS.ADMIN.ORDER_DETAIL(id));
 };
 
 export const updateOrderStatus = async (id: number, status: string): Promise<any> => {
   const formData = new FormData();
   formData.append('status', status);
-  return await api.put(`/admin/orders/${id}/status`, formData);
+  return await api.put(API_CONFIG.ENDPOINTS.ADMIN.UPDATE_ORDER_STATUS(id), formData);
 };
 
 export const deleteAdminOrder = async (id: number): Promise<void> => {
-  return await api.delete(`/admin/orders/${id}`);
+  return await api.delete(API_CONFIG.ENDPOINTS.ADMIN.ORDER_DETAIL(id));
 };

@@ -4,12 +4,15 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, RotateCcw } from 'lucide-react';
 import { Product } from '../types/product.types';
 import * as productService from '../services/product.service';
 import ProductCard from '../components/products/ProductCard';
 import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
 import SearchBar from '../components/search/SearchBar';
+import SmartSearchBar from '../components/ai/SmartSearchBar'; // Updated import
+import { LegacyWrapper } from '../components/legacy/LegacyWrapper';
+import { MultilingualSmartSearchBar } from '../components/ai/multilingual/MultilingualSmartSearchBar'; // Legacy version
 import FiltersSidebar from '../components/products/FiltersSidebar';
 import EmptyState from '../components/EmptyState';
 import { useTranslation } from 'react-i18next';
@@ -23,17 +26,20 @@ const ProductsPage = () => {
   const [minPrice, setMinPrice] = useState<number | undefined>();
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isSmartSearchActive, setIsSmartSearchActive] = useState(false);
+  const [useLegacy, setUseLegacy] = useState(false);
 
   /**
    * Fetch products with filters
    */
-  const fetchProducts = useCallback(async () => {
+  const fetchProducts = useCallback(async (query?: string) => {
     setLoading(true);
     setError(null);
 
     try {
+      const search = query !== undefined ? query : searchQuery;
       const data = await productService.getProducts({
-        search: searchQuery || undefined,
+        search: search || undefined,
         minPrice,
         maxPrice,
       });
@@ -46,6 +52,41 @@ const ProductsPage = () => {
       setLoading(false);
     }
   }, [searchQuery, minPrice, maxPrice]);
+
+  /**
+   * Handle smart search
+   */
+  const handleSmartSearch = useCallback(async (query: string) => {
+    setIsSmartSearchActive(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Smart search may need a different API endpoint
+      // For now, we'll use the same productService but this could be expanded
+      const response = await fetch('/api/v1/products/smart-search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query })
+      });
+
+      if (!response.ok) {
+        throw new Error('Smart search failed');
+      }
+
+      const data = await response.json();
+      setProducts(data.results || []);
+    } catch (err) {
+      console.error('Smart search error:', err);
+      // Fallback to regular search
+      setSearchQuery(query);
+      fetchProducts(query);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchProducts]);
 
   /**
    * Initial fetch on mount
@@ -108,13 +149,40 @@ const ProductsPage = () => {
         </p>
       </div>
 
-      {/* Search Bar */}
+      {/* Toggle between legacy and new versions */}
+      <div className="flex justify-center mb-8">
+        <button
+          onClick={() => setUseLegacy(!useLegacy)}
+          className={`px-6 py-3 rounded-lg ${useLegacy ? 'bg-orange-600' : 'bg-gradient-to-r from-orange-500 to-orange-600'} text-white font-medium hover:opacity-90 transition-opacity`}
+        >
+          {useLegacy ? t('common.use_legacy') : t('common.use_new')}
+        </button>
+      </div>
+
+      {/* Smart Search Bar */}
       <div className="max-w-3xl mx-auto mb-8">
-        <SearchBar
-          onSearch={handleSearch}
-          placeholder={t('products.searchPlaceholder')}
-          loading={loading}
-        />
+        {useLegacy ? (
+          <LegacyWrapper 
+            component={MultilingualSmartSearchBar} 
+            legacyProps={{ 
+              onSearch: (results: Product[], query?: string) => {
+                setProducts(results);
+                if (query) {
+                  setSearchQuery(query);
+                }
+                setIsSmartSearchActive(true);
+              } 
+            }} 
+          />
+        ) : (
+          <SmartSearchBar onSearch={(results: Product[], query?: string) => {
+            setProducts(results);
+            if (query) {
+              setSearchQuery(query);
+            }
+            setIsSmartSearchActive(true);
+          }} />
+        )}
       </div>
 
       {/* Main Content with Sidebar */}

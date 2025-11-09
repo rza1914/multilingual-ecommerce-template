@@ -1,0 +1,72 @@
+  // Calculate position relative to login button
+  useEffect(() => {
+    let mounted = true;
+
+    const updatePosition = () => {
+      if (!mounted) return;
+
+      const newPosition = calculateChatButtonPosition();
+      setPosition(newPosition);
+    };
+
+    // Initial calculation
+    updatePosition();
+
+    // Set up event listeners for position changes
+    const handleResize = () => {
+      updatePosition();
+    };
+
+    const handleScroll = () => {
+      // Use requestAnimationFrame to batch scroll updates for performance
+      requestAnimationFrame(updatePosition);
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Use ResizeObserver to watch for changes in the login button's size/position
+    // This ensures we update position when the header changes
+    if (typeof ResizeObserver !== 'undefined') {
+      const loginButton = findLoginButtonPosition();
+      if (loginButton) {
+        resizeObserverRef.current = new ResizeObserver(() => {
+          updatePosition();
+        });
+        resizeObserverRef.current.observe(loginButton);
+      }
+    }
+
+    // Poll for login button in case it's loaded asynchronously (with performance improvement)
+    let pollInterval: number | null = null;
+    
+    // Only start polling if we haven't found the login button yet
+    if (!findLoginButtonPosition()) {
+      pollInterval = window.setInterval(() => {
+        const currentLoginButton = findLoginButtonPosition();
+        if (currentLoginButton) {
+          updatePosition();
+          // Stop polling once we find the login button
+          if (pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+          }
+        }
+      }, 1000); // Reduced polling frequency for performance
+    }
+
+    // Cleanup function
+    return () => {
+      mounted = false;
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+      if (pollInterval !== null) {
+        clearInterval(pollInterval);
+      }
+
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+        resizeObserverRef.current = null;
+      }
+    };
+  }, [calculateChatButtonPosition, findLoginButtonPosition]);

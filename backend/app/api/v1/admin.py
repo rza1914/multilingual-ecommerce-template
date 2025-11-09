@@ -393,3 +393,102 @@ def delete_order_admin(
     db.commit()
 
     return {"message": "Order deleted successfully", "id": order_id}
+
+
+# ============================================
+# Product Description Generation Endpoint
+# ============================================
+
+@router.post("/products/generate-description",
+             summary="Generate AI product description",
+             description="Generate SEO-friendly, engaging product descriptions using AI based on product specifications")
+async def generate_product_description(
+    request_data: Dict[str, Any],
+    current_user: user_models.User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+) -> Dict[str, Any]:
+    """
+    Generate a complete product description using AI based on product specifications.
+    
+    The endpoint:
+    1. Takes product information (name, brand, category, specs, price)
+    2. Uses AI to generate title, description, highlights, keywords, and meta description
+    3. Returns the complete product content in the requested tone
+    4. Supports different tones: professional, casual, sales, minimal
+    """
+    from ...services.product_description_service import ProductDescriptionService
+    
+    try:
+        # Validate required fields
+        required_fields = ["name", "brand", "category", "specs", "price"]
+        for field in required_fields:
+            if field not in request_data:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Missing required field: {field}"
+                )
+        
+        # Get tone from request or default to professional
+        tone = request_data.get("tone", "professional")
+        
+        # Initialize the description service
+        description_service = ProductDescriptionService()
+        
+        # Generate the description
+        result = await description_service.generate_description(request_data, tone)
+        
+        return result
+        
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
+    except Exception as e:
+        # Log the error
+        print(f"Error generating product description: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while generating the product description"
+        )
+
+
+# ============================================
+# AI Insights Endpoint
+# ============================================
+
+@router.get("/ai-insights",
+             summary="Get AI-powered insights for admin dashboard",
+             description="Get sales forecast, alerts, and recommendations using AI analysis")
+async def get_ai_insights(
+    current_user: user_models.User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+) -> Dict[str, Any]:
+    """
+    Get AI-powered insights for the admin dashboard.
+    
+    The endpoint:
+    1. Analyzes sales data from the database
+    2. Runs AI algorithms to generate forecasts and recommendations
+    3. Returns insights including sales forecast, alerts, and recommendations
+    4. Includes confidence metrics and actionable insights
+    """
+    from ...services.ai_insights_service import AIInsightsService
+    
+    try:
+        # Initialize the AI insights service
+        insights_service = AIInsightsService(db)
+        
+        # Get insights
+        insights = insights_service.get_insights()
+        
+        return insights
+        
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
+    except Exception as e:
+        # Log the error
+        print(f"Error generating AI insights: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while generating AI insights"
+        )

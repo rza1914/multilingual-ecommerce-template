@@ -1,0 +1,294 @@
+{
+  "frontendAnalysis": {
+    "projectStructure": {
+      "root": "frontend",
+      "directories": {
+        "components": {
+          "path": "src/components",
+          "subdirectories": [
+            "admin",
+            "auth", 
+            "cart",
+            "products",
+            "search"
+          ],
+          "description": "Reusable UI components organized by functionality"
+        },
+        "config": {
+          "path": "src/config",
+          "description": "Configuration files for API, i18n, etc."
+        },
+        "contexts": {
+          "path": "src/contexts", 
+          "description": "React context providers for state management"
+        },
+        "data": {
+          "path": "src/data",
+          "description": "Static data files"
+        },
+        "pages": {
+          "path": "src/pages",
+          "subdirectories": [
+            "admin"
+          ],
+          "description": "Route-specific page components"
+        },
+        "services": {
+          "path": "src/services",
+          "description": "API service functions"
+        },
+        "types": {
+          "path": "src/types",
+          "description": "TypeScript type definitions"
+        },
+        "utils": {
+          "path": "src/utils",
+          "description": "Utility functions"
+        }
+      }
+    },
+    "componentLibrary": {
+      "coreComponents": [
+        {
+          "name": "Layout",
+          "path": "src/components/Layout.tsx",
+          "description": "Main layout wrapper with Header and Footer",
+          "dependencies": [
+            "Header",
+            "Footer",
+            "react-router-dom/Outlet"
+          ]
+        },
+        {
+          "name": "Header",
+          "path": "src/components/Header.tsx",
+          "description": "Navigation header with cart, auth, search, and user menu",
+          "dependencies": [
+            "react-router-dom",
+            "react-i18next",
+            "contexts/CartContext, AuthContext",
+            "Lucide icons",
+            "auth/AuthModal",
+            "cart/MiniCart",
+            "search/SearchModal",
+            "products/ProductModal",
+            "ChatWidget",
+            "ImageSearchModal"
+          ],
+          "features": [
+            "Mobile menu",
+            "User authentication flow",
+            "Shopping cart integration",
+            "Search functionality",
+            "Theme switching",
+            "Language switching",
+            "AI Chat widget"
+          ]
+        },
+        {
+          "name": "ProductCard",
+          "path": "src/components/products/ProductCard.tsx",
+          "description": "Displays individual product with multilingual support and glass effects",
+          "dependencies": [
+            "react-i18next",
+            "contexts/CartContext",
+            "react-router-dom/Link",
+            "Lucide icons",
+            "utils/imageUtils, i18n"
+          ],
+          "features": [
+            "Hover effects",
+            "Glass card design",
+            "Discount badges",
+            "Stock status indicators",
+            "Quick add to cart",
+            "Multilingual content",
+            "Image error handling"
+          ]
+        },
+        {
+          "name": "ChatWidget",
+          "path": "src/components/ChatWidget.tsx",
+          "description": "AI chat widget for customer support",
+          "dependencies": [
+            "contexts/AuthContext",
+            "config/api"
+          ],
+          "features": [
+            "Real-time messaging",
+            "User authentication",
+            "Loading states",
+            "Message history"
+          ]
+        },
+        {
+          "name": "AIInsightsCard",
+          "path": "src/components/admin/AIInsightsCard.tsx",
+          "description": "Admin dashboard component for AI-generated business insights",
+          "dependencies": [
+            "contexts/AuthContext",
+            "config/api"
+          ],
+          "features": [
+            "Revenue forecasting",
+            "Business alerts",
+            "Smart recommendations",
+            "Authentication required"
+          ]
+        },
+        {
+          "name": "ProductDescriptionGenerator",
+          "path": "src/components/admin/ProductDescriptionGenerator.tsx",
+          "description": "AI-powered product description generation tool for admins",
+          "dependencies": [
+            "config/api"
+          ],
+          "features": [
+            "Product metadata input",
+            "Tone selection",
+            "AI-generated content",
+            "Copy functionality"
+          ]
+        }
+      ],
+      "contextProviders": [
+        {
+          "name": "AuthProvider",
+          "path": "src/contexts/AuthContext.tsx",
+          "exportedHook": "useAuth",
+          "purpose": "User authentication state management",
+          "features": [
+            "User login/logout",
+            "Token management",
+            "Admin role detection"
+          ]
+        },
+        {
+          "name": "CartProvider",
+          "path": "src/contexts/CartContext.tsx",
+          "exportedHook": "useCart",
+          "purpose": "Shopping cart state management",
+          "features": [
+            "Add/remove items",
+            "Quantity management",
+            "Cart totals"
+          ]
+        },
+        {
+          "name": "ProductsProvider",
+          "path": "src/contexts/ProductsContext.tsx",
+          "exportedHook": "useProducts",
+          "purpose": "Product catalog state management",
+          "features": [
+            "Product fetching",
+            "Search and filtering",
+            "Category management"
+          ]
+        }
+      ],
+      "themeSystem": {
+        "primaryColor": "#FF6B35 (iPhone 17 Orange)",
+        "secondaryColor": "#FF8C61",
+        "darkModeSupport": true,
+        "glassEffects": true,
+        "responsiveDesign": true,
+        "rtlSupport": true
+      },
+      "styling": {
+        "framework": "Tailwind CSS",
+        "customClasses": [
+          "glass",
+          "glass-orange", 
+          "glass-card",
+          "glass-panel",
+          "btn-primary",
+          "btn-glass",
+          "input-field",
+          "text-gradient-orange",
+          "badge-orange",
+          "badge-glass"
+        ],
+        "animations": [
+          "fadeIn",
+          "float",
+          "glow",
+          "ripple",
+          "pulse-slow",
+          "bounce-slow",
+          "spin-slow"
+        ]
+      }
+    },
+    "routingStructure": {
+      "framework": "react-router-dom",
+      "mainRoutes": [
+        { "path": "/", "component": "HomePage" },
+        { "path": "/products", "component": "ProductsPage" },
+        { "path": "/products/:id", "component": "ProductDetailPage" },
+        { "path": "/cart", "component": "CartPage" },
+        { "path": "/checkout", "component": "CheckoutPage" },
+        { "path": "/order-confirmation/:orderId", "component": "OrderConfirmationPage" },
+        { "path": "/orders", "component": "OrderHistoryPage" },
+        { "path": "/orders/:orderId", "component": "OrderDetailsPage" },
+        { "path": "/profile", "component": "ProfilePage" },
+        { "path": "/about", "component": "AboutPage" },
+        { "path": "/contact", "component": "ContactPage" },
+        { "path": "/login", "component": "LoginPage" },
+        { "path": "/register", "component": "RegisterPage" },
+        { "path": "/admin", "component": "AdminDashboard" },
+        { "path": "/admin/products", "component": "AdminProducts" },
+        { "path": "/admin/orders", "component": "AdminOrders" },
+        { "path": "*", "component": "NotFoundPage" }
+      ],
+      "layoutStructure": "App -> AuthProvider -> ProductsProvider -> CartProvider -> AppContent -> Layout -> Outlet"
+    },
+    "internationalization": {
+      "framework": "react-i18next",
+      "features": [
+        "RTL support",
+        "Multilingual content",
+        "Currency formatting",
+        "Number formatting"
+      ]
+    },
+    "aiIntegrationPoints": [
+      {
+        "component": "ChatWidget",
+        "purpose": "Customer support chatbot",
+        "features": [
+          "Real-time conversation",
+          "Context-aware responses",
+          "Authenticated messaging"
+        ]
+      },
+      {
+        "component": "AIInsightsCard",
+        "purpose": "Business intelligence dashboard",
+        "features": [
+          "Revenue forecasting",
+          "Trend analysis",
+          "Alert system",
+          "Recommendations engine"
+        ]
+      },
+      {
+        "component": "ProductDescriptionGenerator", 
+        "purpose": "AI-powered content creation",
+        "features": [
+          "Product description generation",
+          "Tone customization",
+          "Metadata extraction"
+        ]
+      },
+      {
+        "component": "SmartSearchBar",
+        "purpose": "AI-enhanced product search",
+        "features": [
+          "Semantic search",
+          "Natural language queries",
+          "Visual search"
+        ]
+      }
+    ]
+  }
+}

@@ -33,13 +33,10 @@ def create_or_verify_admin():
             
             return existing_admin
         
-        # Create new admin
-        print("\n⚠️  No admin user found. Creating new admin...")
-        
-        # Check if email already exists
-        existing_email = db.query(User).filter(User.email == "admin@test.com").first()
+        # Check if admin@example.com already exists
+        existing_email = db.query(User).filter(User.email == "admin@example.com").first()
         if existing_email:
-            print(f"\n⚠️  User with email admin@test.com exists but is not admin!")
+            print(f"\n⚠️  User with email admin@example.com exists but is not admin!")
             print(f"   Converting to admin...")
             existing_email.role = UserRole.ADMIN
             existing_email.is_active = True
@@ -47,10 +44,23 @@ def create_or_verify_admin():
             db.refresh(existing_email)
             print(f"✅ User converted to admin!")
             return existing_email
+
+        # Check if admin@test.com exists (for backwards compatibility)
+        existing_email = db.query(User).filter(User.email == "admin@test.com").first()
+        if existing_email:
+            print(f"\n⚠️  User with email admin@test.com exists but is not admin!")
+            print(f"   Converting to admin and updating email to admin@example.com...")
+            existing_email.role = UserRole.ADMIN
+            existing_email.email = "admin@example.com"  # Update email to preferred address
+            existing_email.is_active = True
+            db.commit()
+            db.refresh(existing_email)
+            print(f"✅ User converted to admin with updated email!")
+            return existing_email
         
-        # Create brand new admin
+        # Create brand new admin with requested credentials
         admin_user = User(
-            email="admin@test.com",
+            email="admin@example.com",
             username="admin",
             hashed_password=get_password_hash("admin123"),
             full_name="Admin User",
@@ -63,7 +73,7 @@ def create_or_verify_admin():
         db.refresh(admin_user)
         
         print("\n✅ Admin user created successfully!")
-        print(f"   Email: admin@test.com")
+        print(f"   Email: admin@example.com")
         print(f"   Username: admin")
         print(f"   Password: admin123")
         print(f"   ID: {admin_user.id}")

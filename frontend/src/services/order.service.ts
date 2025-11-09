@@ -1,4 +1,5 @@
 import api from './api';
+import { API_CONFIG } from '../config/api.config';
 
 export interface OrderItem {
   product_id: number;
@@ -51,20 +52,20 @@ export interface Order {
 
 // Create order
 export const createOrder = async (orderData: OrderCreate): Promise<Order> => {
-  return await api.post('/orders/', orderData);
+  return await api.post(API_CONFIG.ENDPOINTS.ORDERS.LIST, orderData);
 };
 
 // Get user orders
 export const getUserOrders = async (): Promise<any[]> => {
-  return await api.get('/orders/');
+  return await api.get(API_CONFIG.ENDPOINTS.ORDERS.LIST);
 };
 
 // Get single order
 export const getOrder = async (orderId: number): Promise<Order> => {
-  return await api.get(`/orders/${orderId}`);
+  return await api.get(API_CONFIG.ENDPOINTS.ORDERS.DETAIL(orderId));
 };
 
 // Cancel order
 export const cancelOrder = async (orderId: number): Promise<Order> => {
-  return await api.put(`/orders/${orderId}/cancel`);
+  return await api.put(API_CONFIG.ENDPOINTS.ORDERS.CANCEL(orderId));
 };
