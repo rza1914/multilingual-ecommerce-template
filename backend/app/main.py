@@ -5,7 +5,6 @@ from fastapi.responses import HTMLResponse
 from pathlib import Path  # Add this import
 from .config import settings
 from .database import engine, Base
-from .models import user, product, order, bot  # Import models to register them with SQLAlchemy
 from .api.v1 import api_router
 
 # Create database tables
@@ -16,26 +15,6 @@ app = FastAPI(
     description="A modern, clean, and classy e-commerce template with multilingual support",
     version="1.0.0",
 )
-
-
-@app.on_event("startup")
-def startup_event():
-    # Import and run the admin creation function directly
-    import sys
-    import os
-    from pathlib import Path
-    
-    # Add backend directory to Python path
-    backend_dir = Path(__file__).parent.parent.parent
-    sys.path.insert(0, str(backend_dir))
-    
-    try:
-        from create_or_verify_admin import create_or_verify_admin
-        create_or_verify_admin()
-    except ImportError:
-        print("Could not import create_or_verify_admin.py. Make sure the file exists in the backend directory.")
-    except Exception as e:
-        print(f"Error running admin creation: {e}")
 
 # Set up CORS - Must be configured before routes
 app.add_middleware(

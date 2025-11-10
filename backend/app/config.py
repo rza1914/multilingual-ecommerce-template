@@ -127,11 +127,6 @@ class Settings:
         """Check if email is properly configured"""
         return bool(self.SMTP_USER and self.SMTP_PASSWORD and self.EMAILS_FROM_EMAIL)
     
-    @property
-    def GROQ_API_KEY(self) -> str:
-        """Get the Groq API key"""
-        return config("GROQ_API_KEY", default="")
-    
     # ========================================
     # Display Configuration Info
     # ========================================
@@ -140,31 +135,31 @@ class Settings:
         """Display configuration info (Development only)"""
         if self.IS_DEVELOPMENT:
             print("\n" + "=" * 60)
-            print("Development Configuration")
+            print("🔧 Development Configuration")
             print("=" * 60)
             
             # CORS Info
             origins = self.ALLOWED_ORIGINS
-            print(f"CORS: {len(origins)} origins allowed")
+            print(f"📡 CORS: {len(origins)} origins allowed")
             for origin in origins[:3]:  # Show first 3
-                print(f"   OK {origin}")
+                print(f"   ✅ {origin}")
             if len(origins) > 3:
                 print(f"   ... and {len(origins) - 3} more")
             
             # Database
-            print(f"Database: {self.DATABASE_URL[:50]}...")
+            print(f"💾 Database: {self.DATABASE_URL[:50]}...")
             
             # Email
             if self.EMAIL_CONFIGURED:
-                print(f"Email: Configured OK ({self.EMAILS_FROM_EMAIL})")
+                print(f"📧 Email: Configured ✅ ({self.EMAILS_FROM_EMAIL})")
             else:
-                print(f"Email: Not configured (optional)")
+                print(f"📧 Email: Not configured (optional)")
             
             # Security
             if self.SECRET_KEY == "your-secret-key":
-                print(f"Secret: WARNING - Using default (change in production!)")
+                print(f"🔐 Secret: ⚠️  Using default (change in production!)")
             else:
-                print(f"Secret: Configured OK")
+                print(f"🔐 Secret: Configured ✅")
             
             print("=" * 60 + "\n")
 
