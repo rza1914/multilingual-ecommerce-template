@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15
+    container_name: ishop-db
+    environment:
+      POSTGRES_DB: ishop_prod
+      POSTGRES_USER: ishop_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ishop_secure_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - ishop-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ishop_user -d ishop_prod"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: ishop-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ishop-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ishop-backend
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://ishop_user:${DB_PASSWORD:-ishop_secure_password}@db:5432/ishop_prod
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=${SECRET_KEY:-prod-super-secret-key-keep-this-extremely-long-and-secure-for-production}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - ishop-network
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - /app/static  # For static files
+    command: >
+      sh -c "python run_migrations.py &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4"
+
+  # Frontend (React + Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ishop-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - ishop-network
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  # Nginx as reverse proxy and load balancer
+  nginx:
+    image: nginx:alpine
+    container_name: ishop-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl  # For SSL certificates
+      - /var/log/nginx:/var/log/nginx  # For logs
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - ishop-network
+    restart: unless-stopped
+
+  # Backup service (optional)
+  backup:
+    image: tiredofit/db-backup
+    container_name: ishop-backup
+    volumes:
+      - ./backups:/backups
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=db
+      - DB_NAME=ishop_prod
+      - DB_USER=ishop_user
+      - DB_PASS=${DB_PASSWORD:-ishop_secure_password}
+      - DB_DUMP_FREQ=1440  # Daily backup (1440 minutes)
+      - DB_DUMP_BEGIN=+10  # Start 10 minutes after container starts
+      - DB_CLEANUP_TIME=4320  # Keep 3 days of backups (4320 hours)
+    networks:
+      - ishop-network
+    restart: unless-stopped
+    depends_on:
+      - db
+
+networks:
+  ishop-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

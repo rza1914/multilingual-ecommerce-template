@@ -1,60 +1,78 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
-from pathlib import Path  # Add this import
-from .config import settings
-from .database import engine, Base
-from .api.v1 import api_router
-
-# Create database tables
-Base.metadata.create_all(bind=engine)
+from starlette.middleware.sessions import SessionMiddleware
+from app.api.v1 import auth, products, orders, admin
+from app.core.config import settings
 
 app = FastAPI(
-    title="Multilingual E-commerce Template",
-    description="A modern, clean, and classy e-commerce template with multilingual support",
-    version="1.0.0",
+    title="Multilingual E-Commerce API",
+    version="2.0.0",
+    docs_url="/api/v1/docs",
+    redoc_url="/api/v1/redoc",
 )
 
-# Set up CORS - Must be configured before routes
+# ═══════════════════════════════════════════════════════════
+# MIDDLEWARE STACK
+# ═══════════════════════════════════════════════════════════
+
+# 1. SessionMiddleware (اول از همه!)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.SESSION_SECRET_KEY,  # ✅ از .env
+    session_cookie=settings.SESSION_COOKIE_NAME,
+    max_age=settings.SESSION_MAX_AGE,
+    https_only=settings.SESSION_COOKIE_SECURE,  # True در production
+    same_site=settings.SESSION_COOKIE_SAMESITE,
+)
+
+# 2. CORS (بعد از Session)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:5173",
-        "https://multilingual-ecommerce-template-ohimnpkxr.vercel.app",
-        "https://multilingual-ecommerce-template-j0yyw6oms.vercel.app",  # URL قدیمی
-    ],
+    allow_origins=settings.BACKEND_CORS_ORIGINS,  # ✅ از config
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
-    expose_headers=["*"],
-    max_age=3600,
+    expose_headers=["X-Total-Count", "X-Page-Count"],  # برای pagination
 )
 
-# Include API router
-app.include_router(api_router, prefix="/api/v1")
+# ═══════════════════════════════════════════════════════════
+# ROUTES
+# ═══════════════════════════════════════════════════════════
 
-# Serve static files (only if directory exists)
-static_dir = Path(__file__).parent.parent / "static"
-if static_dir.exists():
-    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(products.router, prefix="/api/v1/products", tags=["products"])
+app.include_router(orders.router, prefix="/api/v1/orders", tags=["orders"])
+app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root():
-    return """
-    <html>
-        <head>
-            <title>Multilingual E-commerce Template</title>
-        </head>
-        <body>
-            <h1>Welcome to Multilingual E-commerce Template API</h1>
-            <p>Visit <a href="/docs">/docs</a> for API documentation.</p>
-        </body>
-    </html>
-    """
+# ═══════════════════════════════════════════════════════════
+# HEALTH & ROOT
+# ═══════════════════════════════════════════════════════════
 
 @app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+def health():
+    return {
+        "status": "healthy",
+        "version": "2.0.0",
+        "environment": settings.ENVIRONMENT,
+    }
+
+@app.get("/")
+def root():
+    return {
+        "message": "Welcome to Multilingual E-Commerce API",
+        "docs": "/api/v1/docs",
+        "version": "2.0.0",
+    }
+
+# ═══════════════════════════════════════════════════════════
+# STARTUP EVENT
+# ═══════════════════════════════════════════════════════════
+
+@app.on_event("startup")
+async def startup_event():
+    print("=" * 60)
+    print("🚀 Multilingual E-Commerce API v2.0.0")
+    print(f"🌍 Environment: {settings.ENVIRONMENT}")
+    print(f"📡 API Docs: http://127.0.0.1:8000/api/v1/docs")
+    print(f"✅ CORS Origins: {len(settings.BACKEND_CORS_ORIGINS)} configured")
+    print("=" * 60)
