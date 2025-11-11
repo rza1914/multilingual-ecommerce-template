@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.product import Product
+from app.seed_data import seed_database  # Import the seed function
 
 router = APIRouter()
 
@@ -114,4 +115,13 @@ def seed_demo_data(db: Session = Depends(get_db)):
         
     except Exception as e:
         db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/seed")
+def seed_full_database():
+    """Seed database with complete data set"""
+    try:
+        seed_database()
+        return {"message": "Database seeded successfully!"}
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
