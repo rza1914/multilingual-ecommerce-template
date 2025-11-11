@@ -17,7 +17,7 @@ class Product(Base):
     is_active = Column(Boolean, default=True)
     is_featured = Column(Boolean, default=False)
     image_url = Column(String, nullable=True)
-    category = Column(String, index=True, nullable=True)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)  # Foreign key to Category
     tags = Column(String, nullable=True)
     
     # Multilingual fields
@@ -33,3 +33,5 @@ class Product(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
     
     owner = relationship("User", back_populates="products")
+    category_rel = relationship("Category", back_populates="products")  # Relationship to Category model
+    translations = relationship("Translation", back_populates="product")  # Relationship to Translation model
