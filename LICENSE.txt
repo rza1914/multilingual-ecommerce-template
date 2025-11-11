@@ -1,0 +1,26 @@
+Multilingual E-Commerce Template - Commercial License
+
+Copyright (c) 2025
+
+Single Application License
+
+You are granted a non-exclusive, non-transferable right to use this software for one (1) commercial application or website.
+
+## What you CAN do:
+- Use in one commercial application
+- Modify for your specific needs
+- Deploy to production servers
+- Use for client projects
+
+## What you CANNOT do:
+- Resell, redistribute, or sublicense
+- Use in multiple applications without purchasing additional licenses
+- Remove or modify copyright notices
+- Use in open-source projects
+
+## For Multiple Projects:
+Purchase additional licenses.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+For questions: license@yoursite.com

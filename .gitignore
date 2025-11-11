@@ -64,6 +64,11 @@ coverage/
 # Claude
 .claude/
 
+# Qwen
+qwen/
+qwen-code/
+@nul
+
 # Build artifacts
 build/
 *.tsbuildinfo
