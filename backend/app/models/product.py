@@ -17,7 +17,6 @@ class Product(Base):
     is_active = Column(Boolean, default=True)
     is_featured = Column(Boolean, default=False)
     image_url = Column(String, nullable=True)
-    # category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)  # Foreign key to Category - commented for demo
     category = Column(String, nullable=True)  # Using string instead of foreign key for demo
     tags = Column(String, nullable=True)
     

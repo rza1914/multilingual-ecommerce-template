@@ -1,5 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, Text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, Integer, String, DateTime, Text
 from sqlalchemy.sql import func
 from ..database import Base
 
@@ -11,7 +10,7 @@ class Category(Base):
     name = Column(String, index=True, nullable=False)
     description = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
-    parent_id = Column(Integer, ForeignKey("categories.id"), nullable=True)  # For hierarchical categories
+    parent_id = Column(Integer, nullable=True)  # For hierarchical categories (can be implemented later)
     image_url = Column(String, nullable=True)
 
     # Multilingual fields
@@ -24,8 +23,3 @@ class Category(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
-    # Relationship to parent category for hierarchical structure
-    parent = relationship("Category", remote_side=[id], back_populates="subcategories")
-    subcategories = relationship("Category", back_populates="parent")
-    products = relationship("Product", back_populates="category_rel")  # Assuming products will relate to categories

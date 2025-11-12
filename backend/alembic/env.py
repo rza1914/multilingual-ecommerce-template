@@ -14,10 +14,12 @@ from app.database import Base
 # Import all models to ensure they're registered with Base
 from app.models.user import User
 from app.models.product import Product
-from app.models.category import Category
 from app.models.translation import Translation
-from app.models.order import Order, OrderItem
+from app.models.order import Order, OrderItem, OrderStatus
 from app.models.bot import BotApiKey
+
+# Import models with all their dependencies to ensure proper registration
+from app.models import user, product, translation, order, bot
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
