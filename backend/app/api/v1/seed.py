@@ -2,7 +2,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
-from app.db.session import get_db
+
+# 🔥 Import از database.py که در root app هست
+from app.database import get_db
 from app.models.product import Product
 from app.models.user import User
 
@@ -33,7 +35,7 @@ def create_seed_data(db: Session = Depends(get_db)):
             ),
             Product(
                 name="Wireless Mouse",
-                description="Ergonomic wireless mouse with long battery life",
+                description="Ergonomic wireless mouse",
                 price=29.99,
                 category="Electronics",
                 stock=50,
