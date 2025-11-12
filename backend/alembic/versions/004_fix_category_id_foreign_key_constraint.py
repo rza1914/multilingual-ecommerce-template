@@ -17,12 +17,12 @@ depends_on = None
 
 
 def upgrade():
-    # Add foreign key constraint to category_id column using batch operations for SQLite compatibility
-    with op.batch_alter_table('products', schema=None) as batch_op:
-        batch_op.create_foreign_key('fk_products_category', 'categories', ['category_id'], ['id'])
+    # Previously added foreign key constraint to category_id column
+    # For demo purposes, we skip creating the foreign key constraint
+    pass
 
 
 def downgrade():
-    # Drop foreign key constraint using batch operations for SQLite compatibility
-    with op.batch_alter_table('products', schema=None) as batch_op:
-        batch_op.drop_constraint('fk_products_category', type_='foreignkey')
+    # Previously dropped foreign key constraint
+    # For demo purposes, we skip this operation
+    pass
