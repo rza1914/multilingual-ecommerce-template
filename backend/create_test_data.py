@@ -1,7 +1,7 @@
 from app.database import SessionLocal
 from app.models.user import User
 from app.models.product import Product
-from app.models.category import Category
+from app.models.product import Product
 from app.models.order import Order, OrderItem
 from app.core.security import get_password_hash
 from datetime import datetime, timedelta
@@ -56,91 +56,61 @@ def create_sample_products():
         db.close()
         return
 
-    # Check if categories exist, create them if they don't
-    categories = db.query(Category).all()
-    if not categories:
-        # Create default categories
-        electronics_category = Category(name="Electronics", description="Electronic devices and gadgets")
-        sports_category = Category(name="Sports", description="Sports equipment and clothing")
-        home_category = Category(name="Home", description="Home appliances and decor")
-        clothing_category = Category(name="Clothing", description="Clothing and accessories")
-        
-        db.add(electronics_category)
-        db.add(sports_category)
-        db.add(home_category)
-        db.add(clothing_category)
-        db.commit()
-        
-        # Refresh to get IDs
-        db.refresh(electronics_category)
-        db.refresh(sports_category)
-        db.refresh(home_category)
-        db.refresh(clothing_category)
-        
-        category_map = {
-            "Electronics": electronics_category.id,
-            "Sports": sports_category.id,
-            "Home": home_category.id,
-            "Clothing": clothing_category.id
-        }
-    else:
-        category_map = {cat.name: cat.id for cat in categories}
-
     sample_products = [
         {
             "title": "Wireless Headphones",
             "description": "Premium wireless headphones with noise cancellation",
             "price": 149.99,
-            "category_id": category_map["Electronics"],
+            "category": "Electronics",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
         },
         {
             "title": "Smart Watch",
             "description": "Feature-rich smartwatch with fitness tracking",
             "price": 299.99,
-            "category_id": category_map["Electronics"],
+            "category": "Electronics",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
         },
         {
             "title": "Laptop Stand",
             "description": "Ergonomic aluminum laptop stand",
             "price": 49.99,
-            "category_id": category_map["Electronics"],
+            "category": "Electronics",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500"
         },
         {
             "title": "Running Shoes",
             "description": "Comfortable running shoes for all terrains",
             "price": 89.99,
-            "category_id": category_map["Sports"],
+            "category": "Sports",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
         },
         {
             "title": "Coffee Maker",
             "description": "Automatic coffee maker with timer",
             "price": 79.99,
-            "category_id": category_map["Home"],
+            "category": "Home",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500"
         },
         {
             "title": "Backpack",
             "description": "Water-resistant travel backpack",
             "price": 59.99,
-            "category_id": category_map["Clothing"],
+            "category": "Clothing",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"
         },
         {
             "title": "Desk Lamp",
             "description": "LED desk lamp with adjustable brightness",
             "price": 34.99,
-            "category_id": category_map["Home"],
+            "category": "Home",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500"
         },
         {
             "title": "Yoga Mat",
             "description": "Non-slip yoga mat with carrying strap",
             "price": 29.99,
-            "category_id": category_map["Sports"],
+            "category": "Sports",  # Using string category instead of foreign key
             "image_url": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500"
         },
     ]
