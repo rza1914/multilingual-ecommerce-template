@@ -8,7 +8,7 @@ import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.database import Base
-from app.models import Product, Category
+from app.models import Product
 from app.models.user import User
 
 # Add the backend directory to the path
@@ -21,7 +21,7 @@ def seed_demo_data():
     engine = create_engine(settings.DATABASE_URL)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     db = SessionLocal()
-    
+
     try:
         # Check if demo data already exists
         existing_products = db.query(Product).count()
@@ -29,47 +29,8 @@ def seed_demo_data():
             print("Demo data already exists. Clearing existing data...")
             db.query(Product).delete()
             db.commit()
-            
-        # Create categories
-        electronics_category = Category(
-            name="Electronics",
-            name_en="Electronics",
-            name_nl="Elektronica", 
-            name_fa="الکترونیک",
-            description="Electronic devices and accessories",
-            description_en="Electronic devices and accessories",
-            description_nl="Elektronische apparaten en accessoires",
-            description_fa="دستگاه‌های الکترونیکی و لوازم جانبی",
-        )
-        db.add(electronics_category)
-        
-        books_category = Category(
-            name="Books",
-            name_en="Books",
-            name_nl="Boeken",
-            name_fa="کتاب‌ها",
-            description="Books and literature",
-            description_en="Books and literature",
-            description_nl="Boeken en literatuur",
-            description_fa="کتاب‌ها و ادبیات",
-        )
-        db.add(books_category)
-        
-        clothing_category = Category(
-            name="Clothing",
-            name_en="Clothing",
-            name_nl="Kleding",
-            name_fa="پوشاک",
-            description="Clothing and apparel",
-            description_en="Clothing and apparel",
-            description_nl="Kleding en kledingstukken",
-            description_fa="پوشاک و لباس",
-        )
-        db.add(clothing_category)
-        
-        db.commit()
-        
-        # Create demo products
+
+        # Create demo products with string categories
         demo_products = [
             {
                 'title_en': 'Wireless Headphones',
@@ -79,7 +40,7 @@ def seed_demo_data():
                 'description_nl': 'Hoogwaardige draadloze hoofdtelefoon met geluidsisolatie.',
                 'description_fa': 'هدفون بی‌سیم با کیفیت بالا و قابلیت حذف نویز.',
                 'price': 129.99,
-                'category_id': electronics_category.id,
+                'category': 'Electronics',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/3b82f6/FFFFFF?text=Headphones'
             },
             {
@@ -90,7 +51,7 @@ def seed_demo_data():
                 'description_nl': 'Geavanceerde smartwatch met gezondheidsmonitoringfuncties.',
                 'description_fa': 'ساعت هوشمند پیشرفته با قابلیت‌های مانیتورینگ سلامت.',
                 'price': 249.99,
-                'category_id': electronics_category.id,
+                'category': 'Electronics',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/ef4444/FFFFFF?text=Smartwatch'
             },
             {
@@ -101,7 +62,7 @@ def seed_demo_data():
                 'description_nl': 'Uitgebreide gids voor moderne programmeertechnieken.',
                 'description_fa': 'راهنمای جامع تکنیک‌های برنامه‌نویسی مدرن.',
                 'price': 49.99,
-                'category_id': books_category.id,
+                'category': 'Books',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/10b981/FFFFFF?text=Book'
             },
             {
@@ -112,7 +73,7 @@ def seed_demo_data():
                 'description_nl': 'Comfortabele hardloopschoenen voor alle terreinen.',
                 'description_fa': 'کفش‌های دویدن راحت برای تمام زمینه‌ها.',
                 'price': 89.99,
-                'category_id': clothing_category.id,
+                'category': 'Clothing',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/8b5cf6/FFFFFF?text=Shoes'
             },
             {
@@ -123,7 +84,7 @@ def seed_demo_data():
                 'description_nl': 'Draagbare luidspreker met uitstekende geluidskwaliteit.',
                 'description_fa': 'اسپیکر قابل حمل با کیفیت صدای عالی.',
                 'price': 79.99,
-                'category_id': electronics_category.id,
+                'category': 'Electronics',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/f97316/FFFFFF?text=Speaker'
             },
             {
@@ -134,7 +95,7 @@ def seed_demo_data():
                 'description_nl': 'Automatische koffiemachine met programmeerbare instellingen.',
                 'description_fa': 'ماشین قهوه خودکار با تنظیمات قابل برنامه‌ریزی.',
                 'price': 119.99,
-                'category_id': electronics_category.id,
+                'category': 'Electronics',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/06b6d4/FFFFFF?text=Coffee'
             },
             {
@@ -145,7 +106,7 @@ def seed_demo_data():
                 'description_nl': 'Duurzame rugzak voor wandelen en reizen.',
                 'description_fa': 'کوله پشتی مقاوم برای کوهنوردی و مسافرت.',
                 'price': 59.99,
-                'category_id': clothing_category.id,
+                'category': 'Clothing',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/84cc16/FFFFFF?text=Backpack'
             },
             {
@@ -156,7 +117,7 @@ def seed_demo_data():
                 'description_nl': 'Ergonomische draadloze muis met lange batterijduur.',
                 'description_fa': 'ماوس بی‌سیم ارگونومیک با عمر باتری طولانی.',
                 'price': 39.99,
-                'category_id': electronics_category.id,
+                'category': 'Electronics',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/ec4899/FFFFFF?text=Mouse'
             },
             {
@@ -167,7 +128,7 @@ def seed_demo_data():
                 'description_nl': 'Anti-slip yogamat voor alle soorten oefeningen.',
                 'description_fa': 'فرش یوگا ضد لغزش برای تمام انواع تمرینات.',
                 'price': 29.99,
-                'category_id': clothing_category.id,
+                'category': 'Clothing',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/f59e0b/FFFFFF?text=Yoga'
             },
             {
@@ -178,11 +139,11 @@ def seed_demo_data():
                 'description_nl': 'UV-beschermende zonnebril met gepolariseerde lenzen.',
                 'description_fa': 'عینک آفتابی با محافظت از UV و لنزهای قطبی.',
                 'price': 89.99,
-                'category_id': clothing_category.id,
+                'category': 'Clothing',  # Use string category instead of foreign key
                 'image_url': 'https://placehold.co/600x400/64748b/FFFFFF?text=Glasses'
             }
         ]
-        
+
         for product_data in demo_products:
             product = Product(
                 title=product_data['title_en'],
@@ -194,17 +155,17 @@ def seed_demo_data():
                 description_nl=product_data['description_nl'],
                 description_fa=product_data['description_fa'],
                 price=product_data['price'],
-                category_id=product_data['category_id'],
+                category=product_data['category'],  # Use string category instead of foreign key
                 image_url=product_data['image_url'],
                 stock=50,
                 is_active=True,
                 is_featured=True
             )
             db.add(product)
-        
+
         db.commit()
         print(f"Successfully created {len(demo_products)} demo products with multilingual support")
-        
+
     except Exception as e:
         print(f"Error seeding demo data: {str(e)}")
         db.rollback()

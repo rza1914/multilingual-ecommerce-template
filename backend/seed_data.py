@@ -2,7 +2,6 @@ import asyncio
 from sqlalchemy.orm import Session
 from app.database import SessionLocal, engine, Base
 from app.models.product import Product
-from app.models.category import Category
 from app.models.user import User
 from app.core.security import get_password_hash
 
@@ -92,25 +91,12 @@ products_data = [
 def seed_database():
     db = SessionLocal()
     try:
-        # Create categories
-        print("Creating categories...")
-        categories = {}
-        for cat_data in categories_data:
-            category = db.query(Category).filter(Category.name == cat_data["name"]).first()
-            if not category:
-                category = Category(**cat_data)
-                db.add(category)
-                db.commit()
-                db.refresh(category)
-            categories[cat_data["name"]] = category.id
-
-        print(f"Created {len(categories)} categories")
-
-        # Create products
+        # Create products directly with string categories
         print("Creating products...")
         for prod_data in products_data:
-            category_name = prod_data.pop("category_name")
-            prod_data["category_id"] = categories[category_name]
+            # Get category from category_name field and use it as string
+            category = prod_data.pop("category_name")
+            prod_data["category"] = category  # Use string category instead of foreign key
 
             product = db.query(Product).filter(Product.name == prod_data["name"]).first()
             if not product:
