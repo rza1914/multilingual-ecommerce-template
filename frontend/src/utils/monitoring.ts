@@ -92,7 +92,8 @@ class MonitoringService {
   }
 
   private async sendLog(data: LogData): Promise<void> {
-    if (!this.config.endpoint) return;
+    // Don't send logs if monitoring is disabled to prevent 404 errors on Vercel
+    if (!this.config.enabled || !this.config.endpoint) return;
 
     try {
       await fetch(this.config.endpoint, {
@@ -111,7 +112,7 @@ class MonitoringService {
 
   // Try to send stored logs when back online
   async flushPendingLogs(): Promise<void> {
-    if (!this.config.endpoint || this.pendingLogs.length === 0) return;
+    if (!this.config.enabled || !this.config.endpoint || this.pendingLogs.length === 0) return;
 
     const logsToSend = [...this.pendingLogs];
     this.pendingLogs = [];
@@ -153,7 +154,7 @@ class MonitoringService {
 }
 
 export const monitoringService = new MonitoringService({
-  enabled: import.meta.env.MODE === 'production',
+  enabled: false, // Disabled to prevent 404 POST /api/logs error on Vercel
   endpoint: import.meta.env.VITE_MONITORING_ENDPOINT || '/api/logs',
   sampleRate: 1.0 // Send all errors in demo; in production you might want to sample
 });
