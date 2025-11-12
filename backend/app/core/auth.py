@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from ..config import settings
 from ..database import get_db
-from ..models.user import User, UserRole
+from ..models.user import User
 from ..schemas.user import UserInDB
 from .security import verify_password
 

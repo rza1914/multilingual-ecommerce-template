@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from . import auth, users, products, orders, admin, seed, chat, smart_search, cart
+from . import auth, users, products, orders, admin, seed, chat, smart_search, cart, demo
 from .bot_integration.bot_api import bot_api_router
 
 api_router = APIRouter()
@@ -12,4 +12,5 @@ api_router.include_router(seed.router, prefix="/seed", tags=["seed"])
 api_router.include_router(chat.router, prefix="/chat", tags=["chat"])
 api_router.include_router(smart_search.router, prefix="/products", tags=["smart-search"])
 api_router.include_router(cart.router, tags=["cart"])
+api_router.include_router(demo.router, prefix="/demo", tags=["demo"])
 api_router.include_router(bot_api_router)

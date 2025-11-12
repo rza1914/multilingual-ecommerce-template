@@ -1,7 +1,11 @@
 from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from ..models.user import UserRole
+from enum import Enum
+
+class UserRole(str, Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -25,7 +29,7 @@ class User(UserBase):
     id: int
     created_at: datetime
     updated_at: Optional[datetime] = None
-    
+
     class Config:
         from_attributes = True
 

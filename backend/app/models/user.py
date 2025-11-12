@@ -1,12 +1,7 @@
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, Enum
+from sqlalchemy import Boolean, Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from ..database import Base
-import enum
-
-class UserRole(enum.Enum):
-    ADMIN = "admin"
-    USER = "user"
 
 class User(Base):
     __tablename__ = "users"
@@ -17,7 +12,7 @@ class User(Base):
     full_name = Column(String, nullable=True)
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
-    role = Column(Enum(UserRole), default=UserRole.USER)
+    role = Column(String, default="user")  # Changed from Enum to String for PostgreSQL compatibility
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     

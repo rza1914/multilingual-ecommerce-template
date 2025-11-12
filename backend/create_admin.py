@@ -1,5 +1,5 @@
 from app.database import SessionLocal
-from app.models.user import User, UserRole
+from app.models.user import User
 from app.core.security import get_password_hash
 
 def create_admin():
@@ -19,7 +19,7 @@ def create_admin():
         username="admin",
         full_name="Admin User",
         hashed_password=get_password_hash("admin123"),
-        role=UserRole.ADMIN,
+        role="admin",
         is_active=True
     )
 

@@ -1,7 +1,7 @@
 """Initial migration
 
 Revision ID: 001
-Revises: 
+Revises:
 Create Date: 2025-11-09 12:00:00.000000
 
 """
@@ -18,12 +18,13 @@ depends_on = None
 
 
 def upgrade():
-    # Create enums first
-    order_status_enum = postgresql.ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', name='orderstatus')
-    order_status_enum.create(op.get_bind(), checkfirst=True)
+    # Create enums first - using checkfirst=True to avoid duplicate errors on PostgreSQL
+    # This is the proper way to handle PostgreSQL enum creation in migrations
+    order_status_enum = postgresql.ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', name='orderstatus', create_type=False)
+    op.execute("CREATE TYPE orderstatus AS ENUM ('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') IF NOT EXISTS")
     
-    user_role_enum = postgresql.ENUM('ADMIN', 'USER', name='userrole')
-    user_role_enum.create(op.get_bind(), checkfirst=True)
+    user_role_enum = postgresql.ENUM('ADMIN', 'USER', name='userrole', create_type=False)
+    op.execute("CREATE TYPE userrole AS ENUM ('ADMIN', 'USER') IF NOT EXISTS")
 
     # Create users table
     op.create_table('users',
@@ -33,7 +34,7 @@ def upgrade():
         sa.Column('full_name', sa.String(), nullable=True),
         sa.Column('hashed_password', sa.String(), nullable=False),
         sa.Column('is_active', sa.Boolean(), nullable=True),
-        sa.Column('role', user_role_enum, nullable=True),
+        sa.Column('role', sa.String(), nullable=True),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint('id'),
@@ -158,9 +159,6 @@ def downgrade():
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
 
-    # Drop enums
-    user_role_enum = postgresql.ENUM(name='userrole')
-    user_role_enum.drop(op.get_bind(), checkfirst=True)
-    
-    order_status_enum = postgresql.ENUM(name='orderstatus')
-    order_status_enum.drop(op.get_bind(), checkfirst=True)
+    # Drop enums - using raw SQL for PostgreSQL compatibility
+    op.execute("DROP TYPE IF EXISTS userrole")
+    op.execute("DROP TYPE IF EXISTS orderstatus")
