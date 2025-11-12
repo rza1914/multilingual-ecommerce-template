@@ -18,13 +18,9 @@ depends_on = None
 
 
 def upgrade():
-    # Create enums first - using checkfirst=True to avoid duplicate errors on PostgreSQL
-    # This is the proper way to handle PostgreSQL enum creation in migrations
+    # Create enums first - properly handle PostgreSQL enum creation in migrations
     order_status_enum = postgresql.ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', name='orderstatus', create_type=False)
-    op.execute("CREATE TYPE orderstatus AS ENUM ('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') IF NOT EXISTS")
-    
     user_role_enum = postgresql.ENUM('ADMIN', 'USER', name='userrole', create_type=False)
-    op.execute("CREATE TYPE userrole AS ENUM ('ADMIN', 'USER') IF NOT EXISTS")
 
     # Create users table
     op.create_table('users',
