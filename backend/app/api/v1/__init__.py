@@ -1,6 +1,5 @@
 from fastapi import APIRouter
-from . import auth, users, products, orders, admin, seed  # Commenting out AI modules temporarily
-# from . import chat, smart_search, cart, demo  # Commented out for demo simplification
+from . import auth, users, products, orders, admin, seed, chat, smart_search, cart, demo, websocket_endpoints
 from .bot_integration.bot_api import bot_api_router
 
 api_router = APIRouter()
@@ -10,8 +9,12 @@ api_router.include_router(products.router, prefix="/products", tags=["products"]
 api_router.include_router(orders.router, prefix="/orders", tags=["orders"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 api_router.include_router(seed.router, prefix="/seed", tags=["seed"])
-# api_router.include_router(chat.router, prefix="/chat", tags=["chat"])  # Commented out
-# api_router.include_router(smart_search.router, prefix="/products", tags=["smart-search"])  # Commented out
-# api_router.include_router(cart.router, tags=["cart"])  # Commented out
-# api_router.include_router(demo.router, prefix="/demo", tags=["demo"])  # Commented out
+api_router.include_router(chat.router, prefix="/chat", tags=["chat"])
+api_router.include_router(smart_search.router, prefix="/products", tags=["smart-search"])
+api_router.include_router(cart.router, tags=["cart"])
+api_router.include_router(demo.router, prefix="/demo", tags=["demo"])
+api_router.include_router(websocket_endpoints.router, tags=["websocket"])
 api_router.include_router(bot_api_router)
+from . import websocket_endpoints
+
+api_router.include_router(websocket_endpoints.router)

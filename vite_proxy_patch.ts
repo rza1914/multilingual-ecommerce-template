@@ -1,9 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { UserConfig, ConfigEnv } from 'vite'
-import { visualizer } from 'rollup-plugin-visualizer'
-// FIX: ایمپورت path برای تعریف مسیر مستعار
-import path from 'path'
+// vite_proxy_patch.ts
+// Patch for frontend/vite.config.ts to add proxy for development
+// This helps avoid CORS issues during development by proxying API requests
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { UserConfig, ConfigEnv } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Function to create CSP headers based on environment
 function getCSPHeaders(isDev: boolean) {
@@ -56,6 +58,20 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     server: {
       host: true,
       strictPort: false,
+      // Proxy API requests to avoid CORS issues in development
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+        },
+        '/ws': {
+          target: 'ws://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+          ws: true,
+        }
+      },
       // Add CSP headers for development
       headers: getCSPHeaders(isDev),
     },
@@ -79,13 +95,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     define: {
       global: 'globalThis',
-    },
-    // FIX: اضافه کردن بخش resolve با مسیر مستعار @
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
-        '@/types/product': path.resolve(__dirname, './src/types/product.types'),
-      },
-    },
+    }
   };
-})
+});

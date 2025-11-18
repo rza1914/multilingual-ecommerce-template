@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 import logging
 
+from fastapi import HTTPException, status  # <-- این import اضافه شد
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from ..config import settings
@@ -87,3 +88,22 @@ def get_password_hash(password: str) -> str:
         if "__about__" in str(e):
             logger.error("This may be a bcrypt compatibility issue with Python 3.13")
         raise
+
+def decode_websocket_token(token: str):
+    """
+    Decode and validate a JWT token for WebSocket connections.
+    This is a simplified version that doesn't require database access.
+    """
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+        return payload
+    except JWTError:
+        raise credentials_exception
