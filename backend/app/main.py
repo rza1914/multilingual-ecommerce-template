@@ -29,7 +29,7 @@ app.add_middleware(
 # 2. CORS (بعد از Session)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,  # ✅ از config
+    allow_origins=settings.ALL_CORS_ORIGINS,  # ✅ از config
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
