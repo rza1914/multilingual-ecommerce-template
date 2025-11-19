@@ -54,45 +54,13 @@ Object.defineProperty(window, 'WebSocket', {
   writable: true,
 });
 
-// Mock TokenStorage
-jest.mock('../../utils/tokenStorage', () => ({
-  default: {
-    get: jest.fn(),
-    set: jest.fn(),
-    remove: jest.fn(),
-    migrate: jest.fn(),
-    getRefresh: jest.fn(),
-    setRefresh: jest.fn(),
-    removeRefresh: jest.fn(),
-  },
-  TokenStorage: {
-    get: jest.fn(),
-    set: jest.fn(),
-    remove: jest.fn(),
-    migrate: jest.fn(),
-    getRefresh: jest.fn(),
-    setRefresh: jest.fn(),
-    removeRefresh: jest.fn(),
-  },
-  TOKEN_KEYS: {
-    AUTH_TOKEN: 'auth_token',
-    REFRESH_TOKEN: 'refresh_token',
-    USER_DATA: 'user_data',
-    ACCESS_TOKEN: 'access_token',
-    USER: 'user'
-  }
-}));
-
-const TokenStorageModule = require('../../utils/tokenStorage');
-const TokenStorage = TokenStorageModule.default;
+// Mock data for tests
+const mockUserData = { id: 123 };
 
 describe('WebSocket Chat Service', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     MockWebSocket.instances = [];
-
-    // Clear any previous WebSocket state
-    (TokenStorage.get as jest.Mock).mockReturnValue('mock-token');
   });
 
   afterEach(() => {
@@ -109,12 +77,12 @@ describe('WebSocket Chat Service', () => {
     test('should establish WebSocket connection with correct URL', () => {
       // Arrange
       const mockToken = 'test-token-123';
-      const mockUserId = { id: 123 };
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
       // Act
       connectChat(
         mockToken,
+        mockUserId,
         () => {},
         () => {}
       );
@@ -130,15 +98,14 @@ describe('WebSocket Chat Service', () => {
     test('should call onMessage callback when receiving message from WebSocket', () => {
       // Arrange
       const mockToken = 'test-token';
-      const mockUserId = { id: 123 };
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
-      
+      const mockUserId = 123;
+
       const onMessageMock = jest.fn();
       const onErrorMock = jest.fn();
 
       // Act
-      connectChat(mockToken, onMessageMock, onErrorMock);
-      
+      connectChat(mockToken, mockUserId, onMessageMock, onErrorMock);
+
       // Simulate WebSocket opening and receiving a message
       const ws = MockWebSocket.instances[0];
       ws.triggerOpen();
@@ -162,15 +129,14 @@ describe('WebSocket Chat Service', () => {
     test('should call onError callback when receiving error message from WebSocket', () => {
       // Arrange
       const mockToken = 'test-token';
-      const mockUserId = { id: 123 };
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
-      
+      const mockUserId = 123;
+
       const onMessageMock = jest.fn();
       const onErrorMock = jest.fn();
 
       // Act
-      connectChat(mockToken, onMessageMock, onErrorMock);
-      
+      connectChat(mockToken, mockUserId, onMessageMock, onErrorMock);
+
       // Simulate WebSocket opening and receiving an error message
       const ws = MockWebSocket.instances[0];
       ws.triggerOpen();
@@ -188,13 +154,13 @@ describe('WebSocket Chat Service', () => {
     test('should call onError callback when WebSocket connection fails', () => {
       // Arrange
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
-      
+      const mockUserId = 123;
+
       const onMessageMock = jest.fn();
       const onErrorMock = jest.fn();
 
       // Act
-      connectChat(mockToken, onMessageMock, onErrorMock);
+      connectChat(mockToken, mockUserId, onMessageMock, onErrorMock);
       
       // Simulate WebSocket error
       const ws = MockWebSocket.instances[0];
@@ -209,10 +175,10 @@ describe('WebSocket Chat Service', () => {
     test('should send message via WebSocket when connected', () => {
       // Arrange
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
       // Connect first
-      connectChat(mockToken, () => {}, () => {});
+      connectChat(mockToken, mockUserId, () => {}, () => {});
 
       // Open the WebSocket connection
       const ws = MockWebSocket.instances[0];
@@ -233,10 +199,10 @@ describe('WebSocket Chat Service', () => {
     test('should throw error when WebSocket is still connecting', () => {
       // Arrange
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
       // Connect (but don't trigger open event)
-      connectChat(mockToken, () => {}, () => {});
+      connectChat(mockToken, mockUserId, () => {}, () => {});
 
       // Act & Assert
       expect(() => sendChatMessage('Hello')).toThrow('WebSocket is still connecting, please wait');
@@ -247,10 +213,10 @@ describe('WebSocket Chat Service', () => {
     test('should close WebSocket connection if open', () => {
       // Arrange
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
       // Connect and open
-      connectChat(mockToken, () => {}, () => {});
+      connectChat(mockToken, mockUserId, () => {}, () => {});
       const ws = MockWebSocket.instances[0];
       ws.triggerOpen();
 
@@ -271,9 +237,9 @@ describe('WebSocket Chat Service', () => {
     test('should return true when WebSocket is connected', () => {
       // Arrange
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
-      connectChat(mockToken, () => {}, () => {});
+      connectChat(mockToken, mockUserId, () => {}, () => {});
 
       const ws = MockWebSocket.instances[0];
       ws.triggerOpen();
@@ -292,9 +258,9 @@ describe('WebSocket Chat Service', () => {
     test('should return false when WebSocket connection is closed', () => {
       // Arrange
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
-      connectChat(mockToken, () => {}, () => {});
+      connectChat(mockToken, mockUserId, () => {}, () => {});
 
       const ws = MockWebSocket.instances[0];
       ws.triggerOpen(); // Open first
@@ -312,11 +278,11 @@ describe('WebSocket Chat Service', () => {
       // Arrange
       jest.useFakeTimers();
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
       const onMessageMock = jest.fn();
       const onErrorMock = jest.fn();
-      connectChat(mockToken, onMessageMock, onErrorMock);
+      connectChat(mockToken, mockUserId, onMessageMock, onErrorMock);
 
       const ws1 = MockWebSocket.instances[0];
       ws1.triggerOpen();
@@ -336,11 +302,11 @@ describe('WebSocket Chat Service', () => {
       // Arrange
       jest.useFakeTimers();
       const mockToken = 'test-token';
-      (TokenStorage.get as jest.Mock).mockReturnValue(mockToken);
+      const mockUserId = 123;
 
       const onMessageMock = jest.fn();
       const onErrorMock = jest.fn();
-      connectChat(mockToken, onMessageMock, onErrorMock);
+      connectChat(mockToken, mockUserId, onMessageMock, onErrorMock);
 
       const ws1 = MockWebSocket.instances[0];
       ws1.triggerOpen();
