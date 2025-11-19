@@ -1,4 +1,4 @@
-import TokenStorage from "../utils/tokenStorage";
+// Note: User data is passed as parameter instead of relying on TokenStorage
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -22,21 +22,22 @@ const onErrorCallbacks: ((err: string) => void)[] = [];
 /**
  * Connect to WebSocket chat server
  * @param token - Auth token for WebSocket authentication
+ * @param userId - User ID to connect to the chat
  * @param onMessage - Callback for receiving messages
  * @param onError - Callback for receiving errors
  */
 export const connectChat = (
   token: string,
+  userId: number,
   onMessage: (msg: ChatMessage) => void,
   onError: (err: string) => void
 ) => {
   // Don't reconnect if already connected
   if (ws?.readyState === WebSocket.OPEN) return;
 
-  // Get the user ID from stored user data
-  const userData = TokenStorage.get();
-  if (!userData) {
-    onError('User data not found');
+  // Validate input
+  if (!userId) {
+    onError('User ID not provided');
     return;
   }
 
@@ -45,7 +46,7 @@ export const connectChat = (
 
   // Replace http/https with ws/wss
   const wsUrl = apiUrl.replace(/^http/, 'ws');
-  const url = `${wsUrl}/api/v1/chat/${userData.id}`; // Remove token from URL
+  const url = `${wsUrl}/api/v1/chat/${userId}`; // Remove token from URL
 
   console.log(`🔌 Connecting to WebSocket: ${url}`);
 
@@ -106,8 +107,8 @@ export const connectChat = (
       console.log(`🔄 Attempting to reconnect... (${reconnectAttempts + 1}/${maxReconnects})`);
       setTimeout(() => {
         reconnectAttempts++;
-        // Use the same token that was originally passed to connectChat
-        connectChat(token, onMessage, onError);
+        // Use the same token and userId that were originally passed to connectChat
+        connectChat(token, userId, onMessage, onError);
       }, 2000 * reconnectAttempts); // Exponential backoff
     } else if (reconnectAttempts >= maxReconnects) {
       onError('تعداد تلاش‌های اتصال مجدد به حداکثر رسیده است');
