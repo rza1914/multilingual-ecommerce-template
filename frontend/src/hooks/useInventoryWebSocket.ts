@@ -41,8 +41,8 @@ export const useInventoryWebSocket = (token: string | null) => {
     const baseUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000';
     const port = import.meta.env.VITE_WS_PORT || '8000';
     const path = import.meta.env.VITE_WS_PATH || '/ws/inventory';
-    
-    // Handle both full URL and just domain formats
+
+    // Handle both full URL and just domain formats (remove token from URL)
     let wsUrl;
     if (baseUrl.startsWith('ws://') || baseUrl.startsWith('wss://')) {
       wsUrl = `${baseUrl}${path}`;
@@ -51,15 +51,9 @@ export const useInventoryWebSocket = (token: string | null) => {
       const host = baseUrl.replace(/^https?:\/\//, '');
       wsUrl = `${protocol}//${host}${port !== '80' && port !== '443' ? ':' + port : ''}${path}`;
     }
-    
-    // Add token as query parameter
-    const url = new URL(wsUrl);
-    if (token) {
-      url.searchParams.set('token', token);
-    }
-    
-    return url.toString();
-  }, [token]);
+
+    return wsUrl;
+  }, []);
 
   // Send heartbeat to keep connection alive
   const sendHeartbeat = useCallback(() => {
@@ -119,15 +113,25 @@ export const useInventoryWebSocket = (token: string | null) => {
 
       ws.onopen = () => {
         console.log('WebSocket connected');
-        setState(prev => ({ 
-          isConnected: true, 
-          isConnecting: false, 
-          isReconnecting: false, 
+        setState(prev => ({
+          isConnected: true,
+          isConnecting: false,
+          isReconnecting: false,
           lastUpdate: new Date().toISOString(),
           error: null
         }));
         reconnectAttemptsRef.current = 0; // Reset reconnect attempts on successful connection
-        
+
+        // Send authentication token as first message after connection
+        if (token) {
+          const authMessage = {
+            type: 'authenticate',
+            token: token
+          };
+          ws.send(JSON.stringify(authMessage));
+          console.log('🔒 Inventory WebSocket authentication token sent via message');
+        }
+
         // Start heartbeat interval
         if (heartbeatIntervalRef.current) {
           clearInterval(heartbeatIntervalRef.current);
