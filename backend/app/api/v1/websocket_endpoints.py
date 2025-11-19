@@ -7,7 +7,7 @@ import json
 import logging
 from datetime import datetime
 
-from fastapi import APIRouter, WebSocket, WebSocketException, Depends, Query
+from fastapi import APIRouter, WebSocket, WebSocketException, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from ...core.auth import get_current_user
@@ -15,6 +15,7 @@ from ...models.user import User
 from ...models.product import Product
 from .websocket_manager import manager
 from ...database import SessionLocal
+from ...core.security import get_current_user_from_token
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -108,96 +109,91 @@ async def websocket_inventory_updates(
             await websocket.close(code=1011, reason="Internal server error")
 
 
-@router.websocket("/chat/{user_id}")
+@router.websocket("/chat/{chat_id}")
 async def websocket_chat(
     websocket: WebSocket,
-    user_id: str,
-    token: str = Query(...)
+    chat_id: str,
+    token: str = Query(...)  # token required in query
 ):
     """
-    WebSocket endpoint for chat functionality
+    WebSocket endpoint for chat functionality with proper token validation
     This endpoint enhances the existing chat functionality with proper WebSocket implementation
     """
     current_user: User = None
 
+    # First validate the token before accepting the connection
     try:
-        # Get a database session manually since WebSocket doesn't use Depends
-        db = SessionLocal()
-        
+        # Validate the token using the security module function
+        current_user = await get_current_user_from_token(token)
+        logger.info(f"✅ Token validated for user {current_user.id}")
+    except WebSocketException as e:
+        logger.warning(f"❌ Invalid token provided for chat {chat_id}: {e.reason}")
+        # Close connection with policy violation
+        await websocket.close(code=e.code, reason=e.reason)
+        return
+    except Exception as e:
+        logger.warning(f"❌ Error validating token for chat {chat_id}: {str(e)}")
+        # Close connection with policy violation
+        await websocket.close(code=status.WS_1008_POLICY_VIOLATION, reason="Invalid token")
+        return
+
+    # If we reach here, token validation was successful
+    # Now we can accept the connection
+    try:
+        # Connect the user to the WebSocket manager
+        await manager.connect(websocket, chat_id)
+
+        # Accept the WebSocket connection after successful authentication
+        await websocket.accept()
+        logger.info(f"✅ WebSocket accepted for chat {chat_id}")
+
         try:
-            # Validate the token and get the current user
-            # We need to manually decode the JWT token since WebSocket doesn't use Depends
-            from jose import jwt, JWTError
-            from ...config import settings
+            # Send welcome message
+            welcome_msg = {
+                "type": "welcome",
+                "message": f"Connected to chat {chat_id}",
+                "timestamp": datetime.utcnow().isoformat()
+            }
+            await manager.send_personal_message(json.dumps(welcome_msg), websocket)
 
-            try:
-                payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-                token_user_id: str = payload.get("sub")
-                if token_user_id is None:
-                    await websocket.close(code=1008, reason="Invalid authentication token")
-                    return
-            except JWTError:
-                await websocket.close(code=1008, reason="Invalid authentication token")
-                return
+            # Main message loop
+            while True:
+                try:
+                    data = await websocket.receive_text()
+                    message = json.loads(data)
 
-            current_user = db.query(User).filter(User.id == token_user_id).first()
-            if not current_user or not current_user.is_active or str(current_user.id) != user_id:
-                await websocket.close(code=1008, reason="Invalid authentication or user mismatch")
-                return
+                    # Handle ping/pong for heartbeat
+                    if message.get("type") == "ping":
+                        pong_response = {
+                            "type": "pong",
+                            "timestamp": datetime.utcnow().isoformat()
+                        }
+                        await manager.send_personal_message(json.dumps(pong_response), websocket)
+                        manager.update_heartbeat(websocket)
+                    else:
+                        # Process chat message
+                        processed_msg = {
+                            "type": "chat_message",
+                            "content": message.get("content", ""),
+                            "sender": str(current_user.id),
+                            "timestamp": datetime.utcnow().isoformat()
+                        }
+                        # For now, echo back to sender - in real implementation, process through chat service
+                        await manager.send_personal_message(json.dumps(processed_msg), websocket)
 
-            # Connect the user to the WebSocket manager
-            await manager.connect(websocket, user_id)
-
-            try:
-                # Send welcome message
-                welcome_msg = {
-                    "type": "welcome",
-                    "message": f"Connected to chat for user {user_id}",
-                    "timestamp": datetime.utcnow().isoformat()
-                }
-                await manager.send_personal_message(json.dumps(welcome_msg), websocket)
-
-                # Main message loop
-                while True:
-                    try:
-                        data = await websocket.receive_text()
-                        message = json.loads(data)
-
-                        # Handle ping/pong for heartbeat
-                        if message.get("type") == "ping":
-                            pong_response = {
-                                "type": "pong",
-                                "timestamp": datetime.utcnow().isoformat()
-                            }
-                            await manager.send_personal_message(json.dumps(pong_response), websocket)
-                            manager.update_heartbeat(websocket)
-                        else:
-                            # Process chat message
-                            processed_msg = {
-                                "type": "chat_message",
-                                "content": message.get("content", ""),
-                                "sender": user_id,
-                                "timestamp": datetime.utcnow().isoformat()
-                            }
-                            # For now, echo back to sender - in real implementation, process through chat service
-                            await manager.send_personal_message(json.dumps(processed_msg), websocket)
-
-                    except json.JSONDecodeError:
-                        continue
-                    except WebSocketDisconnect:
-                        break
-            except WebSocketDisconnect:
-                pass
-        finally:
-            # Always close the database session
-            db.close()
+                except json.JSONDecodeError:
+                    continue
+                except WebSocketDisconnect:
+                    break
+        except WebSocketDisconnect:
+            pass
 
     except WebSocketException as e:
-        logger.error(f"WebSocket exception for chat user {user_id}: {e}")
+        logger.error(f"WebSocket exception for chat {chat_id}: {e}")
         if websocket.client_state != websocket.application_state.DISCONNECTED:
             await websocket.close(code=e.code, reason=e.reason)
     except Exception as e:
-        logger.error(f"Unexpected error in chat WebSocket for user {user_id}: {e}")
+        logger.error(f"Unexpected error in chat WebSocket for chat {chat_id}: {e}")
         if websocket.client_state != websocket.application_state.DISCONNECTED:
             await websocket.close(code=1011, reason="Internal server error")
 

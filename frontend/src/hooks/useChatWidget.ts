@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useChat } from './useChat';
 import { useMonitoring } from './useMonitoring';
 import { AIAction } from '../types/chat.types';
 
@@ -60,17 +59,148 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const hasInitialized = useRef(false); // To prevent multiple initializations
 
-  // Use the chat hook for managing chat state and WebSocket connection
-  const {
-    messages,
-    isConnected,
-    isTyping,
-    unreadCount,
-    error,
-    isOffline: chatIsOffline,
-    sendMessage,
-    markAllAsRead,
-  } = useChat(user?.id?.toString());
+  // Chat state and WebSocket connection (standalone implementation)
+  // Initialize auth token and get it for WebSocket connection
+  const { token } = useAuth();
+
+  const [messages, setMessages] = useState<any[]>([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [error, setError] = useState<any>(null);
+  const [chatIsOffline, setChatIsOffline] = useState(true);
+  const wsRef = useRef<WebSocket | null>(null);
+  const messageQueueRef = useRef<string[]>([]);
+
+  // Function to establish WebSocket connection
+  const connectWebSocket = useCallback(() => {
+    if (!user?.id || !token) return;
+
+    try {
+      // Close existing connection if any
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+
+      const wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/api/v1/chat/${user.id}?token=${token}`;
+      const ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        setIsConnected(true);
+        setChatIsOffline(false);
+        setError(null);
+        logInfo('Chat WebSocket connected', { userId: user.id });
+
+        // Send any queued messages
+        if (messageQueueRef.current.length > 0) {
+          messageQueueRef.current.forEach(msg => ws.send(JSON.stringify({ type: 'message', content: msg })));
+          messageQueueRef.current = [];
+        }
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+
+          switch (data.type) {
+            case 'message':
+              setMessages(prev => [...prev, {
+                id: Date.now(),
+                text: data.content,
+                sender: 'ai',
+                timestamp: new Date().toISOString()
+              }]);
+              if (!isOpen) {
+                setUnreadCount(prev => prev + 1);
+              }
+              break;
+            case 'typing':
+              setIsTyping(data.isTyping);
+              break;
+            case 'error':
+              setError(data.message);
+              logError(`Chat WebSocket error: ${data.message}`, { userId: user.id });
+              break;
+            default:
+              console.warn('Unknown message type received:', data);
+          }
+        } catch (parseError) {
+          console.error('Error parsing WebSocket message:', parseError);
+        }
+      };
+
+      ws.onclose = (event) => {
+        setIsConnected(false);
+        setChatIsOffline(true);
+        logInfo('Chat WebSocket disconnected', {
+          userId: user.id,
+          code: event.code,
+          reason: event.reason
+        });
+
+        // Attempt to reconnect after a delay
+        setTimeout(() => {
+          if (user?.id && token) {
+            connectWebSocket();
+          }
+        }, 3000);
+      };
+
+      ws.onerror = (error) => {
+        setError('WebSocket connection error');
+        logError('Chat WebSocket error', { userId: user.id, error });
+      };
+
+      wsRef.current = ws;
+    } catch (error) {
+      setError('Error establishing chat connection');
+      logError('Chat connection error:', { error, userId: user?.id });
+    }
+  }, [user?.id, token, isOpen, logInfo, logError]);
+
+  // Initialize WebSocket connection when user is available and authenticated
+  useEffect(() => {
+    if (user?.id && token) {
+      connectWebSocket();
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [user?.id, token, connectWebSocket]);
+
+  // Function to send a message
+  const sendMessage = (text: string) => {
+    if (!text.trim()) return;
+
+    // Add user message to UI immediately
+    setMessages(prev => [...prev, {
+      id: Date.now(),
+      text: text,
+      sender: 'user',
+      timestamp: new Date().toISOString()
+    }]);
+
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'message', content: text }));
+    } else {
+      // Queue the message if connection is not ready
+      messageQueueRef.current.push(text);
+
+      // Try to establish connection if not connected
+      if (user?.id && token && wsRef.current?.readyState !== WebSocket.CONNECTING) {
+        connectWebSocket();
+      }
+    }
+  };
+
+  // Function to mark all messages as read
+  const markAllAsRead = useCallback(() => {
+    setUnreadCount(0);
+  }, []);
 
   // Find login button in the DOM (for floating position style)
   const findLoginButtonPosition = useCallback((): HTMLElement | null => {

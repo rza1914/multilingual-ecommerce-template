@@ -12,8 +12,9 @@ from .websocket_manager import manager
 from ..database import SessionLocal
 from ..services.ai_chat_service import AIChatService
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Query, status
-from ..core.security import decode_websocket_token  # <-- این import اضافه شد
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Query, status, Depends
+from ..core.security import get_current_user_from_token  # Updated import
+from ..models.user import User  # Import User model
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -28,32 +29,22 @@ def get_db():
     finally:
         db.close()
 
-@router.websocket("/chat/{chat_id}")
+@router.websocket("/ws/chat/{chat_id}")
 async def websocket_chat_endpoint(
     websocket: WebSocket,
     chat_id: str,
-    token: str = Query(...)
+    token: str = Query(...),  # token required in query
+    current_user: User = Depends(get_current_user_from_token)  # This will validate token
 ):
     """
     WebSocket endpoint for chat functionality with token validation and AI integration
     """
-    logger.info(f"🔵 WebSocket connection attempt for chat {chat_id} with token: {token}")
+    logger.info(f"🔵 WebSocket connection attempt for chat {chat_id} for user: {current_user.id if hasattr(current_user, 'id') else 'Unknown'}")
 
     try:
-        # --- این بخش با کد جدید جایگزین شد ---
-        # Validate token
-        try:
-            payload = decode_websocket_token(token)  # <-- تابع جدید فراخوانی شد
-            user_id = payload.get("sub")
-            if user_id is None:
-                raise ValueError("Invalid token payload")
-            logger.info(f"✅ Token validated for user {user_id}")
-        except (ValueError, Exception) as e:
-            logger.warning(f"❌ Invalid token provided for chat {chat_id}: {e}")
-            # Close connection with policy violation
-            await websocket.close(code=status.WS_1008_POLICY_VIOLATION, reason="Invalid token")
-            return
-        # --- پایان بخش جایگزین شده ---
+        # At this point, the token is validated and current_user is available
+        user_id = current_user.id if hasattr(current_user, 'id') else current_user.get('id')
+        logger.info(f"✅ Token validated for user {user_id}")
 
         # قبول کردن اتصال
         await websocket.accept()
