@@ -83,9 +83,25 @@ describe('FixedFloatingChatBot Integration Tests - Authenticated User', () => {
     }),
   }));
 
-  // Mock useChat hook for authenticated user
-  vi.mock('../hooks/useChat', () => ({
-    useChat: () => ({
+  // Mock useChatWidget hook for authenticated user
+  vi.mock('../hooks/useChatWidget', () => ({
+    useChatWidget: () => ({
+      // State
+      isOpen: false,
+      showAIActions: false,
+      position: { bottom: '70px', right: '1.5rem' },
+      isWidgetOffline: false,
+
+      // Setters
+      setIsOpen: vi.fn(),
+      setShowAIActions: vi.fn(),
+      setPosition: vi.fn(),
+
+      // Methods
+      handleSendMessage: vi.fn(),
+      handleAIAction: vi.fn(),
+
+      // Chat state from useChat hook
       messages: [],
       isConnected: true,
       isTyping: false,
@@ -93,6 +109,9 @@ describe('FixedFloatingChatBot Integration Tests - Authenticated User', () => {
       error: null,
       sendMessage: vi.fn(),
       markAllAsRead: vi.fn(),
+
+      // Refs
+      chatContainerRef: { current: null },
     })
   }));
 
@@ -347,10 +366,26 @@ describe('FixedFloatingChatBot Integration Tests - Unread Messages', () => {
   // Skipping this test as it's problematic with the current mock setup
   // The unread count badge test has issues with module-level mocking
   it.skip('shows unread count badge when messages are unread', async () => {
-    // Mock useChat hook to return unread messages
-    vi.doUnmock('../hooks/useChat');
-    vi.mock('../hooks/useChat', () => ({
-      useChat: () => ({
+    // Mock useChatWidget hook to return unread messages
+    vi.doUnmock('../hooks/useChatWidget');
+    vi.mock('../hooks/useChatWidget', () => ({
+      useChatWidget: () => ({
+        // State
+        isOpen: false,
+        showAIActions: false,
+        position: { bottom: '70px', right: '1.5rem' },
+        isWidgetOffline: false,
+
+        // Setters
+        setIsOpen: vi.fn(),
+        setShowAIActions: vi.fn(),
+        setPosition: vi.fn(),
+
+        // Methods
+        handleSendMessage: vi.fn(),
+        handleAIAction: vi.fn(),
+
+        // Chat state from useChat hook
         messages: [],
         isConnected: true,
         isTyping: false,
@@ -358,6 +393,9 @@ describe('FixedFloatingChatBot Integration Tests - Unread Messages', () => {
         error: null,
         sendMessage: vi.fn(),
         markAllAsRead: vi.fn(),
+
+        // Refs
+        chatContainerRef: { current: null },
       })
     }));
 
@@ -378,9 +416,25 @@ describe('FixedFloatingChatBot Integration Tests - Unread Messages', () => {
     expect(badgeElement).toHaveClass('w-6', 'h-6', 'rounded-full', 'text-xs', 'font-bold', 'text-white');
 
     // Reset the mock to original
-    vi.doUnmock('../hooks/useChat');
-    vi.mock('../hooks/useChat', () => ({
-      useChat: () => ({
+    vi.doUnmock('../hooks/useChatWidget');
+    vi.mock('../hooks/useChatWidget', () => ({
+      useChatWidget: () => ({
+        // State
+        isOpen: false,
+        showAIActions: false,
+        position: { bottom: '70px', right: '1.5rem' },
+        isWidgetOffline: false,
+
+        // Setters
+        setIsOpen: vi.fn(),
+        setShowAIActions: vi.fn(),
+        setPosition: vi.fn(),
+
+        // Methods
+        handleSendMessage: vi.fn(),
+        handleAIAction: vi.fn(),
+
+        // Chat state from useChat hook
         messages: [],
         isConnected: true,
         isTyping: false,
@@ -388,6 +442,9 @@ describe('FixedFloatingChatBot Integration Tests - Unread Messages', () => {
         error: null,
         sendMessage: vi.fn(),
         markAllAsRead: vi.fn(),
+
+        // Refs
+        chatContainerRef: { current: null },
       })
     }));
   });

@@ -18,9 +18,25 @@ vi.mock('../contexts/AuthContext', () => ({
   }),
 }));
 
-// Mock useChat hook
-vi.mock('../hooks/useChat', () => ({
-  useChat: () => ({
+// Mock useChatWidget hook
+vi.mock('../hooks/useChatWidget', () => ({
+  useChatWidget: () => ({
+    // State
+    isOpen: false,
+    showAIActions: false,
+    position: { bottom: '70px', right: '1.5rem' },
+    isWidgetOffline: false,
+
+    // Setters
+    setIsOpen: vi.fn(),
+    setShowAIActions: vi.fn(),
+    setPosition: vi.fn(),
+
+    // Methods
+    handleSendMessage: vi.fn(),
+    handleAIAction: vi.fn(),
+
+    // Chat state from useChat hook
     messages: [],
     isConnected: true,
     isTyping: false,
@@ -28,6 +44,9 @@ vi.mock('../hooks/useChat', () => ({
     error: null,
     sendMessage: vi.fn(),
     markAllAsRead: vi.fn(),
+
+    // Refs
+    chatContainerRef: { current: null },
   })
 }));
 
