@@ -4,6 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useMonitoring } from './useMonitoring';
 import { AIAction } from '../types/chat.types';
+import { useAIChatWebSocket } from './useAIChatWebSocket'; // Import the new WebSocket hook
 
 // Define screen size breakpoints
 const SCREEN_BREAKPOINTS = {
@@ -22,14 +23,14 @@ export interface UseChatWidgetReturn {
   showAIActions: boolean;
   position: { bottom: string; right: string };
   isWidgetOffline: boolean;
-  
+
   // Methods
   setIsOpen: (isOpen: boolean) => void;
   setShowAIActions: (show: boolean) => void;
   setPosition: (pos: { bottom: string; right: string }) => void;
   handleSendMessage: (text: string) => void;
   handleAIAction: (action: AIAction) => void;
-  
+
   // Chat state from useChat hook
   messages: any[];
   isConnected: boolean;
@@ -39,7 +40,7 @@ export interface UseChatWidgetReturn {
   chatIsOffline: boolean; // from useChat
   sendMessage: (text: string) => void;
   markAllAsRead: () => void;
-  
+
   // Refs
   chatContainerRef: React.RefObject<HTMLDivElement>;
 }
@@ -51,7 +52,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const { logError, logInfo } = useMonitoring();
   const darkMode = theme === 'dark';
   const positionStyle = props.positionStyle || 'fixed';
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const [showAIActions, setShowAIActions] = useState(false);
   const [position, setPosition] = useState({ bottom: '70px', right: '1.5rem' });
@@ -59,155 +60,54 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const hasInitialized = useRef(false); // To prevent multiple initializations
 
-  // Chat state and WebSocket connection (standalone implementation)
-  // Initialize auth token and get it for WebSocket connection
-  const { token } = useAuth();
+  // Use the new AI Chat WebSocket hook
+  const { messages, isConnected, sendMessage: sendAIChatMessage, error: aiChatError } = useAIChatWebSocket();
 
-  const [messages, setMessages] = useState<any[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
+  // Additional state for the chat widget functionality
   const [isTyping, setIsTyping] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [error, setError] = useState<any>(null);
-  const [chatIsOffline, setChatIsOffline] = useState(true);
-  const wsRef = useRef<WebSocket | null>(null);
-  const messageQueueRef = useRef<string[]>([]);
+  const chatIsOffline = !isConnected; // Derive from WebSocket connection state
 
-  // Function to establish WebSocket connection
-  const connectWebSocket = useCallback(() => {
-    if (!user?.id || !token) return;
-
-    try {
-      // Close existing connection if any
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-
-      const wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/api/v1/chat/${user.id}?token=${token}`;
-      const ws = new WebSocket(wsUrl);
-
-      ws.onopen = () => {
-        setIsConnected(true);
-        setChatIsOffline(false);
-        setError(null);
-        logInfo('Chat WebSocket connected', { userId: user.id });
-
-        // Send any queued messages
-        if (messageQueueRef.current.length > 0) {
-          messageQueueRef.current.forEach(msg => ws.send(JSON.stringify({ type: 'message', content: msg })));
-          messageQueueRef.current = [];
-        }
-      };
-
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-
-          switch (data.type) {
-            case 'message':
-              setMessages(prev => [...prev, {
-                id: Date.now(),
-                text: data.content,
-                sender: 'ai',
-                timestamp: new Date().toISOString()
-              }]);
-              if (!isOpen) {
-                setUnreadCount(prev => prev + 1);
-              }
-              break;
-            case 'typing':
-              setIsTyping(data.isTyping);
-              break;
-            case 'error':
-              setError(data.message);
-              logError(`Chat WebSocket error: ${data.message}`, { userId: user.id });
-              break;
-            default:
-              console.warn('Unknown message type received:', data);
-          }
-        } catch (parseError) {
-          console.error('Error parsing WebSocket message:', parseError);
-        }
-      };
-
-      ws.onclose = (event) => {
-        setIsConnected(false);
-        setChatIsOffline(true);
-        logInfo('Chat WebSocket disconnected', {
-          userId: user.id,
-          code: event.code,
-          reason: event.reason
-        });
-
-        // Attempt to reconnect after a delay
-        setTimeout(() => {
-          if (user?.id && token) {
-            connectWebSocket();
-          }
-        }, 3000);
-      };
-
-      ws.onerror = (error) => {
-        setError('WebSocket connection error');
-        logError('Chat WebSocket error', { userId: user.id, error });
-      };
-
-      wsRef.current = ws;
-    } catch (error) {
-      setError('Error establishing chat connection');
-      logError('Chat connection error:', { error, userId: user?.id });
-    }
-  }, [user?.id, token, isOpen, logInfo, logError]);
-
-  // Initialize WebSocket connection when user is available and authenticated
-  useEffect(() => {
-    if (user?.id && token) {
-      connectWebSocket();
-    }
-
-    // Cleanup on unmount
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, [user?.id, token, connectWebSocket]);
-
-  // Function to send a message
-  const sendMessage = (text: string) => {
-    if (!text.trim()) return;
-
-    // Add user message to UI immediately
-    setMessages(prev => [...prev, {
-      id: Date.now(),
-      text: text,
-      sender: 'user',
-      timestamp: new Date().toISOString()
-    }]);
-
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ type: 'message', content: text }));
-    } else {
-      // Queue the message if connection is not ready
-      messageQueueRef.current.push(text);
-
-      // Try to establish connection if not connected
-      if (user?.id && token && wsRef.current?.readyState !== WebSocket.CONNECTING) {
-        connectWebSocket();
-      }
-    }
-  };
+  // Handle sending a message using the new AI chat hook
+  const handleSendMessage = useCallback((text: string) => {
+    sendAIChatMessage(text);
+  }, [sendAIChatMessage]);
 
   // Function to mark all messages as read
   const markAllAsRead = useCallback(() => {
     setUnreadCount(0);
   }, []);
 
+  // Mark messages as read when chat is opened
+  useEffect(() => {
+    if (isOpen && unreadCount > 0) {
+      markAllAsRead();
+    }
+  }, [isOpen, unreadCount, markAllAsRead]);
+
+  // Handle AI action
+  const handleAIAction = useCallback((action: AIAction) => {
+    setShowAIActions(false);
+
+    // Add the AI message directly without waiting for WebSocket
+    setTimeout(() => {
+      // For this example, just add directly to state
+      // In the real useChat hook, this would be handled by the WebSocket response
+    }, 100);
+
+    // Update unread count if chat is closed
+    if (!isOpen) {
+      // Update in the hook
+    }
+  }, [t, isOpen]);
+
   // Find login button in the DOM (for floating position style)
   const findLoginButtonPosition = useCallback((): HTMLElement | null => {
     if (positionStyle !== 'floating') {
       return null; // Only find login button if using floating positioning
     }
-    
+
     // Try various selectors to find the login button
     const selectorOptions = [
       'header button:has(svg[class*="User"])',  // SVG with User class
@@ -411,8 +311,8 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     const updatePosition = () => {
       if (!mounted) return;
 
-      const newPosition = positionStyle === 'floating' 
-        ? calculateFloatingChatButtonPosition() 
+      const newPosition = positionStyle === 'floating'
+        ? calculateFloatingChatButtonPosition()
         : calculateFixedChatButtonPosition();
       setPosition(newPosition);
     };
@@ -477,41 +377,20 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     };
   }, [positionStyle, calculateFixedChatButtonPosition, calculateFloatingChatButtonPosition, findLoginButtonPosition]); // Empty dependency array since we're using the hasInitialized ref
 
-  // Handle sending a new message
-  const handleSendMessage = useCallback((text: string) => {
-    sendMessage(text);
-  }, [sendMessage]);
-
-  // Handle AI action
-  const handleAIAction = useCallback((action: AIAction) => {
-    setShowAIActions(false);
-
-    // Add the AI message directly without waiting for WebSocket
-    // In a real implementation, this would be handled by the WebSocket
-    setTimeout(() => {
-      // For this example, just add directly to state
-      // In the real useChat hook, this would be handled by the WebSocket response
-    }, 100);
-
-    // Update unread count if chat is closed
-    if (!isOpen) {
-      // Update in the hook
-    }
-  }, [t, isOpen]);
-
-  // Mark messages as read when chat is opened
-  useEffect(() => {
-    if (isOpen && unreadCount > 0) {
-      markAllAsRead();
-    }
-  }, [isOpen, unreadCount, markAllAsRead]);
-
   // Scroll to bottom when messages change
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Handle error from AI chat webSocket
+  useEffect(() => {
+    if (aiChatError) {
+      setError(aiChatError);
+      logError(`AI Chat WebSocket error: ${aiChatError}`, { userId: user?.id });
+    }
+  }, [aiChatError, user?.id, logError]);
 
   // Show error if connection fails
   if (error) {
@@ -530,26 +409,26 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     showAIActions,
     position,
     isWidgetOffline: chatIsOffline,
-    
+
     // Setters
     setIsOpen,
     setShowAIActions,
     setPosition,
-    
+
     // Methods
     handleSendMessage,
     handleAIAction,
-    
-    // Chat state from useChat hook
+
+    // Chat state from useAIChatWebSocket hook
     messages,
     isConnected,
     isTyping,
     unreadCount,
     error,
     chatIsOffline,
-    sendMessage,
+    sendMessage: handleSendMessage, // Use the same function
     markAllAsRead,
-    
+
     // Refs
     chatContainerRef,
   };
