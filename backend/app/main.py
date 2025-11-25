@@ -74,5 +74,5 @@ async def startup_event():
     print("Multilingual E-Commerce API v2.0.0")
     print(f"Environment: {settings.ENVIRONMENT}")
     print(f"API Docs: http://127.0.0.1:8000/api/v1/docs")
-    print(f"CORS Origins: {len(settings.BACKEND_CORS_ORIGINS)} configured")
+    print(f"CORS Origins: {len(settings.ALL_CORS_ORIGINS)} configured")
     print("=" * 60)

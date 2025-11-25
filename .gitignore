@@ -91,5 +91,20 @@ test-*.bat
 start-*.bat
 verify-*.py
 test-*.py
-fix-*.pygumroad_packages_*/
-multilingual-ecommerce-template/
+fix-*.py
+
+# Exclude specific problematic files
+st Attempt  failed (probably GitHub 503). Retrying in 30s...
+
+# Exclude cache and test directories
+frontend/src/tests/
+frontend/src/__tests__/
+backend/.pytest_cache/
+frontend/.vite/
+frontend/.cache/
+frontend/node_modules/.cache/
+
+# Exclude temporary files
+temp_*.txt
+*.tmp
+*.temp

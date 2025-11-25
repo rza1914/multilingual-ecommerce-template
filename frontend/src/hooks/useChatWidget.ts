@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useMonitoring } from './useMonitoring';
 import { AIAction } from '../types/chat.types';
-import { useAIChatWebSocket } from './useAIChatWebSocket'; // Import the new WebSocket hook
+import { useAIChatSSE } from './useAIChatSSE'; // Import the new SSE hook
 
 // Define screen size breakpoints
 const SCREEN_BREAKPOINTS = {
@@ -60,14 +60,14 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const hasInitialized = useRef(false); // To prevent multiple initializations
 
-  // Use the new AI Chat WebSocket hook
-  const { messages, isConnected, sendMessage: sendAIChatMessage, error: aiChatError } = useAIChatWebSocket();
+  // Use the new AI Chat SSE hook
+  const { messages, isConnected, sendMessage: sendAIChatMessage, error: aiChatError } = useAIChatSSE();
 
   // Additional state for the chat widget functionality
   const [isTyping, setIsTyping] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [error, setError] = useState<any>(null);
-  const chatIsOffline = !isConnected; // Derive from WebSocket connection state
+  const chatIsOffline = false; // SSE doesn't have continuous connection state like WebSocket
 
   // Handle sending a message using the new AI chat hook
   const handleSendMessage = useCallback((text: string) => {
@@ -90,10 +90,10 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const handleAIAction = useCallback((action: AIAction) => {
     setShowAIActions(false);
 
-    // Add the AI message directly without waiting for WebSocket
+    // Add the AI message directly without waiting for SSE response
     setTimeout(() => {
       // For this example, just add directly to state
-      // In the real useChat hook, this would be handled by the WebSocket response
+      // In the real useChat hook, this would be handled by the SSE response
     }, 100);
 
     // Update unread count if chat is closed
@@ -384,11 +384,11 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     }
   }, [messages]);
 
-  // Handle error from AI chat webSocket
+  // Handle error from AI chat SSE
   useEffect(() => {
     if (aiChatError) {
       setError(aiChatError);
-      logError(`AI Chat WebSocket error: ${aiChatError}`, { userId: user?.id });
+      logError(`AI Chat SSE error: ${aiChatError}`, { userId: user?.id });
     }
   }, [aiChatError, user?.id, logError]);
 
@@ -419,7 +419,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     handleSendMessage,
     handleAIAction,
 
-    // Chat state from useAIChatWebSocket hook
+    // Chat state from useAIChatSSE hook
     messages,
     isConnected,
     isTyping,

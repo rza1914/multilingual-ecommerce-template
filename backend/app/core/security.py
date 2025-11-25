@@ -145,3 +145,40 @@ async def get_current_user_from_token(token: str) -> User:
     finally:
         # Close the database session
         next(db_gen, None)  # This triggers the finally block in get_db()
+
+
+async def get_current_user_optional(token: str = None) -> Optional[User]:
+    """
+    Get the current user from the token if provided and valid.
+    Returns None if no token is provided or if the token is invalid.
+    This allows for both guest and authenticated access.
+    """
+    if not token:
+        return None
+
+    try:
+        # Remove 'Bearer ' prefix if present
+        if token.startswith("Bearer "):
+            token = token[7:]
+
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            return None
+    except JWTError:
+        return None
+
+    # Direct database query to get user by email
+    from ..database import get_db
+    from ..models.user import User
+
+    db_gen = get_db()
+    try:
+        db = next(db_gen)
+        user = db.query(User).filter(User.email == email).first()
+        if user is None or not user.is_active:
+            return None
+        return user
+    finally:
+        # Close the database session
+        next(db_gen, None)  # This triggers the finally block in get_db()
