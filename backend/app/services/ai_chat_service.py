@@ -10,14 +10,14 @@ class AIChatService:
     """
     Service class for handling AI chat interactions with Groq API
     """
-    
-    def __init__(self, db: Session, user_id: int):
+
+    def __init__(self, db: Session, user_id: int = None):
         """
         Initialize the AI chat service
-        
+
         Args:
             db: Database session
-            user_id: Current user's ID for context
+            user_id: Current user's ID for context (optional for guest mode)
         """
         # Use the API key from configuration
         api_key = settings.GROQ_API_KEY
@@ -26,7 +26,7 @@ class AIChatService:
         self.client = AsyncGroq(api_key=api_key)
         self.db = db
         self.user_id = user_id
-        
+
         # Setup logging
         self.logger = logging.getLogger(__name__)
         
@@ -78,7 +78,7 @@ class AIChatService:
                 raise ValueError("Received empty response from AI model")
                 
             return response
-            
+
         except APIError as api_error:
             self.logger.error(f"Groq API error: {api_error}")
             return self._get_fallback_response(user_message)
@@ -90,6 +90,178 @@ class AIChatService:
             self.logger.error(f"Error calling Groq API: {str(e)}", exc_info=True)
             # Return a fallback response
             return self._get_fallback_response(user_message)
+
+    @staticmethod
+    async def get_streaming_response(db: Session, user_message: str, context: Dict[str, Any], user_id: int = None):
+        """
+        Get a streaming response from the AI model based on user message and context
+
+        Args:
+            db: Database session
+            user_message: The message from the user
+            context: Context information (user info, products, orders, etc.)
+            user_id: Current user's ID for context (optional for guest mode)
+
+        Yields:
+            str: AI-generated response chunks for streaming
+        """
+        try:
+            # Validate inputs
+            if not user_message or not user_message.strip():
+                raise ValueError("User message cannot be empty")
+
+            # Initialize a new client instance for streaming
+            api_key = settings.GROQ_API_KEY
+            if not api_key:
+                raise ValueError("GROQ_API_KEY not found in configuration")
+
+            client = AsyncGroq(api_key=api_key)
+
+            # Build a system message with context
+            system_message = AIChatService._build_system_message_static(context)
+
+            # Prepare messages for the AI
+            messages = [
+                {
+                    "role": "system",
+                    "content": system_message
+                },
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ]
+
+            # Call the Groq API with streaming
+            stream = await client.chat.completions.create(
+                messages=messages,
+                model="llama3-8b-8192",  # Using LLaMA 3 model
+                temperature=0.7,
+                max_tokens=512,
+                top_p=0.9,
+                stream=True
+            )
+
+            # Yield response chunks
+            async for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    content = chunk.choices[0].delta.content
+                    yield content
+
+        except APIError as api_error:
+            logging.getLogger(__name__).error(f"Groq API error: {api_error}")
+            yield AIChatService._get_fallback_response_static(user_message)
+        except ValueError as ve:
+            logging.getLogger(__name__).error(f"Validation error: {ve}")
+            yield AIChatService._get_fallback_response_static(user_message)
+        except Exception as e:
+            # Log the error with more details
+            logging.getLogger(__name__).error(f"Error calling Groq API: {str(e)}", exc_info=True)
+            # Yield a fallback response
+            yield AIChatService._get_fallback_response_static(user_message)
+
+    @staticmethod
+    def _build_system_message_static(context: Dict[str, Any]) -> str:
+        """
+        Static version of _build_system_message that can be used without instance
+        """
+        # Extract relevant information from context
+        user_info = context.get("user_info", {})
+        recent_orders = context.get("recent_orders", [])
+        relevant_products = context.get("relevant_products", [])
+        inventory_status = context.get("inventory_status", "unknown")
+
+        system_prompt = f"""
+        You are a helpful e-commerce assistant for a multilingual online store. Your role is to assist customers with their queries about products, orders, and general store information.
+
+        Here is information about the current user:
+        - User ID: {user_info.get('id', 'Guest')}
+        - Username: {user_info.get('username', 'Anonymous')}
+        - Full Name: {user_info.get('full_name', 'Guest User')}
+        - Email: {user_info.get('email', 'guest@example.com')}
+
+        Recent Orders:
+        {AIChatService._format_orders_for_prompt_static(recent_orders)}
+
+        Relevant Products:
+        {AIChatService._format_products_for_prompt_static(relevant_products)}
+
+        Inventory Status: {inventory_status}
+
+        Instructions:
+        1. Respond in Persian (Farsi) if the user speaks Persian, otherwise in English
+        2. Answer questions about products based on the product information provided
+        3. Provide information about the user's orders if asked
+        4. Be helpful but stay within the boundaries of the provided information
+        5. If you don't have specific information, politely say you don't know and suggest alternatives
+        6. Only recommend actual products from the provided list
+        7. Be friendly and professional
+        8. If product is out of stock, clearly mention this
+        9. For shipping/order questions, provide accurate information based on order data
+        """
+
+        return system_prompt
+
+    @staticmethod
+    def _format_orders_for_prompt_static(orders: List[Dict[str, Any]]) -> str:
+        """
+        Static version of _format_orders_for_prompt that can be used without instance
+        """
+        if not orders:
+            return "No recent orders found."
+
+        formatted_orders = []
+        for order in orders[:3]:  # Only include last 3 orders
+            formatted_orders.append(
+                f"- Order ID: {order.get('id', 'N/A')}, "
+                f"Date: {order.get('created_at', 'N/A')}, "
+                f"Status: {order.get('status', 'N/A')}, "
+                f"Total: ${order.get('total', 'N/A')}, "
+                f"Items: {len(order.get('items', []))} products"
+            )
+
+        return "\n".join(formatted_orders)
+
+    @staticmethod
+    def _format_products_for_prompt_static(products: List[Dict[str, Any]]) -> str:
+        """
+        Static version of _format_products_for_prompt that can be used without instance
+        """
+        if not products:
+            return "No relevant products found."
+
+        formatted_products = []
+        for product in products[:5]:  # Only include first 5 relevant products
+            status = "In stock" if product.get('stock', 0) > 0 else "Out of stock"
+            formatted_products.append(
+                f"- Product: {product.get('title', 'N/A')} "
+                f"(ID: {product.get('id', 'N/A')}), "
+                f"Price: ${product.get('price', 'N/A')}, "
+                f"Stock: {product.get('stock', 'N/A')} ({status}), "
+                f"Category: {product.get('category', 'N/A')}, "
+                f"Description: {product.get('description', 'N/A')[:100]}..."
+            )
+
+        return "\n".join(formatted_products)
+
+    @staticmethod
+    def _get_fallback_response_static(user_message: str) -> str:
+        """
+        Static version of _get_fallback_response that can be used without instance
+        """
+        # Simple keyword-based responses for common queries
+        user_msg_lower = user_message.lower()
+
+        if any(keyword in user_msg_lower for keyword in ["phone", "mobile", "گوشی", "سامسونگ", "iphone", "android"]):
+            return "متاسفانه در حال حاضر نمی‌توانم اطلاعات محصول را بازیابی کنم. لطفاً صفحه محصولات ما را بررسی کنید یا با پشتیبانی تماس بگیرید."
+        elif any(keyword in user_msg_lower for keyword in ["order", "سفارش", "last", "recent", "shipment", "deliver", "track"]):
+            return "متاسفانه در حال حاضر نمی‌توانم اطلاعات سفارش را بازیابی کنم. لطفاً صفحه حساب کاربری خود را بررسی کنید یا با پشتیبانی تماس بگیرید."
+        elif any(keyword in user_msg_lower for keyword in ["return", "refund", "exchange"]):
+            return "برای درخواست مرجوعی یا بازپرداخت، لطفاً با بخش پشتیبانی مشتریان تماس بگیرید یا سیاست مرجوعی ما را در صفحه مربوطه مطالعه کنید."
+        elif any(keyword in user_msg_lower for keyword in ["support", "help", "assist"]):
+            return "لطفاً سوال خود را با جزئیات بیشتری بیان کنید تا بتوانم بهتر کمک کنم. در غیر این صورت، می‌توانید با پشتیبانی تماس بگیرید."
+        else:
+            return "متاسفانه در حال حاضر نمی‌توانم به سوال شما پاسخ دهیم. لطفاً سوال خود را واضح‌تر مطرح کنید یا با پشتیبانی تماس بگیرید."
     
     def _build_system_message(self, context: Dict[str, Any]) -> str:
         """
