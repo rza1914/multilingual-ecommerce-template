@@ -1,7 +1,7 @@
-# Multilingual AI E-Commerce Platform - React 18 + FastAPI + PostgreSQL + Groq AI
+# Multilingual AI E-Commerce Platform - React 18 + FastAPI + PostgreSQL + DeepSeek AI
 
-**Live Demo:** https://multilingual-ecommerce-template.vercel.app  
-**Admin Demo:** https://admin.multilingual-ecommerce-template.vercel.app  
+**Live Demo:** https://multilingual-ecommerce-template.vercel.app
+**Admin Demo:** https://admin.multilingual-ecommerce-template.vercel.app
 **Demo Credentials:** `admin@demo.com` / `admin123`
 
 ## Features
@@ -14,6 +14,10 @@
 - Docker + Docker Compose Ready
 - 7-Day Refresh Tokens
 - Multi-language Product Descriptions
+- Enhanced AI Integration with DeepSeek API
+- Cross-Environment API Key Loading
+- Server-Sent Events (SSE) Streaming
+- Real-time Chat Interface
 
 ## Tech Stack
 ### Frontend
@@ -36,7 +40,8 @@
 - Session Management
 
 ### AI Services
-- Groq + OpenAI + Gemini
+- DeepSeek + Groq + OpenAI + Gemini
+- Server-Sent Events (SSE) Streaming
 - Vector Search
 - Image Recognition
 - Natural Language Processing
@@ -82,12 +87,24 @@ Access interactive API docs at `/api/v1/docs`
 DATABASE_URL=postgresql://user:pass@localhost/db
 SECRET_KEY=your-super-secret-key-here
 SESSION_SECRET_KEY=your-session-secret-key-here
+DEEPSEEK_API_KEY=your-deepseek-api-key
 GROQ_API_KEY=your-groq-api-key
 OPENAI_API_KEY=your-openai-api-key
 GOOGLE_GEMINI_API_KEY=your-google-gemini-api-key
 SMTP_USER=email@domain.com
 SMTP_PASSWORD=app-password
 ```
+
+### Alternative Environment Files
+The system supports multiple .env files with the following priority:
+1. `.env.production` - For production environment
+2. `.env.development` - For development environment
+3. `.env` - Default/fallback environment
+
+API keys can be specified in any of these files using these variable names:
+- `DEEPSEEK_API_KEY` - Standard variable name
+- `DEEPSEEK_API_KEY_PROD` - Production-specific variable
+- `DEEPSEEK_API_KEY_DEV` - Development-specific variable
 
 ### Frontend (.env)
 ```
@@ -136,17 +153,23 @@ docker-compose -f docker-compose.prod.yml up
 
 ## AI Capabilities
 - Smart Product Search
-- ChatBot Support
+- Real-time ChatBot with SSE Streaming
 - Image-Based Search
 - Product Description Generation
 - Trend Analysis
 - Recommendation Engine
+- Multi-Model AI Support (DeepSeek, Groq, OpenAI, Gemini)
+- Cross-Environment API Key Management
+- Enhanced Persian/Arabic Language Processing
 
-## RTL Support
-- Persian (fa) + Arabic (ar) translations
+## Multilingual & RTL Support
+- Persian (fa) + Arabic (ar) + English (en) translations
+- Advanced i18n with translation namespace support
 - RTL layout for RTL languages
 - Bidirectional UI components
 - RTL-aware CSS
+- Dynamic language switching
+- Translation fallback system
 
 ## File Structure
 ```
