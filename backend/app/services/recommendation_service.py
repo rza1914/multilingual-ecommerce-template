@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc, and_
 from decimal import Decimal
-from groq import AsyncGroq
+from openai import AsyncOpenAI
 import os
 import math
 from ..models.product import Product as ProductModel
@@ -23,17 +23,18 @@ class RecommendationService:
         self.db = db
         self.user_id = user_id
         self.logger = logging.getLogger(__name__)
-        # Using the Groq API key from configuration, but make it optional
-        api_key = settings.GROQ_API_KEY
+        # Using the DeepSeek API key from configuration, but make it optional
+        api_key = settings.DEEPSEEK_API_KEY
+        base_url = settings.DEEPSEEK_BASE_URL
         if not api_key:
             # Don't raise an error, just set the client to None
             self.client = None
         else:
             try:
-                self.client = AsyncGroq(api_key=api_key)
+                self.client = AsyncOpenAI(api_key=api_key, base_url=base_url)
             except Exception:
                 self.client = None
-                self.logger.warning("GROQ_API_KEY is set but client initialization failed")
+                self.logger.warning("DEEPSEEK_API_KEY is set but client initialization failed")
     
     def get_recommendations(self, product_id: int) -> Dict[str, Any]:
         """

@@ -1,20 +1,21 @@
 """
-Groq Service for AI-powered product search
-Handles communication with Groq API for smart search functionality
+DeepSeek Service for AI-powered product search
+Handles communication with DeepSeek API for smart search functionality
 """
 import os
 import logging
 import time
-from typing import Dict, Any, Optional
-from groq import Groq
+from typing import Dict, Any, Optional, List
+from openai import OpenAI
 from app.config import settings
 from collections import deque
 import threading
+import json
 
 
 class RateLimiter:
     """
-    Simple rate limiter to manage API calls to Groq
+    Simple rate limiter to manage API calls to DeepSeek
     """
     def __init__(self, max_requests_per_minute: int = 30, daily_limit: int = 1000):
         self.max_requests_per_minute = max_requests_per_minute
@@ -61,9 +62,9 @@ class RateLimiter:
             time.sleep(1)  # Wait 1 second before retrying
 
 
-class GroqService:
+class DeepSeekService:
     """
-    Service for interacting with the Groq API
+    Service for interacting with the DeepSeek API
     """
     
     def __init__(self):
@@ -71,39 +72,42 @@ class GroqService:
         self.logger = logging.getLogger(__name__)
         
         # Get the API key from environment variables
-        self.api_key = os.getenv("GROQ_API_KEY")
+        self.api_key = os.getenv("DEEPSEEK_API_KEY")
+        self.base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
         self.enabled = bool(self.api_key)  # Check if API key is available
         
         if self.enabled:
             try:
-                self.client = Groq(api_key=self.api_key)
+                self.client = OpenAI(
+                    api_key=self.api_key,
+                    base_url=self.base_url
+                )
                 
                 # Model to use for smart search
-                self.model = os.getenv("GROQ_MODEL", "llama3-8b-8192")  # Default to llama3 8b model
+                self.model = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
                 
                 # Initialize rate limiter with configurable limits
-                max_requests_per_minute = int(os.getenv("GROQ_RATE_LIMIT_PER_MINUTE", "30"))
-                daily_limit = int(os.getenv("GROQ_DAILY_LIMIT", "1000"))
+                max_requests_per_minute = int(os.getenv("DEEPSEEK_RATE_LIMIT_PER_MINUTE", "30"))
+                daily_limit = int(os.getenv("DEEPSEEK_DAILY_LIMIT", "1000"))
                 self.rate_limiter = RateLimiter(max_requests_per_minute, daily_limit)
                 
-                self.logger.info("GroqService initialized with API key")
+                self.logger.info("DeepSeekService initialized with API key")
             except Exception as e:
-                self.logger.error(f"Error initializing Groq client: {e}")
+                self.logger.error(f"Error initializing DeepSeek client: {e}")
                 self.enabled = False
-                # Log the specific warning after setting enabled to False
-                self.logger.warning("GROQ_API_KEY not set or invalid, Groq functionality will be disabled")
+                self.logger.warning("DEEPSEEK_API_KEY not set or invalid, DeepSeek functionality will be disabled")
         else:
-            self.logger.warning("GROQ_API_KEY not set, Groq functionality will be disabled")
+            self.logger.warning("DEEPSEEK_API_KEY not set, DeepSeek functionality will be disabled")
             # Set default values when not enabled
-            self.model = os.getenv("GROQ_MODEL", "llama3-8b-8192")
+            self.model = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
             # Rate limiter is still initialized even if not used
-            max_requests_per_minute = int(os.getenv("GROQ_RATE_LIMIT_PER_MINUTE", "30"))
-            daily_limit = int(os.getenv("GROQ_DAILY_LIMIT", "1000"))
+            max_requests_per_minute = int(os.getenv("DEEPSEEK_RATE_LIMIT_PER_MINUTE", "30"))
+            daily_limit = int(os.getenv("DEEPSEEK_DAILY_LIMIT", "1000"))
             self.rate_limiter = RateLimiter(max_requests_per_minute, daily_limit)
     
     def extract_search_filters(self, query: str) -> Dict[str, Any]:
         """
-        Extract search filters from a natural language query using Groq
+        Extract search filters from a natural language query using DeepSeek
         
         Args:
             query: Natural language search query in Persian or English
@@ -112,11 +116,9 @@ class GroqService:
             Dictionary of extracted filters
         """
         if not self.enabled:
-            # Fallback to simple regex-based filter extraction when API key is not available
             return self._fallback_extract_filters(query)
         
         try:
-            # Check rate limit
             self.rate_limiter.wait_if_needed()
             
             prompt = f"""
@@ -154,37 +156,33 @@ class GroqService:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an expert at parsing natural language search queries for an e-commerce platform. Extract relevant filters accurately."
+                        "content": "You are an expert at parsing natural language search queries for an e-commerce platform. Extract relevant filters accurately. Return ONLY JSON."
                     },
                     {
                         "role": "user",
                         "content": prompt
                     }
                 ],
-                temperature=0.2,
+                temperature=0.1,
                 max_tokens=512,
                 response_format={"type": "json_object"}
             )
             
-            # Parse the response
-            filters = {}
-            if response.choices and response.choices[0].message.content:
-                import json
-                filters = json.loads(response.choices[0].message.content)
-            
-            # Clean up the filters to remove None values
-            filters = {k: v for k, v in filters.items() if v is not None}
-            
-            return filters
+            content = response.choices[0].message.content
+            if content:
+                filters = json.loads(content)
+                # Clean up the filters to remove None values
+                filters = {k: v for k, v in filters.items() if v is not None}
+                return filters
+            return {}
             
         except Exception as e:
             self.logger.error(f"Error extracting search filters: {str(e)}", exc_info=True)
-            # Fallback to simple regex-based extraction when API fails
             return self._fallback_extract_filters(query)
 
     def _fallback_extract_filters(self, query: str) -> Dict[str, Any]:
         """
-        Fallback method to extract filters using simple regex when Groq is not available
+        Fallback method to extract filters using simple regex when DeepSeek is not available
         """
         import re
         
@@ -247,22 +245,12 @@ class GroqService:
     
     def generate_search_explanation(self, query: str, filters: Dict[str, Any], results_count: int) -> str:
         """
-        Generate a human-readable explanation of the search results using Groq
-        
-        Args:
-            query: Original search query
-            filters: Extracted filters
-            results_count: Number of matching products found
-            
-        Returns:
-            AI-generated explanation of the search results
+        Generate a human-readable explanation of the search results using DeepSeek
         """
         if not self.enabled:
-            # Fallback to a simple explanation when API key is not available
             return self._fallback_generate_explanation(query, filters, results_count)
         
         try:
-            # Check rate limit
             self.rate_limiter.wait_if_needed()
             
             prompt = f"""
@@ -304,12 +292,11 @@ class GroqService:
             
         except Exception as e:
             self.logger.error(f"Error generating search explanation: {str(e)}", exc_info=True)
-            # Fallback to simple explanation when API fails
             return self._fallback_generate_explanation(query, filters, results_count)
 
     def _fallback_generate_explanation(self, query: str, filters: Dict[str, Any], results_count: int) -> str:
         """
-        Fallback method to generate explanation when Groq is not available
+        Fallback method to generate explanation when DeepSeek is not available
         """
         if results_count > 0:
             if filters:
@@ -332,20 +319,12 @@ class GroqService:
     
     def generate_related_searches(self, query: str) -> list:
         """
-        Generate related search suggestions using Groq
-        
-        Args:
-            query: Original search query
-            
-        Returns:
-            List of related search suggestions
+        Generate related search suggestions using DeepSeek
         """
         if not self.enabled:
-            # Fallback to simple related searches when API key is not available
             return self._fallback_generate_related_searches(query)
         
         try:
-            # Check rate limit
             self.rate_limiter.wait_if_needed()
             
             prompt = f"""
@@ -363,7 +342,7 @@ class GroqService:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a search assistant that suggests related queries based on user input."
+                        "content": "You are a search assistant that suggests related queries based on user input. Return ONLY JSON."
                     },
                     {
                         "role": "user",
@@ -375,22 +354,20 @@ class GroqService:
                 response_format={"type": "json_object"}
             )
             
-            suggestions = []
-            if response.choices and response.choices[0].message.content:
-                import json
-                data = json.loads(response.choices[0].message.content)
+            content = response.choices[0].message.content
+            if content:
+                data = json.loads(content)
                 suggestions = data.get("suggestions", []) if isinstance(data, dict) else data
-            
-            return suggestions
+                return suggestions
+            return []
             
         except Exception as e:
             self.logger.error(f"Error generating related searches: {str(e)}", exc_info=True)
-            # Fallback to simple related searches when API fails
             return self._fallback_generate_related_searches(query)
 
     def _fallback_generate_related_searches(self, query: str) -> list:
         """
-        Fallback method to generate related searches when Groq is not available
+        Fallback method to generate related searches when DeepSeek is not available
         """
         import re
         
@@ -429,22 +406,12 @@ class GroqService:
     
     def analyze_product_relevance(self, query: str, product_title: str, product_description: str) -> Dict[str, Any]:
         """
-        Analyze the relevance of a product to a search query using Groq
-        
-        Args:
-            query: Original search query
-            product_title: Product title
-            product_description: Product description
-            
-        Returns:
-            Dictionary with relevance score and explanation
+        Analyze the relevance of a product to a search query using DeepSeek
         """
         if not self.enabled:
-            # Fallback to simple relevance analysis when API key is not available
             return self._fallback_analyze_relevance(query, product_title, product_description)
         
         try:
-            # Check rate limit
             self.rate_limiter.wait_if_needed()
             
             prompt = f"""
@@ -470,7 +437,7 @@ class GroqService:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an expert at matching search queries to products. Rate relevance accurately and helpfully."
+                        "content": "You are an expert at matching search queries to products. Rate relevance accurately and helpfully. Return ONLY JSON."
                     },
                     {
                         "role": "user",
@@ -482,21 +449,19 @@ class GroqService:
                 response_format={"type": "json_object"}
             )
             
-            result = {}
-            if response.choices and response.choices[0].message.content:
-                import json
-                result = json.loads(response.choices[0].message.content)
-            
-            return result
+            content = response.choices[0].message.content
+            if content:
+                result = json.loads(content)
+                return result
+            return {}
             
         except Exception as e:
             self.logger.error(f"Error analyzing product relevance: {str(e)}", exc_info=True)
-            # Fallback to simple relevance analysis when API fails
             return self._fallback_analyze_relevance(query, product_title, product_description)
 
     def _fallback_analyze_relevance(self, query: str, product_title: str, product_description: str) -> Dict[str, Any]:
         """
-        Fallback method to analyze product relevance when Groq is not available
+        Fallback method to analyze product relevance when DeepSeek is not available
         """
         import re
         
