@@ -1,42 +1,4 @@
 {
-  "translation": {
-    "home": {
-      "heroTitle": "Discover Luxury",
-      "heroSubtitle": "Premium products for premium people",
-      "exploreCollection": "Explore Collection →",
-      "learnMore": "Learn More",
-      "happyCustomers": "10K+ Happy Customers",
-      "premiumProducts": "500+ Premium Products",
-      "averageRating": "4.9 Average Rating",
-      "badge": "New Collection"
-    },
-    "nav": {
-      "products": "Products",
-      "about": "About",
-      "contact": "Contact"
-    },
-    "auth": {
-      "login": "Login",
-      "signup": "Sign Up"
-    },
-    "footer": {
-      "description": "Luxury online store",
-      "allRightsReserved": "All rights reserved",
-      "privacyPolicy": "Privacy Policy",
-      "termsOfService": "Terms of Service",
-      "cookiePolicy": "Cookie Policy",
-      "support": "Support",
-      "shippingInfo": "Shipping Info",
-      "returns": "Returns",
-      "faq": "FAQ",
-      "customerService": "Customer Service"
-    },
-    "product": {
-      "featured": "Featured",
-      "newArrival": "New Arrival",
-      "bestSeller": "Best Seller"
-    }
-  },
   "home": {
     "badge": "New Collection 2025",
     "heroTitle": "Experience the Future of Shopping",
@@ -83,6 +45,39 @@
     "dontHaveAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
     "welcomeBack": "Welcome Back"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "total": "Total"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "guest": "Continue as Guest"
+  },
+  "buttons": {
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "send": "Send"
+  },
+  "contact": {
+    "subtitle": "Contact Us",
+    "workingHours": "Working Hours",
+    "hoursWeekdays": "Saturday - Wednesday: 9 AM - 6 PM",
+    "hoursWeekends": "Thursday & Friday: 10 AM - 4 PM",
+    "email": "Email",
+    "emailAddress": "support@yourstore.com",
+    "emailResponse": "Response within 24 hours",
+    "phone": "Phone",
+    "phoneNumber": "+1-555-123-4567",
+    "phoneHours": "Phone support 9 AM - 5 PM",
+    "address": "Address",
+    "addressLine1": "123 Main Street",
+    "addressLine2": "Suite 10, 5th Floor",
+    "visitOurStore": "Visit Our Store",
+    "sendUsMessage": "Send us a message",
+    "yourName": "Your Name",
+    "namePlaceholder": "Full Name"
   },
   "common": {
     "loading": "Loading...",
