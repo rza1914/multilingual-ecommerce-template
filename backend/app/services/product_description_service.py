@@ -1,24 +1,3 @@
-from typing import Dict, Any, List, Optional
-import logging
-from groq import AsyncGroq
-import json
-
-
-class ProductDescriptionService:
-    """
-    Service for generating AI-powered product descriptions
-    """
-    
-    def __init__(self):
-        self.client = AsyncGroq(api_key="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")
-        self.logger = logging.getLogger(__name__)
-        
-        # Define different prompt templates for various tones
-        self.prompt_templates = {
-            "professional": {
-                "system_prompt": "You are a professional product description writer. Write formal, detailed, and informative descriptions that highlight technical specifications and professional features. Use industry-standard terminology and focus on features, benefits, and technical advantages.",
-                "title_instruction": "Create a professional, SEO-friendly product title that clearly identifies the product, brand, and key feature.",
-                "short_description_instruction": "Write a concise, 1-2 sentence summary highlighting the product's primary benefit and key specification.",
                 "full_description_instruction": "Write a detailed, multi-paragraph description covering the product's features, technical specifications, benefits, and use cases. Structure it professionally with clear paragraphs.",
                 "highlights_instruction": "Create 3-5 key selling points focusing on technical advantages, professional features, and performance benefits."
             },
@@ -149,7 +128,7 @@ class ProductDescriptionService:
                         "content": prompt
                     }
                 ],
-                model="llama3-8b-8192",
+                model=self.model,
                 max_tokens=100,
                 temperature=0.7
             )
@@ -186,7 +165,7 @@ class ProductDescriptionService:
                         "content": prompt
                     }
                 ],
-                model="llama3-8b-8192",
+                model=self.model,
                 max_tokens=150,
                 temperature=0.7
             )
@@ -223,7 +202,7 @@ class ProductDescriptionService:
                         "content": prompt
                     }
                 ],
-                model="llama3-8b-8192",
+                model=self.model,
                 max_tokens=1000,
                 temperature=0.7
             )
@@ -260,7 +239,7 @@ class ProductDescriptionService:
                         "content": prompt
                     }
                 ],
-                model="llama3-8b-8192",
+                model=self.model,
                 max_tokens=300,
                 temperature=0.7
             )
@@ -303,7 +282,7 @@ class ProductDescriptionService:
                         "content": prompt
                     }
                 ],
-                model="llama3-8b-8192",
+                model=self.model,
                 max_tokens=200,
                 temperature=0.6
             )

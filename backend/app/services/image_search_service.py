@@ -1,30 +1,3 @@
-from typing import Dict, List, Any, Optional
-import logging
-import base64
-from io import BytesIO
-from PIL import Image
-import requests
-from sqlalchemy.orm import Session
-from sqlalchemy import func, and_, or_
-from groq import AsyncGroq
-
-
-class ImageSearchService:
-    """
-    Service for searching products based on images using AI Vision
-    """
-    
-    def __init__(self, db: Session):
-        self.db = db
-        self.logger = logging.getLogger(__name__)
-        # Using the Groq API key from configuration
-        self.client = AsyncGroq(api_key="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")
-        
-    async def search_by_image(self, image_data: str) -> Dict[str, Any]:
-        """
-        Search for products based on an image using AI Vision
-        
-        Args:
             image_data: Base64 encoded image string
             
         Returns:

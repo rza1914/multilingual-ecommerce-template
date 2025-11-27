@@ -3,7 +3,6 @@ import logging
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc, and_
 from decimal import Decimal
-from groq import AsyncGroq
 from ..models.product import Product as ProductModel
 from ..models.order import Order, OrderItem
 
@@ -17,8 +16,7 @@ class CartSuggestionService:
         self.db = db
         self.user_id = user_id
         self.logger = logging.getLogger(__name__)
-        # Using the Groq API key from configuration
-        self.client = AsyncGroq(api_key="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")
+        # AI client removed as it was not being used
     
     def get_suggestions(self, cart_items: List[Dict[str, Any]]) -> Dict[str, Any]:
         """

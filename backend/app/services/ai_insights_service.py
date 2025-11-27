@@ -1,28 +1,3 @@
-from typing import Dict, List, Any, Optional
-import logging
-from datetime import datetime, timedelta
-from sqlalchemy.orm import Session
-from sqlalchemy import func, desc, and_, extract
-from decimal import Decimal
-from groq import AsyncGroq
-import random
-
-
-class AIInsightsService:
-    """
-    Service for generating AI-powered insights for the admin dashboard
-    """
-    
-    def __init__(self, db: Session):
-        self.db = db
-        self.logger = logging.getLogger(__name__)
-        # Using the Groq API key from configuration
-        self.client = AsyncGroq(api_key="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")
-    
-    def get_insights(self) -> Dict[str, Any]:
-        """
-        Get AI-powered insights for the admin dashboard
-        
         Returns:
             Dictionary containing forecast, alerts, and recommendations
         """
