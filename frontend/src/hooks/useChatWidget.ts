@@ -36,7 +36,7 @@ export interface UseChatWidgetReturn {
   isConnected: boolean;
   isTyping: boolean;
   unreadCount: number;
-  error: any;
+  connectionError: string | null;
   chatIsOffline: boolean; // from useChat
   sendMessage: (text: string) => void;
   markAllAsRead: () => void;
@@ -61,12 +61,12 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const hasInitialized = useRef(false); // To prevent multiple initializations
 
   // Use the new AI Chat SSE hook
-  const { messages, isConnected, sendMessage: sendAIChatMessage, error: aiChatError } = useAIChatSSE();
+  const { messages, sendMessage: sendAIChatMessage, isOnline: isConnected } = useAIChatSSE();
 
   // Additional state for the chat widget functionality
   const [isTyping, setIsTyping] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [error, setError] = useState<any>(null);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
   const chatIsOffline = false; // SSE doesn't have continuous connection state like WebSocket
 
   // Handle sending a message using the new AI chat hook
@@ -384,18 +384,10 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     }
   }, [messages]);
 
-  // Handle error from AI chat SSE
-  useEffect(() => {
-    if (aiChatError) {
-      setError(aiChatError);
-      logError(`AI Chat SSE error: ${aiChatError}`, { userId: user?.id });
-    }
-  }, [aiChatError, user?.id, logError]);
-
   // Show error if connection fails
-  if (error) {
-    console.error('Chat error:', error);
-    logError(`Chat connection error: ${error}`, { userId: user?.id });
+  if (connectionError) {
+    console.error('Chat error:', connectionError);
+    logError(`Chat connection error: ${connectionError}`, { userId: user?.id });
   }
 
   // Log isOffline state changes
@@ -408,7 +400,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     isOpen,
     showAIActions,
     position,
-    isWidgetOffline: chatIsOffline,
+    isWidgetOffline: !isConnected, // Updated to reflect actual connection status
 
     // Setters
     setIsOpen,
@@ -420,12 +412,17 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     handleAIAction,
 
     // Chat state from useAIChatSSE hook
-    messages,
+    messages: messages.map((msg, index) => ({
+      id: index.toString(),
+      content: msg.content || msg, // Handle both new and old format
+      role: msg.role || 'assistant',
+      timestamp: new Date().toISOString()
+    })), // Convert to expected message format
     isConnected,
     isTyping,
     unreadCount,
-    error,
-    chatIsOffline,
+    connectionError,
+    chatIsOffline: !isConnected,
     sendMessage: handleSendMessage, // Use the same function
     markAllAsRead,
 

@@ -1,0 +1,23 @@
+﻿{
+  "translation": {
+    "home": {
+      "heroTitle": "لوکس را کشف کنید",
+      "heroSubtitle": "محصولات لوکس برای افراد لوکس",
+      "exploreCollection": "مجموعه را کاوش کنید →",
+      "learnMore": "بیشتر بدانید",
+      "happyCustomers": "بیش از ۱۰ هزار مشتری خوشحال",
+      "premiumProducts": "بیش از ۵۰۰ محصول لوکس",
+      "averageRating": "۴.۹ امتیاز میانگین",
+      "badge": "مجموعه جدید"
+    },
+    "nav": {
+      "products": "محصولات",
+      "about": "درباره ما",
+      "contact": "تماس با ما"
+    },
+    "auth": {
+      "login": "ورود",
+      "signup": "ثبت‌نام"
+    }
+  }
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست چت‌بات SSE</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        .error { background: #ffe6e6; }
+        .success { background: #e6ffe6; }
+        .chat-container { max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; }
+        .message { margin: 5px 0; padding: 5px; }
+        .user { background: #e1f5fe; text-align: left; }
+        .assistant { background: #f3e5f5; text-align: right; }
+    </style>
+</head>
+<body>
+    <h1>🧪 تست چت‌بات SSE</h1>
+    
+    <div class="test-section">
+        <h3>تست اتصال به API</h3>
+        <button onclick="testConnection()">اتصال به API</button>
+        <div id="connection-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>تست ارسال پیام عادی</h3>
+        <input type="text" id="testMessage" value="سلام، این یک تست است" style="width: 300px; padding: 5px;">
+        <button onclick="testSendMessage()">ارسال پیام</button>
+        <div id="message-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>تست Streaming (روش جدید)</h3>
+        <input type="text" id="streamMessage" value="تست استریم" style="width: 300px; padding: 5px;">
+        <button onclick="testStreaming()">تست Stream</button>
+        <button onclick="stopStreaming()">توقف Stream</button>
+        <div id="stream-result"></div>
+        <div id="chat-container" class="chat-container"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api/v1/services/conversation_sse';
+        let currentController = null;
+        let conversationId = `conv_${Date.now()}`;
+        
+        async function testConnection() {
+            const resultDiv = document.getElementById('connection-result');
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<div class="success">✅ اتصال موفق: ${JSON.stringify(data)}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ خطا در اتصال: ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ خطا: ${error.message}</div>`;
+            }
+        }
+
+        async function testSendMessage() {
+            const resultDiv = document.getElementById('message-result');
+            const message = document.getElementById('testMessage').value;
+
+            try {
+                const response = await fetch(`${API_URL}/message`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversation_id: conversationId
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="success">✅ پاسخ: ${JSON.stringify(data)}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ خطا: ${JSON.stringify(data)}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ خطا: ${error.message}</div>`;
+            }
+        }
+
+        async function testStreaming() {
+            const resultDiv = document.getElementById('stream-result');
+            const chatContainer = document.getElementById('chat-container');
+            const message = document.getElementById('streamMessage').value;
+
+            // پاک کردن نتایج قبلی
+            resultDiv.innerHTML = '<div>🔄 در حال دریافت stream...</div>';
+            chatContainer.innerHTML = '';
+
+            // افزودن پیام کاربر
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = message;
+            chatContainer.appendChild(userMsg);
+
+            // ایجاد پیام خالی برای پاسخ دستیار
+            const assistantMsg = document.createElement('div');
+            assistantMsg.className = 'message assistant';
+            assistantMsg.textContent = '';
+            chatContainer.appendChild(assistantMsg);
+
+            // ایجاد AbortController برای کنترل درخواست
+            currentController = new AbortController();
+
+            try {
+                const response = await fetch(`${API_URL}/stream`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/event-stream'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversation_id: conversationId
+                    }),
+                    signal: currentController.signal
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                resultDiv.innerHTML += '<div class="success">✅ Stream باز شد</div>';
+
+                // خواندن stream به صورت دستی
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+
+                    if (done) {
+                        resultDiv.innerHTML += '<div>🏁 Stream تمام شد</div>';
+                        break;
+                    }
+
+                    buffer += decoder.decode(value, { stream: true });
+
+                    // پردازش خطوط کامل
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || ''; // نگه داشتن آخرین خط ناقص
+
+                    for (const line of lines) {
+                        if (line.trim() === '') continue;
+
+                        if (line.startsWith('data: ')) {
+                            const dataStr = line.substring(6);
+
+                            try {
+                                const data = JSON.parse(dataStr);
+
+                                if (data.status === 'connected') {
+                                    continue; // نادیده گرفتن پیام اتصال
+                                }
+
+                                if (data.status === 'done') {
+                                    resultDiv.innerHTML += '<div>🏁 Stream تمام شد</div>';
+                                    return;
+                                }
+
+                                if (data.error) {
+                                    throw new Error(data.error);
+                                }
+
+                                if (data.content) {
+                                    assistantMsg.textContent += data.content;
+                                }
+                            } catch (e) {
+                                console.error('Error parsing SSE data:', e);
+                                resultDiv.innerHTML += `<div class="error">❌ خطا در تجزیه داده: ${e.message}</div>`;
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    resultDiv.innerHTML += '<div>⏹️ Stream متوقف شد</div>';
+                } else {
+                    resultDiv.innerHTML += `<div class="error">❌ خطا: ${error.message}</div>`;
+                }
+            }
+        }
+
+        function stopStreaming() {
+            if (currentController) {
+                currentController.abort();
+                currentController = null;
+            }
+        }
+    </script>
+</body>
+</html>

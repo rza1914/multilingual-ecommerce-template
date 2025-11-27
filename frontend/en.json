@@ -1,0 +1,23 @@
+﻿{
+  "translation": {
+    "home": {
+      "heroTitle": "Discover Luxury",
+      "heroSubtitle": "Premium products for premium people",
+      "exploreCollection": "Explore Collection →",
+      "learnMore": "Learn More",
+      "happyCustomers": "10K+ Happy Customers",
+      "premiumProducts": "500+ Premium Products",
+      "averageRating": "4.9 Average Rating",
+      "badge": "New Collection"
+    },
+    "nav": {
+      "products": "Products",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "auth": {
+      "login": "Login",
+      "signup": "Sign Up"
+    }
+  }
+}
