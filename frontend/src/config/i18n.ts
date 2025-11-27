@@ -6,10 +6,31 @@ import en from '../data/en.json';
 import ar from '../data/ar.json';
 import fa from '../data/fa.json';
 
+// Flatten the translation structure to merge 'translation' namespace with main keys
+const flattenTranslations = (obj: any, prefix = ''): any => {
+  let result: any = {};
+
+  for (const key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      if (key === 'translation') {
+        // If it's the 'translation' key, merge its content directly
+        Object.assign(result, flattenTranslations(obj[key]));
+      } else {
+        // Otherwise, continue nesting
+        Object.assign(result, flattenTranslations(obj[key], `${prefix}${key}.`));
+      }
+    } else {
+      result[`${prefix}${key}`] = obj[key];
+    }
+  }
+
+  return result;
+};
+
 const resources = {
-  en: { translation: en },
-  ar: { translation: ar },
-  fa: { translation: fa },
+  en: { translation: flattenTranslations(en) },
+  ar: { translation: flattenTranslations(ar) },
+  fa: { translation: flattenTranslations(fa) },
 };
 
 i18n

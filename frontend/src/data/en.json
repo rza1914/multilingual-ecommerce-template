@@ -1,0 +1,99 @@
+{
+  "translation": {
+    "home": {
+      "heroTitle": "Discover Luxury",
+      "heroSubtitle": "Premium products for premium people",
+      "exploreCollection": "Explore Collection →",
+      "learnMore": "Learn More",
+      "happyCustomers": "10K+ Happy Customers",
+      "premiumProducts": "500+ Premium Products",
+      "averageRating": "4.9 Average Rating",
+      "badge": "New Collection"
+    },
+    "nav": {
+      "products": "Products",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "auth": {
+      "login": "Login",
+      "signup": "Sign Up"
+    },
+    "footer": {
+      "description": "Luxury online store",
+      "allRightsReserved": "All rights reserved",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "cookiePolicy": "Cookie Policy",
+      "support": "Support",
+      "shippingInfo": "Shipping Info",
+      "returns": "Returns",
+      "faq": "FAQ",
+      "customerService": "Customer Service"
+    },
+    "product": {
+      "featured": "Featured",
+      "newArrival": "New Arrival",
+      "bestSeller": "Best Seller"
+    }
+  },
+  "home": {
+    "badge": "New Collection 2025",
+    "heroTitle": "Experience the Future of Shopping",
+    "heroSubtitle": "Discover our premium collection of products designed for the modern lifestyle. Quality, style, and innovation in every detail.",
+    "exploreCollection": "Explore Collection",
+    "learnMore": "Learn More",
+    "happyCustomers": "Happy Customers",
+    "premiumProducts": "Premium Products",
+    "averageRating": "Average Rating",
+    "freeShipping": "Free Shipping",
+    "freeShippingDesc": "On all orders over $50",
+    "securePayment": "Secure Payment",
+    "securePaymentDesc": "100% secure payment processing",
+    "premiumQuality": "Premium Quality",
+    "premiumQualityDesc": "Certified top quality products",
+    "featuredProducts": "Featured Products",
+    "featuredProductsSubtitle": "Our most popular products this week",
+    "viewAll": "View All",
+    "noFeaturedProducts": "No featured products found.",
+    "ctaTitle": "Ready to Start?",
+    "ctaSubtitle": "Join thousands of satisfied customers today.",
+    "ctaButton": "Get Started"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "cart": "Cart",
+    "profile": "Profile",
+    "logout": "Logout",
+    "admin": "Admin"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Submit",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "welcomeBack": "Welcome Back"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "addToCart": "Add to Cart"
+  },
+  "chat": {
+    "welcome": "Welcome to LuxStore",
+    "product_details": "Product Details",
+    "add_to_cart": "Add to Cart",
+    "chat_placeholder": "Type a message..."
+  }
+}

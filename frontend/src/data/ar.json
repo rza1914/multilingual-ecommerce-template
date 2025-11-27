@@ -1,0 +1,61 @@
+{
+  "home": {
+    "badge": "مجموعة جديدة 2025",
+    "heroTitle": "تجربة مستقبل التسوق",
+    "heroSubtitle": "اكتشف مجموعتنا المتميزة من المنتجات المصممة لنمط الحياة الحديث.",
+    "exploreCollection": "استكشف المجموعة",
+    "learnMore": "تعرف على المزيد",
+    "happyCustomers": "عملاء سعداء",
+    "premiumProducts": "منتجات مميزة",
+    "averageRating": "متوسط التقييم",
+    "freeShipping": "شحن مجاني",
+    "freeShippingDesc": "على جميع الطلبات",
+    "securePayment": "دفع آمن",
+    "securePaymentDesc": "معالجة دفع آمنة 100٪",
+    "premiumQuality": "جودة ممتازة",
+    "premiumQualityDesc": "منتجات عالية الجودة معتمدة",
+    "featuredProducts": "منتجات مميزة",
+    "featuredProductsSubtitle": "منتجاتنا الأكثر شعبية هذا الأسبوع",
+    "viewAll": "عرض الكل",
+    "noFeaturedProducts": "لم يتم العثور على منتجات مميزة.",
+    "ctaTitle": "جاهز للبدء؟",
+    "ctaSubtitle": "انضم إلى الآلاف من العملاء الراضين اليوم.",
+    "ctaButton": "ابدأ الآن"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "products": "المنتجات",
+    "about": "حول",
+    "contact": "اتصل بنا",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "cart": "عربة التسوق",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
+    "admin": "مسؤول"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "submit": "إرسال",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "welcomeBack": "مرحبًا بعودتك"
+  },
+  "common": {
+    "loading": "جار التحميل...",
+    "error": "حدث خطأ",
+    "success": "نجاح",
+    "addToCart": "أضف إلى السلة"
+  },
+  "chat": {
+    "welcome": "مرحبا بكم في لوكس ستور",
+    "product_details": "تفاصيل المنتج",
+    "add_to_cart": "أضف إلى السلة",
+    "chat_placeholder": "اكتب رسالة..."
+  }
+}
