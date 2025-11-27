@@ -1,42 +1,4 @@
 {
-  "translation": {
-    "home": {
-      "heroTitle": "لوکس را کشف کنید",
-      "heroSubtitle": "محصولات لوکس برای افراد لوکس",
-      "exploreCollection": "مجموعه را کاوش کنید →",
-      "learnMore": "بیشتر بدانید",
-      "happyCustomers": "بیش از ۱۰ هزار مشتری خوشحال",
-      "premiumProducts": "بیش از ۵۰۰ محصول لوکس",
-      "averageRating": "۴.۹ امتیاز میانگین",
-      "badge": "مجموعه جدید"
-    },
-    "nav": {
-      "products": "محصولات",
-      "about": "درباره ما",
-      "contact": "تماس با ما"
-    },
-    "auth": {
-      "login": "ورود",
-      "signup": "ثبت‌نام"
-    },
-    "footer": {
-      "description": "فروشگاه لوکس آنلاین",
-      "allRightsReserved": "تمامی حقوق محفوظ است",
-      "privacyPolicy": "حریم خصوصی",
-      "termsOfService": "شرایط استفاده",
-      "cookiePolicy": "سیاست کوکی",
-      "support": "پشتیبانی",
-      "shippingInfo": "اطلاعات ارسال",
-      "returns": "مرجوعی",
-      "faq": "سوالات متداول",
-      "customerService": "خدمات مشتریان"
-    },
-    "product": {
-      "featured": "ویژه",
-      "newArrival": "جدید",
-      "bestSeller": "پرفروش‌ترین"
-    }
-  },
   "home": {
     "badge": "مجموعه جدید 1404",
     "heroTitle": "تجربه آینده خرید",
@@ -64,9 +26,9 @@
     "home": "خانه",
     "products": "محصولات",
     "about": "درباره",
-    "contact": "تماس",
+    "contact": "تماس با ما",
     "login": "ورود",
-    "register": "ثبت نام",
+    "register": "ثبت‌نام",
     "cart": "سبد خرید",
     "profile": "پروفایل",
     "logout": "خروج",
@@ -74,7 +36,7 @@
   },
   "auth": {
     "login": "ورود",
-    "register": "ثبت نام",
+    "register": "ثبت‌نام",
     "email": "ایمیل",
     "password": "رمز عبور",
     "confirmPassword": "تکرار رمز عبور",
@@ -83,6 +45,39 @@
     "dontHaveAccount": "حساب کاربری ندارید؟",
     "haveAccount": "قبلاً حساب کاربری دارید؟",
     "welcomeBack": "خوش آمدید"
+  },
+  "cart": {
+    "title": "سبد خرید",
+    "empty": "سبد خرید خالی است",
+    "total": "جمع کل"
+  },
+  "checkout": {
+    "title": "تسویه حساب",
+    "guest": "ادامه به عنوان مهمان"
+  },
+  "buttons": {
+    "addToCart": "افزودن به سبد",
+    "buyNow": "خرید فوری",
+    "send": "ارسال"
+  },
+  "contact": {
+    "subtitle": "تماس با ما",
+    "workingHours": "ساعات کاری",
+    "hoursWeekdays": "شنبه تا چهارشنبه: ۹ صبح تا ۶ عصر",
+    "hoursWeekends": "پنج‌شنبه و جمعه: ۱۰ صبح تا ۴ عصر",
+    "email": "ایمیل",
+    "emailAddress": "support@yourstore.com",
+    "emailResponse": "پاسخگویی در کمتر از ۲۴ ساعت",
+    "phone": "تلفن",
+    "phoneNumber": "۰۲۱-۱۲۳۴۵۶۷۸",
+    "phoneHours": "پاسخگویی تلفنی ۹ تا ۵",
+    "address": "آدرس",
+    "addressLine1": "تهران، خیابان ولیعصر، پلاک ۱۲۳۴",
+    "addressLine2": "طبقه ۵، واحد ۱۰",
+    "visitOurStore": "از فروشگاه ما دیدن کنید",
+    "sendUsMessage": "پیام بدهید",
+    "yourName": "نام شما",
+    "namePlaceholder": "نام و نام خانوادگی"
   },
   "common": {
     "loading": "در حال بارگذاری...",
