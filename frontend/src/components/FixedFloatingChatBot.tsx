@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
-import { Bot, Lock } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { useChatWidget } from '../hooks/useChatWidget';
 import { ChatWidgetCore } from './chat/ChatWidgetCore';
 import { useAuth } from '../contexts/AuthContext';
@@ -28,7 +28,6 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
     // Setters
     setIsOpen,
     setShowAIActions,
-    setPosition,
 
     // Methods
     handleSendMessage,
@@ -39,8 +38,7 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
     isConnected,
     isTyping,
     unreadCount,
-    error,
-    sendMessage,
+    connectionError: error,
     markAllAsRead,
 
     // Refs

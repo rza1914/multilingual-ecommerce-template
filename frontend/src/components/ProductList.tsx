@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ProductCard from '@/components/ProductCard'; 
+import ProductCard from '@/components/products/ProductCard';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import * as authService from '../services/auth.service';
 // FIX: ایمپورت تایپ اصلی و صحیح Product
-import { Product } from '@/types/product';
+import { Product } from '@/types/product.types';
 
 const ProductList: React.FC = () => {
   const { t } = useTranslation();

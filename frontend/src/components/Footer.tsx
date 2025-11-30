@@ -47,7 +47,7 @@ const Footer = () => {
                 <div className="absolute inset-0 bg-orange-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <span className="text-2xl font-bold text-gradient-orange">
-                LuxStore
+                {t('common.storeName')}
               </span>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm leading-relaxed">
@@ -61,18 +61,18 @@ const Footer = () => {
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group"
               >
                 <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span>hello@luxstore.com</span>
+                <span>{t('footer.emailAddress')}</span>
               </a>
               <a
                 href="tel:+1234567890"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group"
               >
                 <Phone className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span>+1 (234) 567-890</span>
+                <span>{t('footer.phone')}</span>
               </a>
               <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                 <MapPin className="w-5 h-5" />
-                <span>123 Luxury Ave, New York, NY 10001</span>
+                <span>{t('footer.address')}</span>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-orange rounded-full" />
-              Company
+              {t('footer.company')}
             </h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
@@ -146,7 +146,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="text-center md:text-left">
             <p className="text-gray-600 dark:text-gray-400 flex items-center justify-center md:justify-start gap-1">
-              <span>&copy; {currentYear} LuxStore. {t('footer.allRightsReserved')}</span>
+              <span>&copy; {currentYear} {t('common.storeName')}. {t('footer.allRightsReserved')}</span>
             </p>
           </div>
 

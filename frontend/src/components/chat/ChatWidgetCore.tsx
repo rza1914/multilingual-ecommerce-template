@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { TFunction } from 'i18next';
-import { Bot, Lock, X, WifiOff } from 'lucide-react';
+import { Bot, X, WifiOff } from 'lucide-react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { AIActionsMenu } from './AIActionsMenu';

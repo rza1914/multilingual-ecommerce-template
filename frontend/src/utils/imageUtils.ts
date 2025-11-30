@@ -6,7 +6,7 @@
 /**
  * Default placeholder image URL
  */
-const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop';
+export const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop';
 
 /**
  * Get product image URL with fallback

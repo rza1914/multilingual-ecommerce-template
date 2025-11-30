@@ -4,12 +4,11 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { AlertCircle, RefreshCw, RotateCcw } from 'lucide-react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Product } from '../types/product.types';
 import * as productService from '../services/product.service';
 import ProductCard from '../components/products/ProductCard';
 import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
-import SearchBar from '../components/search/SearchBar';
 import SmartSearchBar from '../components/ai/SmartSearchBar'; // Updated import
 import { LegacyWrapper } from '../components/legacy/LegacyWrapper';
 import { MultilingualSmartSearchBar } from '../components/ai/multilingual/MultilingualSmartSearchBar'; // Legacy version
@@ -26,7 +25,7 @@ const ProductsPage = () => {
   const [minPrice, setMinPrice] = useState<number | undefined>();
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [isSmartSearchActive, setIsSmartSearchActive] = useState(false);
+  // const [isSmartSearchActive, setIsSmartSearchActive] = useState(false); // Currently unused
   const [useLegacy, setUseLegacy] = useState(false);
 
   /**
@@ -53,40 +52,6 @@ const ProductsPage = () => {
     }
   }, [searchQuery, minPrice, maxPrice]);
 
-  /**
-   * Handle smart search
-   */
-  const handleSmartSearch = useCallback(async (query: string) => {
-    setIsSmartSearchActive(true);
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Smart search may need a different API endpoint
-      // For now, we'll use the same productService but this could be expanded
-      const response = await fetch('/api/v1/products/smart-search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query })
-      });
-
-      if (!response.ok) {
-        throw new Error('Smart search failed');
-      }
-
-      const data = await response.json();
-      setProducts(data.results || []);
-    } catch (err) {
-      console.error('Smart search error:', err);
-      // Fallback to regular search
-      setSearchQuery(query);
-      fetchProducts(query);
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchProducts]);
 
   /**
    * Initial fetch on mount
@@ -95,12 +60,6 @@ const ProductsPage = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  /**
-   * Handle search
-   */
-  const handleSearch = useCallback((query: string) => {
-    setSearchQuery(query);
-  }, []);
 
   /**
    * Handle price filter
@@ -170,7 +129,6 @@ const ProductsPage = () => {
                 if (query) {
                   setSearchQuery(query);
                 }
-                setIsSmartSearchActive(true);
               } 
             }} 
           />
@@ -180,7 +138,6 @@ const ProductsPage = () => {
             if (query) {
               setSearchQuery(query);
             }
-            setIsSmartSearchActive(true);
           }} />
         )}
       </div>

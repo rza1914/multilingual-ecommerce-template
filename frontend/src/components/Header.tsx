@@ -104,7 +104,7 @@ const Header = () => {
             <Sparkles className="w-8 h-8 text-orange-500 animate-float" />
             <div className="absolute inset-0 bg-orange-500/30 blur-xl animate-pulse-slow" />
           </div>
-          <span className="text-2xl font-bold text-gradient-orange tracking-tight">LuxStore</span>
+          <span className="text-2xl font-bold text-gradient-orange tracking-tight">{t('common.storeName')}</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -2,24 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { API_CONFIG } from '../../config/api.config';
 import { getFullApiUrl } from '../../config/api';
 import { useTranslation } from 'react-i18next';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discount_price?: number;
-  discount?: number;
-  stock: number;
-  rating: number;
-  is_active: boolean;
-  is_featured: boolean;
-  image_url?: string;
-  category?: string;
-  tags?: string;
-  created_at?: string;
-  updated_at?: string;
-}
+import { Product } from '../../types/product.types';
 
 interface SmartSearchResult {
   results: Product[];
@@ -225,7 +208,7 @@ const SmartSearchBar: React.FC<SmartSearchBarProps> = ({ onSearch }) => {
                         {product.image_url ? (
                           <img
                             src={product.image_url}
-                            alt={product.title}
+                            alt={product.title_en}
                             className="w-16 h-16 object-contain rounded mr-3"
                           />
                         ) : (
@@ -233,18 +216,18 @@ const SmartSearchBar: React.FC<SmartSearchBarProps> = ({ onSearch }) => {
                         )}
                         <div className="flex-1 min-w-0">
                           <h3 className="font-medium text-gray-900 truncate dark:text-white">
-                            {product.title}
+                            {product.title_en}
                           </h3>
                           <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                            {product.description?.substring(0, 60)}...
+                            {product.description_en?.substring(0, 60)}...
                           </p>
                           <div className="mt-1 flex items-center">
                             <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
                               {formatPrice(product.price)} تومان
                             </span>
-                            {product.discount_price && product.discount_price < product.price && (
+                            {product.discount !== undefined && product.discount > 0 && (
                               <span className="ml-2 text-sm text-red-500 line-through">
-                                {formatPrice(product.price)} تومان
+                                {formatPrice(product.price + (product.price * product.discount / 100))} تومان
                               </span>
                             )}
                             {product.rating && (

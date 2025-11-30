@@ -1,7 +1,7 @@
 // frontend/src/components/products/ProductImage.tsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useImageLoader } from '../../hooks/useImageLoader';
-import { getResponsiveImageFormats } from '../../utils/imageUtils';
 import { imageService } from '../../services/imageService';
 
 interface ProductImageProps {
@@ -29,12 +29,12 @@ const ProductImage: React.FC<ProductImageProps> = ({
   priority = false,
   sizes,
   quality = 80,
-  placeholder,
   fallbackImages = [],
   loading = 'lazy',
   onError,
   onLoad
 }) => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(priority); // Visible if priority image
   const [isBlurred, setIsBlurred] = useState(true); // For progressive loading
   const imgRef = useRef<HTMLImageElement>(null);
@@ -106,7 +106,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
   };
 
   // Get responsive formats for WebP support
-  const responsiveFormats = getResponsiveImageFormats(displaySrc, width, height);
+  const responsiveFormats = { jpeg: displaySrc, webp: displaySrc };
 
   // Determine classes based on state
   const imageClasses = `w-full h-full object-cover transition-all duration-300 ${
@@ -122,7 +122,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
       {/* Loading skeleton */}
       {isLoading && !error && (
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse">
-          <div className="text-gray-400">Loading...</div>
+          <div className="text-gray-400">{t('image.loading')}</div>
         </div>
       )}
 
@@ -131,7 +131,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
           <div className="text-gray-500 p-4 text-center">
             <div className="text-4xl mb-2">📷</div>
-            <p>Image unavailable</p>
+            <p>{t('image.unavailable')}</p>
           </div>
         </div>
       )}

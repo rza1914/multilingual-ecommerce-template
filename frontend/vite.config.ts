@@ -63,6 +63,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // Optimize build for production
       sourcemap: false, // Disable sourcemaps in production to reduce size
       cssCodeSplit: true, // Enable CSS code splitting
+      minify: 'terser',
       rollupOptions: {
         output: {
           // Use content hashes for cache-busting and better caching
@@ -74,6 +75,34 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             }
             return 'assets/[name].[hash].[ext]';
           },
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // Split vendor code into separate chunks
+              if (id.includes('react') || id.includes('react-dom')) {
+                return 'react-vendor';
+              }
+              if (id.includes('@headlessui') || id.includes('@heroicons') || id.includes('lucide-react')) {
+                return 'ui-vendor';
+              }
+              if (id.includes('axios') || id.includes('zod')) {
+                return 'utils-vendor';
+              }
+              if (id.includes('i18next') || id.includes('react-i18next')) {
+                return 'i18n-vendor';
+              }
+              // Common modules in a separate chunk
+              return 'vendor';
+            }
+          },
+        },
+      },
+      terserOptions: {
+        compress: {
+          drop_console: true, // Remove console.log statements for production
+          drop_debugger: true,
+        },
+        format: {
+          comments: false, // Remove comments for production
         },
       },
     },
@@ -85,6 +114,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       alias: {
         '@': path.resolve(__dirname, './src'),
         '@/types/product': path.resolve(__dirname, './src/types/product.types'),
+        '@/types/product.types': path.resolve(__dirname, './src/types/product.types'),
       },
     },
   };

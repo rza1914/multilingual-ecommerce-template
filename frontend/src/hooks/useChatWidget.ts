@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useMonitoring } from './useMonitoring';
 import { AIAction } from '../types/chat.types';
@@ -46,11 +44,8 @@ export interface UseChatWidgetReturn {
 }
 
 export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetReturn => {
-  const { t } = useTranslation();
-  const { theme } = useTheme();
   const { user } = useAuth();
   const { logError, logInfo } = useMonitoring();
-  const darkMode = theme === 'dark';
   const positionStyle = props.positionStyle || 'fixed';
 
   const [isOpen, setIsOpen] = useState(false);
@@ -64,9 +59,9 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const { messages, sendMessage: sendAIChatMessage, isOnline: isConnected } = useAIChatSSE();
 
   // Additional state for the chat widget functionality
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, _setIsTyping] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [connectionError, setConnectionError] = useState<string | null>(null);
+  const [connectionError, _setConnectionError] = useState<string | null>(null);
   const chatIsOffline = false; // SSE doesn't have continuous connection state like WebSocket
 
   // Handle sending a message using the new AI chat hook
@@ -87,7 +82,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   }, [isOpen, unreadCount, markAllAsRead]);
 
   // Handle AI action
-  const handleAIAction = useCallback((action: AIAction) => {
+  const handleAIAction = useCallback((_action: AIAction) => {
     setShowAIActions(false);
 
     // Add the AI message directly without waiting for SSE response
@@ -100,7 +95,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     if (!isOpen) {
       // Update in the hook
     }
-  }, [t, isOpen]);
+  }, [isOpen]);
 
   // Find login button in the DOM (for floating position style)
   const findLoginButtonPosition = useCallback((): HTMLElement | null => {
@@ -214,7 +209,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     });
 
     // Validate the calculatedBottom value
-    const validatedBottom = validatePosition(calculatedBottom);
+    validatePosition(calculatedBottom);
 
     // Return fixed position - no dependency on login button
     if (viewportWidth < SCREEN_BREAKPOINTS.MOBILE) {

@@ -8,7 +8,7 @@ import { X, ShoppingCart, Trash2, Plus, Minus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
-import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import ProductImage from '../products/ProductImage';
 import { getLocalizedTitle, formatCurrency } from '../../utils/i18n';
 
 interface MiniCartProps {
@@ -179,12 +179,13 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                   >
                     <div className="flex gap-4">
                       {/* Product Image */}
-                      <img
-                        src={getProductImage(item.product.image_url)}
+                      <ProductImage
+                        src={item.product.image_url || ''}
                         alt={item.product.title_en}
-                        onError={handleImageError}
                         className="w-20 h-20 object-cover rounded-lg flex-shrink-0
                                  border-2 border-gray-100 dark:border-gray-800"
+                        width={80}
+                        height={80}
                       />
 
                       {/* Product Info */}

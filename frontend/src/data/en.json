@@ -44,7 +44,68 @@
     "forgotPassword": "Forgot Password?",
     "dontHaveAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
-    "welcomeBack": "Welcome Back"
+    "welcomeBack": "Welcome Back",
+    "loginPageTitle": "Login",
+    "signInToAccount": "Sign in to your account",
+    "registerPageTitle": "Register",
+    "createAccount": "Create your account",
+    "passwordStrength": "Password Strength:",
+    "orSignUpWith": "Or sign up with",
+    "orContinueWith": "Or continue with"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "addToCart": "Add to Cart",
+    "storeName": "LuxStore"
+  },
+  "footer": {
+    "description": "Premium e-commerce platform offering luxury products with exceptional customer service.",
+    "company": "Company",
+    "customerService": "Customer Service",
+    "emailAddress": "hello@luxstore.com",
+    "phone": "+1 (234) 567-890",
+    "address": "123 Luxury Ave, New York, NY 10001",
+    "allRightsReserved": "All rights reserved."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong.",
+    "message": "We're sorry for the inconvenience. Please refresh the page to try again.",
+    "details": "Error Details"
+  },
+  "coupon": {
+    "enterCode": "Enter coupon code",
+    "apply": "Apply",
+    "applying": "Applying...",
+    "invalidCode": "Invalid coupon code",
+    "failed": "Failed to apply coupon",
+    "freeShipping": "Free shipping applied",
+    "discountApplied": "{{discount}}% discount applied",
+    "tryTheseCodes": "Try these codes:",
+    "exampleCodes": "WELCOME10, SAVE20, FREESHIP"
+  },
+  "filters": {
+    "filters": "Filters",
+    "active": "Active",
+    "priceRange": "Price Range",
+    "minPrice": "Min Price ($)",
+    "maxPrice": "Max Price ($)",
+    "applyFilters": "Apply Filters",
+    "clearAll": "Clear All Filters",
+    "tip": "Tip:",
+    "priceFilterTip": "Use price filters to find products within your budget. Leave fields empty for no limit.",
+    "placeholderMin": "0",
+    "placeholderMax": "1000"
+  },
+  "image": {
+    "loading": "Loading...",
+    "unavailable": "Image unavailable"
+  },
+  "shipping": {
+    "free": "FREE shipping",
+    "qualified": "You got FREE shipping!",
+    "progressText": "{{progress}}% towards free shipping"
   },
   "cart": {
     "title": "Shopping Cart",

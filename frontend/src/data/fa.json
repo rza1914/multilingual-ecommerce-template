@@ -44,7 +44,68 @@
     "forgotPassword": "رمز عبور خود را فراموش کرده‌اید؟",
     "dontHaveAccount": "حساب کاربری ندارید؟",
     "haveAccount": "قبلاً حساب کاربری دارید؟",
-    "welcomeBack": "خوش آمدید"
+    "welcomeBack": "خوش آمدید",
+    "loginPageTitle": "ورود",
+    "signInToAccount": "وارد حساب کاربری خود شوید",
+    "registerPageTitle": "ثبت‌نام",
+    "createAccount": "حساب کاربری خود را ایجاد کنید",
+    "passwordStrength": "قدرت رمز عبور:",
+    "orSignUpWith": "یا ثبت نام کنید با",
+    "orContinueWith": "یا ادامه دهید با"
+  },
+  "common": {
+    "loading": "در حال بارگذاری...",
+    "error": "خطایی رخ داده است",
+    "success": "موفقیت",
+    "addToCart": "افزودن به سبد خرید",
+    "storeName": "لوکس‌استور"
+  },
+  "footer": {
+    "description": "پلتفرم تجاری الکترونیک ویژه با ارائه محصولات لوکس و خدمات مشتریان عالی.",
+    "company": "شرکت",
+    "customerService": "خدمات مشتریان",
+    "emailAddress": "hello@luxstore.com",
+    "phone": "+1 (234) 567-890",
+    "address": "123 Luxury Ave, New York, NY 10001",
+    "allRightsReserved": "کلیه حقوق محفوظ است."
+  },
+  "errorBoundary": {
+    "title": "مشکلی پیش آمده است.",
+    "message": "برای ایجاد مشکل پوزش می‌طلبیم. لطفاً صفحه را تازه کنید و دوباره امتحان کنید.",
+    "details": "جزئیات خطا"
+  },
+  "coupon": {
+    "enterCode": "کد تخفیف را وارد کنید",
+    "apply": "اعمال",
+    "applying": "در حال اعمال...",
+    "invalidCode": "کد نامعتبر است",
+    "failed": "اعمال کد تخفیف ناموفق بود",
+    "freeShipping": "ارسال رایگان فعال شد",
+    "discountApplied": "{{discount}}% تخفیف اعمال شد",
+    "tryTheseCodes": "این کدها را امتحان کنید:",
+    "exampleCodes": "WELCOME10, SAVE20, FREESHIP"
+  },
+  "filters": {
+    "filters": "فیلترها",
+    "active": "فعال",
+    "priceRange": "محدوده قیمت",
+    "minPrice": "حداقل قیمت ($)",
+    "maxPrice": "حداکثر قیمت ($)",
+    "applyFilters": "اعمال فیلترها",
+    "clearAll": "پاک کردن همه",
+    "tip": "نکته:",
+    "priceFilterTip": "از فیلترهای قیمت برای یافتن محصولات در بودجه خود استفاده کنید. برای بدون محدودیت بودن، فیلدها را خالی بگذارید.",
+    "placeholderMin": "0",
+    "placeholderMax": "1000"
+  },
+  "image": {
+    "loading": "در حال بارگذاری...",
+    "unavailable": "تصویر در دسترس نیست"
+  },
+  "shipping": {
+    "free": "ارسال رایگان",
+    "qualified": "شما از ارسال رایگان بهره‌مند شدید!",
+    "progressText": "{{progress}}% تا ارسال رایگان"
   },
   "cart": {
     "title": "سبد خرید",

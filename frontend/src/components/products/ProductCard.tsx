@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
 import { Link } from 'react-router-dom';
-import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import ProductImage from './ProductImage';
 import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 
 interface ProductCardProps {
@@ -70,14 +70,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Image Container with Zoom Effect */}
         <div className="relative overflow-hidden rounded-t-3xl">
-          <img
-            src={getProductImage(product.image_url)}
+          <ProductImage
+            src={product.image_url || ''}
             alt={title}
-            onError={handleImageError}
             className={`w-full h-56 object-cover transition-transform duration-700 ${
               isHovered ? 'scale-110' : 'scale-100'
             }`}
             loading="lazy"
+            width={400}
+            height={400}
           />
 
           {/* Gradient Overlay on Hover */}

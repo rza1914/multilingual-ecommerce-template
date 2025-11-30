@@ -2,30 +2,44 @@ import React from 'react';
 import { Message } from '../../types/chat.types';
 import { Bot, User } from 'lucide-react';
 
+// Define the different possible message types
+type RawMessageObject = { id: string; content: string; role: string; timestamp: string };
+
 interface ChatMessageProps {
-  message: Message | { id: string; content: string; role: string; timestamp: string } | string;
+  message: Message | RawMessageObject | string;
   isCurrentUser: boolean;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isCurrentUser }) => {
   // Handle both the original Message type and the new format from useAIChatSSE
   // Also handle the case where content might be an object (which causes the "Objects are not valid as a React child" error)
-  console.log('ChatMessage render:', { message });
-  console.log('Message content type:', typeof message.content);
-  console.log('Message content value:', message.content);
 
   let content = '';
-  if ('text' in message && message.text) {
+  let sender: 'user' | 'ai' = 'user';
+  let timestamp = new Date().toISOString();
+
+  if (typeof message === 'string') {
+    // If message is just a string
+    content = message;
+    sender = isCurrentUser ? 'user' : 'ai';
+    timestamp = new Date().toISOString();
+  } else if ('text' in message) {
+    // If it's our standard Message type
     content = typeof message.text === 'string' ? message.text : JSON.stringify(message.text);
-  } else if ('content' in message && message.content) {
+    sender = message.sender;
+    timestamp = message.timestamp;
+  } else if ('content' in message) {
+    // If it's the raw object with content property
     content = typeof message.content === 'string' ? message.content : JSON.stringify(message.content);
+    sender = (message.role === 'assistant' || message.role === 'ai') ? 'ai' : 'user';
+    timestamp = message.timestamp || new Date().toISOString();
   } else {
-    // Fallback to the message itself if it's a string, otherwise convert to string
-    content = typeof message === 'string' ? message : JSON.stringify(message);
+    // Fallback to stringify if it's an unexpected object
+    content = JSON.stringify(message);
+    sender = isCurrentUser ? 'user' : 'ai';
+    timestamp = new Date().toISOString();
   }
 
-  const sender = message.sender || (message.role === 'assistant' ? 'ai' : 'user');
-  const timestamp = message.timestamp || new Date().toISOString();
   const isAI = sender === 'ai';
 
   return (

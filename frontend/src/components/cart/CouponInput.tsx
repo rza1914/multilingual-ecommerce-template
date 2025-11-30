@@ -5,9 +5,11 @@
 
 import React, { useState } from 'react';
 import { Check, X, Loader2, Tag } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
 
 const CouponInput: React.FC = () => {
+  const { t } = useTranslation();
   const { couponCode, couponDiscount, applyCoupon, removeCoupon } = useCart();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,10 +30,10 @@ const CouponInput: React.FC = () => {
       if (success) {
         setInput('');
       } else {
-        setError('Invalid coupon code');
+        setError(t('coupon.invalidCode'));
       }
     } catch (err) {
-      setError('Failed to apply coupon');
+      setError(t('coupon.failed'));
     } finally {
       setLoading(false);
     }
@@ -69,7 +71,7 @@ const CouponInput: React.FC = () => {
               </p>
               <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
                 <Check className="w-3 h-3" />
-                {couponCode === 'FREESHIP' ? 'Free shipping applied' : `${couponDiscount}% discount applied`}
+                {couponCode === 'FREESHIP' ? t('coupon.freeShipping') : t('coupon.discountApplied', { discount: couponDiscount })}
               </p>
             </div>
           </div>
@@ -91,7 +93,7 @@ const CouponInput: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value.toUpperCase())}
                 onKeyPress={handleKeyPress}
-                placeholder="Enter coupon code"
+                placeholder={t('coupon.enterCode')}
                 disabled={loading}
                 className="w-full input-field pl-10 disabled:opacity-50"
               />
@@ -105,10 +107,10 @@ const CouponInput: React.FC = () => {
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Applying...</span>
+                  <span>{t('coupon.applying')}</span>
                 </>
               ) : (
-                'Apply'
+                t('coupon.apply')
               )}
             </button>
           </div>
@@ -124,7 +126,7 @@ const CouponInput: React.FC = () => {
           {/* Coupon Hints */}
           <div className="glass p-3 rounded-xl">
             <p className="text-xs text-gray-600 dark:text-gray-400">
-              <strong className="text-orange-500">Try these codes:</strong> WELCOME10, SAVE20, FREESHIP
+              <strong className="text-orange-500">{t('coupon.tryTheseCodes')}</strong> {t('coupon.exampleCodes')}
             </p>
           </div>
         </>

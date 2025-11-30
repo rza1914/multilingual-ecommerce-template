@@ -20,10 +20,10 @@ const CartPage: React.FC = () => {
   const isEmpty = cartItems.length === 0;
 
   const handleAddToCart = (productId: number) => {
-    const product = cartItems.find(item => item.id === productId);
-    if (product) {
+    const cartItem = cartItems.find(item => item.id === productId);
+    if (cartItem) {
       // If item is already in cart, increase quantity
-      addToCart(product, 1);
+      addToCart(cartItem.product, 1);
     }
   };
 
@@ -108,11 +108,11 @@ const CartPage: React.FC = () => {
 
             {/* Cart Suggestions */}
             <CartSuggestions 
-              cartItems={cartItems.map(item => ({ 
-                product_id: item.id, 
-                quantity: item.quantity, 
-                price: item.price 
-              }))} 
+              cartItems={cartItems.map(item => ({
+                product_id: item.id,
+                quantity: item.quantity,
+                price: item.product.price
+              }))}
               onAddToCart={handleAddToCart} 
             />
 

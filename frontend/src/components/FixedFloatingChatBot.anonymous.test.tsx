@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
@@ -59,10 +58,6 @@ vi.mock('react-i18next', () => ({
 }));
 
 // Mock DOMRect for getBoundingClientRect
-class MockDOMRect {
-  constructor(public x: number, public y: number, public width: number, public height: number) {}
-}
-
 // Mock ResizeObserver
 class MockResizeObserver {
   observe = vi.fn();

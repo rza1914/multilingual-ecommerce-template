@@ -9,7 +9,7 @@ import { Plus, Minus, Trash2, AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CartItem } from '../../contexts/CartContext';
 import { useCart } from '../../contexts/CartContext';
-import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import ProductImage from '../products/ProductImage';
 import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 import RemoveItemModal from './RemoveItemModal';
 
@@ -85,11 +85,12 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
         <div className="flex gap-6">
           {/* Product Image */}
           <Link to={`/products/${product.id}`} className="flex-shrink-0">
-            <img
-              src={getProductImage(product.image_url)}
+            <ProductImage
+              src={product.image_url || ''}
               alt={title}
-              onError={handleImageError}
               className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-2xl hover:scale-105 transition-transform duration-300"
+              width={128}
+              height={128}
             />
           </Link>
 

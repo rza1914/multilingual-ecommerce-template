@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import { Filter, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FiltersSidebarProps {
   onFilterChange: (minPrice?: number, maxPrice?: number) => void;
@@ -19,6 +20,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
   isOpen,
   onToggle,
 }) => {
+  const { t } = useTranslation();
   const [minPrice, setMinPrice] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<string>('');
 
@@ -89,11 +91,11 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             <div className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-orange-500" />
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                Filters
+                {t('filters.filters')}
               </h3>
               {hasActiveFilters && (
                 <span className="badge-orange text-xs">
-                  Active
+                  {t('filters.active')}
                 </span>
               )}
             </div>
@@ -111,19 +113,19 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
           {/* Price Range Filter */}
           <div className="glass-card p-6 space-y-4">
             <h4 className="font-semibold text-gray-900 dark:text-white mb-4">
-              Price Range
+              {t('filters.priceRange')}
             </h4>
 
             {/* Min Price */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Min Price ($)
+                {t('filters.minPrice')}
               </label>
               <input
                 type="number"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
-                placeholder="0"
+                placeholder={t('filters.placeholderMin')}
                 min="0"
                 step="1"
                 className="input-field"
@@ -133,13 +135,13 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             {/* Max Price */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Max Price ($)
+                {t('filters.maxPrice')}
               </label>
               <input
                 type="number"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                placeholder="1000"
+                placeholder={t('filters.placeholderMax')}
                 min="0"
                 step="1"
                 className="input-field"
@@ -163,7 +165,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
               className="btn-primary w-full"
               disabled={!hasActiveFilters}
             >
-              Apply Filters
+              {t('filters.applyFilters')}
             </button>
           </div>
 
@@ -174,14 +176,14 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
               className="w-full btn-glass text-red-500 dark:text-red-400 border-red-500/20"
             >
               <X className="w-4 h-4 inline mr-2" />
-              Clear All Filters
+              {t('filters.clearAll')}
             </button>
           )}
 
           {/* Filter Info */}
           <div className="glass p-4 rounded-2xl">
             <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-              <strong className="text-orange-500">Tip:</strong> Use price filters to find products within your budget. Leave fields empty for no limit.
+              <strong className="text-orange-500">{t('filters.tip')}</strong> {t('filters.priceFilterTip')}
             </p>
           </div>
         </div>

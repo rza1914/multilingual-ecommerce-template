@@ -114,6 +114,7 @@ export const useInventoryWebSocket = (token: string | null) => {
       ws.onopen = () => {
         console.log('WebSocket connected');
         setState(prev => ({
+          ...prev,
           isConnected: true,
           isConnecting: false,
           isReconnecting: false,

@@ -53,12 +53,25 @@
                 const response = await fetch(`${API_URL}/health`);
                 if (response.ok) {
                     const data = await response.json();
-                    resultDiv.innerHTML = `<div class="success">✅ اتصال موفق: ${JSON.stringify(data)}</div>`;
+                    const successDiv = document.createElement('div');
+                successDiv.className = 'success';
+                successDiv.textContent = `✅ اتصال موفق: ${JSON.stringify(data)}`;
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(successDiv);
                 } else {
-                    resultDiv.innerHTML = `<div class="error">❌ خطا در اتصال: ${response.status}</div>`;
+                    const errorDiv = document.createElement('div');
+                errorDiv.className = 'error';
+                errorDiv.textContent = `❌ خطا در اتصال: ${response.status}`;
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(errorDiv);
                 }
             } catch (error) {
-                resultDiv.innerHTML = `<div class="error">❌ خطا: ${error.message}</div>`;
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error';
+                errorDiv.textContent = `❌ خطا: ${error.message}`;
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(errorDiv);
+            }
             }
         }
 
@@ -80,12 +93,25 @@
 
                 const data = await response.json();
                 if (response.ok) {
-                    resultDiv.innerHTML = `<div class="success">✅ پاسخ: ${JSON.stringify(data)}</div>`;
+                    const successDiv = document.createElement('div');
+                    successDiv.className = 'success';
+                    successDiv.textContent = `✅ پاسخ: ${JSON.stringify(data)}`;
+                    resultDiv.innerHTML = '';
+                    resultDiv.appendChild(successDiv);
                 } else {
-                    resultDiv.innerHTML = `<div class="error">❌ خطا: ${JSON.stringify(data)}</div>`;
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error';
+                    errorDiv.textContent = `❌ خطا: ${JSON.stringify(data)}`;
+                    resultDiv.innerHTML = '';
+                    resultDiv.appendChild(errorDiv);
                 }
             } catch (error) {
-                resultDiv.innerHTML = `<div class="error">❌ خطا: ${error.message}</div>`;
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error';
+                errorDiv.textContent = `❌ خطا: ${error.message}`;
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(errorDiv);
+            }
             }
         }
 
@@ -95,7 +121,10 @@
             const message = document.getElementById('streamMessage').value;
 
             // پاک کردن نتایج قبلی
-            resultDiv.innerHTML = '<div>🔄 در حال دریافت stream...</div>';
+            const loadingDiv = document.createElement('div');
+            loadingDiv.textContent = '🔄 در حال دریافت stream...';
+            resultDiv.innerHTML = '';
+            resultDiv.appendChild(loadingDiv);
             chatContainer.innerHTML = '';
 
             // افزودن پیام کاربر
@@ -131,7 +160,10 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                resultDiv.innerHTML += '<div class="success">✅ Stream باز شد</div>';
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success';
+                successDiv.textContent = '✅ Stream باز شد';
+                resultDiv.appendChild(successDiv);
 
                 // خواندن stream به صورت دستی
                 const reader = response.body.getReader();
@@ -142,7 +174,9 @@
                     const { done, value } = await reader.read();
 
                     if (done) {
-                        resultDiv.innerHTML += '<div>🏁 Stream تمام شد</div>';
+                        const doneDiv = document.createElement('div');
+                        doneDiv.textContent = '🏁 Stream تمام شد';
+                        resultDiv.appendChild(doneDiv);
                         break;
                     }
 
@@ -166,7 +200,9 @@
                                 }
 
                                 if (data.status === 'done') {
-                                    resultDiv.innerHTML += '<div>🏁 Stream تمام شد</div>';
+                                    const doneDiv = document.createElement('div');
+                                    doneDiv.textContent = '🏁 Stream تمام شد';
+                                    resultDiv.appendChild(doneDiv);
                                     return;
                                 }
 
@@ -179,16 +215,24 @@
                                 }
                             } catch (e) {
                                 console.error('Error parsing SSE data:', e);
-                                resultDiv.innerHTML += `<div class="error">❌ خطا در تجزیه داده: ${e.message}</div>`;
+                                const errorDiv = document.createElement('div');
+                                errorDiv.className = 'error';
+                                errorDiv.textContent = `❌ خطا در تجزیه داده: ${e.message}`;
+                                resultDiv.appendChild(errorDiv);
                             }
                         }
                     }
                 }
             } catch (error) {
                 if (error.name === 'AbortError') {
-                    resultDiv.innerHTML += '<div>⏹️ Stream متوقف شد</div>';
+                    const abortDiv = document.createElement('div');
+                    abortDiv.textContent = '⏹️ Stream متوقف شد';
+                    resultDiv.appendChild(abortDiv);
                 } else {
-                    resultDiv.innerHTML += `<div class="error">❌ خطا: ${error.message}</div>`;
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error';
+                    errorDiv.textContent = `❌ خطا: ${error.message}`;
+                    resultDiv.appendChild(errorDiv);
                 }
             }
         }

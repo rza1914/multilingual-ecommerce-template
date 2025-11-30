@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../contexts/CartContext';
 // FIX: ایمپورت تایپ اصلی و صحیح Product
-import { Product } from '@/types/product';
+import { Product } from '@/types/product.types';
 
 interface ProductCardProps {
   product: Product;

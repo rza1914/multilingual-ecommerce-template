@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
@@ -215,7 +214,6 @@ describe('FixedFloatingChatBot Integration Tests - Authenticated User', () => {
     );
 
     const chatButton = screen.getByRole('button', { name: /chat\.openChat/i });
-    const parentStyle = window.getComputedStyle(chatButton.parentElement!);
 
     // Check that the element has some styling that indicates transitions
     expect(chatButton.parentElement).toHaveClass('transition-all');

@@ -9,8 +9,11 @@ from pathlib import Path
 backend_path = Path(__file__).parent / "backend"
 sys.path.insert(0, str(backend_path))
 
-# Set the API key for the validation
-os.environ['GROQ_API_KEY'] = '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'
+# Get API key from environment variable, raise error if not set
+groq_api_key = os.environ.get('GROQ_API_KEY')
+if not groq_api_key:
+    print("[ERROR] GROQ_API_KEY environment variable is not set")
+    sys.exit(1)
 
 print("Testing imports and structure...")
 
