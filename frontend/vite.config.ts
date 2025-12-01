@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { UserConfig, ConfigEnv } from 'vite'
 import { visualizer } from 'rollup-plugin-visualizer'
+// FIX: ایمپورت path برای تعریف مسیر مستعار
+import path from 'path'
 
 // Function to create CSP headers based on environment
 function getCSPHeaders(isDev: boolean) {
@@ -77,6 +79,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     define: {
       global: 'globalThis',
-    }
+    },
+    // FIX: اضافه کردن بخش resolve با مسیر مستعار @
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        '@/types/product': path.resolve(__dirname, './src/types/product.types'),
+      },
+    },
   };
 })

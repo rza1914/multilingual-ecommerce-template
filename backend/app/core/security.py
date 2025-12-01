@@ -2,9 +2,15 @@ from datetime import datetime, timedelta
 from typing import Optional
 import logging
 
+from fastapi import HTTPException, status
+from fastapi.exceptions import WebSocketException
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from ..config import settings
+from ..models.user import User  # Import User model
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -87,3 +93,55 @@ def get_password_hash(password: str) -> str:
         if "__about__" in str(e):
             logger.error("This may be a bcrypt compatibility issue with Python 3.13")
         raise
+
+def decode_websocket_token(token: str):
+    """
+    Decode and validate a JWT token for WebSocket connections.
+    This is a simplified version that doesn't require database access.
+    """
+    credentials_exception = WebSocketException(
+        code=status.WS_1008_POLICY_VIOLATION,
+        reason="Invalid or missing token"
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+        return payload
+    except JWTError:
+        raise credentials_exception
+
+
+async def get_current_user_from_token(token: str) -> User:
+    """
+    Validate the provided token and return the current user.
+    This function should be called manually in WebSocket endpoints
+    after extracting the token from query parameters.
+    """
+    credentials_exception = WebSocketException(
+        code=status.WS_1008_POLICY_VIOLATION,
+        reason="Invalid or missing token"
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+
+    # Direct database query to get user by email
+    from ..database import get_db
+    from ..models.user import User
+
+    db_gen = get_db()
+    try:
+        db = next(db_gen)
+        user = db.query(User).filter(User.email == email).first()
+        if user is None or not user.is_active:
+            raise credentials_exception
+        return user
+    finally:
+        # Close the database session
+        next(db_gen, None)  # This triggers the finally block in get_db()

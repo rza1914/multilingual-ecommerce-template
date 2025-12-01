@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
-import { Product } from '../types/product.types';
+// FIX: اصلاح مسیر ایمپورت Product
+import { Product } from '@/types/product';
 
 export interface CartItem {
   id: number;

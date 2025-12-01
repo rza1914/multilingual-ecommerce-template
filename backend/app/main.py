@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
-from app.api.v1 import auth, products, orders, admin, seed
+from app.api.v1 import api_router
+from app.api.v1.websocket_endpoints import router as websocket_router  # Use the proper WebSocket endpoints with JWT auth
 from app.core.config import settings
 
 app = FastAPI(
@@ -28,7 +29,7 @@ app.add_middleware(
 # 2. CORS (بعد از Session)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,  # ✅ از config
+    allow_origins=settings.ALL_CORS_ORIGINS,  # ✅ از config
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
@@ -39,11 +40,9 @@ app.add_middleware(
 # ROUTES
 # ═══════════════════════════════════════════════════════════
 
-app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
-app.include_router(products.router, prefix="/api/v1/products", tags=["products"])
-app.include_router(orders.router, prefix="/api/v1/orders", tags=["orders"])
-app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
-app.include_router(seed.router, prefix="/api/v1", tags=["seed"])
+app.include_router(api_router, prefix="/api/v1")
+# Include WebSocket router with /ws prefix to match frontend expectations
+app.include_router(websocket_router, prefix="/ws")  # Use the router with JWT authentication
 
 # ═══════════════════════════════════════════════════════════
 # HEALTH & ROOT
@@ -72,8 +71,8 @@ def root():
 @app.on_event("startup")
 async def startup_event():
     print("=" * 60)
-    print("🚀 Multilingual E-Commerce API v2.0.0")
-    print(f"🌍 Environment: {settings.ENVIRONMENT}")
-    print(f"📡 API Docs: http://127.0.0.1:8000/api/v1/docs")
-    print(f"✅ CORS Origins: {len(settings.BACKEND_CORS_ORIGINS)} configured")
+    print("Multilingual E-Commerce API v2.0.0")
+    print(f"Environment: {settings.ENVIRONMENT}")
+    print(f"API Docs: http://127.0.0.1:8000/api/v1/docs")
+    print(f"CORS Origins: {len(settings.BACKEND_CORS_ORIGINS)} configured")
     print("=" * 60)

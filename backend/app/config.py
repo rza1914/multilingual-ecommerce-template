@@ -93,6 +93,14 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     # ========================================
+    # AI Configuration (for recommendations and chat)
+    # ========================================
+    GROQ_API_KEY: str = os.getenv(
+        "GROQ_API_KEY",
+        ""  # Default to empty string, will be checked in services
+    )
+
+    # ========================================
     # Email Settings
     # ========================================
     SMTP_TLS: bool = os.getenv("SMTP_TLS", "true").lower() == "true"

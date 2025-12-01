@@ -38,12 +38,21 @@ class Settings(BaseSettings):
     # ═══════════════════════════════════════════════════════════
     # CORS
     # ═══════════════════════════════════════════════════════════
-    BACKEND_CORS_ORIGINS: List[str] = [  # ← اضافه کن
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:5173",
-        "https://multilingual-ecommerce-template.vercel.app"
-    ]
+    @property
+    def ALL_CORS_ORIGINS(self) -> List[str]:
+        origins = [
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "http://127.0.0.1:5173",
+            "https://multilingual-ecommerce-template.vercel.app",
+            "https://multilingual-ecommerce-template-fom83s057.vercel.app",
+            "https://multilingual-ecommerce-template-*.vercel.app",  # برای preview URLs
+        ]
+        # اگر محیط‌متغیر ست کردی (بهتره)
+        frontend_url = os.getenv("FRONTEND_URL")
+        if frontend_url:
+            origins.append(frontend_url)
+        return origins
     
     # ═══════════════════════════════════════════════════════════
     # EMAIL (Optional)
