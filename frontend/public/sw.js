@@ -48,6 +48,16 @@ self.addEventListener('activate', (event) => {
 // Fetch event - handle different types of requests with appropriate caching strategies
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  const url = new URL(request.url);
+
+  // External domains - let browser handle CSP and network requests directly
+  // This prevents Service Worker from interfering with requests that may be blocked by CSP
+  if (url.hostname.includes('googleapis.com') ||
+      url.hostname.includes('gstatic.com') ||
+      url.hostname.includes('pexels.com') ||
+      url.hostname.includes('via.placeholder.com')) {
+    return; // Don't intercept - let fetch proceed normally and let CSP handle it
+  }
 
   // Handle static assets with cache-first strategy
   if (isStaticAssetRequest(request)) {

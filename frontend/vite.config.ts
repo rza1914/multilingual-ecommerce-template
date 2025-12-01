@@ -9,28 +9,29 @@ import path from 'path'
 function getCSPHeaders(isDev: boolean) {
   if (isDev) {
     // In development, we need more permissive CSP to allow HMR and React DevTools
+    // Plus external resources like Google Fonts and Pexels images
     return {
       'Content-Security-Policy': [
         "default-src 'self'",
         "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-        "img-src 'self' data: https:",
+        "img-src 'self' data: https: blob:",
         "font-src 'self' https: data: https://fonts.gstatic.com",
-        "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*",
+        "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://fonts.googleapis.com https://images.pexels.com",
         "frame-ancestors 'none'",
         "object-src 'none'"
       ].join('; '),
     };
   } else {
-    // In production, use stricter CSP
+    // In production, use stricter CSP but allow external resources like Google Fonts and Pexels
     return {
       'Content-Security-Policy': [
         "default-src 'self'",
         "script-src 'self' 'nonce-{{nonce}}'", // Note: nonce would be injected by backend in real app
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", // Unsafe-inline needed for Tailwind CSS
-        "img-src 'self' data: https:",
+        "img-src 'self' data: https: blob:",
         "font-src 'self' https: data: https://fonts.gstatic.com",
-        "connect-src 'self' https://api.yourdomain.com https://your-backend-url.com", // Replace with your actual API endpoints
+        "connect-src 'self' https://api.yourdomain.com https://your-backend-url.com https://fonts.googleapis.com https://images.pexels.com", // Replace with your actual API endpoints
         "frame-ancestors 'none'",
         "object-src 'none'"
       ].join('; '),

@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Product } from '../types/product.types';
 import * as productService from '../services/product.service';
@@ -18,6 +19,8 @@ import { useTranslation } from 'react-i18next';
 
 const ProductsPage = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,6 +30,7 @@ const ProductsPage = () => {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   // const [isSmartSearchActive, setIsSmartSearchActive] = useState(false); // Currently unused
   const [useLegacy, setUseLegacy] = useState(false);
+  const [filterType, setFilterType] = useState<'featured' | 'new' | 'bestsellers' | null>(null);
 
   /**
    * Fetch products with filters
@@ -36,12 +40,42 @@ const ProductsPage = () => {
     setError(null);
 
     try {
+      // Get search from parameter if no explicit query provided
       const search = query !== undefined ? query : searchQuery;
-      const data = await productService.getProducts({
+
+      // Fetch all products first
+      let data = await productService.getProducts({
         search: search || undefined,
         minPrice,
         maxPrice,
       });
+
+      // Apply additional filtering based on current filterType state
+      if (filterType === 'new') {
+        // Sort by creation date if available, otherwise by ID (newer IDs are newer)
+        data = data.sort((a, b) => {
+          if (a.created_at && b.created_at) {
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+          } else {
+            // Fallback: sort by ID if no creation date
+            return (b.id || 0) - (a.id || 0);
+          }
+        }).slice(0, 20); // Limit to 20 newest
+      } else if (filterType === 'bestsellers') {
+        // In a real implementation, you'd sort by sales/quantity sold
+        // For now, we'll simulate: prioritize featured products as bestsellers
+        data = data.sort((a, b) => {
+          // Prioritize featured products
+          if (a.is_featured && !b.is_featured) return -1;
+          if (!a.is_featured && b.is_featured) return 1;
+          // Then sort by rating if available
+          return (b.rating || 0) - (a.rating || 0);
+        }).slice(0, 20);
+      } else if (filterType === 'featured') {
+        // Filter to featured products only
+        data = data.filter(product => product.is_featured === true);
+      }
+
       setProducts(data);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : t('products.loadError');
@@ -50,15 +84,32 @@ const ProductsPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, minPrice, maxPrice]);
+  }, [searchQuery, minPrice, maxPrice, filterType]);
 
 
-  /**
-   * Initial fetch on mount
-   */
+  // Handle URL parameters on component mount and when location changes
   useEffect(() => {
+    const newParam = searchParams.get('new');
+    const bestsellersParam = searchParams.get('bestsellers');
+    const featuredParam = searchParams.get('featured');
+
+    let newFilterType: 'featured' | 'new' | 'bestsellers' | null = null;
+
+    if (newParam === 'true') {
+      newFilterType = 'new';
+    } else if (bestsellersParam === 'true') {
+      newFilterType = 'bestsellers';
+    } else if (featuredParam === 'true') {
+      newFilterType = 'featured';
+    }
+
+    if (newFilterType !== filterType) {
+      setFilterType(newFilterType);
+    }
+
+    // Fetch products based on parameters
     fetchProducts();
-  }, [fetchProducts]);
+  }, [location.search, fetchProducts, filterType]);
 
 
   /**
@@ -101,10 +152,16 @@ const ProductsPage = () => {
       {/* Page Header */}
       <div className="text-center mb-8">
         <h1 className="text-hero text-gradient-orange mb-4">
-          {t('products.title')}
+          {filterType === 'new' ? t('products.new_arrivals_title', 'New Arrivals') :
+           filterType === 'bestsellers' ? t('products.bestsellers_title', 'Bestsellers') :
+           filterType === 'featured' ? t('products.featured_title', 'Featured Products') :
+           t('products.title')}
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">
-          {t('products.subtitle')}
+          {filterType === 'new' ? t('products.new_arrivals_subtitle', 'Recently added items') :
+           filterType === 'bestsellers' ? t('products.bestsellers_subtitle', 'Our most popular items') :
+           filterType === 'featured' ? t('products.featured_subtitle', 'Curated selection of our best products') :
+           t('products.subtitle')}
         </p>
       </div>
 

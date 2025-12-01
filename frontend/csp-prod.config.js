@@ -25,7 +25,7 @@ const productionCSP = {
       // Alternative for strict style-src: generate hashes for all styles during build
       "img-src 'self' data: https: blob:",
       "font-src 'self' https: data:",
-      "connect-src 'self' https://your-api-domain.com",  // Replace with your actual API domains
+      "connect-src 'self' https://your-api-domain.com https://fonts.googleapis.com https://images.pexels.com",  // Replace with your actual API domains
       "frame-ancestors 'none'",  // Prevents embedding in iframes (clickjacking protection)
       "object-src 'none'",  // Prevents loading of plugins like Flash 
       "base-uri 'self'",
@@ -41,7 +41,7 @@ const productionCSP = {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' https: data:",
-      "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*",
+      "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://fonts.googleapis.com https://images.pexels.com",
       "frame-ancestors 'none'",
       "object-src 'none'"
     ].join('; '),
@@ -59,7 +59,7 @@ const strictProductionCSP = {
       "style-src 'self' 'sha256-abcdefghijklmnopqrstuvwxyz1234567890='",  // Example hash
       "img-src 'self' data: https: blob:",
       "font-src 'self' https: data:",
-      "connect-src 'self' https://your-api-domain.com",
+      "connect-src 'self' https://your-api-domain.com https://fonts.googleapis.com https://images.pexels.com",
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'",

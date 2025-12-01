@@ -23,6 +23,15 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
 const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const CareersPage = lazy(() => import('./pages/legal/CareersPage'));
+const BlogPage = lazy(() => import('./pages/legal/BlogPage'));
+const HelpPage = lazy(() => import('./pages/legal/HelpPage'));
+const ShippingPage = lazy(() => import('./pages/legal/ShippingPage'));
+const ReturnsPage = lazy(() => import('./pages/legal/ReturnsPage'));
+const FAQPage = lazy(() => import('./pages/legal/FAQPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/legal/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('./pages/legal/TermsOfServicePage'));
+const CookiePolicyPage = lazy(() => import('./pages/legal/CookiePolicyPage'));
 
 function AppContent() {
   const { loading } = useAuth();
@@ -68,6 +77,15 @@ function AppContent() {
             <Route path="admin" element={<AdminDashboard />} />
             <Route path="admin/products" element={<AdminProducts />} />
             <Route path="admin/orders" element={<AdminOrders />} />
+            <Route path="careers" element={<CareersPage />} />
+            <Route path="blog" element={<BlogPage />} />
+            <Route path="help" element={<HelpPage />} />
+            <Route path="shipping" element={<ShippingPage />} />
+            <Route path="returns" element={<ReturnsPage />} />
+            <Route path="faq" element={<FAQPage />} />
+            <Route path="privacy" element={<PrivacyPolicyPage />} />
+            <Route path="terms" element={<TermsOfServicePage />} />
+            <Route path="cookies" element={<CookiePolicyPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

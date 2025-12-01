@@ -1,0 +1,1 @@
+import{j as a,A as s}from"./index.CiTXjkB3.js";const t=async t=>await a.post(s.ENDPOINTS.ORDERS.LIST,t),E=async()=>await a.get(s.ENDPOINTS.ORDERS.LIST),S=async t=>await a.get(s.ENDPOINTS.ORDERS.DETAIL(t)),D=async t=>await a.put(s.ENDPOINTS.ORDERS.CANCEL(t));export{E as a,D as b,t as c,S as g};
