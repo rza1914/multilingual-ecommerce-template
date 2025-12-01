@@ -15,7 +15,7 @@ export const getDirection = (language: string): 'ltr' | 'rtl' => {
 };
 
 // Get appropriate CSS property based on direction
-export const getCSSProperty = (property: string, rtlValue: string, ltrValue: string, isRTL: boolean): string => {
+export const getCSSProperty = (_property: string, rtlValue: string, ltrValue: string, isRTL: boolean): string => {
   return isRTL ? rtlValue : ltrValue;
 };
 
@@ -85,9 +85,9 @@ export const getFlexDirection = (direction: 'row' | 'row-reverse' | 'column' | '
 };
 
 // Get appropriate cursor based on direction
-export const getCursor = (type: 'w-resize' | 'e-resize' | 'sw-resize' | 'se-resize', isRTL: boolean): string => {
+export const getCursor = (type: string, isRTL: boolean): string => {
   if (!isRTL) return type;
-  
+
   switch (type) {
     case 'w-resize':
       return 'e-resize';
@@ -98,7 +98,7 @@ export const getCursor = (type: 'w-resize' | 'e-resize' | 'sw-resize' | 'se-resi
     case 'se-resize':
       return 'sw-resize';
     default:
-      return type;
+      return type; // Return as is for non-matching types
   }
 };
 

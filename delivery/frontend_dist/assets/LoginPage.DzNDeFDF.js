@@ -1,0 +1,1 @@
+import{u as t,j as e}from"./react-vendor.B-6_bSeD.js";import"./vendor.CIrfaz5f.js";const s=()=>{const{t:s}=t();return e.jsxs("div",{className:"text-center",children:[e.jsx("h1",{className:"text-4xl font-bold",children:s("auth.loginPageTitle")}),e.jsx("p",{className:"mt-4 text-gray-600 dark:text-gray-400",children:s("auth.signInToAccount")})]})};export{s as default};

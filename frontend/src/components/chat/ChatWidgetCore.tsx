@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { TFunction } from 'i18next';
-import { Bot, Lock, X, WifiOff } from 'lucide-react';
+import { Bot, X, WifiOff } from 'lucide-react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { AIActionsMenu } from './AIActionsMenu';
@@ -124,39 +124,13 @@ export const ChatWidgetCore: React.FC<ChatWidgetCoreProps> = ({
             role="log"
             aria-live="polite"
           >
-            {!isAuthenticated && (
-              <div className="h-full flex flex-col items-center justify-center text-center p-4">
-                <div className="mb-4 p-3 rounded-full bg-orange-100 dark:bg-orange-900/30">
-                  <Lock className="w-8 h-8 text-orange-500" aria-hidden="true" />
-                </div>
-                <h4 className="font-medium text-lg">{t('chat.loginRequiredTitle', 'Login Required')}</h4>
-                <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  {t('chat.loginRequiredMessage', 'Please log in to start chatting with our AI assistant.')}
-                </p>
-                <button
-                  onClick={() => {
-                    // Redirect to login page - you can customize this based on your routing
-                    window.location.href = '/login';
-                  }}
-                  className={`
-                    mt-4 px-4 py-2 rounded-lg font-medium
-                    ${darkMode
-                      ? 'bg-orange-600 hover:bg-orange-700 text-white'
-                      : 'bg-orange-500 hover:bg-orange-600 text-white'}
-                    transition-colors duration-200
-                  `}
-                >
-                  {t('auth.login', 'Login')}
-                </button>
-              </div>
-            )}
-            {isAuthenticated && ((isWidgetOffline || !isConnected) && messages.length === 0) && (
+            {(!isConnected && messages.length === 0) && (
               <div className="text-center py-2 text-sm text-orange-500 flex items-center justify-center">
                 <WifiOff className="w-4 h-4 mr-1" />
                 {t('chat.connecting', 'Connecting...')}
               </div>
             )}
-            {isAuthenticated && messages.length === 0 && (isConnected || isWidgetOffline) && (
+            {messages.length === 0 && isConnected && (
               <div className="h-full flex flex-col items-center justify-center text-center p-4">
                 <div className="mb-4 p-3 rounded-full bg-orange-100 dark:bg-orange-900/30">
                   <Bot className="w-8 h-8 text-orange-500" aria-hidden="true" />
@@ -165,18 +139,33 @@ export const ChatWidgetCore: React.FC<ChatWidgetCoreProps> = ({
                 <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                   {t('chat.intro', 'Ask me anything about products, get recommendations, or analyze images!')}
                 </p>
+                {!isAuthenticated && (
+                  <div className={`mt-3 text-xs px-3 py-2 rounded ${darkMode ? 'bg-gray-700 text-orange-400' : 'bg-orange-100 text-orange-700'}`}>
+                    {t('chat.guest_mode', 'You are in guest mode. You can chat with the AI assistant without logging in.')}
+                  </div>
+                )}
               </div>
             )}
-            {isAuthenticated && messages.length > 0 && (
-              messages.map((message) => (
-                <ChatMessage
-                  key={message.id}
-                  message={message}
-                  isCurrentUser={message.sender === 'user'}
-                />
-              ))
+            {messages.length > 0 && (
+              <>
+                {console.log('Current messages state:', messages)}
+                {messages.map((message, index) => {
+                  // Properly format the message to ensure it has the right structure
+                  const formattedMessage = typeof message === 'string'
+                    ? { id: index.toString(), content: message, role: 'assistant', timestamp: new Date().toISOString() }
+                    : message;
+
+                  return (
+                    <ChatMessage
+                      key={formattedMessage.id || index.toString()}
+                      message={formattedMessage}
+                      isCurrentUser={index % 2 === 0}
+                    />
+                  );
+                })}
+              </>
             )}
-            {isAuthenticated && isTyping && (
+            {isTyping && (
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 rtl:space-x-reverse mb-1">

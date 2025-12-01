@@ -1,0 +1,4 @@
+[
+  {"id": 1, "title": "محصول تست ۱", "title_en": "Test Product 1", "price": 99000, "image_url": "/images/placeholder.jpg", "category": "Electronics", "description": "A test product for automation testing", "stock": 10, "rating": 4.5, "is_featured": true},
+  {"id": 2, "title": "محصول تست ۲", "title_en": "Test Product 2", "price": 149000, "image_url": "/images/placeholder.jpg", "category": "Accessories", "description": "Another test product for automation testing", "stock": 5, "rating": 4.2, "is_featured": false}
+]

@@ -1,5 +1,6 @@
 import React, { useState, KeyboardEvent } from 'react';
 import { Send, Plus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ChatInputProps {
   onSend: (text: string) => void;
@@ -10,6 +11,7 @@ interface ChatInputProps {
 
 export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggleAIActions, isAuthenticated = true }) => {
   const [inputValue, setInputValue] = useState('');
+  const { t } = useTranslation();
 
   const handleSubmit = () => {
     if (inputValue.trim()) {
@@ -52,7 +54,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={isAuthenticated ? "Type a message..." : "Login required to send messages"}
+          placeholder={isAuthenticated ? t('chat.chat_placeholder', 'Type a message...') : t('chat.chat_placeholder', 'Type a message...') + " (guest mode)"}
           className={`
             w-full py-2 px-4 rounded-full
             ${isAuthenticated
@@ -60,22 +62,22 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
                 ? 'bg-gray-700 text-white border-gray-600'
                 : 'bg-gray-100 text-gray-900 border-gray-200')
               : (darkMode
-                ? 'bg-gray-800 text-gray-400 border-gray-700 cursor-not-allowed'
-                : 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed')}
+                ? 'bg-gray-700 text-white border-gray-600'  // Allow guest users to type
+                : 'bg-gray-100 text-gray-900 border-gray-200')} // Allow guest users to type
             border focus:outline-none focus:ring-2 focus:ring-orange-500
           `}
           aria-label="Type your message"
           role="textbox"
           tabIndex={0}
-          disabled={!isAuthenticated}
+          disabled={false}  // Allow guest users to type
         />
       </div>
       <button
         onClick={handleSubmit}
-        disabled={!inputValue.trim() || !isAuthenticated}
+        disabled={!inputValue.trim()}  // Remove authentication requirement
         className={`
           p-2 rounded-full
-          ${isAuthenticated && inputValue.trim()
+          ${inputValue.trim()
             ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:opacity-90 focus:ring-orange-500'
             : darkMode
               ? 'text-gray-500'
@@ -83,7 +85,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
           transition-opacity
         `}
         aria-label="Send message"
-        tabIndex={isAuthenticated ? 0 : -1}
+        tabIndex={0}  // Allow guest users to send
       >
         <Send className="w-5 h-5" aria-hidden="true" />
       </button>

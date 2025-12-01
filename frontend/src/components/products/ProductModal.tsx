@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { X, Plus, Minus, ShoppingCart, Star, Check } from 'lucide-react';
 import { Product } from '../../types/product.types';
 import { useCart } from '../../contexts/CartContext';
-import { getProductImage, handleImageError } from '../../utils/imageUtils';
+import ProductImage from './ProductImage';
 import { useTranslation } from 'react-i18next';
 import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../../utils/i18n';
 
@@ -99,11 +99,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
           <div className="grid md:grid-cols-2 gap-8 p-8">
             {/* Left: Product Image */}
             <div className="relative">
-              <img
-                src={getProductImage(product.image_url)}
+              <ProductImage
+                src={product.image_url || ''}
                 alt={title}
-                onError={handleImageError}
                 className="w-full h-auto max-h-[500px] object-cover rounded-3xl"
+                width={500}
+                height={500}
               />
 
               {/* Badges */}

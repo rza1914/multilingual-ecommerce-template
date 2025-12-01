@@ -114,6 +114,10 @@ export const useInventoryWebSocket = (token: string | null) => {
       ws.onopen = () => {
         console.log('WebSocket connected');
         setState(prev => ({
+<<<<<<< HEAD
+=======
+          ...prev,
+>>>>>>> feature/ai-chatbot-clean-v2
           isConnected: true,
           isConnecting: false,
           isReconnecting: false,

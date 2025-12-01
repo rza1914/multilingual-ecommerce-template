@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
 import { getFullApiUrl } from '../../config/api';
 
 interface Product {
@@ -62,7 +61,6 @@ const CartSuggestions: React.FC<CartSuggestionsProps> = ({ cartItems, onAddToCar
   const [suggestions, setSuggestions] = useState<CartSuggestionsResponse | null>(null);
   const [suggestionsLoading, setSuggestionsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user, loading: authLoading, isAuthenticated } = useAuth();
   const token = localStorage.getItem('auth_token');
 
   useEffect(() => {

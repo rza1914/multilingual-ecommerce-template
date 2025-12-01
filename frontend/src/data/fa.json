@@ -1,724 +1,1142 @@
 {
-  "nav": {
-    "home": "خانه",
+  "admin": {
+    "active": "فعال",
+    "alerts": "هشدارها",
+    "analytics": "تحلیل‌ها",
+    "analyzing": "در حال تحلیل",
+    "archived": "بایگانی شده",
+    "arranging": "مرتب‌سازی",
+    "assembling": "مONTAGE",
+    "assessing": "ارزیابی",
+    "awake": "بیدار",
+    "backup": "پشتیبان",
+    "building": "ساخت",
+    "busy": "مشغول",
+    "calculating": "در حال محاسبه",
+    "categorizing": "دسته‌بندی",
+    "classifying": "طبقه‌بندی",
+    "clear": "پاک کردن",
+    "computing": "پردازش",
+    "constructing": "ساخت",
+    "creating": "ایجاد",
+    "dashboard": "پیشخوان",
+    "designing": "طراحی",
+    "detecting": "شناسایی",
+    "discovering": "کشف",
+    "drafts": "پیش نویس‌ها",
+    "empty": "خالی",
+    "evaluating": "ارزیابی",
+    "examining": "بررسی",
+    "export": "خروجی",
+    "fabricating": "ساخت",
+    "finding": "یافتن",
+    "formating": "قالب‌بندی",
+    "formatting": "قالب‌بندی",
+    "generating": "تولید",
+    "grouping": "گروه‌بندی",
+    "hibernate": "خاموشی موقت",
+    "identifying": "شناسایی",
+    "idle": "بی‌کار",
+    "import": "واردات",
+    "inbox": "صندوق ورودی",
+    "inspecting": "بازرسی",
+    "locating": "مکان‌یابی",
+    "maintenance": "نگهداری",
+    "making": "ساخت",
+    "manufacturing": "تولید",
+    "messages": "پیام‌ها",
+    "notifications": "اعلان‌ها",
+    "orders": "سفارش‌ها",
+    "organizing": "سازماندهی",
+    "outbox": "صندوق خروجی",
+    "powerOff": "خاموش کردن",
+    "powerOn": "روشن کردن",
+    "processing": "در حال پردازش",
+    "producing": "تولید",
     "products": "محصولات",
-    "about": "درباره ما",
-    "contact": "تماس با ما",
-    "cart": "سبد خرید",
-    "checkout": "پرداخت",
-    "profile": "پروفایل من",
-    "orders": "سفارشات من",
-    "admin": "پنل مدیریت"
+    "putting": "قرار دادن",
+    "recognizing": "تشخیص",
+    "recovery": "بازیابی",
+    "recycle": "بازیافت",
+    "refresh": "تازه‌سازی",
+    "reload": "بارگذاری مجدد",
+    "reports": "گزارش‌ها",
+    "reset": "بازنشانی",
+    "restart": "راه‌اندازی مجدد",
+    "restore": "بازیابی",
+    "reviewing": "بررسی",
+    "scanning": "اسکن کردن",
+    "searching": "جستجو",
+    "sent": "ارسال شده",
+    "settings": "تنظیمات",
+    "shutdown": "خاموش کردن",
+    "sleep": "خواب",
+    "standby": "آماده به کار",
+    "structuring": "ساختاردهی",
+    "trash": "زباله‌دان",
+    "updates": "به‌روزرسانی‌ها",
+    "users": "کاربران",
+    "wake": "بیدار شدن",
+    "working": "در حال کار"
   },
   "auth": {
-    "login": "ورود",
-    "signup": "ثبت نام",
-    "logout": "خروج",
+    "agreeToTerms": "موافقت با شرایط و ضوابط",
+    "confirmPassword": "تکرار رمز عبور",
+    "confirmPasswordRequired": "لطفا رمز عبور خود را تأیید کنید",
+    "createAccount": "ایجاد حساب",
+    "dontHaveAccount": "حساب کاربری ندارید؟",
     "email": "ایمیل",
-    "password": "رمز عبور",
-    "name": "نام",
-    "confirmPassword": "تأیید رمز عبور",
-    "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
-    "rememberMe": "مرا به خاطر بسپار",
-    "noAccount": "حساب کاربری ندارید؟",
-    "haveAccount": "از قبل حساب کاربری دارید؟",
-    "welcomeBack": "خوش آمدید!",
-    "createAccount": "ایجاد حساب کاربری",
-    "loginSuccess": "ورود موفقیت‌آمیز بود!",
-    "logoutSuccess": "خداحافظ! به زودی می‌بینمتان 👋",
-    "signupSuccess": "حساب کاربری با موفقیت ایجاد شد!",
-    "emailRequired": "ایمیل الزامی است",
-    "emailInvalid": "ایمیل نامعتبر است",
-    "passwordRequired": "رمز عبور الزامی است",
-    "passwordMin": "رمز عبور باید حداقل 6 کاراکتر باشد",
-    "nameRequired": "نام الزامی است",
+    "emailInvalid": "لطفا یک آدرس ایمیل معتبر وارد کنید",
+    "emailRequired": "لطفا ایمیل خود را وارد کنید",
+    "forgotPassword": "رمز عبور خود را فراموش کرده‌اید؟",
+    "haveAccount": "قبلاً حساب کاربری دارید؟",
+    "login": "ورود",
+    "loginPageTitle": "ورود",
+    "loginSuccess": "ورود با موفقیت انجام شد!",
+    "name": "نام کامل",
     "nameMin": "نام باید حداقل 2 کاراکتر باشد",
+    "nameRequired": "لطفا نام خود را وارد کنید",
+    "noAccount": "حساب کاربری ندارید؟",
+    "orContinueWith": "یا ادامه دهید با",
+    "orSignUpWith": "یا ثبت نام کنید با",
+    "password": "رمز عبور",
+    "rememberMe": "مرا به خاطر بسپار",
+    "passwordMedium": "رمز عبور متوسط است",
+    "passwordMin": "رمز عبور باید حداقل 8 کاراکتر باشد",
     "passwordMismatch": "رمزهای عبور مطابقت ندارند",
-    "confirmPasswordRequired": "لطفا رمز عبور را تأیید کنید",
-    "termsRequired": "باید شرایط و ضوابط را بپذیرید",
-    "agreeToTerms": "موافقم با",
-    "passwordWeak": "ضعیف",
-    "passwordMedium": "متوسط",
-    "passwordStrong": "قوی"
+    "passwordRequired": "لطفا رمز عبور خود را وارد کنید",
+    "passwordStrength": "قدرت رمز عبور:",
+    "passwordStrong": "رمز عبور قوی است",
+    "passwordWeak": "رمز عبور ضعیف است",
+    "register": "ثبت‌نام",
+    "signup": "ایجاد حساب کاربری",
+    "registerPageTitle": "ثبت‌نام",
+    "signInToAccount": "وارد حساب کاربری خود شوید",
+    "signupSuccess": "حساب کاربری با موفقیت ایجاد شد!",
+    "submit": "ثبت",
+    "termsRequired": "باید با شرایط و ضوابط موافقت کنید",
+    "welcomeBack": "خوش آمدید"
   },
-  "product": {
-    "title": "عنوان",
-    "description": "توضیحات",
-    "price": "قیمت",
-    "stock": "موجودی",
-    "inStock": "موجود",
-    "outOfStock": "ناموجود",
-    "rating": "امتیاز",
-    "reviews": "نظرات",
-    "category": "دسته‌بندی",
-    "addToCart": "افزودن به سبد",
+  "buttons": {
+    "addToCart": "افزودن به سبد خرید",
     "buyNow": "خرید فوری",
-    "viewDetails": "مشاهده جزئیات",
-    "relatedProducts": "محصولات مرتبط",
-    "productAdded": "محصول به سبد خرید اضافه شد!",
-    "lowStock": "فقط {{count}} عدد باقی مانده!",
-    "newArrival": "تازه رسیده",
-    "bestSeller": "پرفروش",
-    "featured": "ویژه"
-  },
-  "products": {
-    "title": "محصولات ما",
-    "subtitle": "مجموعه محصولات ممتاز ما را مرور کنید",
-    "searchPlaceholder": "جستجوی محصولات بر اساس نام یا توضیحات...",
-    "productFound": "محصول یافت شد",
-    "productsFound": "محصول یافت شد",
-    "filtered": "فیلتر شده",
-    "clearAllFilters": "پاک کردن همه فیلترها",
-    "errorTitle": "متأسفیم! مشکلی پیش آمد",
-    "tryAgain": "دوباره تلاش کنید",
-    "loadError": "بارگذاری محصولات ناموفق بود",
-    "noProductsFound": "محصولی یافت نشد",
-    "noProductsAvailable": "محصولی در دسترس نیست",
-    "noProductsFoundMessage": "جستجو یا فیلترهای خود را تغییر دهید تا آنچه را که به دنبال آن هستید پیدا کنید.",
-    "noProductsAvailableMessage": "در حال حاضر محصولی در دسترس نیست. لطفاً بعداً بررسی کنید!",
-    "clearFilters": "پاک کردن فیلترها"
-  },
-  "productModal": {
-    "off": "تخفیف",
-    "inStock": "موجود ({{count}})",
-    "general": "عمومی",
-    "quantity": "تعداد",
-    "addToCart": "افزودن به سبد",
-    "sku": "شناسه محصول",
-    "category": "دسته‌بندی"
-  },
-  "home": {
-    "badge": "تجربه خرید لوکس",
-    "heroTitle": "به فروشگاه لاکس خوش آمدید",
-    "heroSubtitle": "محصولات ممتازی را که برای کسانی که کیفیت را می‌ستایند انتخاب شده‌اند، کشف کنید. سبک زندگی خود را با مجموعه اختصاصی ما ارتقا دهید.",
-    "exploreCollection": "مشاهده مجموعه",
-    "learnMore": "اطلاعات بیشتر",
-    "happyCustomers": "مشتری راضی",
-    "premiumProducts": "محصول ممتاز",
-    "averageRating": "میانگین امتیاز",
-    "freeShipping": "ارسال رایگان",
-    "freeShippingDesc": "برای تمام سفارشات بالای $100",
-    "securePayment": "پرداخت امن",
-    "securePaymentDesc": "تراکنش‌های 100٪ امن",
-    "premiumQuality": "کیفیت ممتاز",
-    "premiumQualityDesc": "محصولات اصل و معتبر",
-    "featuredProducts": "محصولات ویژه",
-    "featuredProductsSubtitle": "کالاهای لوکس انتخاب شده فقط برای شما",
-    "viewAll": "مشاهده همه",
-    "noFeaturedProducts": "در حال حاضر محصول ویژه‌ای در دسترس نیست.",
-    "ctaTitle": "سفر ممتاز خود را شروع کنید",
-    "ctaSubtitle": "به هزاران مشتری راضی بپیوندید که برای نیازهای سبک زندگی خود به فروشگاه لاکس اعتماد دارند. به محصولات ممتاز و پیشنهادهای ویژه دسترسی انحصاری داشته باشید.",
-    "ctaButton": "ایجاد حساب رایگان"
+    "send": "ارسال"
   },
   "cart": {
-    "title": "سبد خرید",
-    "empty": "سبد خرید شما خالی است",
-    "emptyMessage": "محصولاتی را اضافه کنید تا شروع کنید!",
-    "subtotal": "جمع جزء",
-    "total": "جمع کل",
-    "quantity": "تعداد",
-    "remove": "حذف",
     "continueShopping": "ادامه خرید",
-    "proceedToCheckout": "ادامه به پرداخت",
-    "itemsInCart": "{{count}} کالا در سبد خرید",
-    "itemInCart": "{{count}} کالا در سبد خرید",
-    "insufficientStock": "موجودی ناکافی! فقط {{count}} موجود است"
+    "empty": "سبد خرید خالی است",
+    "emptyMessage": "هیچ موردی در سبد خرید شما وجود ندارد",
+    "insufficientStock": "فقط {{count}} عدد در انبار باقی مانده است",
+    "itemInCart": "{{count}} مورد در سبد خرید",
+    "itemsInCart": "{{count}} مورد در سبد خرید",
+    "proceedToCheckout": "رفتن به صندوق",
+    "subtotal": "جمع جز",
+    "title": "سبد خرید",
+    "total": "کل"
+  },
+  "chat": {
+    "add_to_cart": "افزودن به سبد خرید",
+    "addedToCart": "به سبد خرید اضافه شد!",
+    "analyzeImage": "تحلیل تصویر",
+    "analyzeProduct": "تحلیل محصول",
+    "assistant": "دستیار",
+    "assistantName": "دستیار خرید هوشمند",
+    "attachment": "پیوست",
+    "brand": "برند",
+    "cannotAddToCart": "امکان افزودن به سبد خرید وجود ندارد",
+    "category": "دسته‌بندی",
+    "chat_placeholder": "پیامی بنویسید...",
+    "choices": "انتخاب‌ها",
+    "clear": "پاک کردن",
+    "closeChat": "بستن چت",
+    "compare": "مقایسه",
+    "compareProducts": "مقایسه محصولات",
+    "comparison": "مقایسه",
+    "comparisonATDD": "توسعه مبتنی بر تست پذیرش",
+    "comparisonAbstract": "چکیده",
+    "comparisonAbstraction": " abstraction",
+    "comparisonAcceptance": "پذیرش",
+    "comparisonAccordingly": "بر این اساس",
+    "comparisonAcos": "آرک کسینوس",
+    "comparisonAcosh": "هذلولی آرک کسینوس",
+    "comparisonActivate": "فعال کردن",
+    "comparisonAdd": "افزودن",
+    "comparisonAddError": "خطا در افزودن مقایسه",
+    "comparisonAggregation": "تجمیع",
+    "comparisonAlike": "مشابه",
+    "comparisonAll": "همه",
+    "comparisonAlternatively": "بدون این",
+    "comparisonAlthough": "اگر چه",
+    "comparisonAmount": "مقدار",
+    "comparisonAnalogous": "همانند",
+    "comparisonAnd": "و",
+    "comparisonApplyFilters": "اعمال فیلترها",
+    "comparisonAsA": "به عنوان یک",
+    "comparisonAsin": "آرک سینوس",
+    "comparisonAsinh": "هذلולی آرک سینوس",
+    "comparisonAssociation": "همکاری",
+    "comparisonAsync": "ناهمزمان",
+    "comparisonAtan": "آرک تانژانت",
+    "comparisonAtanh": "هذلولی آرک تانژانت",
+    "comparisonAttribute": "ویژگی",
+    "comparisonAverage": "میانگین",
+    "comparisonAwait": "انتظار",
+    "comparisonBDD": "رویکرد طراحی مبتنی بر رفتار",
+    "comparisonBack": "بازگشت",
+    "comparisonBackground": "پس‌زمینه",
+    "comparisonBehavior": "رفتار",
+    "comparisonBitwiseAnd": "و بیتی",
+    "comparisonBitwiseNot": "نفی بیتی",
+    "comparisonBitwiseOr": "یا بیتی",
+    "comparisonBitwiseXor": "یای انحصاری بیتی",
+    "comparisonBreak": "شکستن",
+    "comparisonBut": "اما",
+    "comparisonCase": "مورد",
+    "comparisonClass": "کلاس",
+    "comparisonClear": "پاک کردن",
+    "comparisonClearError": "پاک کردن خطا",
+    "comparisonClearFilters": "پاک کردن فیلترها",
+    "comparisonClose": "بستن",
+    "comparisonCohesion": "چسبندگی",
+    "comparisonCollapse": "جمع شدن",
+    "comparisonCombination": "ترکیب",
+    "comparisonComparable": "قابل مقایسه",
+    "comparisonCompare": "مقایسه",
+    "comparisonCompareNow": "همین حالا مقایسه کنید",
+    "comparisonComparison": "مقایسه",
+    "comparisonCompatible": "سازگار",
+    "comparisonCompleted": "تکمیل شده",
+    "comparisonComposite": "مرکب",
+    "comparisonComposition": "ترکیب",
+    "comparisonConcordant": "هم‌آهنگ",
+    "comparisonConditional": "شرطی",
+    "comparisonConsequently": "نتیجتاً",
+    "comparisonConsistent": "پایدار",
+    "comparisonConst": "ثابت",
+    "comparisonConstant": "مقدار ثابت",
+    "comparisonConstruct": "ساخت",
+    "comparisonContinue": "ادامه",
+    "comparisonContrarily": "برعکس",
+    "comparisonContrary": "متضاد",
+    "comparisonContrast": "تضاد",
+    "comparisonConversely": "برعکس",
+    "comparisonCopy": "کپی",
+    "comparisonCorresponding": "متناظر",
+    "comparisonCos": "کسینوس",
+    "comparisonCosh": "هذلولی کسینوس",
+    "comparisonCount": "شمارش",
+    "comparisonCoupling": "همبستگی",
+    "comparisonCriteria": "معیارها",
+    "comparisonCube": "مکعب",
+    "comparisonCut": "برش",
+    "comparisonDIP": "اصل معکوس وابستگی",
+    "comparisonDRY": "تکرار نکن",
+    "comparisonDeactivate": "غیرفعال کردن",
+    "comparisonDeclare": "اعلام",
+    "comparisonDefault": "پیش‌فرض",
+    "comparisonDefine": "تعریف",
+    "comparisonDegrees": "درجه",
+    "comparisonDelete": "حذف",
+    "comparisonDependable": "قابل اعتماد",
+    "comparisonDependency": "وابستگی",
+    "comparisonDescription": "توضیحات",
+    "comparisonDeselect": "لغو انتخاب",
+    "comparisonDeselectAll": "لغو انتخاب همه",
+    "comparisonDespite": "با این حال",
+    "comparisonDestruct": "تخریب",
+    "comparisonDifference": "تفاوت",
+    "comparisonDisable": "غیرفعال کردن",
+    "comparisonDiv": "تقسیم",
+    "comparisonDivisor": "مقسوم علیه",
+    "comparisonDuration": "مدت",
+    "comparisonE": "عدد اویلر",
+    "comparisonETA": "زمان تخمینی رسیدن",
+    "comparisonElse": "در غیر این صورت",
+    "comparisonElseIf": "در غیر این صورت اگر",
+    "comparisonEmpty": "خالی",
+    "comparisonEnable": "فعال کردن",
+    "comparisonEncapsulation": "بسته‌بندی",
+    "comparisonEnum": "شمارش",
+    "comparisonEqual": "برابر",
+    "comparisonEqually": "به طور مساوی",
+    "comparisonEquivalent": "معادل",
+    "comparisonEstimate": "تخمین",
+    "comparisonEven": "زوج",
+    "comparisonExamples": "نمونه‌ها",
+    "comparisonExp": "نمایی",
+    "comparisonExpand": "گسترش",
+    "comparisonExport": "صادرات",
+    "comparisonExtends": "گسترش می‌دهد",
+    "comparisonFactor": "عامل",
+    "comparisonFactorial": "فاکتوریل",
+    "comparisonFeature": "ویژگی",
+    "comparisonField": "فیلد",
+    "comparisonFilter": "فیلتر",
+    "comparisonFinal": "نهایی",
+    "comparisonFirst": "اول",
+    "comparisonFormat": "فرمت",
+    "comparisonFunction": "تابع",
+    "comparisonGCD": "بزرگترین مقسوم علیه مشترک",
+    "comparisonGenerics": "کلی",
+    "comparisonGiven": "با فرض",
+    "comparisonGreaterThan": "بزرگتر از",
+    "comparisonGreaterThanOrEqual": "بزرگتر یا مساوی",
+    "comparisonHCF": "بزرگترین مقسوم علیه مشترک",
+    "comparisonHarmonious": "هماهنگ",
+    "comparisonHeader": "سرصفحه",
+    "comparisonHence": "از این رو",
+    "comparisonHide": "مخفی کردن",
+    "comparisonHowever": "اما",
+    "comparisonISP": "اصل تفکیک رابط",
+    "comparisonIWant": "من می‌خواهم",
+    "comparisonIdentically": "به طور یکسان",
+    "comparisonIf": "اگر",
+    "comparisonImplements": "اجرا می‌کند",
+    "comparisonImport": "واردات",
+    "comparisonInOrderTo": "برای اینکه",
+    "comparisonInSpiteOf": "با وجود",
+    "comparisonInfinity": "بینهایت",
+    "comparisonInheritance": "ارث‌بری",
+    "comparisonInherits": "ارث می‌برد",
+    "comparisonInstantiate": "نمونه‌سازی",
+    "comparisonInstead": "به جای",
+    "comparisonInterface": "رابط",
+    "comparisonIntrospection": "خودبینی",
+    "comparisonInverse": "وارون",
+    "comparisonInvert": "وارونه کردن",
+    "comparisonIrrespective": "صرف نظر از",
+    "comparisonKISS": "ساده نگه دارید، احمق",
+    "comparisonLCF": "کوچکترین عامل مشترک",
+    "comparisonLCM": "کوچکترین مضرب مشترک",
+    "comparisonLSP": "اصل جایگزینی لیسکوف",
+    "comparisonLast": "آخر",
+    "comparisonLeftShift": "جابجایی چپ",
+    "comparisonLessThan": "کمتر از",
+    "comparisonLessThanOrEqual": "کمتر یا مساوی",
+    "comparisonLet": "بگذار",
+    "comparisonLikewise": "به همین ترتیب",
+    "comparisonLoad": "بارگذاری",
+    "comparisonLog": "لگاریتم",
+    "comparisonLogicalAnd": "و منطقی",
+    "comparisonLogicalNot": "نفی منطقی",
+    "comparisonLogicalOr": "یا منطقی",
+    "comparisonMatching": "مطابقت",
+    "comparisonMax": "حداکثر",
+    "comparisonMetaprogramming": "فرامeta برنامه‌نویسی",
+    "comparisonMethod": "روش",
+    "comparisonMin": "حداقل",
+    "comparisonMixins": "میکسین",
+    "comparisonMod": "پیمان",
+    "comparisonModule": "ماژول",
+    "comparisonModulo": "پیمانه",
+    "comparisonMul": "ضرب",
+    "comparisonMultiplier": "ضریب",
+    "comparisonNaN": "عدد نیست",
+    "comparisonNamespace": "فضای نام",
+    "comparisonNand": "و نه",
+    "comparisonNarrative": "داستان",
+    "comparisonNegative": "منفی",
+    "comparisonNevertheless": "با این حال",
+    "comparisonNew": "جدید",
+    "comparisonNext": "بعدی",
+    "comparisonNoProducts": "هیچ محصولی",
+    "comparisonNonetheless": "با این حال",
+    "comparisonNor": "نه یا",
+    "comparisonNotEqual": "نامساوی",
+    "comparisonNumber": "عدد",
+    "comparisonOCP": "اصل باز-بسته",
+    "comparisonOdd": "فرد",
+    "comparisonOf": "از",
+    "comparisonOnTheContrary": "برعکس",
+    "comparisonOpposite": "متضاد",
+    "comparisonOpposition": "مخالفت",
+    "comparisonOptimization": "بهینه‌سازی",
+    "comparisonOr": "یا",
+    "comparisonOtherwise": "در غیر این صورت",
+    "comparisonOutline": "چکیده",
+    "comparisonOverride": "نادیده گرفتن",
+    "comparisonPackage": "بسته",
+    "comparisonPaste": "جای‌گذاری",
+    "comparisonPause": "مکث",
+    "comparisonPercentage": "درصد",
+    "comparisonPermutation": "جایگشت",
+    "comparisonPi": "پی",
+    "comparisonPlay": "پخش",
+    "comparisonPlayback": "پخش",
+    "comparisonPolymorphism": "چندریختی",
+    "comparisonPositive": "مثبت",
+    "comparisonPower": "توان",
+    "comparisonPredictable": "قابل پیش‌بینی",
+    "comparisonPremature": "زودرس",
+    "comparisonPrevious": "قبلی",
+    "comparisonPrime": "عدد اول",
+    "comparisonPrint": "چاپ",
+    "comparisonPrivate": "خصوصی",
+    "comparisonProgress": "پیشرفت",
+    "comparisonProperty": "ویژگی",
+    "comparisonProportion": "نسبت",
+    "comparisonProportional": "متناسب",
+    "comparisonProtected": "محافظت شده",
+    "comparisonPublic": "عمومی",
+    "comparisonQuality": "کیفیت",
+    "comparisonQuantity": "مقدار",
+    "comparisonQuotient": "خارج قسمت",
+    "comparisonRadians": "رادیان",
+    "comparisonRange": "محدوده",
+    "comparisonRate": "نرخ",
+    "comparisonRather": "بهتر است",
+    "comparisonRatio": "نسبت",
+    "comparisonRecord": "ضبط",
+    "comparisonRedo": "انجام مجدد",
+    "comparisonRefactoring": "بازسازی",
+    "comparisonReflection": "انعکاس",
+    "comparisonRegardless": "صرف نظر از",
+    "comparisonRegular": "منظم",
+    "comparisonReliable": "قابل اعتماد",
+    "comparisonRemainder": "باقیمانده",
+    "comparisonRemaining": "باقیمانده",
+    "comparisonRemove": "حذف",
+    "comparisonRemoveError": "حذف خطا",
+    "comparisonRequire": "نیازمند",
+    "comparisonReset": "بازنشانی",
+    "comparisonResolution": "وضوح",
+    "comparisonResults": "نتایج",
+    "comparisonResume": "ادامه",
+    "comparisonReturn": "بازگشت",
+    "comparisonReverse": "معکوس",
+    "comparisonRightShift": "جابجایی راست",
+    "comparisonRole": "نقش",
+    "comparisonRoot": "ریشه",
+    "comparisonSOLID": "اصل جامد",
+    "comparisonSRP": "اصل مسئولیت تک",
+    "comparisonSave": "ذخیره",
+    "comparisonScale": "مقیاس",
+    "comparisonScenario": "سناریو",
+    "comparisonScenarios": "سناریوها",
+    "comparisonSearch": "جستجو",
+    "comparisonSelect": "انتخاب",
+    "comparisonSelectAll": "انتخاب همه",
+    "comparisonShare": "اشتراک",
+    "comparisonShow": "نمایش",
+    "comparisonShowing": "در حال نمایش",
+    "comparisonSimilar": "مشابه",
+    "comparisonSimilarly": "به طور مشابه",
+    "comparisonSin": "سینوس",
+    "comparisonSinh": "هذلولی سینوس",
+    "comparisonSize": "اندازه",
+    "comparisonSo": "پس",
+    "comparisonSoThat": "تا اینکه",
+    "comparisonSort": "مرتب‌سازی",
+    "comparisonSpecification": "مشخصات",
+    "comparisonSpeed": "سرعت",
+    "comparisonSqrt": "جذر",
+    "comparisonSquare": "مربع",
+    "comparisonStable": "پایدار",
+    "comparisonStart": "شروع",
+    "comparisonStatic": "ایستا",
+    "comparisonSteady": "پایدار",
+    "comparisonStop": "توقف",
+    "comparisonStopRecording": "توقف ضبط",
+    "comparisonSub": "تفریق",
+    "comparisonSum": "مجموع",
+    "comparisonSuper": "برتر",
+    "comparisonSwitch": "تعویض",
+    "comparisonSync": "همگام",
+    "comparisonTDD": "رویکرد طراحی مبتنی بر تست",
+    "comparisonTan": "تانژانت",
+    "comparisonTanh": "هذلولی تانژانت",
+    "comparisonTemplates": "الگوها",
+    "comparisonTernary": "سه‌تایی",
+    "comparisonTesting": "تست",
+    "comparisonThen": "سپس",
+    "comparisonTherefore": "بنابراین",
+    "comparisonThis": "این",
+    "comparisonThough": "اگرچه",
+    "comparisonThus": "پس",
+    "comparisonTitle": "عنوان",
+    "comparisonToggle": "تغییر وضعیت",
+    "comparisonTotal": "کل",
+    "comparisonTraits": "ویژگی‌ها",
+    "comparisonTrustworthy": "قابل اعتماد",
+    "comparisonType": "نوع",
+    "comparisonUndo": "واگرد",
+    "comparisonUniform": "یکنواخت",
+    "comparisonUnsignedRightShift": "جابجایی راست بدون علامت",
+    "comparisonUserStory": "داستان کاربر",
+    "comparisonValue": "مقدار",
+    "comparisonVar": "متغیر",
+    "comparisonVariable": "متغیر",
+    "comparisonVirtual": "مجازی",
+    "comparisonWants": "می‌خواهد",
+    "comparisonWhen": "وقتی",
+    "comparisonXnor": "xnor",
+    "comparisonXor": "یای انحصاری",
+    "comparisonYAGNI": "نیاز ندارید",
+    "comparisonYield": "بهره",
+    "comparisonZero": "صفر",
+    "connecting": "در حال اتصال...",
+    "copied": "کپی شد!",
+    "copy": "کپی",
+    "description": "توضیحات",
+    "details": "جزئیات",
+    "error": "خطایی رخ داده است",
+    "features": "ویژگی‌ها",
+    "guest_mode": "شما در حالت مهمان هستید. می‌توانید بدون ورود با دستیار هوش مصنوعی چت کنید.",
+    "imageAlt": "تصویر",
+    "intro": "از من درباره محصولات سوال بپرسید، پیشنهادات دریافت کنید یا تصاویر را تحلیل کنید!",
+    "lowStock": "موجودی کم",
+    "maxSize": "حداکثر حجم فایل: 5 مگابایت",
+    "new_description": "این نسخه جدید شامل تمام ویژگی‌های جستجوی هوشمند است",
+    "new_title": "جستجوی هوشمند جدید",
+    "noRecommendations": "هیچ پیشنهادی یافت نشد",
+    "offline": "آفلاین",
+    "online": "آنلاین",
+    "openChatGuest": "باز کردن چت (حالت مهمان)",
+    "options": "گزینه‌ها",
+    "outOfStock": "موجود نیست",
+    "price": "قیمت",
+    "priceEstimation": "تخمین قیمت",
+    "productInfo": "اطلاعات محصول",
+    "productNotFound": "محصول یافت نشد",
+    "product_details": "جزئیات محصول",
+    "properties": "ویژگی‌ها",
+    "recommendations": "توصیه‌ها",
+    "relatedProducts": "محصولات مرتبط",
+    "retry": "تلاش مجدد",
+    "selectOption": "انتخاب یک گزینه",
+    "selectProduct": "انتخاب یک محصول",
+    "send": "ارسال",
+    "similarProducts": "محصولات مشابه",
+    "specifications": "مشخصات",
+    "suggestions": "پیشنهادها",
+    "supportedFormats": "فرمت‌های پشتیبانی شده: JPG، PNG، GIF",
+    "typing": "در حال تایپ...",
+    "uploadComplete": "آپلود تکمیل شد",
+    "uploadFailed": "آپلود ناموفق بود",
+    "user": "شما",
+    "welcome": "به لوکس‌استور خوش آمدید"
   },
   "checkout": {
-    "title": "پرداخت",
-    "backToCart": "بازگشت به سبد خرید",
-    "emptyCartTitle": "سبد خرید شما خالی است",
-    "emptyCartMessage": "قبل از پرداخت، محصولاتی به سبد خرید خود اضافه کنید",
-    "browseProducts": "مشاهده محصولات",
-    "itemCount": "{{count}} کالا",
-    "itemCountSingular": "{{count}} کالا",
-    "steps": {
-      "shipping": "ارسال",
-      "delivery": "تحویل",
-      "payment": "پرداخت",
-      "review": "بررسی"
-    },
-    "shippingAddress": "آدرس ارسال",
-    "shippingInfo": "اطلاعات ارسال",
-    "paymentInfo": "اطلاعات پرداخت",
-    "orderSummary": "خلاصه سفارش",
-    "fullName": "نام کامل",
-    "fullNamePlaceholder": "علی احمدی",
-    "fullNameRequired": "نام کامل الزامی است",
-    "emailAddress": "آدرس ایمیل",
-    "emailPlaceholder": "example@email.com",
-    "emailRequired": "ایمیل الزامی است",
-    "emailInvalid": "ایمیل نامعتبر است",
-    "phoneNumber": "شماره تلفن",
-    "phonePlaceholder": "09123456789",
-    "phoneRequired": "شماره تلفن الزامی است",
-    "streetAddress": "آدرس خیابان",
-    "addressPlaceholder": "خیابان ولیعصر، پلاک 123، واحد 4",
-    "addressRequired": "آدرس الزامی است",
-    "address": "آدرس",
-    "city": "شهر",
-    "cityPlaceholder": "تهران",
-    "cityRequired": "شهر الزامی است",
-    "state": "استان",
-    "statePlaceholder": "تهران",
-    "stateRequired": "استان الزامی است",
-    "zipCode": "کد پستی",
-    "zipPlaceholder": "1234567890",
-    "zipRequired": "کد پستی الزامی است",
-    "postalCode": "کد پستی",
-    "country": "کشور",
-    "countries": {
-      "us": "ایالات متحده",
-      "ca": "کانادا",
-      "uk": "بریتانیا",
-      "au": "استرالیا"
-    },
-    "saveAddress": "ذخیره این آدرس برای سفارش‌های آینده",
-    "deliveryMethod": "روش تحویل",
-    "chooseShippingMethod": "روش ارسال مورد نظر خود را انتخاب کنید",
-    "standardShipping": "ارسال عادی",
-    "standardShippingDays": "تحویل در 5-7 روز کاری",
-    "expressShipping": "ارسال سریع",
-    "expressShippingDays": "تحویل در 2-3 روز کاری",
-    "nextDayDelivery": "تحویل روز بعد",
-    "nextDayDeliveryDesc": "تحویل تا فردا",
-    "paymentMethod": "روش پرداخت",
-    "choosePaymentMethod": "روش پرداخت مورد نظر خود را انتخاب کنید",
-    "creditDebitCard": "کارت اعتباری / بدهی",
-    "cashOnDelivery": "پرداخت در محل",
-    "cardDetails": "جزئیات کارت",
-    "cardNumber": "شماره کارت",
-    "cardNumberPlaceholder": "1234 5678 9012 3456",
-    "cardholderName": "نام دارنده کارت",
-    "cardholderNamePlaceholder": "علی احمدی",
-    "expiryDate": "تاریخ انقضا",
-    "expiryDatePlaceholder": "MM/YY",
-    "cvv": "کد امنیتی",
-    "cvvPlaceholder": "123",
-    "securePaymentInfo": "اطلاعات پرداخت شما رمزگذاری شده و امن است. ما هرگز جزئیات کارت شما را ذخیره نمی‌کنیم.",
-    "codTitle": "پرداخت در محل",
-    "codDescription": "شما هنگام تحویل سفارش در محل پرداخت خواهید کرد. لطفاً مبلغ دقیق را آماده داشته باشید.",
-    "reviewOrder": "بررسی سفارش شما",
-    "reviewOrderMessage": "لطفاً جزئیات سفارش خود را قبل از ثبت بررسی کنید",
-    "editAddress": "ویرایش آدرس",
-    "changeMethod": "تغییر روش",
-    "changePayment": "تغییر پرداخت",
-    "orderItems": "کالاهای سفارش",
-    "quantity": "تعداد",
-    "subtotal": "جمع جزء",
-    "shipping": "ارسال",
-    "tax": "مالیات (10٪)",
     "discount": "تخفیف",
-    "total": "جمع کل",
-    "agreeToTerms": "موافقم با",
-    "termsAndConditions": "شرایط و ضوابط",
-    "and": "و",
-    "privacyPolicy": "سیاست حفظ حریم خصوصی",
-    "acceptTermsAlert": "لطفاً شرایط و ضوابط را بپذیرید",
-    "previous": "قبلی",
-    "continue": "ادامه",
-    "placeOrder": "ثبت سفارش",
-    "placingOrder": "در حال ثبت سفارش...",
-    "processing": "در حال پردازش...",
-    "orderSuccess": "سفارش با موفقیت ثبت شد!",
-    "orderError": "خطا در ثبت سفارش",
-    "orderErrorMessage": "خطا در ثبت سفارش. لطفاً دوباره تلاش کنید.",
     "free": "رایگان",
-    "secureCheckout": "پرداخت امن با رمزگذاری SSL",
-    "required": "*",
-    "payInCash": "هنگام دریافت سفارش، نقدی پرداخت کنید"
-  },
-  "order": {
-    "orderNumber": "شماره سفارش",
-    "orderDate": "تاریخ سفارش",
-    "status": "وضعیت",
-    "pending": "در انتظار",
-    "processing": "در حال پردازش",
-    "shipped": "ارسال شده",
-    "delivered": "تحویل داده شده",
-    "cancelled": "لغو شده",
-    "confirmed": "تأیید شده",
-    "trackOrder": "پیگیری سفارش",
-    "orderDetails": "جزئیات سفارش",
-    "orderHistory": "تاریخچه سفارشات",
-    "myOrders": "سفارشات من",
-    "trackAndManage": "پیگیری و مدیریت سفارشات شما",
-    "loadingOrders": "در حال بارگذاری سفارشات شما...",
-    "noOrders": "هنوز سفارشی ندارید",
-    "noOrdersMessage": "برای ثبت اولین سفارش خود شروع به خرید کنید!",
-    "noOrdersYet": "هنوز سفارشی ندارید",
-    "noFilteredOrders": "سفارش {{filter}} وجود ندارد",
-    "noOrdersYetMessage": "هنوز هیچ سفارشی ثبت نکرده‌اید. برای مشاهده سفارشات خود، شروع به خرید کنید!",
-    "noFilteredOrdersMessage": "در حال حاضر هیچ سفارش {{filter}} ندارید.",
-    "allOrders": "همه سفارشات",
-    "startShopping": "شروع خرید",
-    "loadingDetails": "در حال بارگذاری جزئیات سفارش...",
-    "notFound": "سفارش یافت نشد",
-    "goHome": "بازگشت به خانه",
-    "orderConfirmed": "سفارش تأیید شد! 🎉",
-    "thankYou": "از سفارش شما متشکریم!",
-    "receivedMessage": "سفارش شما دریافت شد و به زودی پردازش خواهد شد.",
-    "orderNumberLabel": "شماره سفارش",
-    "orderStatus": "وضعیت سفارش",
-    "shippingAddress": "آدرس ارسال",
+    "guest": "ادامه به عنوان مهمان",
     "orderSummary": "خلاصه سفارش",
-    "subtotal": "جمع جزء",
+    "secureCheckout": "پرداخت امن",
     "shipping": "ارسال",
     "tax": "مالیات",
-    "discount": "تخفیف",
-    "total": "جمع کل",
-    "date": "تاریخ",
-    "items": "کالاها",
-    "item": "کالا",
-    "itemsPlural": "کالا",
-    "viewDetails": "مشاهده جزئیات",
-    "viewAllOrders": "مشاهده همه سفارشات",
-    "continueShopping": "ادامه خرید",
-    "emailConfirmation": "ایمیل تأیید به",
-    "backToOrders": "بازگشت به سفارشات",
-    "placedOn": "ثبت شده در",
-    "cancelOrder": "لغو سفارش",
-    "orderCancelled": "سفارش لغو شد",
-    "orderCancelledMessage": "این سفارش لغو شده و پردازش نخواهد شد.",
-    "orderItems": "کالاهای سفارش",
-    "quantity": "تعداد",
-    "each": "هر کدام",
-    "deliveryMethod": "روش تحویل",
-    "paymentMethod": "روش پرداخت",
-    "standardShipping": "ارسال عادی (5-7 روز)",
-    "expressShipping": "ارسال سریع (2-3 روز)",
-    "nextDayDelivery": "تحویل روز بعد",
-    "creditDebitCard": "کارت اعتباری / بدهی",
-    "cashOnDelivery": "پرداخت در محل",
-    "notFoundTitle": "سفارش یافت نشد",
-    "notFoundMessage": "سفارشی که به دنبال آن هستید وجود ندارد یا دسترسی به آن ندارید.",
-    "cancelOrderConfirm": "لغو سفارش؟",
-    "cancelOrderMessage": "آیا مطمئن هستید که می‌خواهید این سفارش را لغو کنید؟ این عمل قابل بازگشت نیست.",
-    "keepOrder": "نگه داشتن سفارش",
-    "yesCancel": "بله، لغو کن",
-    "cancelling": "در حال لغو...",
-    "cancelFailed": "لغو سفارش ناموفق بود. لطفاً دوباره تلاش کنید."
+    "title": "تسویه حساب"
   },
-  "profile": {
-    "title": "پروفایل من",
-    "subtitle": "مدیریت اطلاعات و تنظیمات حساب کاربری شما",
-    "loadingProfile": "در حال بارگذاری پروفایل...",
-    "notFound": "پروفایل یافت نشد",
-    "goHome": "بازگشت به خانه",
-    "user": "کاربر",
-    "joined": "عضویت از",
-    "orderStatistics": "آمار سفارشات",
-    "totalOrders": "کل سفارشات",
-    "pending": "در انتظار",
-    "delivered": "تحویل داده شده",
-    "totalSpent": "کل هزینه شده",
-    "viewAllOrders": "مشاهده همه سفارشات",
-    "personalInfo": "اطلاعات شخصی",
-    "edit": "ویرایش",
-    "cancel": "لغو",
-    "save": "ذخیره",
-    "saving": "در حال ذخیره...",
-    "fullName": "نام کامل",
-    "emailAddress": "آدرس ایمیل",
-    "phoneNumber": "شماره تلفن",
-    "phonePlaceholder": "09123456789",
-    "notSet": "تنظیم نشده",
-    "cannotBeChanged": "قابل تغییر نیست",
-    "updateProfile": "به‌روزرسانی پروفایل",
-    "changePassword": "تغییر رمز عبور",
-    "change": "تغییر",
-    "currentPassword": "رمز عبور فعلی",
-    "newPassword": "رمز عبور جدید",
-    "confirmNewPassword": "تأیید رمز عبور جدید",
-    "updatePassword": "به‌روزرسانی رمز عبور",
-    "changePasswordHint": "برای به‌روزرسانی رمز عبور، روی \"تغییر\" کلیک کنید",
-    "saveChanges": "ذخیره تغییرات",
-    "profileUpdated": "پروفایل با موفقیت به‌روزرسانی شد!",
-    "updateProfileError": "به‌روزرسانی پروفایل ناموفق بود. لطفاً دوباره تلاش کنید.",
-    "fillAllPasswordFields": "لطفاً همه فیلدهای رمز عبور را پر کنید",
-    "passwordMinLength": "رمز عبور جدید باید حداقل 6 کاراکتر باشد",
-    "passwordsDoNotMatch": "رمزهای عبور جدید مطابقت ندارند",
-    "passwordChanged": "رمز عبور با موفقیت تغییر کرد!",
-    "changePasswordError": "تغییر رمز عبور ناموفق بود. لطفاً دوباره تلاش کنید."
-  },
-  "admin": {
-    "dashboard": "داشبورد مدیریت",
-    "products": "محصولات",
-    "orders": "سفارشات",
-    "users": "کاربران",
-    "addProduct": "افزودن محصول",
-    "editProduct": "ویرایش محصول",
-    "deleteProduct": "حذف محصول",
-    "productManagement": "مدیریت محصولات",
-    "orderManagement": "مدیریت سفارشات",
-    "statistics": "آمار",
-    "totalSales": "کل فروش",
-    "totalOrders": "کل سفارشات",
-    "totalProducts": "کل محصولات",
-    "totalUsers": "کل کاربران",
-    "loadingDashboard": "در حال بارگذاری داشبورد...",
-    "failedToLoad": "بارگذاری داشبورد ناموفق بود",
-    "retry": "تلاش مجدد",
-    "welcomeMessage": "خوش آمدید! اینجا اتفاقات فروشگاه شماست.",
-    "newThisMonth": "+{{count}} این ماه",
-    "active": "فعال",
-    "totalRevenue": "کل درآمد",
-    "revenueThisMonth": "+{{amount}} این ماه",
-    "manageProducts": "مدیریت محصولات",
-    "manageProductsDesc": "افزودن، ویرایش یا حذف محصولات",
-    "manageOrders": "مدیریت سفارشات",
-    "manageOrdersDesc": "مشاهده و به‌روزرسانی وضعیت سفارشات",
-    "revenueOverview": "نمای کلی درآمد",
-    "last7Days": "7 روز گذشته",
-    "ordersCount": "{{count}} سفارش",
-    "ordersCount_one": "{{count}} سفارش",
-    "noRevenueData": "داده‌های درآمد در دسترس نیست",
-    "ordersByStatus": "سفارشات بر اساس وضعیت",
-    "noOrdersYet": "هنوز سفارشی وجود ندارد",
-    "recentOrders": "سفارشات اخیر",
-    "viewAll": "مشاهده همه",
-    "orderID": "شناسه سفارش",
-    "customer": "مشتری",
-    "date": "تاریخ",
-    "total": "جمع کل",
-    "status": "وضعیت",
-    "actions": "عملیات",
-    "loadingOrders": "در حال بارگذاری سفارشات...",
-    "orderManagementDesc": "مدیریت و پیگیری سفارشات مشتریان",
-    "allOrders": "همه سفارشات",
-    "noOrdersFound": "سفارشی یافت نشد",
-    "noOrdersPlaced": "هنوز سفارشی ثبت نشده است",
-    "noStatusOrders": "سفارش {{status}} وجود ندارد",
-    "items": "کالاها",
-    "viewDetails": "مشاهده جزئیات",
-    "updateStatus": "به‌روزرسانی وضعیت",
-    "deleteOrder": "حذف سفارش",
-    "updateOrderStatus": "به‌روزرسانی وضعیت سفارش",
-    "orderLabel": "سفارش",
-    "customerLabel": "مشتری",
-    "newStatus": "وضعیت جدید",
-    "updating": "در حال به‌روزرسانی...",
-    "updateStatusError": "به‌روزرسانی وضعیت سفارش ناموفق بود. لطفاً دوباره تلاش کنید.",
-    "deleteOrderConfirm": "آیا مطمئن هستید که می‌خواهید سفارش #{{id}} را حذف کنید؟",
-    "deleteOrderError": "حذف سفارش ناموفق بود. لطفاً دوباره تلاش کنید.",
-    "loadingProducts": "در حال بارگذاری محصولات...",
-    "productManagementDesc": "افزودن، ویرایش یا حذف محصولات از فروشگاه شما",
-    "searchProductsPlaceholder": "جستجوی محصولات بر اساس نام، دسته‌بندی یا توضیحات...",
-    "searchButton": "جستجو",
-    "clearButton": "پاک کردن",
-    "noProductsFound": "محصولی یافت نشد",
-    "tryDifferentSearch": "با کلمات کلیدی دیگری جستجو کنید",
-    "addFirstProduct": "اولین محصول خود را برای شروع اضافه کنید!",
-    "createProduct": "ایجاد محصول",
-    "saveProductError": "ذخیره محصول ناموفق بود. لطفاً دوباره تلاش کنید.",
-    "deleteProductConfirm": "آیا مطمئن هستید که می‌خواهید \"{{title}}\" را حذف کنید؟",
-    "deleteProductError": "حذف محصول ناموفق بود. لطفاً دوباره تلاش کنید.",
-    "productTitleLabel": "عنوان محصول",
-    "productTitlePlaceholder": "عنوان محصول را وارد کنید",
-    "productDescLabel": "توضیحات",
-    "productDescPlaceholder": "توضیحات محصول را وارد کنید",
-    "priceLabel": "قیمت",
-    "discountPriceLabel": "قیمت تخفیف (اختیاری)",
-    "categoryLabel": "دسته‌بندی",
-    "selectCategory": "انتخاب دسته‌بندی",
-    "categoryElectronics": "الکترونیک",
-    "categoryClothing": "پوشاک",
-    "categoryBooks": "کتاب",
-    "categoryHome": "خانه",
-    "categorySports": "ورزشی",
-    "categoryToys": "اسباب‌بازی",
-    "categoryBeauty": "زیبایی",
-    "categoryFood": "غذا",
-    "tagsLabel": "برچسب‌ها (جدا شده با کاما)",
-    "tagsPlaceholder": "جدید، ویژه، تخفیف",
-    "imageURLLabel": "آدرس تصویر",
-    "imageURLPlaceholder": "https://example.com/image.jpg",
-    "activeCheckbox": "محصول فعال",
-    "featuredCheckbox": "محصول ویژه",
-    "saving": "در حال ذخیره...",
-    "updateButton": "به‌روزرسانی محصول",
-    "createButton": "ایجاد محصول"
+  "common": {
+    "addToCart": "افزودن به سبد خرید",
+    "and": "و",
+    "backToHome": "بازگشت به خانه",
+    "closeSearch": "بستن جستجو",
+    "Close Search": "بستن جستجو",
+    "contactSupport": "تماس با پشتیبانی",
+    "error": "خطایی رخ داده است",
+    "errorOccurred": "خطایی رخ داده است",
+    "loading": "در حال بارگذاری...",
+    "new_features_notice": "ویژگی‌های جدید فعال است",
+    "storeName": "لوکس‌استور",
+    "success": "موفقیت",
+    "use_legacy": "استفاده از نسخه قدیمی",
+    "use_new": "استفاده از نسخه جدید"
   },
   "search": {
-    "placeholder": "جستجوی محصولات...",
     "clearButton": "پاک کردن جستجو",
-    "hint": "برای جستجوی محصولات بر اساس نام یا توضیحات تایپ کنید",
-    "searchPlaceholder": "جستجو برای محصولات...",
     "closeSearch": "بستن جستجو",
-    "searchResults": "نتایج جستجو ({{count}})",
+    "error_message": "متاسفانه خطایی در پردازش جستجو رخ داد. لطفاً دوباره امتحان کنید.",
     "generalCategory": "عمومی",
-    "tryDifferentKeywords": "با کلمات کلیدی مختلف جستجو کنید",
-    "recentSearches": "جستجوهای اخیر",
+    "hint": "راهنما",
+    "loading": "جستجو",
+    "new_description": "این نسخه جدید شامل تمام ویژگی‌های جستجوی هوشمند است",
+    "new_title": "جستجوی هوشمند جدید",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "no_results": "هیچ محصولی یافت نشد",
+    "placeholder": "جستجوی هوشمند محصولات... (مثلاً 'گوشی سامسونگ زیر ۲۰ میلیون')",
     "popularProducts": "محصولات محبوب",
-    "results": "نتایج جستجو",
-    "noResults": "محصولی یافت نشد",
-    "noResultsMessage": "جستجوی خود را تغییر دهید",
-    "searching": "در حال جستجو..."
+    "recentSearches": "جستجوهای اخیر",
+    "searchPlaceholder": "جستجوی محصولات...",
+    "searchResults": "{{count}} نتیجه پیدا شد",
+    "submit": "جستجو",
+    "suggestion1": "گوشی سامسونگ زیر ۲۰ میلیون",
+    "suggestion2": "لپ تاپ گیمینگ تا ۴۰ میلیون",
+    "suggestion3": "همفون بی‌سیم با کیفیت",
+    "suggestion4": "ساعت اپل با قیمت مناسب",
+    "suggestion5": "تبلت برای کار و تفریح",
+    "tryDifferentKeywords": "کلمات کلیدی مختلف را امتحان کنید"
   },
-  "filter": {
-    "filterBy": "فیلتر بر اساس",
-    "sortBy": "مرتب‌سازی بر اساس",
-    "priceRange": "محدوده قیمت",
-    "categories": "دسته‌بندی‌ها",
-    "ratings": "امتیازات",
-    "clearFilters": "پاک کردن فیلترها",
-    "apply": "اعمال",
-    "cancel": "لغو",
-    "sortByPrice": "قیمت: کم به زیاد",
-    "sortByPriceDesc": "قیمت: زیاد به کم",
-    "sortByRating": "امتیاز: زیاد به کم",
-    "sortByNewest": "جدیدترین‌ها اول"
-  },
-  "about": {
-    "title": "درباره لوکس استور",
-    "subtitle": "ما در تلاشیم تا بهترین محصولات لوکس از سراسر جهان را برای شما فراهم کنیم. کیفیت، سبک و خدمات استثنایی در قلب همه کارهای ما قرار دارد.",
-    "happyCustomers": "مشتریان راضی",
-    "premiumProducts": "محصولات ممتاز",
-    "countries": "کشور",
-    "satisfactionRate": "نرخ رضایت",
-    "ourStory": "داستان ما",
-    "storyPara1": "لوکس استور در سال 2020 با یک چشم‌انداز ساده تأسیس شد: دسترسی همگانی به محصولات لوکس و با کیفیت بالا، در همه جا.",
-    "storyPara2": "آنچه به عنوان یک فروشگاه کوچک آنلاین شروع شد، به یک بازار جهانی تبدیل شده است که هزاران مشتری در سراسر جهان به آن اعتماد دارند. ما شهرت خود را بر سه اصل اصلی بنا کرده‌ایم: کیفیت، اصالت و خدمات استثنایی به مشتری.",
-    "storyPara3": "امروز، ما با برندها و تولیدکنندگان پیشرو همکاری می‌کنیم تا آخرین محصولات فناوری، مد، کالاهای خانگی و سبک زندگی را برای شما ارائه دهیم. هر آیتم در مجموعه ما با دقت انتخاب شده تا با استانداردهای بالای ما مطابقت داشته باشد.",
-    "storyPara4": "اما ما بیش از یک فروشگاه هستیم. ما جامعه‌ای از افرادی هستیم که چیزهای خوب زندگی را قدر می‌دانند و معتقدند که همه شایسته دسترسی به محصولات با کیفیت هستند.",
-    "ourValues": "ارزش‌های ما",
-    "valuesSubtitle": "اصولی که راهنمای همه کارهای ما هستند",
-    "qualityFirst": "کیفیت اول",
-    "qualityFirstDesc": "ما فقط بهترین محصولات را از تولیدکنندگان معتبر در سراسر جهان تهیه می‌کنیم.",
-    "customerFocused": "تمرکز بر مشتری",
-    "customerFocusedDesc": "رضایت شما اولویت اصلی ماست. ما 24/7 در خدمت شما هستیم.",
-    "globalReach": "دسترسی جهانی",
-    "globalReachDesc": "ارسال به بیش از 50 کشور با تحویل سریع و قابل اعتماد.",
-    "secureShopping": "خرید امن",
-    "secureShoppingDesc": "داده‌های شما با امنیت سطح سازمانی محافظت می‌شوند.",
-    "meetTheTeam": "با تیم ما آشنا شوید",
-    "teamSubtitle": "افراد پرشور پشت لوکس استور",
-    "founderCEO": "بنیانگذار و مدیرعامل",
-    "headOfDesign": "مدیر طراحی",
-    "customerExperience": "تجربه مشتری",
-    "techLead": "رهبر فنی",
-    "joinOurJourney": "به سفر ما بپیوندید",
-    "joinSubtitle": "بخشی از جامعه‌ای باشید که کیفیت، سبک و خدمات استثنایی را ارزش می‌گذارد",
-    "shopNow": "خرید کنید",
-    "getInTouch": "با ما تماس بگیرید"
-  },
-  "contact": {
-    "title": "با ما تماس بگیرید",
-    "subtitle": "سؤالی دارید؟ دوست داریم از شما بشنویم. پیام خود را برای ما ارسال کنید و ما در اسرع وقت پاسخ خواهیم داد.",
-    "address": "آدرس",
-    "addressLine1": "خیابان لوکسوری 123، منطقه پریمیوم",
-    "addressLine2": "نیویورک، NY 10001",
-    "phone": "تلفن",
-    "phoneNumber": "+1 (555) 123-4567",
-    "phoneHours": "دوشنبه-جمعه: 9 صبح - 6 عصر",
-    "email": "ایمیل",
-    "emailAddress": "support@luxstore.com",
-    "emailResponse": "ظرف 24 ساعت پاسخ می‌دهیم",
-    "workingHours": "ساعات کاری",
-    "hoursWeekdays": "دوشنبه - جمعه: 9 صبح - 6 عصر",
-    "hoursWeekends": "شنبه - یکشنبه: 10 صبح - 4 عصر",
-    "sendUsMessage": "پیام خود را برای ما ارسال کنید",
-    "yourName": "نام شما",
-    "namePlaceholder": "علی محمدی",
-    "emailAddress2": "آدرس ایمیل",
-    "emailPlaceholder": "your@email.com",
-    "subject": "موضوع",
-    "subjectPlaceholder": "چطور می‌توانیم کمک کنیم؟",
-    "message": "پیام",
-    "messagePlaceholder": "درباره درخواست خود بیشتر بگویید...",
-    "sendMessage": "ارسال پیام",
-    "nameRequired": "نام الزامی است",
-    "emailRequired": "ایمیل الزامی است",
-    "emailInvalid": "ایمیل نامعتبر است",
-    "subjectRequired": "موضوع الزامی است",
-    "messageRequired": "پیام الزامی است",
-    "messageMinLength": "پیام باید حداقل 10 کاراکتر باشد",
-    "messageSent": "پیام با موفقیت ارسال شد! به زودی با شما تماس خواهیم گرفت. 📧",
-    "visitOurStore": "از فروشگاه ما دیدن کنید",
-    "getDirections": "مسیریابی",
-    "followUs": "ما را دنبال کنید",
-    "followUsSubtitle": "در شبکه‌های اجتماعی با ما در ارتباط باشید تا از آخرین به‌روزرسانی‌ها و پیشنهادات مطلع شوید."
-  },
-  "protectedRoute": {
-    "loading": "در حال بارگذاری...",
-    "authRequired": "احراز هویت مورد نیاز است",
-    "loginFirst": "لطفاً ابتدا وارد شوید تا به این صفحه دسترسی داشته باشید",
-    "redirecting": "در حال انتقال به صفحه اصلی..."
+  "shipping": {
+    "free": "ارسال رایگان",
+    "progressText": "{{progress}}٪ تا ارسال رایگان",
+    "qualified": "شما واجد ارسال رایگان شدید!"
   },
   "theme": {
     "switchToDark": "تغییر به حالت تاریک",
     "switchToLight": "تغییر به حالت روشن"
   },
-  "common": {
-    "loading": "در حال بارگذاری...",
-    "error": "خطا",
-    "success": "موفقیت",
-    "submit": "ارسال",
-    "cancel": "لغو",
-    "delete": "حذف",
-    "edit": "ویرایش",
-    "save": "ذخیره",
-    "close": "بستن",
-    "confirm": "تأیید",
-    "yes": "بله",
-    "no": "خیر",
-    "and": "و",
-    "showMore": "نمایش بیشتر",
-    "showLess": "نمایش کمتر",
-    "loadMore": "بارگذاری بیشتر",
-    "backToHome": "بازگشت به خانه",
-    "pageNotFound": "صفحه یافت نشد",
-    "pageNotFoundMessage": "صفحه‌ای که به دنبال آن هستید وجود ندارد",
-    "errorOccurred": "خطایی رخ داد",
-    "tryAgain": "دوباره تلاش کنید"
+  "products": {
+    "new_arrivals_title": "محصولات جدید",
+    "new_arrivals_subtitle": "موارد اخیراً اضافه شده",
+    "bestsellers_title": "پرفروش‌ها",
+    "bestsellers_subtitle": "محصولات محبوب ما",
+    "featured_title": "محصولات ویژه",
+    "featured_subtitle": "مجموعه‌ای از بهترین محصولات ما"
+  },
+  "careers": {
+    "title": "فرصت‌های شغلی",
+    "subtitle": "به تیم ما بپیوندید و با ما رشد کنید",
+    "whyJoinUs": "چرا به ما بپیوندید؟",
+    "content": "ما همیشه در جستجوی افراد با استعداد برای پیوستن به تیم ما هستیم. شرکت ما محیط پویا و مشارکتی را ارائه می‌دهد که می‌توانید در آن مهارت‌های خود را رشد دهید و پیشرفت کنید.",
+    "collaborative": "فرهنگ مشارکتی",
+    "collaborative_desc": "با متخصصان بااستعداد در محیطی حمایتی کار کنید",
+    "growth": "فرصت‌های رشد",
+    "growth_desc": "با برنامه‌های یادگیری و توسعه مهارت‌های خود را گسترش دهید",
+    "benefits": "مزایای عالی",
+    "benefits_desc": "بیمه سلامت، چند گانه و مزایای تعادل کار-زندگی"
+  },
+  "blog": {
+    "title": "بلاگ ما",
+    "subtitle": "آخرین اخبار، نکات و دیدگاه‌ها از تیم ما",
+    "post1_title": "آخرین روندها در تجارت الکترونیک",
+    "post1_excerpt": "آخرین روندهایی که صنعت تجارت الکترونیک در سال ۱۴۰۳ را شکل می‌دهند را کشف کنید.",
+    "post2_title": "نکات موفقیت در خرید آنلاین",
+    "post2_excerpt": "یاد بگیرید چگونه تجربه خرید آنلاین خود را بهینه کرده و بهترین معاملات را پیدا کنید.",
+    "post3_title": "راهنمای خرید پایدار",
+    "post3_excerpt": "بررسی کنید چگونه می‌توانید هنگام خرید آنلاین انتخاب‌های پایدارتری داشته باشید.",
+    "readMore": "ادامه مطلب"
+  },
+  "help": {
+    "title": "مرکز پشتیبانی",
+    "subtitle": "پاسخ به سوالات خود را پیدا کنید و پشتیبانی دریافت کنید",
+    "contact_us": "هنوز به کمک نیاز دارید؟ با ما تماس بگیرید",
+    "phone": "پشتیبانی تلفنی",
+    "email": "پشتیبانی ایمیلی",
+    "chat": "گفتگوی زنده",
+    "hours": "شنبه تا چهارشنبه، ۹ الی ۱۷",
+    "response": "پاسخ در ۲۴ ساعت",
+    "available": "هم اکنون در دسترس",
+    "chat_desc": "با تیم پشتیبانی ما چت کنید",
+    "order_support": "پشتیبانی سفارش",
+    "order_support_desc": "سفارش خود را رهگیری کرده، تغییرات ایجاد کنید یا در مورد خرید خود کمک بگیرید",
+    "payment": "گزینه‌های پرداخت",
+    "payment_desc": "اطلاعات در مورد روش‌های پرداخت و امنیت",
+    "shipping": "اطلاعات ارسال",
+    "shipping_desc": "زمان تحویل، روش‌های ارسال و ردیابی",
+    "returns": "مرجوعی و تعویض",
+    "returns_desc": "سیاست مرجوعی ما و چگونگی شروع یک مرجوعی",
+    "account": "مدیریت حساب",
+    "account_desc": "ایجاد، به‌روزرسانی یا مدیریت تنظیمات حساب شما",
+    "products": "پشتیبانی محصولات",
+    "products_desc": "سوالات در مورد محصولات، نحوه استفاده و نگهداری",
+    "viewDetails": "مشاهده جزئیات"
+  },
+  "shipping": {
+    "title": "اطلاعات ارسال",
+    "subtitle": "درباره گزینه‌ها و سیاست‌های ارسال ما بیاموزید",
+    "options": "گزینه‌های ارسال",
+    "standard": "ارسال استاندارد",
+    "standard_desc": "۵-۷ روز کاری",
+    "free": "رایگان",
+    "standard_details": "ارسال رایگان برای سفارش‌های بالای ۵۰ دلار. تحویل در ۵-۷ روز کاری.",
+    "expedited": "ارسال سریع",
+    "expedited_desc": "۲-۳ روز کاری",
+    "expedited_details": "تحویل سریع‌تر در ۲-۳ روز کاری. ردیابی شامل می‌شود.",
+    "priority": "ارسال اولویت",
+    "priority_desc": "۱-۲ روز کاری",
+    "priority_details": "گزینه‌های تحویل روز بعد و روز دوم در دسترس است.",
+    "domestic": "ارسال داخلی",
+    "domestic_text": "ما به تمام مکان‌ها در ایالات متحده ارسال می‌کنیم. ارسال استاندارد برای سفارش‌های بالای ۵۰ دلار رایگان است.",
+    "domestic_detail1": "تحویل در ۵-۷ روز کاری",
+    "domestic_detail2": "اطلاعات ردیابی ارائه می‌شود",
+    "domestic_detail3": "تاییدیه تحویل در محل",
+    "international": "ارسال بین‌المللی",
+    "international_text": "ما به مقاصد بین‌المللی انتخابی ارسال می‌کنیم. لطفاً در زمان تسویه حساب در دسترس بودن را بررسی کنید.",
+    "international_detail1": "هزینه ارسال در زمان تسویه حساب محاسبه می‌شود",
+    "international_detail2": "زمان تحویل بسته به مقصد متفاوت است",
+    "international_detail3": "عوارض گمرکی ممکن است اعمال شود",
+    "delivery": "اطلاعات تحویل",
+    "delivery_text1": "بیشتر سفارش‌ها در ۱-۲ روز کاری پردازش می‌شوند. زمان تحویل تخمینی بوده و ممکن است در تعطیلات یا تبلیغات ویژه متفاوت باشد.",
+    "delivery_text2": "هنگام ارسال سفارش اعلان‌های ایمیلی دریافت خواهید کرد همراه با اطلاعات ردیابی."
+  },
+  "returns": {
+    "title": "مرجوعی و تعویض",
+    "subtitle": "درباره سیاست مرجوعی ما و چگونگی پردازش یک مرجوعی بیاموزید",
+    "policy": "سیاست مرجوعی",
+    "timeframe": "چارچوب زمانی مرجوعی",
+    "timeframe_text": "شما ۳۰ روز از تاریخ تحویل سفارش برای شروع یک مرجوعی برای بیشتر موارد دارید. موارد باید در حالت جدید، بدون استفاده و با تمام بسته‌بندی اصلی باشند.",
+    "conditions": "شرایط مرجوعی",
+    "conditions_text": "موارد باید در حالت جدید، بدون استفاده و با تمام بسته‌بندی اصلی باشند. مواردی که آسیب دیده، استفاده شده یا بخش‌هایی از آن ناقص باشد نمی‌توانند مرجوع شوند.",
+    "process": "فرآیند مرجوعی",
+    "process_text": "برای شروع یک مرجوعی، به تاریخچه سفارش خود بروید، مورد را انتخاب کرده و درخواست مرجوعی کنید. یک چاپ برگ مرجوعی از طریق ایمیل دریافت خواهید کرد. مورد را ایمن بسته‌بندی کرده و با استفاده از چاپ برگ ارائه شده بازگردانید.",
+    "exchange": "تعویض",
+    "exchange_text1": "ما برای مواردی که نقص دارند یا هنگام رسیدن خراب شده‌اند تعویض ارائه می‌دهیم.",
+    "exchange_text2": "برای درخواست تعویض، همانند فرآیند مرجوعی عمل کنید اما \"تعویض\" را انتخاب کنید.",
+    "exchange_text3": "موارد جایگزین پس از دریافت مورد اصلی ارسال می‌شوند.",
+    "restrictions": "محدودیت‌های مرجوعی",
+    "restriction1": "موارد فاسد نمی‌توانند مرجوع شوند",
+    "restriction2": "کالاهای شخصی یا بهداشتی نمی‌توانند مرجوع شوند",
+    "restriction3": "کارت‌های هدیه قابل مرجوع نیستند",
+    "restriction4": "مواردی که به عنوان فروش نهایی علامت‌گذاری شده‌اند",
+    "refund": "فرآیند بازپرداخت",
+    "refund_text1": "بازپرداخت‌ها به روش پرداخت اصلی پردازش می‌شوند. لطفاً ۵-۱۰ روز کاری را برای ظاهر شدن بازپرداخت در حساب خود اجازه دهید.",
+    "refund_text2": "اگر با کارت اعتباری پرداخت کرده‌اید، بازپرداخت در صورتحساب بعدی شما ظاهر می‌شود. برای سایر روش‌های پرداخت، لطفاً برای جزئیات با ما تماس بگیرید."
+  },
+  "faq": {
+    "title": "سؤالات متداول",
+    "subtitle": "پاسخ به سوالات رایج در مورد محصولات، ارسال و سیاست‌های ما را پیدا کنید",
+    "general": "عمومی",
+    "payment": "پرداخت",
+    "shipping": "ارسال",
+    "products": "محصولات",
+    "q1": "چگونه می توانم یک حساب کاربری ایجاد کنم؟",
+    "a1": "می توانید با کلیک بر روی دکمه \"ثبت نام\" در سربرگ، یک حساب کاربری ایجاد کنید. جزئیات خود را وارد کنید و دستورالعمل ها را برای تکمیل فرآیند ثبت نام دنبال کنید.",
+    "q2": "سیاست مرجوعی شما چیست؟",
+    "a2": "ما مرجوعی را در ۳۰ روز پس از تحویل ارائه می دهیم. موارد باید در حالت جدید، بدون استفاده و با تمام بسته بندی اصلی باشند. لطفاً برای اطلاعات بیشتر صفحه مرجوعی ما را مشاهده کنید.",
+    "q3": "آیا ارسال بین المللی ارائه می دهید؟",
+    "a3": "بله، ما به مقاصد بین المللی انتخابی ارسال می کنیم. لطفاً در زمان تسویه حساب در دسترس بودن و هزینه های ارسال را بررسی کنید.",
+    "q4": "چه روش های پرداختی را می پذیرید؟",
+    "a4": "ما تمام کارت های اعتباری اصلی، پی پل و سایر روش های پرداخت امن را می پذیریم. تمام معاملات با SSL رمزگذاری می شوند.",
+    "q5": "آیا اطلاعات پرداخت من ایمن است؟",
+    "a5": "بله، ما از رمزگذاری SSL استاندارد صنعت برای محافظت از اطلاعات پرداخت شما استفاده می کنیم. ما جزئیات کارت اعتباری شما را در سرورهای خود ذخیره نمی کنیم.",
+    "q6": "سفارشم چه زمانی پردازش می شود؟",
+    "a6": "سفارشات معمولاً در ۱-۲ روز کاری پردازش می شوند. شما اعلان های ایمیلی را هنگام ارسال سفارش خود دریافت خواهید کرد.",
+    "q7": "ارسال چقدر طول می کشد؟",
+    "a7": "ارسال استاندارد ۵-۷ روز کاری طول می کشد. گزینه های سریع تر برای تحویل سریع تر در دسترس است. زمان های ارسال بین المللی بسته به مقصد متفاوت است.",
+    "q8": "آیا ردیابی برای سفارشات ارائه می دهید؟",
+    "a8": "بله، همه سفارشات شامل اطلاعات ردیابی هستند. پس از ارسال سفارش، یک ایمیل با جزئیات ردیابی دریافت خواهید کرد.",
+    "q9": "از چه حاملان ارسالی استفاده می کنید؟",
+    "a9": "ما از حearerان قابل اعتماد مانند UPS، FedEx و USPS استفاده می کنیم. حearer خاص بسته به مکان و روش ارسال شما بستگی دارد.",
+    "q10": "چگونه می توانم بدانم یک محصول موجود است؟",
+    "a10": "دسترس بودن محصول در هر صفحه محصول نمایش داده می شود. اگر یک محصول موجود نباشد، به وضوح علامت گذاری خواهد شد و می توانید برای اطلاع از موجود شدن ثبت نام کنید.",
+    "q11": "آیا محصولات شما تست کیفیت دارند؟",
+    "a11": "بله، همه محصولات ما قبل از ارسال تست های کیفیت سخت گیرانه را پشت سر می گذارند. ما با تامین کنندگان و تولیدکنندگان معتبر برای اطمینان از استانداردهای کیفیت کار می کنیم.",
+    "q12": "آیا گارانتی محصول ارائه می دهید؟",
+    "a12": "بسیاری از محصولات ما دارای گارانتی تولیدکننده هستند. اطلاعات گارانتی در توضیحات و بسته بندی محصول ارائه می شود.",
+    "still_have_questions": "هنوز سوالی دارید؟",
+    "contact_support": "نمی توانید پاسخ مورد نظر را پیدا کنید؟ لطفاً با تیم دوستانه ما چت کنید تا کمک بیشتری دریافت کنید."
+  },
+  "contact": {
+    "address": "آدرس",
+    "addressLine1": "تهران، خیابان ولیعصر، پلاک ۱۲۳۴",
+    "addressLine2": "طبقه ۵، واحد ۱۰",
+    "email": "ایمیل",
+    "emailAddress": "support@yourstore.com",
+    "emailResponse": "پاسخگویی در کمتر از ۲۴ ساعت",
+    "hoursWeekdays": "شنبه تا چهارشنبه: ۹ صبح تا ۶ عصر",
+    "hoursWeekends": "پنج‌شنبه و جمعه: ۱۰ صبح تا ۴ عصر",
+    "namePlaceholder": "نام و نام خانوادگی",
+    "phone": "تلفن",
+    "phoneHours": "پاسخگویی تلفنی ۹ تا ۵",
+    "phoneNumber": "۰۲۱-۱۲۳۴۵۶۷۸",
+    "sendUsMessage": "پیام بدهید",
+    "followUs": "ما را دنبال کنید",
+    "followUsSubtitle": "در ارتباط باشید",
+    "nameRequired": "نام الزامی است",
+    "emailAddress2": "آدرس ایمیل",
+    "subject": "موضوع",
+    "message": "پیام",
+    "sendMessage": "ارسال پیام",
+    "title": "تماس با ما",
+    "sendUsMessage": "پیام بدهید",
+    "subtitle": "تماس با ما",
+    "visitOurStore": "از فروشگاه ما دیدن کنید",
+    "workingHours": "ساعات کاری",
+    "yourName": "نام شما"
+  },
+  "coupon": {
+    "apply": "اعمال",
+    "applying": "در حال اعمال...",
+    "discountApplied": "{{discount}}% تخفیف اعمال شد",
+    "enterCode": "کد تخفیف را وارد کنید",
+    "exampleCodes": "WELCOME10, SAVE20, FREESHIP",
+    "failed": "اعمال کد تخفیف ناموفق بود",
+    "freeShipping": "ارسال رایگان فعال شد",
+    "invalidCode": "کد نامعتبر است",
+    "tryTheseCodes": "این کدها را امتحان کنید:"
+  },
+  "errorBoundary": {
+    "details": "جزئیات خطا",
+    "message": "برای ایجاد مشکل پوزش می‌طلبیم. لطفاً صفحه را تازه کنید و دوباره امتحان کنید.",
+    "title": "مشکلی پیش آمده است."
+  },
+  "filters": {
+    "active": "فعال",
+    "applyFilters": "اعمال فیلترها",
+    "clearAll": "پاک کردن همه",
+    "filters": "فیلترها",
+    "maxPrice": "حداکثر قیمت ($)",
+    "minPrice": "حداقل قیمت ($)",
+    "placeholderMax": "1000",
+    "placeholderMin": "0",
+    "priceFilterTip": "از فیلترهای قیمت برای یافتن محصولات در بودجه خود استفاده کنید. برای بدون محدودیت بودن، فیلدها را خالی بگذارید.",
+    "priceRange": "محدوده قیمت",
+    "tip": "نکته:"
   },
   "footer": {
-    "description": "مقصد ممتاز شما برای محصولات لوکس",
-    "quickLinks": "لینک‌های سریع",
+    "address": "123 Luxury Ave, New York, NY 10001",
+    "allRightsReserved": "کلیه حقوق محفوظ است.",
+    "company": "شرکت",
     "customerService": "خدمات مشتریان",
-    "followUs": "ما را دنبال کنید",
-    "allRightsReserved": "تمامی حقوق محفوظ است",
+    "description": "پلتفرم تجاری الکترونیک ویژه با ارائه محصولات لوکس و خدمات مشتریان عالی.",
+    "emailAddress": "hello@luxstore.com",
+    "phone": "+1 (234) 567-890",
     "privacyPolicy": "سیاست حفظ حریم خصوصی",
-    "termsOfService": "شرایط خدمات",
-    "shippingInfo": "اطلاعات ارسال",
-    "returns": "بازگشت کالا",
-    "faq": "سوالات متداول",
-    "support": "پشتیبانی"
+    "termsOfService": "شرایط استفاده از خدمات"
+  },
+  "home": {
+    "averageRating": "میانگین امتیاز",
+    "badge": "مجموعه جدید 1404",
+    "ctaButton": "شروع کنید",
+    "ctaSubtitle": "همین امروز به هزاران مشتری راضی بپیوندید.",
+    "ctaTitle": "آماده شروع هستید؟",
+    "exploreCollection": "کاوش در مجموعه",
+    "featuredProducts": "محصولات ویژه",
+    "featuredProductsSubtitle": "محبوب‌ترین محصولات این هفته",
+    "freeShipping": "ارسال رایگان",
+    "freeShippingDesc": "برای سفارش‌های بیش از 50 دلار",
+    "happyCustomers": "مشتریان خوشحال",
+    "heroSubtitle": "کالکشن ویژه محصولات خود را که برای سبک زندگی مدرن طراحی شده‌اند، کشف کنید. کیفیت، سبک و نوآوری در هر جزئیات.",
+    "heroTitle": "تجربه آینده خرید",
+    "learnMore": "بیشتر بدانید",
+    "noFeaturedProducts": "هیچ محصول ویژه‌ای یافت نشد.",
+    "premiumProducts": "محصولات ویژه",
+    "premiumQuality": "کیفیت ویژه",
+    "premiumQualityDesc": "محصولات با کیفیت بالا تأیید شده",
+    "securePayment": "پرداخت امن",
+    "securePaymentDesc": "پردازش 100٪ امن پرداخت",
+    "viewAll": "مشاهده همه"
+  },
+  "image": {
+    "loading": "در حال بارگذاری...",
+    "unavailable": "تصویر در دسترس نیست"
   },
   "messages": {
-    "welcome": "به فروشگاه لاکس خوش آمدید",
-    "thankYou": "از خرید شما متشکریم!",
-    "confirmDelete": "آیا از حذف اطمینان دارید؟",
-    "unsavedChanges": "تغییرات ذخیره نشده دارید",
-    "networkError": "خطای شبکه. لطفا اتصال خود را بررسی کنید.",
-    "sessionExpired": "جلسه شما منقضی شده است. لطفا دوباره وارد شوید."
+    "welcome": "خوش آمدید"
   },
-  "chat": {
-    "title": "پشتیبانی هوشمند",
-    "placeholder": "پیام خود را بنویسید...",
-    "send": "ارسال",
-    "typing": "در حال تایپ...",
-    "online": "آنلاین",
-    "offline": "آفلاین",
-    "greeting": "سلام! چطور می‌تونم کمکتون کنم؟",
-    "search_help": "برای جستجوی محصول، از دکمه قدیمی استفاده کنید.",
-    "default_response": "در حال بررسی درخواست شما...",
-    "image_received": "تصویر دریافت شد. در حال تحلیل...",
-    "selected_image": "تصویر انتخاب شد",
-    "error_message": "متاسفانه خطایی در ارتباط با سرور رخ داد. لطفاً دوباره تلاش کنید.",
-    "legacy_title": "چت بات قدیمی",
-    "legacy_description": "این یک نسخه قدیمی از چت بات است",
-    "legacy_message": "پیام نسخه قدیمی",
-    "new_title": "چت هوشمند جدید",
-    "new_description": "این نسخه جدید شامل تمام ویژگی‌های چت هوشمند است",
-    "openChat": "باز کردن چت",
-    "closeChat": "بستن چت",
-    "assistantName": "دستیار خرید هوش مصنوعی",
-    "welcome": "به دستیار خرید هوش مصنوعی خوش آمدید!",
-    "intro": "از من در مورد محصولات سوال کنید، توصیه‌ها دریافت کنید یا تصاویر را تحلیل کنید!",
-    "botResponse": "پیام شما را دریافت کردم: \"{{message}}\"",
-    "aiSuggestions": {
-      "imageAnalysis": "لطفاً تصویری برای تحلیل آپلود کنید",
-      "productRecommendation": "می‌توانم بر اساس سلیقه شما محصولات را توصیه کنم. به چه چیزی نیاز دارید؟",
-      "priceComparison": "می‌توانم قیمت‌ها را برای شما مقایسه کنم. لطفاً محصول مورد نظر خود را بگویید.",
-      "styleAdvisor": "می‌توانم در مورد پیشنهاد سبک به شما کمک کنم. به چه نوع سبکی علاقه دارید؟",
-      "sizeRecommendation": "می‌توانم بهترین سایز را برای شما توصیه کنم. لطفاً اندازه‌های خود را به اشتراک بگذارید.",
-      "giftSuggestion": "می‌توانم هدایای عالی را پیشنهاد دهم. این هدیه برای چه کسی است و علایق او چیست؟",
-      "default": "امروز چطور می‌توانم کمکتون کنم؟"
-    },
-    "connecting": "در حال اتصال...",
-    "aiActions": {
-      "imageAnalysis": "تحلیل تصویر",
-      "imageAnalysisDesc": "برای تحلیل محصولات یک تصویر آپلود کنید",
-      "productRecommendation": "توصیه محصولات",
-      "productRecommendationDesc": "دریافت پیشنهادات شخصی‌سازی شده",
-      "priceComparison": "مقایسه قیمت",
-      "priceComparisonDesc": "مقایسه قیمت در فروشگاه‌های مختلف",
-      "sizeRecommendation": "توصیه سایز",
-      "sizeRecommendationDesc": "دریافت پیشنهادات سایز عالی",
-      "giftSuggestion": "پیشنهاد هدایا",
-      "giftSuggestionDesc": "پیدا کردن هدایای عالی برای هر کسی"
-    }
+  "nav": {
+    "about": "درباره",
+    "admin": "مدیریت",
+    "cart": "سبد خرید",
+    "contact": "تماس با ما",
+    "home": "خانه",
+    "login": "ورود",
+    "logout": "خروج",
+    "products": "محصولات",
+    "profile": "پروفایل",
+    "register": "ثبت‌نام"
   },
-  "ai": {
-    "recommendations": {
-      "title": "توصیه‌های هوش مصنوعی",
-      "listView": "نمایش لیستی",
-      "gridView": "نمایش گریدی"
-    },
-    "assistant": {
-      "title": "دستیار خرید هوش مصنوعی",
-      "placeholder": "درباره محصولات، قیمت‌ها یا توصیه‌ها سوال کنید...",
-      "send": "ارسال پیام",
-      "startListening": "شروع شنیدن",
-      "stopListening": "توقف شنیدن",
-      "expand": "بزرگ‌نمایی",
-      "minimize": "کوچک‌نمایی",
-      "clear": "پاک کردن مکالمه",
-      "startTitle": "امروز چطور می‌تونم کمکتون کنم؟",
-      "startSubtitle": "از من درباره محصولات، قیمت‌ها، توصیه‌ها یا تهیه توصیه‌های شخصی‌سازی شده بپرسید.",
-      "welcomeMessage": "سلام! من دستیار خرید هوش مصنوعی شما هستم. امروز چطور می‌تونم کمکتون کنم؟",
-      "greetingResponse": "سلام! امروز چطور می‌تونم با خرید شما کمکتون کنم؟",
-      "laptopResponse": "چندین لپ تاپ مطابق با معیارهای شما پیدا کردم. آیا مایل به دیدن گزینه‌های ارزان، میان رده یا عالی هستید؟",
-      "findResponse": "می‌تونم به شما در پیدا کردن محصولات بر اساس سلیقه شما کمک کنم. لطفاً بیشتر درباره چیزی که دنبالش هستید بگویید.",
-      "thankResponse": "خواهش می‌کنم! آیا چیز دیگری هست که بتوانم کمک کنم؟",
-      "priceResponse": "می‌تونم محصولات را بر اساس بازه قیمت فیلتر کنم. بودجه شما برای این خرید چقدر است؟",
-      "defaultResponse": "من دستیار خرید هوشمند شما هستم. می‌تونم در پیدا کردن محصولات، مقایسه قیمت‌ها و ارائه توصیه‌های شخصی‌سازی شده کمک کنم. امروز چیکاری می‌خواهید انجام دهید؟",
-      "errorMessage": "با عرض پوزش، من یک خطا رخ داد. لطفاً دوباره امتحان کنید.",
-      "speechError": "خطا در تشخیص گفتار",
-      "voiceNotSupported": "ورودی صوتی در مرورگر شما پشتیبانی نمی‌شود",
-      "typing": "هوش مصنوعی در حال نوشتن است...",
-      "openChat": "گفتگوی هوش مصنوعی را باز کنید",
-      "dragToMove": "برای جابجایی بکشید",
-      "maximize": "بزرگنمایی",
-      "closeChat": "بستن چت",
-      "removeAttachment": "حذف پیوست",
-      "emojiPicker": "انتخاب ایموجی",
-      "resize": "تغییر اندازه چت"
-    }
+  "product": {
+    "featured": "ویژه",
+    "lowStock": "فقط {{count}} عدد در انبار باقی مانده!",
+    "newArrival": "محصول تازه",
+    "bestSeller": "پرفروش‌ترین",
+    "outOfStock": "موجود نیست"
+  },
+  "productModal": {
+    "addToCart": "افزودن به سبد خرید",
+    "category": "دسته‌بندی",
+    "general": "عمومی",
+    "inStock": "{{count}} عدد در انبار",
+    "off": "تخفیف",
+    "quantity": "تعداد",
+    "sku": "کد محصول"
+  },
+  "protectedRoute": {
+    "authRequired": "نیاز به احراز هویت",
+    "loading": "در حال بارگذاری...",
+    "loginFirst": "لطفا برای دسترسی به این صفحه وارد شوید.",
+    "redirecting": "در حال انتقال به صفحه ورود..."
+  },
+  "careers": {
+    "title": "فرصت‌های شغلی",
+    "subtitle": "به تیم ما بپیوندید و با ما رشد کنید",
+    "whyJoinUs": "چرا به ما بپیوندید؟",
+    "content": "ما همیشه در جستجوی افراد با استعداد برای پیوستن به تیم ما هستیم. شرکت ما محیط پویا و مشارکتی را ارائه می‌دهد که می‌توانید در آن مهارت‌های خود را رشد دهید و پیشرفت کنید.",
+    "collaborative": "فرهنگ مشارکتی",
+    "collaborative_desc": "با متخصصان بااستعداد در محیطی حمایتی کار کنید",
+    "growth": "فرصت‌های رشد",
+    "growth_desc": "با برنامه‌های یادگیری و توسعه مهارت‌های خود را گسترش دهید",
+    "benefits": "مزایای عالی",
+    "benefits_desc": "بیمه سلامت، سلامت چند گانه و مزایای تعادل کار-زندگی"
+  },
+  "blog": {
+    "title": "بلاگ ما",
+    "subtitle": "آخرین اخبار، نکات و دیدگاه‌ها از تیم ما",
+    "post1_title": "آخرین روندها در تجارت الکترونیک",
+    "post1_excerpt": "آخرین روندهایی که صنعت تجارت الکترونیک در سال 1403 را شکل می‌دهند را کشف کنید.",
+    "post2_title": "نکات موفقیت در خرید آنلاین",
+    "post2_excerpt": "یاد بگیرید چگونه تجربه خرید آنلاین خود را بهینه کرده و بهترین معاملات را پیدا کنید.",
+    "post3_title": "راهنمای خرید پایدار",
+    "post3_excerpt": "بررسی کنید چگونه می‌توانید هنگام خرید آنلاین انتخاب‌های پایدارتری داشته باشید.",
+    "readMore": "ادامه مطلب"
+  },
+  "help": {
+    "title": "مرکز پشتیبانی",
+    "subtitle": "پاسخ به سوالات خود را پیدا کنید و پشتیبانی دریافت کنید",
+    "contact_us": "هنوز به کمک نیاز دارید؟ با ما تماس بگیرید",
+    "phone": "پشتیبانی تلفنی",
+    "email": "پشتیبانی ایمیلی",
+    "chat": "گفتگوی زنده",
+    "hours": "شنبه تا چهارشنبه، 9 الی 17",
+    "response": "پاسخ در 24 ساعت",
+    "available": "هم اکنون در دسترس",
+    "chat_desc": "با تیم پشتیبانی ما چت کنید",
+    "order_support": "پشتیبانی سفارش",
+    "order_support_desc": "سفارش خود را رهگیری کرده، تغییرات ایجاد کنید یا در مورد خرید خود کمک بگیرید",
+    "payment": "گزینه‌های پرداخت",
+    "payment_desc": "اطلاعات در مورد روش‌های پرداخت و امنیت",
+    "shipping": "اطلاعات ارسال",
+    "shipping_desc": "زمان تحویل، روش‌های ارسال و ردیابی",
+    "returns": "مرجوعی و تعویض",
+    "returns_desc": "سیاست مرجوعی ما و چگونگی شروع یک مرجوعی",
+    "account": "مدیریت حساب",
+    "account_desc": "ایجاد، به‌روزرسانی یا مدیریت تنظیمات حساب شما",
+    "products": "پشتیبانی محصولات",
+    "products_desc": "سوالات در مورد محصولات، نحوه استفاده و نگهداری",
+    "viewDetails": "مشاهده جزئیات"
+  },
+  "shipping": {
+    "title": "اطلاعات ارسال",
+    "subtitle": "درباره گزینه‌ها و سیاست‌های ارسال ما بیاموزید",
+    "options": "گزینه‌های ارسال",
+    "standard": "ارسال استاندارد",
+    "standard_desc": "5-7 روز کاری",
+    "free": "رایگان",
+    "standard_details": "ارسال رایگان برای سفارش‌های بالای 50 دلار. تحویل در 5-7 روز کاری.",
+    "expedited": "ارسال سریع",
+    "expedited_desc": "2-3 روز کاری",
+    "expedited_details": "تحویل سریع‌تر در 2-3 روز کاری. ردیابی شامل می‌شود.",
+    "priority": "ارسال اولویت",
+    "priority_desc": "1-2 روز کاری",
+    "priority_details": "گزینه‌های تحویل روز بعد و روز دوم در دسترس است.",
+    "domestic": "ارسال داخلی",
+    "domestic_text": "ما به تمام مکان‌ها در ایالات متحده ارسال می‌کنیم. ارسال استاندارد برای سفارش‌های بالای 50 دلار رایگان است.",
+    "domestic_detail1": "تحویل در 5-7 روز کاری",
+    "domestic_detail2": "اطلاعات ردیابی ارائه می‌شود",
+    "domestic_detail3": "تاییدیه تحویل در محل",
+    "international": "ارسال بین‌المللی",
+    "international_text": "ما به مقاصد بین‌المللی انتخابی ارسال می‌کنیم. لطفاً در زمان تسویه حساب در دسترس بودن را بررسی کنید.",
+    "international_detail1": "هزینه ارسال در زمان تسویه حساب محاسبه می‌شود",
+    "international_detail2": "زمان تحویل بسته به مقصد متفاوت است",
+    "international_detail3": "عوارض گمرکی ممکن است اعمال شود",
+    "delivery": "اطلاعات تحویل",
+    "delivery_text1": "بیشتر سفارش‌ها در 1-2 روز کاری پردازش می‌شوند. زمان تحویل تخمینی بوده و ممکن است در تعطیلات یا تبلیغات ویژه متفاوت باشند.",
+    "delivery_text2": "هنگام ارسال سفارش اعلان‌های ایمیلی دریافت خواهید کرد همراه با اطلاعات ردیابی."
+  },
+  "returns": {
+    "title": "مرجوعی و تعویض",
+    "subtitle": "درباره سیاست مرجوعی ما و چگونگی پردازش یک مرجوعی بیاموزید",
+    "policy": "سیاست مرجوعی",
+    "timeframe": "چارچوب زمانی مرجوعی",
+    "timeframe_text": "شما 30 روز از تاریخ تحویل سفارش برای شروع یک مرجوعی برای بیشتر موارد دارید. موارد باید در حالت جدید، بدون استفاده و با تمام بسته‌بندی اصلی باشند.",
+    "conditions": "شرایط مرجوعی",
+    "conditions_text": "موارد باید در حالت جدید، بدون استفاده و با تمام بسته‌بندی اصلی باشند. مواردی که آسیب دیده، استفاده شده یا بخش‌هایی از آن ناقص باشد نمی‌توانند مرجوع شوند.",
+    "process": "فرآیند مرجوعی",
+    "process_text": "برای شروع یک مرجوعی، به تاریخچه سفارش خود بروید، مورد را انتخاب کرده و درخواست مرجوعی کنید. یک چاپ برگ مرجوعی از طریق ایمیل دریافت خواهید کرد. مورد را ایمن بسته‌بندی کرده و با استفاده از چاپ برگ ارائه شده بازگردانید.",
+    "exchange": "تعویض",
+    "exchange_text1": "ما برای مواردی که نقص دارند یا هنگام رسیدن خراب شده‌اند تعویض ارائه می‌دهیم.",
+    "exchange_text2": "برای درخواست تعویض، همانند فرآیند مرجوعی عمل کنید اما \"تعویض\" را انتخاب کنید.",
+    "exchange_text3": "موارد جایگزین پس از دریافت مورد اصلی ارسال می‌شوند.",
+    "restrictions": "محدودیت‌های مرجوعی",
+    "restriction1": "موارد فاسد نمی‌توانند مرجوع شوند",
+    "restriction2": "کالاهای شخصی یا بهداشتی نمی‌توانند مرجوع شوند",
+    "restriction3": "کارت‌های هدیه قابل مرجوع نیستند",
+    "restriction4": "مواردی که به عنوان فروش نهایی علامت‌گذاری شده‌اند",
+    "refund": "فرآیند بازپرداخت",
+    "refund_text1": "بازپرداخت‌ها به روش پرداخت اصلی پردازش می‌شوند. لطفاً 5-10 روز کاری را برای ظاهر شدن بازپرداخت در حساب خود اجازه دهید.",
+    "refund_text2": "اگر با کارت اعتباری پرداخت کرده‌اید، بازپرداخت در صورتحساب بعدی شما ظاهر می‌شود. برای سایر روش‌های پرداخت، لطفاً برای جزئیات با ما تماس بگیرید."
+  },
+  "faq": {
+    "title": "سوالات متداول",
+    "subtitle": "پاسخ به سوالات رایج در مورد محصولات، ارسال و سیاست‌های ما را پیدا کنید",
+    "general": "عمومی",
+    "payment": "پرداخت",
+    "shipping": "ارسال",
+    "products": "محصولات",
+    "q1": "چگونه می توانم یک حساب کاربری ایجاد کنم؟",
+    "a1": "می توانید با کلیک بر روی دکمه \"ثبت نام\" در سربرگ، یک حساب کاربری ایجاد کنید. جزئیات خود را وارد کنید و دستورالعمل ها را برای تکمیل فرآیند ثبت نام دنبال کنید.",
+    "q2": "سیاست مرجوعی شما چیست؟",
+    "a2": "ما مرجوعی را در 30 روز پس از تحویل ارائه می دهیم. موارد باید در حالت جدید، بدون استفاده و با تمام بسته بندی اصلی باشند. لطفاً برای اطلاعات بیشتر صفحه مرجوعی ما را مشاهده کنید.",
+    "q3": "آیا ارسال بین المللی ارائه می دهید؟",
+    "a3": "بله، ما به مقاصد بین المللی انتخابی ارسال می کنیم. لطفاً در زمان تسویه حساب در دسترس بودن و هزینه های ارسال را بررسی کنید.",
+    "q4": "چه روش های پرداختی را می پذیرید؟",
+    "a4": "ما تمام کارت های اعتباری اصلی، پی پل و سایر روش های پرداخت امن را می پذیریم. تمام معاملات با SSL رمزگذاری می شوند.",
+    "q5": "آیا اطلاعات پرداخت من ایمن است؟",
+    "a5": "بله، ما از رمزگذاری SSL استاندارد صنعت برای محافظت از اطلاعات پرداخت شما استفاده می کنیم. ما جزئیات کارت اعتباری شما را در سرورهای خود ذخیره نمی کنیم.",
+    "q6": "سفارشم چه زمانی پردازش می شود؟",
+    "a6": "سفارشات معمولاً در 1-2 روز کاری پردازش می شوند. شما اعلان های ایمیلی را هنگام ارسال سفارش خود دریافت خواهید کرد.",
+    "q7": "ارسال چقدر طول می کشد؟",
+    "a7": "ارسال استاندارد 5-7 روز کاری طول می کشد. گزینه های سریع تر برای تحویل سریع تر در دسترس است. زمان های ارسال بین المللی بسته به مقصد متفاوت است.",
+    "q8": "آیا ردیابی برای سفارشات ارائه می دهید؟",
+    "a8": "بله، همه سفارشات شامل اطلاعات ردیابی هستند. پس از ارسال سفارش، یک ایمیل با جزئیات ردیابی دریافت خواهید کرد.",
+    "q9": "از چه حاملان ارسالی استفاده می کنید؟",
+    "a9": "ما از حاملان قابل اعتماد مانند UPS، FedEx و USPS استفاده می کنیم. حامل خاص بسته به مکان و روش ارسال شما بستگی دارد.",
+    "q10": "چگونه می توانم بدانم یک محصول موجود است؟",
+    "a10": "دسترس بودن محصول در هر صفحه محصول نمایش داده می شود. اگر یک محصول موجود نباشد، به وضوح علامت گذاری خواهد شد و می توانید برای اطلاع از موجود شدن ثبت نام کنید.",
+    "q11": "آیا محصولات شما تست کیفیت دارند؟",
+    "a11": "بله، همه محصولات ما قبل از ارسال تست های کیفیت سخت گیرانه را پشت سر می گذارند. ما با تامین کنندگان و تولیدکنندگان معتبر برای اطمینان از استانداردهای کیفیت کار می کنیم.",
+    "q12": "آیا گارانتی محصول ارائه می دهید؟",
+    "a12": "بسیاری از محصولات ما دارای گارانتی تولیدکننده هستند. اطلاعات گارانتی در توضیحات و بسته بندی محصول ارائه می شود.",
+    "still_have_questions": "هنوز سوالی دارید؟",
+    "contact_support": "نمی توانید پاسخ مورد نظر را پیدا کنید؟ لطفاً با تیم دوستانه ما چت کنید تا کمک بیشتری دریافت کنید."
+  },
+  "privacy": {
+    "title": "سیاست حفظ حریم خصوصی",
+    "subtitle": "آخرین به روز رسانی: 1 اردیبهشت 1404",
+    "intro_title": "مقدمه",
+    "intro": "ما از حریم خصوصی شما احترام می گذاریم و متعهد به محافظت از اطلاعات شخصی شما هستیم. این سیاست حفظ حریم خصوصی نحوه جمع آوری، استفاده، افشای و حفاظت از اطلاعات شما را هنگام بازدید از وب سایت ما و استفاده از خدمات ما توضیح می دهد.",
+    "information_title": "اطلاعاتی که ما جمع می کنیم",
+    "information": "ما اطلاعاتی را که مستقیماً به ما ارائه می دهید مانند هنگام ایجاد حساب کاربری، خرید یا تماس با ما برای پشتیبانی، جمع آوری می کنیم. این ممکن است شامل:",
+    "information1": "اطلاعات شناسایی شخصی (نام، آدرس ایمیل، شماره تلفن و غیره)",
+    "information2": "اطلاعات پرداخت (جزئیات کارت اعتباری، آدرس صورت حساب و غیره)",
+    "information3": "تاریخچه خرید و ترجیحات",
+    "information4": "اطلاعات فنی (آدرس IP، نوع مرورگر، اطلاعات دستگاه و غیره)",
+    "information5": "داده های استفاده (صفحات بازدید شده، زمان صرف شده در سایت و غیره)",
+    "how_title": "نحوه استفاده ما از اطلاعات شما",
+    "how": "ما از اطلاعات جمع آوری شده برای اهداف مختلف از جمله:",
+    "how1": "برای پردازش و تکمیل سفارشات شما",
+    "how2": "برای ارائه پشتیبانی مشتری و پاسخ به درخواست های شما",
+    "how3": "برای ارسال ارتباطات بازاریابی (با رضایت شما)",
+    "how4": "برای بهبود وب سایت و خدمات ما",
+    "how5": "برای شخصی سازی تجربه شما",
+    "how6": "برای رعایت تعهدات قانونی",
+    "protection_title": "حفاظت از اطلاعات",
+    "protection": "ما از اقدامات امنیتی اداری، فنی و فیزیکی برای کمک به محافظت از اطلاعات شخصی شما استفاده می کنیم. در حالی که از وسایل قابل قبول تجاری برای محافظت از اطلاعات شخصی شما استفاده می کنیم، نمی توانیم امنیت مطلق آن را تضمین کنیم.",
+    "retention_title": "نگهداری اطلاعات",
+    "retention": "ما اطلاعات شخصی شما را تا زمانی که برای ارائه خدمات خود و رعایت تعهدات قانونی مورد نیاز است، نگه می داریم. هنگامی که دیگر به اطلاعات شما نیاز نداشته باشیم، به طور امن آن را حذف خواهیم کرد.",
+    "changes_title": "تغییرات در این سیاست",
+    "changes": "ما ممکن است گاهی اوقات سیاست حفظ حریم خصوصی خود را به روز کنیم. ما تغییرات را با انتشار سیاست حفظ حریم خصوصی جدید در این صفحه و به روز رسانی تاریخ \"آخرین به روز رسانی\" به شما اطلاع خواهیم داد.",
+    "contact_title": "تماس با ما",
+    "contact": "اگر سوالی در مورد این سیاست حفظ حریم خصوصی دارید، لطفاً با ما تماس بگیرید:"
+  },
+  "terms": {
+    "title": "شرایط خدمات",
+    "subtitle": "آخرین به روز رسانی: 1 اردیبهشت 1404",
+    "intro_title": "پذیرش شرایط",
+    "intro": "با دسترسی و استفاده از این وب سایت، شما شرایط و تدابیر این توافق را پذیرفته و موافقت می کنید. اگر با این شرایط موافق نیستید، لطفاً از این سرویس استفاده نکنید.",
+    "use_title": "مجوز استفاده",
+    "use1": "اجازه به طور موقت یک نسخه از مطالب در وب سایت لکس استور اعطا می شود. این مجوز اعطا شده است، نه انتقال عنوان.",
+    "use2": "این مجوز در صورت نقض هر یک از این محدودیت ها به طور خودکار منقضی می شود و ممکن است توسط لکس استور در هر زمان لغو شود.",
+    "disclaimer_title": "سلب مسئولیت",
+    "disclaimer1": "مواد موجود در وب سایت لکس استور بر اساس شرایط \"همانطور که هست\" ارائه می شوند. لکس استور هیچ ضمانتی، صریح یا ضمنی ندارد و تمام ضمانت های دیگر را رد و نفی می کند از جمله، بدون محدودیت، ضمانت ها یا شرایط قابل فروش بودن، یا عدم نقض اموال فکری یا سایر نقض حقوق.",
+    "disclaimer2": "علاوه بر این، لکس استور تضمین نمی کند یا اظهار نظری در مورد دقت، نتایج احتمالی، یا قابلیت اطمینان استفاده از مطالب در وب سایت خود یا مربوط به چنین مواد یا سایت های مرتبط با این سایت ندارد.",
+    "limitations_title": "محدودیت ها",
+    "limitations": "در هیچ موردی لکس استور یا تامین کنندگان آن مسئولیت مالیاتی برای هرگونه خسارت (از جمله، بدون محدودیت، خسارات برای از دست دادن داده یا سود، یا به دلیل قطع کار) ناشی از استفاده یا عدم توانایی در استفاده از مطالب در وب سایت لکس استور نخواهد داشت، حتی اگر لکس استور یا نماینده مجاز لکس استور از احتمال چنین خساراتی به طور شفاهی یا کتبی مطلع شده باشد.",
+    "accuracy_title": "دقت مواد",
+    "accuracy": "مواد موجود در وب سایت لکس استور ممکن است شامل اشتباهات فنی، چاپی یا عکاسی باشد. لکس استور تضمین نمی کند که هر یک از مواد موجود در وب سایت آن دقیق، کامل یا فعلی باشند. لکس استور ممکن است در هر زمان بدون اطلاع قبلی تغییراتی در مواد موجود در وب سایت خود ایجاد کند.",
+    "links_title": "پیوندها",
+    "links": "لکس استور تمام سایت های مرتبط با وب سایت خود را بازبینی نکرده و مسئول محتوای هر سایت مرتبط نیست. گنجاندن هر پیوند به منزله تأیید لکس استور از آن سایت نیست. استفاده از هر وب سایت مرتبط توسط کاربر است.",
+    "modifications_title": "تغییرات",
+    "modifications": "لکس استور ممکن است این شرایط خدمات را در هر زمان بدون اطلاع قبلی اصلاح کند. با استفاده از این وب سایت، شما موافقت می کنید که متعاقباً به نسخه فعلی این شرایط خدمات متعهد شوید.",
+    "governing_title": "قانون حاکم",
+    "governing": "این شرایط و ضوابط طبق قوانین ایالات متحده ایالات متحده آمریکا ایجاد و اجرا می شوند و شما به طور غیر قابل بازگشت تحت حکمرانی صریح دادگاه ها در آن ایالت یا مکان قرار می گیرید."
+  },
+  "cookies": {
+    "title": "سیاست کوکی",
+    "subtitle": "آخرین به روز رسانی: 1 اردیبهشت 1404",
+    "what_title": "کوکی چیست؟",
+    "what": "کوکی ها فایل های متنی کوچکی هستند که هنگام بازدید از یک وب سایت در رایانه یا دستگاه تلفن همراه شما ذخیره می شوند. وب سایت ها از کوکی ها برای کار کردن بهتر و یا به صورت کارآمدتر، و همچنین برای ارائه اطلاعات گزارش استفاده می کنند.",
+    "how_title": "نحوه استفاده ما از کوکی ها",
+    "how": "ما از کوکی ها به چندین دلیل از جمله:",
+    "how1": "برای فعال کردن برخی از عملکردهای وب سایت ما",
+    "how2": "برای ارائه تحلیل و بهبود خدمات ما",
+    "how3": "برای شخصی سازی تجربه شما",
+    "how4": "برای نمایش تبلیغات",
+    "how5": "برای به یاد آوردن ترجیحات شما",
+    "types_title": "انواع کوکی هایی که ما استفاده می کنیم",
+    "necessary_title": "کوکی های ضروری",
+    "necessary": "این کوکی ها برای عملکرد صحیح وب سایت ما ضروری هستند. بدون این کوکی ها، برخی از ویژگی ها به درستی کار نخواهند کرد.",
+    "performance_title": "کوکی های عملکرد",
+    "performance": "این کوکی ها به ما کمک می کنند تا نحوه تعامل بازدیدکنندگان با وب سایت ما را با جمع آوری و گزارش اطلاعات به صورت ناشناس بفهمیم.",
+    "functionality_title": "کوکی های عملکردی",
+    "functionality": "این کوکی ها به وب سایت ما امکان می دهند تا انتخاب هایی که شما انجام می دهید را به یاد بسپارد و ویژگی ها و شخصی سازی های بهبود یافته را فراهم کند.",
+    "targeting_title": "کوکی های هدف گذاری",
+    "targeting": "این کوکی ها ممکن است از طریق سایت ما توسط شرکای تبلیغاتی ما تنظیم شوند تا نمایه ای از علایق شما را ایجاد کنند و تبلیغات مرتبط را در سایر سایت ها نشان دهند.",
+    "manage_title": "مدیریت کوکی ها",
+    "manage": "شما می توانید کوکی ها را کنترل و یا حذف کنید. می توانید همه کوکی های موجود در رایانه خود را حذف کنید و می توانید بیشتر مرورگرها را برای جلوگیری از قرار گرفتن کوکی ها تنظیم کنید.",
+    "manage2": "در اینجا نحوه مدیریت کوکی ها برای مرورگرهای مرسوم است:",
+    "chrome": "گوگل کروم: chrome://settings/cookies",
+    "safari": "اپل سافاری: تنظیمات → حریم خصوصی",
+    "firefox": "موزیلا فایرفاکس: تنظیمات → حریم خصوصی و امنیت",
+    "edge": "مایکروسافت اج: تنظیمات → کوکی ها و مجوزهای سایت",
+    "changes_title": "تغییرات در این سیاست",
+    "changes": "ما ممکن است گاهی اوقات سیاست کوکی خود را به روز کنیم. ما تغییرات را با انتشار سیاست کوکی جدید در این صفحه و به روز رسانی تاریخ \"آخرین به روز رسانی\" به شما اطلاع خواهیم داد.",
+    "contact_title": "تماس با ما",
+    "contact": "اگر سوالی در مورد سیاست کوکی ما دارید، لطفاً با ما تماس بگیرید:"
+  },
+  "products": {
+    "new_arrivals_title": "موجودی جدید",
+    "new_arrivals_subtitle": "موارد اخیراً اضافه شده",
+    "bestsellers_title": "پرفروش ترین ها",
+    "bestsellers_subtitle": "محبوب ترین موارد ما",
+    "featured_title": "محصولات ویژه",
+    "featured_subtitle": "انتخابی از بهترین محصولات ما"
+  },
+  "about": {
+    "title": "درباره ما",
+    "subtitle": "داستان ما و نکات منحصر به فرد ما را کشف کنید",
+    "ourStory": "داستان ما",
+    "storyPara1": "ما با چشم اندازی برای متحول کردن تجارت الکترونیک تأسیس شدیم و از یک استارتاپ کوچک به یک پلتفرم جهانی تبدیل شدیم که هزاران مشتری در سراسر جهان را پشتیبانی می کند.",
+    "storyPara2": "سفر ما با هدف ساده ای آغاز شد: ارائه محصولات با کیفیت بالا با خدمات مشتریان بی نظیر با قیمت رقابتی.",
+    "storyPara3": "امروزه ما به نوآوری و گسترش خدمات خود ادامه می دهیم در حالی که به ارزش های اصلی خود از جمله کیفیت، صداقت و رضایت مشتری پایبندی می کنیم.",
+    "storyPara4": "ما از رشد خود افتخار می کنیم و برای آینده خود هیجان زده هستیم زیرا به مشتریان ارزشمند خود خدمت می کنیم.",
+    "ourValues": "ارزش های ما",
+    "valuesSubtitle": "اصل هایی که همه کارهای ما را هدایت می کنند",
+    "qualityFirst": "کیفیت در اولویت",
+    "qualityFirstDesc": "ما کیفیت را در هر محصول و خدمتی که ارائه می دهیم اولویت می دهیم.",
+    "customerFocused": "تمرکز بر مشتری",
+    "customerFocusedDesc": "مشتریان در قلب همه چیزی هستند که ما انجام می دهیم.",
+    "globalReach": "دسترسی جهانی",
+    "globalReachDesc": "ما خدمات خود را به مشتریان در بیش از 50 کشور در سراسر جهان ارائه می دهیم.",
+    "secureShopping": "خرید امن",
+    "secureShoppingDesc": "امنیت و حریم خصوصی شما اولویت های برتر ما هستند.",
+    "meetTheTeam": "آشنایی با تیم",
+    "teamSubtitle": "متخصصان متعهد پشت موفقیت ما",
+    "founderCEO": "بنیانگذار و مدیرعامل",
+    "headOfDesign": "سرپرست طراحی",
+    "customerExperience": "مدیر تجربه مشتری",
+    "techLead": "سرپرست فناوری",
+    "joinOurJourney": "همراهی در سفر ما",
+    "joinSubtitle": "آیا برای تجربه آینده خرید آماده اید؟",
+    "shopNow": "همین حالا بخرید",
+    "getInTouch": "تماس بگیرید",
+    "happyCustomers": "مشتریان خوشبین",
+    "premiumProducts": "محصولات لوکس",
+    "countries": "کشورهای پوشش داده شده",
+    "satisfactionRate": "نرخ رضایت"
   },
   "search": {
-    "placeholder": "جستجوی هوشمند محصولات... (مثلاً 'گوشی سامسونگ زیر 20 میلیون')",
-    "suggestion1": "گوشی سامسونگ زیر 20 میلیون",
-    "suggestion2": "لپ تاپ گیمینگ تا 40 میلیون",
+    "clearButton": "پاک کردن جستجو",
+    "closeSearch": "بستن جستجو",
+    "error_message": "متاسفانه خطایی در پردازش جستجو رخ داد. لطفاً دوباره امتحان کنید.",
+    "generalCategory": "عمومی",
+    "hint": "راهنما",
+    "loading": "جستجو",
+    "new_description": "این نسخه جدید شامل تمام ویژگی‌های جستجوی هوشمند است",
+    "new_title": "جستجوی هوشمند جدید",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "no_results": "محصولی یافت نشد",
+    "placeholder": "جستجوی هوشمند محصولات... (مثلاً 'گوشی سامسونگ زیر ۲۰ میلیون')",
+    "popularProducts": "محصولات محبوب",
+    "recentSearches": "جستجوهای اخیر",
+    "searchPlaceholder": "جستجوی محصولات...",
+    "searchResults": "{{count}} نتیجه پیدا شد",
+    "submit": "جستجو",
+    "suggestion1": "گوشی سامسونگ زیر ۲۰ میلیون",
+    "suggestion2": "لپ تاپ گیمینگ تا ۴۰ میلیون",
     "suggestion3": "هدفون بی‌سیم با کیفیت",
     "suggestion4": "ساعت اپل با قیمت مناسب",
     "suggestion5": "تبلت برای کار و تفریح",
-    "error_message": "متاسفانه خطایی در پردازش جستجو رخ داد. لطفاً دوباره امتحان کنید.",
-    "loading": "جستجو",
-    "submit": "جستجو",
-    "no_results": "محصولی یافت نشد",
-    "new_title": "جستجوی هوشمند جدید",
-    "new_description": "این نسخه جدید شامل تمام ویژگی‌های جستجوی هوشمند است"
+    "tryDifferentKeywords": "کلمات کلیدی مختلف را امتحان کنید"
   },
-  "common": {
-    "loading": "در حال بارگذاری...",
-    "error": "خطا",
-    "success": "موفقیت",
-    "submit": "ارسال",
-    "cancel": "لغو",
-    "delete": "حذف",
-    "edit": "ویرایش",
-    "save": "ذخیره",
-    "close": "بستن",
-    "confirm": "تأیید",
-    "yes": "بله",
-    "no": "خیر",
-    "and": "و",
-    "showMore": "نمایش بیشتر",
-    "showLess": "نمایش کمتر",
-    "loadMore": "بارگذاری بیشتر",
-    "backToHome": "بازگشت به خانه",
-    "pageNotFound": "صفحه یافت نشد",
-    "pageNotFoundMessage": "صفحه‌ای که به دنبال آن هستید وجود ندارد",
-    "errorOccurred": "خطایی رخ داد",
-    "tryAgain": "دوباره تلاش کنید",
-    "use_legacy": "استفاده از نسخه قدیمی",
-    "use_new": "استفاده از نسخه جدید",
-    "legacy_notice": "در حال استفاده از نسخه قدیمی",
-    "new_features": "ویژگی‌های جدید فعال است",
-    "new_features_notice": "ویژگی‌های جدید فعال است!",
-    "all": "همه",
-    "currency": "تومان"
+  "shipping": {
+    "free": "ارسال رایگان",
+    "progressText": "{{progress}}% تا ارسال رایگان",
+    "qualified": "شما از ارسال رایگان بهره‌مند شدید!"
+  },
+  "theme": {
+    "switchToDark": "تغییر به حالت تاریک",
+    "switchToLight": "تغییر به حالت روشن"
   }
 }

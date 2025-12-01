@@ -19,10 +19,7 @@ interface ImageLoaderResult {
 
 export const useImageLoader = ({
   src,
-  fallbackImages = [],
-  quality = 80,
-  width,
-  height
+  fallbackImages = []
 }: ImageLoaderOptions): ImageLoaderResult => {
   const [currentSrc, setCurrentSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);

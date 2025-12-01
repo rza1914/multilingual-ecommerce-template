@@ -10,7 +10,7 @@ import {
   ProductFormData
 } from '../../services/admin.service';
 import {
-  Package, Plus, Edit2, Trash2, Search, X, Save, Sparkles
+  Package, Plus, Edit2, Trash2, Search, X, Save
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

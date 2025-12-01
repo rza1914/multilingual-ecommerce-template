@@ -6,7 +6,7 @@ import * as productService from '../services/product.service';
 import RecommendationSection from '../components/legacy/RecommendationSection';
 import { getProductImage, handleImageError } from '../utils/imageUtils';
 import { getLocalizedTitle, getLocalizedDescription, formatCurrency } from '../utils/i18n';
-import { Star, ShoppingCart, Package, Shield, ArrowLeft } from 'lucide-react';
+import { Star, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const ProductDetailPage: React.FC = () => {

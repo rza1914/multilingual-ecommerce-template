@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
-import { Bot, Lock } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { useChatWidget } from '../hooks/useChatWidget';
 import { ChatWidgetCore } from './chat/ChatWidgetCore';
 import { useAuth } from '../contexts/AuthContext';
@@ -28,7 +28,6 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
     // Setters
     setIsOpen,
     setShowAIActions,
-    setPosition,
 
     // Methods
     handleSendMessage,
@@ -39,8 +38,7 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
     isConnected,
     isTyping,
     unreadCount,
-    error,
-    sendMessage,
+    connectionError: error,
     markAllAsRead,
 
     // Refs
@@ -69,10 +67,10 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
           `}
           aria-label={isAuthenticated
             ? t('chat.openChat', 'Open chat')
-            : t('chat.loginRequired', 'Please log in to use chat')}
+            : t('chat.openChatGuest', 'Open chat (guest mode)')}
           title={isAuthenticated
             ? t('chat.openChat', 'Open chat')
-            : t('chat.loginRequired', 'Please log in to use chat')}
+            : t('chat.openChatGuest', 'Open chat (guest mode)')}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
@@ -81,19 +79,7 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
             }
           }}
         >
-          {isAuthenticated ? (
-            <Bot className="w-6 h-6" aria-hidden="true" />
-          ) : (
-            <Lock className="w-6 h-6" aria-hidden="true" />
-          )}
-          {!isAuthenticated && (
-            <div
-              className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 flex items-center justify-center"
-              aria-label={t('chat.loginRequired', 'Login required')}
-            >
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-            </div>
-          )}
+          <Bot className="w-6 h-6" aria-hidden="true" />
           {unreadCount > 0 && isAuthenticated && (
             <span
               className={`

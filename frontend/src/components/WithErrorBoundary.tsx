@@ -1,9 +1,5 @@
-import React, { ComponentType, ReactElement } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import ErrorBoundary from './ErrorBoundary';
-
-interface WithErrorBoundaryProps {
-  children: ReactElement;
-}
 
 export const withErrorBoundary = (
   Component: ComponentType<any>,

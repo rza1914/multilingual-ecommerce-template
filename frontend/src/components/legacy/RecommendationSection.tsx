@@ -38,7 +38,7 @@ const RecommendationSection: React.FC<RecommendationSectionProps> = ({ productId
   const [recommendations, setRecommendations] = useState<RecommendationsResponse | null>(null);
   const [recommendationsLoading, setRecommendationsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const {} = useAuth();
   const token = localStorage.getItem('auth_token');
   
   useEffect(() => {

@@ -14,7 +14,9 @@ import { useCart } from '../contexts/CartContext';
 import { Product } from '../types/product.types';
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
+  console.log('COMPONENT (Header): useTranslation ready status:', ready);
+  console.log('COMPONENT (Header): t("common.storeName") returns:', t('common.storeName'));
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -104,7 +106,7 @@ const Header = () => {
             <Sparkles className="w-8 h-8 text-orange-500 animate-float" />
             <div className="absolute inset-0 bg-orange-500/30 blur-xl animate-pulse-slow" />
           </div>
-          <span className="text-2xl font-bold text-gradient-orange tracking-tight">LuxStore</span>
+          <span className="text-2xl font-bold text-gradient-orange tracking-tight">{t('common.storeName')}</span>
         </Link>
 
         {/* Desktop Navigation */}

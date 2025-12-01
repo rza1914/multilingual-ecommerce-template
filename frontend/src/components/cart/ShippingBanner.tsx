@@ -5,9 +5,11 @@
 
 import React from 'react';
 import { Truck, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../../contexts/CartContext';
 
 const ShippingBanner: React.FC = () => {
+  const { t } = useTranslation();
   const { getSubtotal, isFreeShipping } = useCart();
 
   const subtotal = getSubtotal();
@@ -24,7 +26,7 @@ const ShippingBanner: React.FC = () => {
             <Check className="w-5 h-5 text-green-500" />
           </div>
           <p className="font-semibold text-green-600 dark:text-green-400">
-            🎉 You got FREE shipping!
+            🎉 {t('shipping.qualified')}
           </p>
           <Truck className="w-6 h-6 text-green-500 animate-bounce-slow" />
         </div>
@@ -40,7 +42,7 @@ const ShippingBanner: React.FC = () => {
           <Truck className="w-5 h-5 text-orange-600 dark:text-orange-400" />
         </div>
         <p className="text-sm font-semibold text-gray-900 dark:text-white">
-          Add <span className="text-orange-600 dark:text-orange-400">${remaining.toFixed(2)}</span> more for <span className="text-green-600">FREE shipping</span>! 🚚
+          Add <span className="text-orange-600 dark:text-orange-400">${remaining.toFixed(2)}</span> more for <span className="text-green-600">{t('shipping.free')}</span>! 🚚
         </p>
       </div>
 
@@ -56,7 +58,7 @@ const ShippingBanner: React.FC = () => {
 
       {/* Progress Text */}
       <p className="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">
-        {progress.toFixed(0)}% towards free shipping
+        {t('shipping.progressText', { progress: progress.toFixed(0) })}
       </p>
     </div>
   );
