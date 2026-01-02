@@ -2,11 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useMonitoring } from './useMonitoring';
 import { AIAction } from '../types/chat.types';
-<<<<<<< HEAD
 import { useAIChatWebSocket } from './useAIChatWebSocket'; // Import the new WebSocket hook
-=======
-import { useAIChatSSE } from './useAIChatSSE'; // Import the new SSE hook
->>>>>>> feature/ai-chatbot-clean-v2
 
 // Define screen size breakpoints
 const SCREEN_BREAKPOINTS = {
@@ -38,7 +34,7 @@ export interface UseChatWidgetReturn {
   isConnected: boolean;
   isTyping: boolean;
   unreadCount: number;
-  connectionError: string | null;
+  error: any;
   chatIsOffline: boolean; // from useChat
   sendMessage: (text: string) => void;
   markAllAsRead: () => void;
@@ -59,7 +55,6 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const hasInitialized = useRef(false); // To prevent multiple initializations
 
-<<<<<<< HEAD
   // Use the new AI Chat WebSocket hook
   const { messages, isConnected, sendMessage: sendAIChatMessage, error: aiChatError } = useAIChatWebSocket();
 
@@ -68,16 +63,6 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const [unreadCount, setUnreadCount] = useState(0);
   const [error, setError] = useState<any>(null);
   const chatIsOffline = !isConnected; // Derive from WebSocket connection state
-=======
-  // Use the new AI Chat SSE hook
-  const { messages, sendMessage: sendAIChatMessage, isOnline: isConnected } = useAIChatSSE();
-
-  // Additional state for the chat widget functionality
-  const [isTyping, _setIsTyping] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const [connectionError, _setConnectionError] = useState<string | null>(null);
-  const chatIsOffline = false; // SSE doesn't have continuous connection state like WebSocket
->>>>>>> feature/ai-chatbot-clean-v2
 
   // Handle sending a message using the new AI chat hook
   const handleSendMessage = useCallback((text: string) => {
@@ -97,7 +82,6 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   }, [isOpen, unreadCount, markAllAsRead]);
 
   // Handle AI action
-<<<<<<< HEAD
   const handleAIAction = useCallback((action: AIAction) => {
     setShowAIActions(false);
 
@@ -105,26 +89,13 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     setTimeout(() => {
       // For this example, just add directly to state
       // In the real useChat hook, this would be handled by the WebSocket response
-=======
-  const handleAIAction = useCallback((_action: AIAction) => {
-    setShowAIActions(false);
-
-    // Add the AI message directly without waiting for SSE response
-    setTimeout(() => {
-      // For this example, just add directly to state
-      // In the real useChat hook, this would be handled by the SSE response
->>>>>>> feature/ai-chatbot-clean-v2
     }, 100);
 
     // Update unread count if chat is closed
     if (!isOpen) {
       // Update in the hook
     }
-<<<<<<< HEAD
-  }, [t, isOpen]);
-=======
   }, [isOpen]);
->>>>>>> feature/ai-chatbot-clean-v2
 
   // Find login button in the DOM (for floating position style)
   const findLoginButtonPosition = useCallback((): HTMLElement | null => {
@@ -417,10 +388,12 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   }, [aiChatError, user?.id, logError]);
 
   // Show error if connection fails
-  if (connectionError) {
-    console.error('Chat error:', connectionError);
-    logError(`Chat connection error: ${connectionError}`, { userId: user?.id });
-  }
+  useEffect(() => {
+    if (error) {
+      console.error('Chat error:', error);
+      logError(`Chat connection error: ${error}`, { userId: user?.id });
+    }
+  }, [error, user?.id, logError]);
 
   // Log isOffline state changes
   useEffect(() => {
@@ -432,11 +405,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     isOpen,
     showAIActions,
     position,
-<<<<<<< HEAD
     isWidgetOffline: chatIsOffline,
-=======
-    isWidgetOffline: !isConnected, // Updated to reflect actual connection status
->>>>>>> feature/ai-chatbot-clean-v2
 
     // Setters
     setIsOpen,
@@ -447,7 +416,6 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     handleSendMessage,
     handleAIAction,
 
-<<<<<<< HEAD
     // Chat state from useAIChatWebSocket hook
     messages,
     isConnected,
@@ -455,20 +423,6 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
     unreadCount,
     error,
     chatIsOffline,
-=======
-    // Chat state from useAIChatSSE hook
-    messages: messages.map((msg, index) => ({
-      id: index.toString(),
-      content: msg.content || msg, // Handle both new and old format
-      role: msg.role || 'assistant',
-      timestamp: new Date().toISOString()
-    })), // Convert to expected message format
-    isConnected,
-    isTyping,
-    unreadCount,
-    connectionError,
-    chatIsOffline: !isConnected,
->>>>>>> feature/ai-chatbot-clean-v2
     sendMessage: handleSendMessage, // Use the same function
     markAllAsRead,
 

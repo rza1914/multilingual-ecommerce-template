@@ -60,7 +60,7 @@ export const connectChat = (
     const authMessage = {
       type: 'authenticate',
       token: token,
-      userId: userData.id
+      userId: userId
     };
     ws.send(JSON.stringify(authMessage));
     console.log('🔒 Authentication token sent via WebSocket message');
