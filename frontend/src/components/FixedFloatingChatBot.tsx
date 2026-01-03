@@ -38,7 +38,7 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
     isConnected,
     isTyping,
     unreadCount,
-    connectionError: error,
+    error,
     markAllAsRead,
 
     // Refs

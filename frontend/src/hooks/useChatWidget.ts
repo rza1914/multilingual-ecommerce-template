@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useMonitoring } from './useMonitoring';
 import { AIAction } from '../types/chat.types';
-import { useAIChatWebSocket } from './useAIChatWebSocket'; // Import the new WebSocket hook
+import { useAIChatWebSocket } from './useAIChatWebSocket'; // Import the mock WebSocket hook (now uses REST API)
 
 // Define screen size breakpoints
 const SCREEN_BREAKPOINTS = {
@@ -55,7 +55,7 @@ export const useChatWidget = (props: UseChatWidgetProps = {}): UseChatWidgetRetu
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const hasInitialized = useRef(false); // To prevent multiple initializations
 
-  // Use the new AI Chat WebSocket hook
+  // Use the new AI Chat mock hook (replaces WebSocket functionality)
   const { messages, isConnected, sendMessage: sendAIChatMessage, error: aiChatError } = useAIChatWebSocket();
 
   // Additional state for the chat widget functionality

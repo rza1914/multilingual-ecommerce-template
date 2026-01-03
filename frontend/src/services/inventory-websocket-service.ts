@@ -1,10 +1,8 @@
-// frontend/src/services/inventory-websocket-service.ts
-import { useInventoryWebSocket } from '../hooks/useInventoryWebSocket';
+// frontend/src/services/inventory-websocket-service.ts (Mock implementation without WebSocket)
 
-// Service to handle inventory WebSocket functionality
+// Service to handle inventory functionality (without WebSocket)
 export class InventoryWebSocketService {
   private static instance: InventoryWebSocketService;
-  private connectFn: typeof useInventoryWebSocket | null = null;
 
   private constructor() {}
 
@@ -15,20 +13,28 @@ export class InventoryWebSocketService {
     return InventoryWebSocketService.instance;
   }
 
-  // Initialize the service with the hook function
-  public initialize(connectFn: typeof useInventoryWebSocket) {
-    this.connectFn = connectFn;
+  // Initialize the service (no-op in mock implementation)
+  public initialize() {
+    // No initialization needed in mock implementation
   }
 
-  // Get current connection state
+  // Get current connection state (mock implementation)
   public getConnectionState(token: string | null) {
-    if (!this.connectFn) {
-      throw new Error('InventoryWebSocketService not initialized');
-    }
-    return this.connectFn(token);
+    // Return mock connection state
+    return {
+      isConnected: true,
+      isConnecting: false,
+      isReconnecting: false,
+      lastUpdate: new Date().toISOString(),
+      error: null,
+      inventoryUpdates: [],
+      connect: () => {},
+      disconnect: () => {},
+      sendHeartbeat: () => {}
+    };
   }
 
-  // Broadcast inventory update (server-side only, but can be called from here)
+  // Broadcast inventory update (mock implementation)
   public async broadcastInventoryUpdate(
     token: string,
     product_id: number,
@@ -36,21 +42,15 @@ export class InventoryWebSocketService {
     change_type: string,
     product_name: string
   ): Promise<any> {
-    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/ws/broadcast-inventory`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        product_id,
-        new_stock,
-        change_type,
-        product_name,
-      }),
-    });
+    // In the mock implementation, we just simulate the API call
+    console.log(`Mock broadcast inventory update for product ${product_id}: ${change_type}, new stock: ${new_stock}`);
 
-    return response.json();
+    // Return a mock response
+    return {
+      success: true,
+      message: `Mock inventory update broadcast for product ${product_id}`,
+      connections_affected: 0
+    };
   }
 }
 

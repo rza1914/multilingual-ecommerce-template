@@ -91,7 +91,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           <button
             onClick={onClose}
             className="absolute top-4 right-4 glass-orange p-2 rounded-xl hover:scale-110 transition-transform z-10"
-            aria-label="Close modal"
+            aria-label={t('buttons.closeModal')}
           >
             <X className="w-6 h-6 text-orange-600 dark:text-orange-400" />
           </button>
@@ -203,7 +203,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="glass-orange p-3 rounded-xl hover:scale-110 transition-transform"
                     disabled={quantity <= 1}
-                    aria-label="Decrease quantity"
+                    aria-label={t('buttons.decreaseQuantity')}
                   >
                     <Minus className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                   </button>
@@ -216,7 +216,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                     onClick={() => setQuantity(Math.min(safeStock, quantity + 1))}
                     className="glass-orange p-3 rounded-xl hover:scale-110 transition-transform"
                     disabled={quantity >= safeStock}
-                    aria-label="Increase quantity"
+                    aria-label={t('buttons.increaseQuantity')}
                   >
                     <Plus className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                   </button>

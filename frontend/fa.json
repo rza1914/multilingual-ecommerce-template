@@ -583,15 +583,14 @@
       "tip": "نکته:"
     },
     "footer": {
-      "address": "123 Luxury Ave, New York, NY 10001",
-      "allRightsReserved": "کلیه حقوق محفوظ است.",
+      "careers": "فرصت‌های شغلی",
+      "blog": "بلاگ",
       "company": "شرکت",
-      "customerService": "خدمات مشتریان",
-      "description": "پلتفرم تجاری الکترونیک ویژه با ارائه محصولات لوکس و خدمات مشتریان عالی.",
-      "emailAddress": "hello@luxstore.com",
-      "phone": "+1 (234) 567-890",
-      "privacyPolicy": "سیاست حفظ حریم خصوصی",
-      "termsOfService": "شرایط استفاده از خدمات"
+      "cookiePolicy": "سیاست کوکی",
+      "faq": "سؤالات متداول",
+      "returns": "مرجوعی",
+      "shippingInfo": "اطلاعات ارسال",
+      "support": "پشتیبانی"
     },
     "home": {
       "averageRating": "میانگین امتیاز",

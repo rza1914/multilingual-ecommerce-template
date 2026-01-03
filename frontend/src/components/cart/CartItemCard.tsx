@@ -114,7 +114,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
               <button
                 onClick={() => setIsRemoveModalOpen(true)}
                 className="ml-4 glass-orange p-2 rounded-xl hover:scale-110 transition-transform hidden md:flex"
-                aria-label="Remove item"
+                aria-label={t('buttons.removeItem')}
               >
                 <Trash2 className="w-5 h-5 text-red-500" />
               </button>
@@ -169,7 +169,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
                   onClick={handleDecrease}
                   disabled={quantity <= 1 || isOutOfStock}
                   className="glass-orange p-2 rounded-xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-                  aria-label="Decrease quantity"
+                  aria-label={t('buttons.decreaseQuantity')}
                 >
                   <Minus className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                 </button>
@@ -188,7 +188,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
                   onClick={handleIncrease}
                   disabled={quantity >= product.stock || isOutOfStock}
                   className="glass-orange p-2 rounded-xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-                  aria-label="Increase quantity"
+                  aria-label={t('buttons.increaseQuantity')}
                 >
                   <Plus className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                 </button>
@@ -197,7 +197,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item }) => {
                 <button
                   onClick={() => setIsRemoveModalOpen(true)}
                   className="md:hidden glass-orange p-2 rounded-xl hover:scale-110 transition-transform ml-2"
-                  aria-label="Remove item"
+                  aria-label={t('buttons.removeItem')}
                 >
                   <Trash2 className="w-5 h-5 text-red-500" />
                 </button>

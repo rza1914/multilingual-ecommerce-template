@@ -12,16 +12,13 @@ export interface ChatMessageResponse {
   user_id?: number;
 }
 
-// WebSocket connection management
-let ws: WebSocket | null = null;
-let reconnectAttempts = 0;
-const maxReconnects = 3;
-const onMessageCallbacks: ((msg: ChatMessage) => void)[] = [];
-const onErrorCallbacks: ((err: string) => void)[] = [];
+// REST API implementation instead of WebSocket
+let onMessageCallbacks: ((msg: ChatMessage) => void)[] = [];
+let onErrorCallbacks: ((err: string) => void)[] = [];
 
 /**
- * Connect to WebSocket chat server
- * @param token - Auth token for WebSocket authentication
+ * Connect to chat service (REST API implementation)
+ * @param token - Auth token for API authentication
  * @param userId - User ID to connect to the chat
  * @param onMessage - Callback for receiving messages
  * @param onError - Callback for receiving errors
@@ -32,131 +29,79 @@ export const connectChat = (
   onMessage: (msg: ChatMessage) => void,
   onError: (err: string) => void
 ) => {
-  // Don't reconnect if already connected
-  if (ws?.readyState === WebSocket.OPEN) return;
+  // Add callbacks to the lists
+  onMessageCallbacks.push(onMessage);
+  onErrorCallbacks.push(onError);
 
-  // Validate input
+  // In a REST implementation, we don't maintain a persistent connection
+  // Instead, we just validate the connection parameters
   if (!userId) {
     onError('User ID not provided');
     return;
   }
 
-  // Get the API base URL from environment or use default
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-  // Replace http/https with ws/wss
-  const wsUrl = apiUrl.replace(/^http/, 'ws');
-  const url = `${wsUrl}/api/v1/chat/${userId}`; // Remove token from URL
-
-  console.log(`🔌 Connecting to WebSocket: ${url}`);
-
-  ws = new WebSocket(url);
-
-  ws.onopen = () => {
-    console.log('✅ WebSocket connected');
-    reconnectAttempts = 0;
-
-    // Send authentication token as first message after connection
-    const authMessage = {
-      type: 'authenticate',
-      token: token,
-      userId: userId
-    };
-    ws.send(JSON.stringify(authMessage));
-    console.log('🔒 Authentication token sent via WebSocket message');
-  };
-
-  ws.onmessage = (event) => {
-    try {
-      const data = JSON.parse(event.data);
-
-      // Handle different message types from backend
-      if (data.type === 'chat_message' && data.sender === 'ai') {
-        // Format the AI response as a chat message
-        const formattedMessage: ChatMessage = {
-          role: 'assistant',
-          content: data.content,
-          timestamp: new Date(data.timestamp || Date.now())
-        };
-
-        onMessage(formattedMessage);
-      } else if (data.type === 'typing') {
-        // Handle typing indicators if needed
-        console.log('💬 AI is typing...');
-      } else if (data.type === 'error') {
-        onError(data.message || 'خطای چت');
-      } else if (data.type === 'welcome') {
-        console.log('💬 Chat service connected:', data.message);
-      }
-    } catch (err) {
-      console.error('❌ Invalid message format:', err);
-      onError('پیام نامعتبر دریافت شد');
-    }
-  };
-
-  ws.onerror = (error) => {
-    console.error('❌ WebSocket error:', error);
-    onError('خطا در اتصال چت');
-  };
-
-  ws.onclose = (event) => {
-    console.log('🔌 WebSocket closed', { code: event.code, reason: event.reason, wasClean: event.wasClean });
-
-    // Attempt to reconnect if connection wasn't closed cleanly
-    if (reconnectAttempts < maxReconnects && !event.wasClean) {
-      console.log(`🔄 Attempting to reconnect... (${reconnectAttempts + 1}/${maxReconnects})`);
-      setTimeout(() => {
-        reconnectAttempts++;
-        // Use the same token and userId that were originally passed to connectChat
-        connectChat(token, userId, onMessage, onError);
-      }, 2000 * reconnectAttempts); // Exponential backoff
-    } else if (reconnectAttempts >= maxReconnects) {
-      onError('تعداد تلاش‌های اتصال مجدد به حداکثر رسیده است');
-    } else if (event.wasClean) {
-      // Connection closed cleanly, don't try to reconnect
-      console.log('✅ WebSocket connection closed cleanly');
-    }
-  };
+  console.log(`✅ REST API chat service connected for user: ${userId}`);
 };
 
 /**
- * Send a message via WebSocket
+ * Send a message via REST API
  * @param message - The message to send
+ * @param token - Auth token for API authentication
  */
-export const sendChatMessage = (message: string) => {
-  if (ws?.readyState === WebSocket.OPEN) {
-    // Send message in the format expected by the backend
-    const msgData = JSON.stringify({ content: message });
-    ws.send(msgData);
-    console.log('📤 Message sent via WebSocket:', message);
-  } else if (ws?.readyState === WebSocket.CONNECTING) {
-    console.warn('⚠️ WebSocket still connecting, message queued');
-    // In a real implementation, we might want to queue messages
-    // For now, we'll throw an error
-    throw new Error('WebSocket is still connecting, please wait');
-  } else {
-    console.error('❌ WebSocket not connected');
-    throw new Error('اتصال چت برقرار نیست');
+export const sendChatMessage = async (message: string, token: string) => {
+  try {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const response = await fetch(`${apiUrl}/api/v1/chat/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ message })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Format the response as a chat message
+    const formattedMessage: ChatMessage = {
+      role: 'assistant',
+      content: data.response,
+      timestamp: new Date()
+    };
+
+    // Call all registered onMessage callbacks
+    onMessageCallbacks.forEach(callback => callback(formattedMessage));
+
+    return data;
+  } catch (error) {
+    console.error('❌ Error sending message via REST API:', error);
+
+    // Call all registered onError callbacks
+    onErrorCallbacks.forEach(callback => callback('Failed to send message'));
+    throw error;
   }
 };
 
 /**
- * Close the WebSocket connection
+ * Close the chat connection
  */
 export const closeChat = () => {
-  if (ws) {
-    console.log('🔌 Closing WebSocket connection');
-    ws.close(1000, 'Closing chat connection');
-    ws = null;
-  }
-  reconnectAttempts = 0;
+  // Clear all callbacks
+  onMessageCallbacks = [];
+  onErrorCallbacks = [];
+  console.log('✅ Chat connection closed');
 };
 
 /**
- * Check if WebSocket is currently connected
+ * Check if chat service is available (always true in REST implementation)
  */
 export const isChatConnected = (): boolean => {
-  return ws?.readyState === WebSocket.OPEN;
+  // In a REST implementation, we're always "connected" since each request is independent
+  return true;
 };
 
 export default {

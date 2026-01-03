@@ -16,7 +16,7 @@ const languages: Language[] = [
 ];
 
 const LanguageSwitcher = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +48,7 @@ const LanguageSwitcher = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="glass-orange p-2.5 rounded-xl hover:scale-110 transition-transform flex items-center gap-2"
-        aria-label="Change language"
+        aria-label={t('buttons.changeLanguage')}
       >
         <Globe className="w-5 h-5 text-orange-600 dark:text-orange-400" />
         <span className="hidden md:inline text-sm font-medium text-gray-900 dark:text-white">

@@ -1,0 +1,910 @@
+Translation Key Comparison Report
+==================================================
+
+Total used keys: 900
+EN keys: 644
+FA keys: 644
+AR keys: 890
+
+Key                                                EN  FA  AR  Status              
+--------------------------------------------------------------------------------
+) : (                                              ✗   ✗   ✗   CRITICAL (missing in all)
+,                                                  ✗   ✗   ✗   CRITICAL (missing in all)
+./ai/SmartSearchBar                                ✗   ✗   ✗   CRITICAL (missing in all)
+./legacy/SmartSearchBar                            ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/AboutPage                                  ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/CartPage                                   ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/CheckoutPage                               ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/ContactPage                                ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/HomePage                                   ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/LoginPage                                  ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/NotFoundPage                               ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/OrderConfirmationPage                      ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/OrderDetailsPage                           ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/OrderHistoryPage                           ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/ProductDetailPage                          ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/ProductsPage                               ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/ProfilePage                                ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/RegisterPage                               ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/admin/AdminDashboard                       ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/admin/AdminOrders                          ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/admin/AdminProducts                        ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/BlogPage                             ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/CareersPage                          ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/CookiePolicyPage                     ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/FAQPage                              ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/HelpPage                             ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/PrivacyPolicyPage                    ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/ReturnsPage                          ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/ShippingPage                         ✗   ✗   ✗   CRITICAL (missing in all)
+./pages/legal/TermsOfServicePage                   ✗   ✗   ✗   CRITICAL (missing in all)
+.ai-actions-menu                                   ✗   ✗   ✗   CRITICAL (missing in all)
+</div>                                             ✗   ✗   ✗   CRITICAL (missing in all)
+</p>                                               ✗   ✗   ✗   CRITICAL (missing in all)
+</span>                                            ✗   ✗   ✗   CRITICAL (missing in all)
+</td>                                              ✗   ✗   ✗   CRITICAL (missing in all)
+<button                                            ✗   ✗   ✗   CRITICAL (missing in all)
+<div className=                                    ✗   ✗   ✗   CRITICAL (missing in all)
+<span className=                                   ✗   ✗   ✗   CRITICAL (missing in all)
+<td className=                                     ✗   ✗   ✗   CRITICAL (missing in all)
+Add to Cart                                        ✗   ✗   ✗   CRITICAL (missing in all)
+Error                                              ✗   ✗   ✗   CRITICAL (missing in all)
+Featured Products                                  ✗   ✗   ✗   CRITICAL (missing in all)
+Loading products...                                ✗   ✗   ✗   CRITICAL (missing in all)
+No description available.                          ✗   ✗   ✗   CRITICAL (missing in all)
+about.countries                                    ✗   ✗   ✓   PARTIAL             
+about.customerExperience                           ✗   ✗   ✓   PARTIAL             
+about.customerFocused                              ✗   ✗   ✓   PARTIAL             
+about.customerFocusedDesc                          ✗   ✗   ✓   PARTIAL             
+about.founderCEO                                   ✗   ✗   ✓   PARTIAL             
+about.getInTouch                                   ✗   ✗   ✓   PARTIAL             
+about.globalReach                                  ✗   ✗   ✓   PARTIAL             
+about.globalReachDesc                              ✗   ✗   ✓   PARTIAL             
+about.happyCustomers                               ✗   ✗   ✓   PARTIAL             
+about.headOfDesign                                 ✗   ✗   ✓   PARTIAL             
+about.joinOurJourney                               ✗   ✗   ✓   PARTIAL             
+about.joinSubtitle                                 ✗   ✗   ✓   PARTIAL             
+about.meetTheTeam                                  ✗   ✗   ✓   PARTIAL             
+about.ourStory                                     ✗   ✗   ✓   PARTIAL             
+about.ourValues                                    ✗   ✗   ✓   PARTIAL             
+about.premiumProducts                              ✗   ✗   ✓   PARTIAL             
+about.qualityFirst                                 ✗   ✗   ✓   PARTIAL             
+about.qualityFirstDesc                             ✗   ✗   ✓   PARTIAL             
+about.satisfactionRate                             ✗   ✗   ✓   PARTIAL             
+about.secureShopping                               ✗   ✗   ✓   PARTIAL             
+about.secureShoppingDesc                           ✗   ✗   ✓   PARTIAL             
+about.shopNow                                      ✗   ✗   ✓   PARTIAL             
+about.storyPara1                                   ✗   ✗   ✓   PARTIAL             
+about.storyPara2                                   ✗   ✗   ✓   PARTIAL             
+about.storyPara3                                   ✗   ✗   ✓   PARTIAL             
+about.storyPara4                                   ✗   ✗   ✓   PARTIAL             
+about.subtitle                                     ✗   ✗   ✓   PARTIAL             
+about.teamSubtitle                                 ✗   ✗   ✓   PARTIAL             
+about.techLead                                     ✗   ✗   ✓   PARTIAL             
+about.title                                        ✗   ✗   ✓   PARTIAL             
+about.valuesSubtitle                               ✗   ✗   ✓   PARTIAL             
+admin.actions                                      ✗   ✗   ✗   CRITICAL (missing in all)
+admin.active                                       ✗   ✗   ✓   PARTIAL             
+admin.activeCheckbox                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.addFirstProduct                              ✗   ✗   ✗   CRITICAL (missing in all)
+admin.addProduct                                   ✗   ✗   ✗   CRITICAL (missing in all)
+admin.allOrders                                    ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryBeauty                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryBooks                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryClothing                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryElectronics                          ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryFood                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryHome                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryLabel                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categorySports                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.categoryToys                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.clearButton                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.createButton                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.createProduct                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.customer                                     ✗   ✗   ✗   CRITICAL (missing in all)
+admin.customerLabel                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.dashboard                                    ✗   ✗   ✓   PARTIAL             
+admin.date                                         ✗   ✗   ✗   CRITICAL (missing in all)
+admin.deleteOrder                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.deleteOrderConfirm                           ✗   ✗   ✗   CRITICAL (missing in all)
+admin.deleteOrderError                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.deleteProductConfirm                         ✗   ✗   ✗   CRITICAL (missing in all)
+admin.deleteProductError                           ✗   ✗   ✗   CRITICAL (missing in all)
+admin.discountPriceLabel                           ✗   ✗   ✗   CRITICAL (missing in all)
+admin.editProduct                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.failedToLoad                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.featuredCheckbox                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.imageURLLabel                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.imageURLPlaceholder                          ✗   ✗   ✗   CRITICAL (missing in all)
+admin.items                                        ✗   ✗   ✗   CRITICAL (missing in all)
+admin.last7Days                                    ✗   ✗   ✗   CRITICAL (missing in all)
+admin.loadingDashboard                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.loadingOrders                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.loadingProducts                              ✗   ✗   ✗   CRITICAL (missing in all)
+admin.manageOrders                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.manageOrdersDesc                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.manageProducts                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.manageProductsDesc                           ✗   ✗   ✗   CRITICAL (missing in all)
+admin.newStatus                                    ✗   ✗   ✗   CRITICAL (missing in all)
+admin.newThisMonth                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.noOrdersFound                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.noOrdersPlaced                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.noOrdersYet                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.noProductsFound                              ✗   ✗   ✗   CRITICAL (missing in all)
+admin.noRevenueData                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.noStatusOrders                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.orderID                                      ✗   ✗   ✗   CRITICAL (missing in all)
+admin.orderLabel                                   ✗   ✗   ✗   CRITICAL (missing in all)
+admin.orderManagement                              ✗   ✗   ✗   CRITICAL (missing in all)
+admin.orderManagementDesc                          ✗   ✗   ✗   CRITICAL (missing in all)
+admin.ordersByStatus                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.ordersCount                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.priceLabel                                   ✗   ✗   ✗   CRITICAL (missing in all)
+admin.productDescLabel                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.productDescPlaceholder                       ✗   ✗   ✗   CRITICAL (missing in all)
+admin.productManagement                            ✗   ✗   ✗   CRITICAL (missing in all)
+admin.productManagementDesc                        ✗   ✗   ✗   CRITICAL (missing in all)
+admin.productTitleLabel                            ✗   ✗   ✗   CRITICAL (missing in all)
+admin.productTitlePlaceholder                      ✗   ✗   ✗   CRITICAL (missing in all)
+admin.recentOrders                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.retry                                        ✗   ✗   ✗   CRITICAL (missing in all)
+admin.revenueOverview                              ✗   ✗   ✗   CRITICAL (missing in all)
+admin.revenueThisMonth                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.saveProductError                             ✗   ✗   ✗   CRITICAL (missing in all)
+admin.saving                                       ✗   ✗   ✗   CRITICAL (missing in all)
+admin.searchButton                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.searchProductsPlaceholder                    ✗   ✗   ✗   CRITICAL (missing in all)
+admin.selectCategory                               ✗   ✗   ✗   CRITICAL (missing in all)
+admin.status                                       ✗   ✗   ✗   CRITICAL (missing in all)
+admin.tagsLabel                                    ✗   ✗   ✗   CRITICAL (missing in all)
+admin.tagsPlaceholder                              ✗   ✗   ✗   CRITICAL (missing in all)
+admin.total                                        ✗   ✗   ✗   CRITICAL (missing in all)
+admin.totalOrders                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.totalProducts                                ✗   ✗   ✗   CRITICAL (missing in all)
+admin.totalRevenue                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.totalUsers                                   ✗   ✗   ✗   CRITICAL (missing in all)
+admin.tryDifferentSearch                           ✗   ✗   ✗   CRITICAL (missing in all)
+admin.updateButton                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.updateOrderStatus                            ✗   ✗   ✗   CRITICAL (missing in all)
+admin.updateStatus                                 ✗   ✗   ✗   CRITICAL (missing in all)
+admin.updateStatusError                            ✗   ✗   ✗   CRITICAL (missing in all)
+admin.updating                                     ✗   ✗   ✗   CRITICAL (missing in all)
+admin.viewAll                                      ✗   ✗   ✗   CRITICAL (missing in all)
+admin.viewDetails                                  ✗   ✗   ✗   CRITICAL (missing in all)
+admin.welcomeMessage                               ✗   ✗   ✗   CRITICAL (missing in all)
+allows adding to cart when product is in stock     ✗   ✗   ✗   CRITICAL (missing in all)
+auth.agreeToTerms                                  ✗   ✗   ✓   PARTIAL             
+auth.confirmPassword                               ✗   ✗   ✓   PARTIAL             
+auth.confirmPasswordRequired                       ✗   ✗   ✓   PARTIAL             
+auth.createAccount                                 ✗   ✗   ✓   PARTIAL             
+auth.email                                         ✗   ✗   ✓   PARTIAL             
+auth.emailInvalid                                  ✗   ✗   ✓   PARTIAL             
+auth.emailRequired                                 ✗   ✗   ✓   PARTIAL             
+auth.forgotPassword                                ✗   ✗   ✓   PARTIAL             
+auth.haveAccount                                   ✗   ✗   ✓   PARTIAL             
+auth.login                                         ✗   ✗   ✓   PARTIAL             
+auth.loginPageTitle                                ✗   ✗   ✓   PARTIAL             
+auth.loginSuccess                                  ✗   ✗   ✓   PARTIAL             
+auth.logout                                        ✗   ✗   ✗   CRITICAL (missing in all)
+auth.logoutSuccess                                 ✗   ✗   ✗   CRITICAL (missing in all)
+auth.name                                          ✗   ✗   ✓   PARTIAL             
+auth.nameMin                                       ✗   ✗   ✓   PARTIAL             
+auth.nameRequired                                  ✗   ✗   ✓   PARTIAL             
+auth.noAccount                                     ✗   ✗   ✓   PARTIAL             
+auth.orSignUpWith                                  ✗   ✗   ✓   PARTIAL             
+auth.password                                      ✗   ✗   ✓   PARTIAL             
+auth.passwordMedium                                ✗   ✗   ✓   PARTIAL             
+auth.passwordMin                                   ✗   ✗   ✓   PARTIAL             
+auth.passwordMismatch                              ✗   ✗   ✓   PARTIAL             
+auth.passwordRequired                              ✗   ✗   ✓   PARTIAL             
+auth.passwordStrength                              ✗   ✗   ✓   PARTIAL             
+auth.passwordStrong                                ✗   ✗   ✓   PARTIAL             
+auth.passwordWeak                                  ✗   ✗   ✓   PARTIAL             
+auth.registerPageTitle                             ✗   ✗   ✓   PARTIAL             
+auth.rememberMe                                    ✗   ✗   ✓   PARTIAL             
+auth.signInToAccount                               ✗   ✗   ✓   PARTIAL             
+auth.signup                                        ✗   ✗   ✓   PARTIAL             
+auth.signupSuccess                                 ✗   ✗   ✓   PARTIAL             
+auth.termsRequired                                 ✗   ✗   ✓   PARTIAL             
+auth.welcomeBack                                   ✗   ✗   ✓   PARTIAL             
+bestsellers                                        ✗   ✗   ✗   CRITICAL (missing in all)
+blog.post1_excerpt                                 ✗   ✗   ✓   PARTIAL             
+blog.post1_title                                   ✗   ✗   ✓   PARTIAL             
+blog.post2_excerpt                                 ✗   ✗   ✓   PARTIAL             
+blog.post2_title                                   ✗   ✗   ✓   PARTIAL             
+blog.post3_excerpt                                 ✗   ✗   ✓   PARTIAL             
+blog.post3_title                                   ✗   ✗   ✓   PARTIAL             
+blog.subtitle                                      ✗   ✗   ✓   PARTIAL             
+blog.title                                         ✗   ✗   ✓   PARTIAL             
+buttons.addToCart                                  ✗   ✗   ✓   PARTIAL             
+buttons.aiActions                                  ✗   ✗   ✓   PARTIAL             
+buttons.backToHome                                 ✗   ✗   ✗   CRITICAL (missing in all)
+buttons.changeLanguage                             ✗   ✗   ✓   PARTIAL             
+buttons.closeCart                                  ✗   ✗   ✓   PARTIAL             
+buttons.closeFilters                               ✗   ✗   ✓   PARTIAL             
+buttons.closeModal                                 ✗   ✗   ✓   PARTIAL             
+buttons.closeNotification                          ✗   ✗   ✓   PARTIAL             
+buttons.contactSupport                             ✗   ✗   ✗   CRITICAL (missing in all)
+buttons.decreaseQuantity                           ✗   ✗   ✓   PARTIAL             
+buttons.increaseQuantity                           ✗   ✗   ✓   PARTIAL             
+buttons.menu                                       ✗   ✗   ✓   PARTIAL             
+buttons.openCart                                   ✗   ✗   ✓   PARTIAL             
+buttons.readMore                                   ✗   ✗   ✗   CRITICAL (missing in all)
+buttons.removeCoupon                               ✗   ✗   ✓   PARTIAL             
+buttons.removeItem                                 ✗   ✗   ✓   PARTIAL             
+buttons.search                                     ✗   ✗   ✓   PARTIAL             
+buttons.sendMessage                                ✗   ✗   ✓   PARTIAL             
+buttons.sending                                    ✗   ✗   ✗   CRITICAL (missing in all)
+buttons.toggleFilters                              ✗   ✗   ✓   PARTIAL             
+buttons.typeMessage                                ✗   ✗   ✓   PARTIAL             
+buttons.viewDetails                                ✗   ✗   ✗   CRITICAL (missing in all)
+calls addToCart with correct product and quantity when add to cart button is clicked ✗   ✗   ✗   CRITICAL (missing in all)
+careers.benefits                                   ✗   ✗   ✓   PARTIAL             
+careers.benefits_desc                              ✗   ✗   ✓   PARTIAL             
+careers.collaborative                              ✗   ✗   ✓   PARTIAL             
+careers.collaborative_desc                         ✗   ✗   ✓   PARTIAL             
+careers.content                                    ✗   ✗   ✓   PARTIAL             
+careers.growth                                     ✗   ✗   ✓   PARTIAL             
+careers.growth_desc                                ✗   ✗   ✓   PARTIAL             
+careers.subtitle                                   ✗   ✗   ✓   PARTIAL             
+careers.title                                      ✗   ✗   ✓   PARTIAL             
+careers.whyJoinUs                                  ✗   ✗   ✓   PARTIAL             
+cart.continueShopping                              ✗   ✗   ✓   PARTIAL             
+cart.empty                                         ✗   ✗   ✓   PARTIAL             
+cart.emptyMessage                                  ✗   ✗   ✓   PARTIAL             
+cart.insufficientStock                             ✗   ✗   ✓   PARTIAL             
+cart.itemInCart                                    ✗   ✗   ✓   PARTIAL             
+cart.itemsInCart                                   ✗   ✗   ✓   PARTIAL             
+cart.proceedToCheckout                             ✗   ✗   ✓   PARTIAL             
+cart.subtotal                                      ✗   ✗   ✓   PARTIAL             
+cart.title                                         ✗   ✗   ✓   PARTIAL             
+cart.total                                         ✗   ✗   ✓   PARTIAL             
+chat.aiActions.giftSuggestion                      ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.giftSuggestionDesc                  ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.imageAnalysis                       ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.imageAnalysisDesc                   ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.priceComparison                     ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.priceComparisonDesc                 ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.productRecommendation               ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.productRecommendationDesc           ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.sizeRecommendation                  ✗   ✗   ✗   CRITICAL (missing in all)
+chat.aiActions.sizeRecommendationDesc              ✗   ✗   ✗   CRITICAL (missing in all)
+chat.assistantName                                 ✗   ✗   ✓   PARTIAL             
+chat.chat_placeholder                              ✗   ✗   ✓   PARTIAL             
+chat.closeChat                                     ✗   ✗   ✓   PARTIAL             
+chat.connecting                                    ✗   ✗   ✓   PARTIAL             
+chat.guest_mode                                    ✗   ✗   ✓   PARTIAL             
+chat.intro                                         ✗   ✗   ✓   PARTIAL             
+chat.legacy_description                            ✗   ✗   ✗   CRITICAL (missing in all)
+chat.legacy_message                                ✗   ✗   ✗   CRITICAL (missing in all)
+chat.legacy_title                                  ✗   ✗   ✗   CRITICAL (missing in all)
+chat.new_description                               ✗   ✗   ✓   PARTIAL             
+chat.new_title                                     ✗   ✗   ✓   PARTIAL             
+chat.offline                                       ✗   ✗   ✓   PARTIAL             
+chat.online                                        ✗   ✗   ✓   PARTIAL             
+chat.openChat                                      ✗   ✗   ✗   CRITICAL (missing in all)
+chat.openChatGuest                                 ✗   ✗   ✓   PARTIAL             
+chat.typing                                        ✗   ✗   ✓   PARTIAL             
+chat.welcome                                       ✗   ✗   ✓   PARTIAL             
+checkout.acceptTermsAlert                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.addressPlaceholder                        ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.addressRequired                           ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.agreeToTerms                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.and                                       ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.backToCart                                ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.browseProducts                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cardDetails                               ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cardNumber                                ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cardNumberPlaceholder                     ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cardholderName                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cardholderNamePlaceholder                 ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cashOnDelivery                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.changeMethod                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.changePayment                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.choosePaymentMethod                       ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.chooseShippingMethod                      ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.city                                      ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cityPlaceholder                           ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cityRequired                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.codDescription                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.codTitle                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.continue                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.countries.au                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.countries.ca                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.countries.uk                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.countries.us                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.country                                   ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.creditDebitCard                           ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cvv                                       ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.cvvPlaceholder                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.deliveryMethod                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.discount                                  ✗   ✗   ✓   PARTIAL             
+checkout.editAddress                               ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.emailAddress                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.emailInvalid                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.emailPlaceholder                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.emailRequired                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.emptyCartMessage                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.emptyCartTitle                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.expiryDate                                ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.expiryDatePlaceholder                     ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.expressShipping                           ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.expressShippingDays                       ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.free                                      ✗   ✗   ✓   PARTIAL             
+checkout.fullName                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.fullNamePlaceholder                       ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.fullNameRequired                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.nextDayDelivery                           ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.nextDayDeliveryDesc                       ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.orderErrorMessage                         ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.orderItems                                ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.orderSummary                              ✗   ✗   ✓   PARTIAL             
+checkout.payInCash                                 ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.paymentMethod                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.phoneNumber                               ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.phonePlaceholder                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.phoneRequired                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.placeOrder                                ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.placingOrder                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.previous                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.privacyPolicy                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.quantity                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.required                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.reviewOrder                               ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.reviewOrderMessage                        ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.saveAddress                               ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.secureCheckout                            ✗   ✗   ✓   PARTIAL             
+checkout.securePaymentInfo                         ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.shipping                                  ✗   ✗   ✓   PARTIAL             
+checkout.shippingAddress                           ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.standardShipping                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.standardShippingDays                      ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.state                                     ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.statePlaceholder                          ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.stateRequired                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.steps.delivery                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.steps.payment                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.steps.review                              ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.steps.shipping                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.streetAddress                             ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.subtotal                                  ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.tax                                       ✗   ✗   ✓   PARTIAL             
+checkout.termsAndConditions                        ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.title                                     ✗   ✗   ✓   PARTIAL             
+checkout.total                                     ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.zipCode                                   ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.zipPlaceholder                            ✗   ✗   ✗   CRITICAL (missing in all)
+checkout.zipRequired                               ✗   ✗   ✗   CRITICAL (missing in all)
+className=                                         ✗   ✗   ✗   CRITICAL (missing in all)
+common.and                                         ✗   ✗   ✓   PARTIAL             
+common.backToHome                                  ✗   ✗   ✓   PARTIAL             
+common.cancel                                      ✗   ✗   ✗   CRITICAL (missing in all)
+common.delete                                      ✗   ✗   ✗   CRITICAL (missing in all)
+common.edit                                        ✗   ✗   ✗   CRITICAL (missing in all)
+common.errorOccurred                               ✗   ✗   ✓   PARTIAL             
+common.legacy_notice                               ✗   ✗   ✗   CRITICAL (missing in all)
+common.loading                                     ✗   ✗   ✓   PARTIAL             
+common.new_features                                ✗   ✗   ✗   CRITICAL (missing in all)
+common.new_features_notice                         ✗   ✗   ✓   PARTIAL             
+common.pageNotFound                                ✗   ✗   ✗   CRITICAL (missing in all)
+common.storeName                                   ✗   ✗   ✓   PARTIAL             
+common.use_legacy                                  ✗   ✗   ✓   PARTIAL             
+common.use_new                                     ✗   ✗   ✓   PARTIAL             
+contact.address                                    ✗   ✗   ✓   PARTIAL             
+contact.addressLine1                               ✗   ✗   ✓   PARTIAL             
+contact.addressLine2                               ✗   ✗   ✓   PARTIAL             
+contact.address_text                               ✗   ✗   ✗   CRITICAL (missing in all)
+contact.business_days                              ✗   ✗   ✗   CRITICAL (missing in all)
+contact.business_hours                             ✗   ✗   ✗   CRITICAL (missing in all)
+contact.business_hours_title                       ✗   ✗   ✗   CRITICAL (missing in all)
+contact.confirmation                               ✗   ✗   ✗   CRITICAL (missing in all)
+contact.email                                      ✗   ✗   ✓   PARTIAL             
+contact.emailAddress                               ✗   ✗   ✓   PARTIAL             
+contact.emailAddress2                              ✗   ✗   ✓   PARTIAL             
+contact.emailInvalid                               ✗   ✗   ✗   CRITICAL (missing in all)
+contact.emailPlaceholder                           ✗   ✗   ✗   CRITICAL (missing in all)
+contact.emailRequired                              ✗   ✗   ✗   CRITICAL (missing in all)
+contact.emailResponse                              ✗   ✗   ✓   PARTIAL             
+contact.email_address                              ✗   ✗   ✗   CRITICAL (missing in all)
+contact.email_label                                ✗   ✗   ✗   CRITICAL (missing in all)
+contact.email_placeholder                          ✗   ✗   ✗   CRITICAL (missing in all)
+contact.email_response                             ✗   ✗   ✗   CRITICAL (missing in all)
+contact.followUs                                   ✗   ✗   ✓   PARTIAL             
+contact.followUsSubtitle                           ✗   ✗   ✓   PARTIAL             
+contact.form_title                                 ✗   ✗   ✗   CRITICAL (missing in all)
+contact.getDirections                              ✗   ✗   ✗   CRITICAL (missing in all)
+contact.hoursWeekdays                              ✗   ✗   ✓   PARTIAL             
+contact.hoursWeekends                              ✗   ✗   ✓   PARTIAL             
+contact.info                                       ✗   ✗   ✗   CRITICAL (missing in all)
+contact.message                                    ✗   ✗   ✓   PARTIAL             
+contact.messageMinLength                           ✗   ✗   ✗   CRITICAL (missing in all)
+contact.messagePlaceholder                         ✗   ✗   ✗   CRITICAL (missing in all)
+contact.messageRequired                            ✗   ✗   ✗   CRITICAL (missing in all)
+contact.messageSent                                ✗   ✗   ✗   CRITICAL (missing in all)
+contact.message_label                              ✗   ✗   ✗   CRITICAL (missing in all)
+contact.message_placeholder                        ✗   ✗   ✗   CRITICAL (missing in all)
+contact.name                                       ✗   ✗   ✗   CRITICAL (missing in all)
+contact.namePlaceholder                            ✗   ✗   ✓   PARTIAL             
+contact.nameRequired                               ✗   ✗   ✓   PARTIAL             
+contact.name_placeholder                           ✗   ✗   ✗   CRITICAL (missing in all)
+contact.phone                                      ✗   ✗   ✓   PARTIAL             
+contact.phoneHours                                 ✗   ✗   ✓   PARTIAL             
+contact.phoneNumber                                ✗   ✗   ✓   PARTIAL             
+contact.phone_hours                                ✗   ✗   ✗   CRITICAL (missing in all)
+contact.phone_number                               ✗   ✗   ✗   CRITICAL (missing in all)
+contact.sendMessage                                ✗   ✗   ✓   PARTIAL             
+contact.sendUsMessage                              ✗   ✗   ✓   PARTIAL             
+contact.subject                                    ✗   ✗   ✓   PARTIAL             
+contact.subjectPlaceholder                         ✗   ✗   ✗   CRITICAL (missing in all)
+contact.subjectRequired                            ✗   ✗   ✗   CRITICAL (missing in all)
+contact.subject_placeholder                        ✗   ✗   ✗   CRITICAL (missing in all)
+contact.subtitle                                   ✗   ✗   ✓   PARTIAL             
+contact.thanks                                     ✗   ✗   ✗   CRITICAL (missing in all)
+contact.title                                      ✗   ✗   ✓   PARTIAL             
+contact.visitOurStore                              ✗   ✗   ✓   PARTIAL             
+contact.weekend_hours                              ✗   ✗   ✗   CRITICAL (missing in all)
+contact.workingHours                               ✗   ✗   ✓   PARTIAL             
+contact.yourName                                   ✗   ✗   ✓   PARTIAL             
+cookies.changes                                    ✗   ✗   ✓   PARTIAL             
+cookies.changes_title                              ✗   ✗   ✓   PARTIAL             
+cookies.chrome                                     ✗   ✗   ✓   PARTIAL             
+cookies.contact                                    ✗   ✗   ✓   PARTIAL             
+cookies.contact_title                              ✗   ✗   ✓   PARTIAL             
+cookies.edge                                       ✗   ✗   ✓   PARTIAL             
+cookies.firefox                                    ✗   ✗   ✓   PARTIAL             
+cookies.functionality                              ✗   ✗   ✓   PARTIAL             
+cookies.functionality_title                        ✗   ✗   ✓   PARTIAL             
+cookies.how                                        ✗   ✗   ✓   PARTIAL             
+cookies.how1                                       ✗   ✗   ✓   PARTIAL             
+cookies.how2                                       ✗   ✗   ✓   PARTIAL             
+cookies.how3                                       ✗   ✗   ✓   PARTIAL             
+cookies.how4                                       ✗   ✗   ✓   PARTIAL             
+cookies.how5                                       ✗   ✗   ✓   PARTIAL             
+cookies.how_title                                  ✗   ✗   ✓   PARTIAL             
+cookies.manage                                     ✗   ✗   ✓   PARTIAL             
+cookies.manage2                                    ✗   ✗   ✓   PARTIAL             
+cookies.manage_title                               ✗   ✗   ✓   PARTIAL             
+cookies.necessary                                  ✗   ✗   ✓   PARTIAL             
+cookies.necessary_title                            ✗   ✗   ✓   PARTIAL             
+cookies.performance                                ✗   ✗   ✓   PARTIAL             
+cookies.performance_title                          ✗   ✗   ✓   PARTIAL             
+cookies.safari                                     ✗   ✗   ✓   PARTIAL             
+cookies.subtitle                                   ✗   ✗   ✓   PARTIAL             
+cookies.targeting                                  ✗   ✗   ✓   PARTIAL             
+cookies.targeting_title                            ✗   ✗   ✓   PARTIAL             
+cookies.title                                      ✗   ✗   ✓   PARTIAL             
+cookies.types_title                                ✗   ✗   ✓   PARTIAL             
+cookies.what                                       ✗   ✗   ✓   PARTIAL             
+cookies.what_title                                 ✗   ✗   ✓   PARTIAL             
+coupon.apply                                       ✗   ✗   ✓   PARTIAL             
+coupon.applying                                    ✗   ✗   ✓   PARTIAL             
+coupon.discountApplied                             ✗   ✗   ✓   PARTIAL             
+coupon.enterCode                                   ✗   ✗   ✓   PARTIAL             
+coupon.exampleCodes                                ✗   ✗   ✓   PARTIAL             
+coupon.failed                                      ✗   ✗   ✓   PARTIAL             
+coupon.freeShipping                                ✗   ✗   ✓   PARTIAL             
+coupon.invalidCode                                 ✗   ✗   ✓   PARTIAL             
+coupon.tryTheseCodes                               ✗   ✗   ✓   PARTIAL             
+disables add to cart button when product is out of stock ✗   ✗   ✗   CRITICAL (missing in all)
+displays discount badge when discount is available ✗   ✗   ✗   CRITICAL (missing in all)
+displays featured badge when product is featured   ✗   ✗   ✗   CRITICAL (missing in all)
+displays low stock badge when stock is between 1 and 10 ✗   ✗   ✗   CRITICAL (missing in all)
+displays out of stock overlay when stock is 0      ✗   ✗   ✗   CRITICAL (missing in all)
+displays product rating correctly                  ✗   ✗   ✗   CRITICAL (missing in all)
+div                                                ✗   ✗   ✗   CRITICAL (missing in all)
+en-US                                              ✗   ✗   ✗   CRITICAL (missing in all)
+errorBoundary.details                              ✗   ✗   ✓   PARTIAL             
+errorBoundary.message                              ✗   ✗   ✓   PARTIAL             
+errorBoundary.title                                ✗   ✗   ✓   PARTIAL             
+fa-IR                                              ✗   ✗   ✗   CRITICAL (missing in all)
+false                                              ✗   ✗   ✗   CRITICAL (missing in all)
+faq.a1                                             ✗   ✗   ✓   PARTIAL             
+faq.a10                                            ✗   ✗   ✓   PARTIAL             
+faq.a11                                            ✗   ✗   ✓   PARTIAL             
+faq.a12                                            ✗   ✗   ✓   PARTIAL             
+faq.a2                                             ✗   ✗   ✓   PARTIAL             
+faq.a3                                             ✗   ✗   ✓   PARTIAL             
+faq.a4                                             ✗   ✗   ✓   PARTIAL             
+faq.a5                                             ✗   ✗   ✓   PARTIAL             
+faq.a6                                             ✗   ✗   ✓   PARTIAL             
+faq.a7                                             ✗   ✗   ✓   PARTIAL             
+faq.a8                                             ✗   ✗   ✓   PARTIAL             
+faq.a9                                             ✗   ✗   ✓   PARTIAL             
+faq.contact_support                                ✗   ✗   ✓   PARTIAL             
+faq.general                                        ✗   ✗   ✓   PARTIAL             
+faq.payment                                        ✗   ✗   ✓   PARTIAL             
+faq.products                                       ✗   ✗   ✓   PARTIAL             
+faq.q1                                             ✗   ✗   ✓   PARTIAL             
+faq.q10                                            ✗   ✗   ✓   PARTIAL             
+faq.q11                                            ✗   ✗   ✓   PARTIAL             
+faq.q12                                            ✗   ✗   ✓   PARTIAL             
+faq.q2                                             ✗   ✗   ✓   PARTIAL             
+faq.q3                                             ✗   ✗   ✓   PARTIAL             
+faq.q4                                             ✗   ✗   ✓   PARTIAL             
+faq.q5                                             ✗   ✗   ✓   PARTIAL             
+faq.q6                                             ✗   ✗   ✓   PARTIAL             
+faq.q7                                             ✗   ✗   ✓   PARTIAL             
+faq.q8                                             ✗   ✗   ✓   PARTIAL             
+faq.q9                                             ✗   ✗   ✓   PARTIAL             
+faq.shipping                                       ✗   ✗   ✓   PARTIAL             
+faq.still_have_questions                           ✗   ✗   ✓   PARTIAL             
+faq.subtitle                                       ✗   ✗   ✓   PARTIAL             
+faq.title                                          ✗   ✗   ✓   PARTIAL             
+featured                                           ✗   ✗   ✗   CRITICAL (missing in all)
+filters.active                                     ✗   ✗   ✓   PARTIAL             
+filters.applyFilters                               ✗   ✗   ✓   PARTIAL             
+filters.clearAll                                   ✗   ✗   ✓   PARTIAL             
+filters.filters                                    ✗   ✗   ✓   PARTIAL             
+filters.maxPrice                                   ✗   ✗   ✓   PARTIAL             
+filters.minPrice                                   ✗   ✗   ✓   PARTIAL             
+filters.placeholderMax                             ✗   ✗   ✓   PARTIAL             
+filters.placeholderMin                             ✗   ✗   ✓   PARTIAL             
+filters.priceFilterTip                             ✗   ✗   ✓   PARTIAL             
+filters.priceRange                                 ✗   ✗   ✓   PARTIAL             
+filters.tip                                        ✗   ✗   ✓   PARTIAL             
+footer.address                                     ✗   ✗   ✓   PARTIAL             
+footer.allRightsReserved                           ✗   ✗   ✓   PARTIAL             
+footer.company                                     ✗   ✗   ✓   PARTIAL             
+footer.customerService                             ✗   ✗   ✓   PARTIAL             
+footer.description                                 ✗   ✗   ✓   PARTIAL             
+footer.emailAddress                                ✗   ✗   ✓   PARTIAL             
+footer.faq                                         ✗   ✗   ✗   CRITICAL (missing in all)
+footer.phone                                       ✗   ✗   ✓   PARTIAL             
+footer.privacyPolicy                               ✗   ✗   ✓   PARTIAL             
+footer.returns                                     ✗   ✗   ✗   CRITICAL (missing in all)
+footer.shippingInfo                                ✗   ✗   ✗   CRITICAL (missing in all)
+footer.support                                     ✗   ✗   ✗   CRITICAL (missing in all)
+footer.termsOfService                              ✗   ✗   ✓   PARTIAL             
+formats currency correctly                         ✗   ✗   ✗   CRITICAL (missing in all)
+handles click on product card link                 ✗   ✗   ✗   CRITICAL (missing in all)
+handles large discount (over 100%) gracefully      ✗   ✗   ✗   CRITICAL (missing in all)
+handles missing product image gracefully           ✗   ✗   ✗   CRITICAL (missing in all)
+handles negative discount value gracefully         ✗   ✗   ✗   CRITICAL (missing in all)
+handles product with no category                   ✗   ✗   ✗   CRITICAL (missing in all)
+handles product with no rating                     ✗   ✗   ✗   CRITICAL (missing in all)
+handles zero stock correctly                       ✗   ✗   ✗   CRITICAL (missing in all)
+help.account                                       ✗   ✗   ✓   PARTIAL             
+help.account_desc                                  ✗   ✗   ✓   PARTIAL             
+help.available                                     ✗   ✗   ✓   PARTIAL             
+help.chat                                          ✗   ✗   ✓   PARTIAL             
+help.chat_desc                                     ✗   ✗   ✓   PARTIAL             
+help.contact_us                                    ✗   ✗   ✓   PARTIAL             
+help.email                                         ✗   ✗   ✓   PARTIAL             
+help.hours                                         ✗   ✗   ✓   PARTIAL             
+help.order_support                                 ✗   ✗   ✓   PARTIAL             
+help.order_support_desc                            ✗   ✗   ✓   PARTIAL             
+help.payment                                       ✗   ✗   ✓   PARTIAL             
+help.payment_desc                                  ✗   ✗   ✓   PARTIAL             
+help.phone                                         ✗   ✗   ✓   PARTIAL             
+help.products                                      ✗   ✗   ✓   PARTIAL             
+help.products_desc                                 ✗   ✗   ✓   PARTIAL             
+help.response_time                                 ✗   ✗   ✗   CRITICAL (missing in all)
+help.returns                                       ✗   ✗   ✓   PARTIAL             
+help.returns_desc                                  ✗   ✗   ✓   PARTIAL             
+help.shipping                                      ✗   ✗   ✓   PARTIAL             
+help.shipping_desc                                 ✗   ✗   ✓   PARTIAL             
+help.subtitle                                      ✗   ✗   ✓   PARTIAL             
+help.title                                         ✗   ✗   ✓   PARTIAL             
+home.averageRating                                 ✗   ✗   ✓   PARTIAL             
+home.badge                                         ✗   ✗   ✓   PARTIAL             
+home.ctaButton                                     ✗   ✗   ✓   PARTIAL             
+home.ctaSubtitle                                   ✗   ✗   ✓   PARTIAL             
+home.ctaTitle                                      ✗   ✗   ✓   PARTIAL             
+home.exploreCollection                             ✗   ✗   ✓   PARTIAL             
+home.featuredProducts                              ✗   ✗   ✓   PARTIAL             
+home.featuredProductsSubtitle                      ✗   ✗   ✓   PARTIAL             
+home.freeShipping                                  ✗   ✗   ✓   PARTIAL             
+home.freeShippingDesc                              ✗   ✗   ✓   PARTIAL             
+home.happyCustomers                                ✗   ✗   ✓   PARTIAL             
+home.heroSubtitle                                  ✗   ✗   ✓   PARTIAL             
+home.heroTitle                                     ✗   ✗   ✓   PARTIAL             
+home.learnMore                                     ✗   ✗   ✓   PARTIAL             
+home.noFeaturedProducts                            ✗   ✗   ✓   PARTIAL             
+home.premiumProducts                               ✗   ✗   ✓   PARTIAL             
+home.premiumQuality                                ✗   ✗   ✓   PARTIAL             
+home.premiumQualityDesc                            ✗   ✗   ✓   PARTIAL             
+home.securePayment                                 ✗   ✗   ✓   PARTIAL             
+home.securePaymentDesc                             ✗   ✗   ✓   PARTIAL             
+home.viewAll                                       ✗   ✗   ✓   PARTIAL             
+image.loading                                      ✗   ✗   ✓   PARTIAL             
+image.unavailable                                  ✗   ✗   ✓   PARTIAL             
+languageChanged                                    ✗   ✗   ✗   CRITICAL (missing in all)
+ltr                                                ✗   ✗   ✗   CRITICAL (missing in all)
+messages.welcome                                   ✗   ✗   ✓   PARTIAL             
+nav.about                                          ✗   ✗   ✓   PARTIAL             
+nav.admin                                          ✗   ✗   ✓   PARTIAL             
+nav.contact                                        ✗   ✗   ✓   PARTIAL             
+nav.orders                                         ✗   ✗   ✗   CRITICAL (missing in all)
+nav.products                                       ✗   ✗   ✓   PARTIAL             
+nav.profile                                        ✗   ✗   ✓   PARTIAL             
+new                                                ✗   ✗   ✗   CRITICAL (missing in all)
+onClick={() => setShowCancelModal(true)}           ✗   ✗   ✗   CRITICAL (missing in all)
+order.${order.status.toLowerCase()}`)}             ✗   ✗   ✗   CRITICAL (missing in all)
+order.${order.status.toLowerCase()}`)}</span>      ✗   ✗   ✗   CRITICAL (missing in all)
+order.${order.status}`)}                           ✗   ✗   ✗   CRITICAL (missing in all)
+order.${selectedStatus}`) })                       ✗   ✗   ✗   CRITICAL (missing in all)
+order.${status}`)}                                 ✗   ✗   ✗   CRITICAL (missing in all)
+order.allOrders                                    ✗   ✗   ✗   CRITICAL (missing in all)
+order.backToOrders                                 ✗   ✗   ✗   CRITICAL (missing in all)
+order.cancelFailed                                 ✗   ✗   ✗   CRITICAL (missing in all)
+order.cancelOrder                                  ✗   ✗   ✗   CRITICAL (missing in all)
+order.cancelOrderConfirm                           ✗   ✗   ✗   CRITICAL (missing in all)
+order.cancelOrderMessage                           ✗   ✗   ✗   CRITICAL (missing in all)
+order.cancelled                                    ✗   ✗   ✗   CRITICAL (missing in all)
+order.cancelling                                   ✗   ✗   ✗   CRITICAL (missing in all)
+order.cashOnDelivery                               ✗   ✗   ✗   CRITICAL (missing in all)
+order.confirmed                                    ✗   ✗   ✗   CRITICAL (missing in all)
+order.continueShopping                             ✗   ✗   ✗   CRITICAL (missing in all)
+order.creditDebitCard                              ✗   ✗   ✗   CRITICAL (missing in all)
+order.date                                         ✗   ✗   ✗   CRITICAL (missing in all)
+order.delivered                                    ✗   ✗   ✗   CRITICAL (missing in all)
+order.deliveryMethod                               ✗   ✗   ✗   CRITICAL (missing in all)
+order.discount                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.each                                         ✗   ✗   ✗   CRITICAL (missing in all)
+order.emailConfirmation                            ✗   ✗   ✗   CRITICAL (missing in all)
+order.expressShipping                              ✗   ✗   ✗   CRITICAL (missing in all)
+order.goHome                                       ✗   ✗   ✗   CRITICAL (missing in all)
+order.items                                        ✗   ✗   ✗   CRITICAL (missing in all)
+order.keepOrder                                    ✗   ✗   ✗   CRITICAL (missing in all)
+order.loadingDetails                               ✗   ✗   ✗   CRITICAL (missing in all)
+order.loadingOrders                                ✗   ✗   ✗   CRITICAL (missing in all)
+order.myOrders                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.nextDayDelivery                              ✗   ✗   ✗   CRITICAL (missing in all)
+order.noFilteredOrders                             ✗   ✗   ✗   CRITICAL (missing in all)
+order.noFilteredOrdersMessage                      ✗   ✗   ✗   CRITICAL (missing in all)
+order.noOrdersYet                                  ✗   ✗   ✗   CRITICAL (missing in all)
+order.noOrdersYetMessage                           ✗   ✗   ✗   CRITICAL (missing in all)
+order.notFound                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.notFoundMessage                              ✗   ✗   ✗   CRITICAL (missing in all)
+order.notFoundTitle                                ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderCancelled                               ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderCancelledMessage                        ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderConfirmed                               ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderDetails                                 ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderItems                                   ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderNumber                                  ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderNumberLabel                             ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderStatus                                  ✗   ✗   ✗   CRITICAL (missing in all)
+order.orderSummary                                 ✗   ✗   ✗   CRITICAL (missing in all)
+order.paymentMethod                                ✗   ✗   ✗   CRITICAL (missing in all)
+order.pending                                      ✗   ✗   ✗   CRITICAL (missing in all)
+order.placedOn                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.processing                                   ✗   ✗   ✗   CRITICAL (missing in all)
+order.quantity                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.receivedMessage                              ✗   ✗   ✗   CRITICAL (missing in all)
+order.shipped                                      ✗   ✗   ✗   CRITICAL (missing in all)
+order.shipping                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.shippingAddress                              ✗   ✗   ✗   CRITICAL (missing in all)
+order.standardShipping                             ✗   ✗   ✗   CRITICAL (missing in all)
+order.startShopping                                ✗   ✗   ✗   CRITICAL (missing in all)
+order.subtotal                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.tax                                          ✗   ✗   ✗   CRITICAL (missing in all)
+order.thankYou                                     ✗   ✗   ✗   CRITICAL (missing in all)
+order.total                                        ✗   ✗   ✗   CRITICAL (missing in all)
+order.trackAndManage                               ✗   ✗   ✗   CRITICAL (missing in all)
+order.viewAllOrders                                ✗   ✗   ✗   CRITICAL (missing in all)
+order.viewDetails                                  ✗   ✗   ✗   CRITICAL (missing in all)
+order.yesCancel                                    ✗   ✗   ✗   CRITICAL (missing in all)
+privacy.changes                                    ✗   ✗   ✓   PARTIAL             
+privacy.changes_title                              ✗   ✗   ✓   PARTIAL             
+privacy.contact                                    ✗   ✗   ✓   PARTIAL             
+privacy.contact_title                              ✗   ✗   ✓   PARTIAL             
+privacy.how                                        ✗   ✗   ✓   PARTIAL             
+privacy.how1                                       ✗   ✗   ✓   PARTIAL             
+privacy.how2                                       ✗   ✗   ✓   PARTIAL             
+privacy.how3                                       ✗   ✗   ✓   PARTIAL             
+privacy.how4                                       ✗   ✗   ✓   PARTIAL             
+privacy.how5                                       ✗   ✗   ✓   PARTIAL             
+privacy.how6                                       ✗   ✗   ✓   PARTIAL             
+privacy.how_title                                  ✗   ✗   ✓   PARTIAL             
+privacy.information                                ✗   ✗   ✓   PARTIAL             
+privacy.information1                               ✗   ✗   ✓   PARTIAL             
+privacy.information2                               ✗   ✗   ✓   PARTIAL             
+privacy.information3                               ✗   ✗   ✓   PARTIAL             
+privacy.information4                               ✗   ✗   ✓   PARTIAL             
+privacy.information5                               ✗   ✗   ✓   PARTIAL             
+privacy.information_title                          ✗   ✗   ✓   PARTIAL             
+privacy.intro                                      ✗   ✗   ✓   PARTIAL             
+privacy.intro_title                                ✗   ✗   ✓   PARTIAL             
+privacy.protection                                 ✗   ✗   ✓   PARTIAL             
+privacy.protection_title                           ✗   ✗   ✓   PARTIAL             
+privacy.retention                                  ✗   ✗   ✓   PARTIAL             
+privacy.retention_title                            ✗   ✗   ✓   PARTIAL             
+privacy.subtitle                                   ✗   ✗   ✓   PARTIAL             
+privacy.title                                      ✗   ✗   ✓   PARTIAL             
+product.addToCart                                  ✗   ✗   ✗   CRITICAL (missing in all)
+product.bestSeller                                 ✗   ✗   ✓   PARTIAL             
+product.featured                                   ✗   ✗   ✓   PARTIAL             
+product.inStock                                    ✗   ✗   ✗   CRITICAL (missing in all)
+product.lowStock                                   ✗   ✗   ✓   PARTIAL             
+product.newArrival                                 ✗   ✗   ✓   PARTIAL             
+product.outOfStock                                 ✗   ✗   ✓   PARTIAL             
+productDetailPage.addToCart                        ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.availability                     ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.backToProducts                   ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.discount                         ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.errorLoading                     ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.inStock                          ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.productNotFound                  ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.quantity                         ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.sku                              ✗   ✗   ✗   CRITICAL (missing in all)
+productDetailPage.uncategorized                    ✗   ✗   ✗   CRITICAL (missing in all)
+productModal.addToCart                             ✗   ✗   ✓   PARTIAL             
+productModal.category                              ✗   ✗   ✓   PARTIAL             
+productModal.general                               ✗   ✗   ✓   PARTIAL             
+productModal.inStock                               ✗   ✗   ✓   PARTIAL             
+productModal.off                                   ✗   ✗   ✓   PARTIAL             
+productModal.quantity                              ✗   ✗   ✓   PARTIAL             
+productModal.sku                                   ✗   ✗   ✓   PARTIAL             
+products.bestsellers_subtitle                      ✗   ✗   ✓   PARTIAL             
+products.bestsellers_title                         ✗   ✗   ✓   PARTIAL             
+products.clearAllFilters                           ✗   ✗   ✗   CRITICAL (missing in all)
+products.clearFilters                              ✗   ✗   ✗   CRITICAL (missing in all)
+products.errorTitle                                ✗   ✗   ✗   CRITICAL (missing in all)
+products.featured_subtitle                         ✗   ✗   ✓   PARTIAL             
+products.featured_title                            ✗   ✗   ✓   PARTIAL             
+products.filtered                                  ✗   ✗   ✗   CRITICAL (missing in all)
+products.loadError                                 ✗   ✗   ✗   CRITICAL (missing in all)
+products.new_arrivals_subtitle                     ✗   ✗   ✓   PARTIAL             
+products.new_arrivals_title                        ✗   ✗   ✓   PARTIAL             
+products.noProductsAvailable                       ✗   ✗   ✗   CRITICAL (missing in all)
+products.noProductsAvailableMessage                ✗   ✗   ✗   CRITICAL (missing in all)
+products.noProductsFound                           ✗   ✗   ✗   CRITICAL (missing in all)
+products.noProductsFoundMessage                    ✗   ✗   ✗   CRITICAL (missing in all)
+products.subtitle                                  ✗   ✗   ✗   CRITICAL (missing in all)
+products.title                                     ✗   ✗   ✗   CRITICAL (missing in all)
+products.tryAgain                                  ✗   ✗   ✗   CRITICAL (missing in all)
+profile.cancel                                     ✗   ✗   ✗   CRITICAL (missing in all)
+profile.cannotBeChanged                            ✗   ✗   ✗   CRITICAL (missing in all)
+profile.change                                     ✗   ✗   ✗   CRITICAL (missing in all)
+profile.changePassword                             ✗   ✗   ✗   CRITICAL (missing in all)
+profile.changePasswordError                        ✗   ✗   ✗   CRITICAL (missing in all)
+profile.changePasswordHint                         ✗   ✗   ✗   CRITICAL (missing in all)
+profile.confirmNewPassword                         ✗   ✗   ✗   CRITICAL (missing in all)
+profile.currentPassword                            ✗   ✗   ✗   CRITICAL (missing in all)
+profile.delivered                                  ✗   ✗   ✗   CRITICAL (missing in all)
+profile.edit                                       ✗   ✗   ✗   CRITICAL (missing in all)
+profile.emailAddress                               ✗   ✗   ✗   CRITICAL (missing in all)
+profile.fillAllPasswordFields                      ✗   ✗   ✗   CRITICAL (missing in all)
+profile.fullName                                   ✗   ✗   ✗   CRITICAL (missing in all)
+profile.goHome                                     ✗   ✗   ✗   CRITICAL (missing in all)
+profile.joined                                     ✗   ✗   ✗   CRITICAL (missing in all)
+profile.loadingProfile                             ✗   ✗   ✗   CRITICAL (missing in all)
+profile.newPassword                                ✗   ✗   ✗   CRITICAL (missing in all)
+profile.notFound                                   ✗   ✗   ✗   CRITICAL (missing in all)
+profile.notSet                                     ✗   ✗   ✗   CRITICAL (missing in all)
+profile.orderStatistics                            ✗   ✗   ✗   CRITICAL (missing in all)
+profile.passwordChanged                            ✗   ✗   ✗   CRITICAL (missing in all)
+profile.passwordMinLength                          ✗   ✗   ✗   CRITICAL (missing in all)
+profile.passwordsDoNotMatch                        ✗   ✗   ✗   CRITICAL (missing in all)
+profile.pending                                    ✗   ✗   ✗   CRITICAL (missing in all)
+profile.personalInfo                               ✗   ✗   ✗   CRITICAL (missing in all)
+profile.phoneNumber                                ✗   ✗   ✗   CRITICAL (missing in all)
+profile.phonePlaceholder                           ✗   ✗   ✗   CRITICAL (missing in all)
+profile.profileUpdated                             ✗   ✗   ✗   CRITICAL (missing in all)
+profile.save                                       ✗   ✗   ✗   CRITICAL (missing in all)
+profile.saving                                     ✗   ✗   ✗   CRITICAL (missing in all)
+profile.subtitle                                   ✗   ✗   ✗   CRITICAL (missing in all)
+profile.title                                      ✗   ✗   ✗   CRITICAL (missing in all)
+profile.totalOrders                                ✗   ✗   ✗   CRITICAL (missing in all)
+profile.totalSpent                                 ✗   ✗   ✗   CRITICAL (missing in all)
+profile.updatePassword                             ✗   ✗   ✗   CRITICAL (missing in all)
+profile.updateProfileError                         ✗   ✗   ✗   CRITICAL (missing in all)
+profile.user                                       ✗   ✗   ✗   CRITICAL (missing in all)
+profile.viewAllOrders                              ✗   ✗   ✗   CRITICAL (missing in all)
+protectedRoute.authRequired                        ✗   ✗   ✓   PARTIAL             
+protectedRoute.loading                             ✗   ✗   ✓   PARTIAL             
+protectedRoute.loginFirst                          ✗   ✗   ✓   PARTIAL             
+protectedRoute.redirecting                         ✗   ✗   ✓   PARTIAL             
+renders correctly when discount is 0               ✗   ✗   ✗   CRITICAL (missing in all)
+renders correctly when discount is undefined       ✗   ✗   ✗   CRITICAL (missing in all)
+renders product information correctly              ✗   ✗   ✗   CRITICAL (missing in all)
+returns.conditions                                 ✗   ✗   ✓   PARTIAL             
+returns.conditions_text                            ✗   ✗   ✓   PARTIAL             
+returns.exchange                                   ✗   ✗   ✓   PARTIAL             
+returns.exchange_text1                             ✗   ✗   ✓   PARTIAL             
+returns.exchange_text2                             ✗   ✗   ✓   PARTIAL             
+returns.exchange_text3                             ✗   ✗   ✓   PARTIAL             
+returns.policy                                     ✗   ✗   ✓   PARTIAL             
+returns.process                                    ✗   ✗   ✓   PARTIAL             
+returns.process_text                               ✗   ✗   ✓   PARTIAL             
+returns.refund                                     ✗   ✗   ✓   PARTIAL             
+returns.refund_text1                               ✗   ✗   ✓   PARTIAL             
+returns.refund_text2                               ✗   ✗   ✓   PARTIAL             
+returns.restriction1                               ✗   ✗   ✓   PARTIAL             
+returns.restriction2                               ✗   ✗   ✓   PARTIAL             
+returns.restriction3                               ✗   ✗   ✓   PARTIAL             
+returns.restriction4                               ✗   ✗   ✓   PARTIAL             
+returns.restrictions                               ✗   ✗   ✓   PARTIAL             
+returns.subtitle                                   ✗   ✗   ✓   PARTIAL             
+returns.timeframe                                  ✗   ✗   ✓   PARTIAL             
+returns.timeframe_text                             ✗   ✗   ✓   PARTIAL             
+returns.title                                      ✗   ✗   ✓   PARTIAL             
+rtl                                                ✗   ✗   ✗   CRITICAL (missing in all)
+script                                             ✗   ✗   ✗   CRITICAL (missing in all)
+search.clearButton                                 ✗   ✗   ✓   PARTIAL             
+search.closeSearch                                 ✗   ✗   ✓   PARTIAL             
+search.error_message                               ✗   ✗   ✓   PARTIAL             
+search.generalCategory                             ✗   ✗   ✓   PARTIAL             
+search.hint                                        ✗   ✗   ✓   PARTIAL             
+search.loading                                     ✗   ✗   ✓   PARTIAL             
+search.new_description                             ✗   ✗   ✓   PARTIAL             
+search.new_title                                   ✗   ✗   ✓   PARTIAL             
+search.noResults                                   ✗   ✗   ✓   PARTIAL             
+search.no_results                                  ✗   ✗   ✓   PARTIAL             
+search.placeholder                                 ✗   ✗   ✓   PARTIAL             
+search.popularProducts                             ✗   ✗   ✓   PARTIAL             
+search.recentSearches                              ✗   ✗   ✓   PARTIAL             
+search.searchPlaceholder                           ✗   ✗   ✓   PARTIAL             
+search.searchResults                               ✗   ✗   ✓   PARTIAL             
+search.submit                                      ✗   ✗   ✓   PARTIAL             
+search.suggestion1                                 ✗   ✗   ✓   PARTIAL             
+search.suggestion2                                 ✗   ✗   ✓   PARTIAL             
+search.suggestion3                                 ✗   ✗   ✓   PARTIAL             
+search.suggestion4                                 ✗   ✗   ✓   PARTIAL             
+search.suggestion5                                 ✗   ✗   ✓   PARTIAL             
+search.tryDifferentKeywords                        ✗   ✗   ✓   PARTIAL             
+shipping.delivery_info                             ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.delivery_text1                            ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.delivery_text2                            ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.domestic                                  ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.domestic_detail1                          ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.domestic_detail2                          ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.domestic_detail3                          ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.domestic_text                             ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.expedited                                 ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.expedited_desc                            ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.expedited_details                         ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.free                                      ✗   ✗   ✓   PARTIAL             
+shipping.international                             ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.international_detail1                     ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.international_detail2                     ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.international_detail3                     ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.international_text                        ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.options                                   ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.priority                                  ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.priority_desc                             ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.priority_details                          ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.progressText                              ✗   ✗   ✓   PARTIAL             
+shipping.qualified                                 ✗   ✗   ✓   PARTIAL             
+shipping.standard                                  ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.standard_desc                             ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.standard_details                          ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.subtitle                                  ✗   ✗   ✗   CRITICAL (missing in all)
+shipping.title                                     ✗   ✗   ✗   CRITICAL (missing in all)
+should add/remove RTL class to body correctly      ✗   ✗   ✗   CRITICAL (missing in all)
+should provide correct initial values for LTR language ✗   ✗   ✗   CRITICAL (missing in all)
+should provide correct initial values for RTL language ✗   ✗   ✗   CRITICAL (missing in all)
+should throw error when useRTL is used outside of RTLProvider ✗   ✗   ✗   CRITICAL (missing in all)
+should toggle RTL correctly                        ✗   ✗   ✗   CRITICAL (missing in all)
+should update document direction when language changes ✗   ✗   ✗   CRITICAL (missing in all)
+shows original price crossed out and discounted price when discount is applied ✗   ✗   ✗   CRITICAL (missing in all)
+shows out of stock alert when trying to add out of stock product to cart ✗   ✗   ✗   CRITICAL (missing in all)
+terms.accuracy                                     ✗   ✗   ✓   PARTIAL             
+terms.accuracy_title                               ✗   ✗   ✓   PARTIAL             
+terms.disclaimer1                                  ✗   ✗   ✓   PARTIAL             
+terms.disclaimer2                                  ✗   ✗   ✓   PARTIAL             
+terms.disclaimer_title                             ✗   ✗   ✓   PARTIAL             
+terms.governing                                    ✗   ✗   ✓   PARTIAL             
+terms.governing_title                              ✗   ✗   ✓   PARTIAL             
+terms.intro                                        ✗   ✗   ✓   PARTIAL             
+terms.intro_title                                  ✗   ✗   ✓   PARTIAL             
+terms.limitations                                  ✗   ✗   ✓   PARTIAL             
+terms.limitations_title                            ✗   ✗   ✓   PARTIAL             
+terms.links                                        ✗   ✗   ✓   PARTIAL             
+terms.links_title                                  ✗   ✗   ✓   PARTIAL             
+terms.modifications                                ✗   ✗   ✓   PARTIAL             
+terms.modifications_title                          ✗   ✗   ✓   PARTIAL             
+terms.subtitle                                     ✗   ✗   ✓   PARTIAL             
+terms.title                                        ✗   ✗   ✓   PARTIAL             
+terms.use1                                         ✗   ✗   ✓   PARTIAL             
+terms.use2                                         ✗   ✗   ✓   PARTIAL             
+terms.use_title                                    ✗   ✗   ✓   PARTIAL             
+theme.switchToDark                                 ✗   ✗   ✓   PARTIAL             
+theme.switchToLight                                ✗   ✗   ✓   PARTIAL             
+true                                               ✗   ✗   ✗   CRITICAL (missing in all)
+uses localized description when available          ✗   ✗   ✗   CRITICAL (missing in all)
+uses localized title when available                ✗   ✗   ✗   CRITICAL (missing in all)
+{/* Order Details */}                              ✗   ✗   ✗   CRITICAL (missing in all)
+{canCancel && (                                    ✗   ✗   ✗   CRITICAL (missing in all)
+}                                                  ✗   ✗   ✗   CRITICAL (missing in all)

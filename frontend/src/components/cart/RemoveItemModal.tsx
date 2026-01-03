@@ -48,7 +48,7 @@ const RemoveItemModal: React.FC<RemoveItemModalProps> = ({
           <button
             onClick={onClose}
             className="absolute top-4 right-4 glass-orange p-2 rounded-xl hover:scale-110 transition-transform"
-            aria-label="Close modal"
+            aria-label={t('buttons.closeModal')}
           >
             <X className="w-5 h-5 text-orange-600 dark:text-orange-400" />
           </button>

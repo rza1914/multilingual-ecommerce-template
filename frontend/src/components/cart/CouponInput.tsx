@@ -78,7 +78,7 @@ const CouponInput: React.FC = () => {
           <button
             onClick={handleRemove}
             className="glass-orange p-2 rounded-lg hover:scale-110 transition-transform"
-            aria-label="Remove coupon"
+            aria-label={t('buttons.removeCoupon')}
           >
             <X className="w-4 h-4 text-red-500" />
           </button>

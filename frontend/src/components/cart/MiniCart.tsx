@@ -91,7 +91,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                          hover:border-orange-500
                          transition-all duration-200
                          shadow-lg hover:shadow-orange-500/20"
-              aria-label="Close cart"
+              aria-label={t('buttons.closeCart')}
             >
               <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
             </button>
@@ -242,7 +242,7 @@ export default function MiniCart({ isOpen, onClose }: MiniCartProps) {
                                  border-2 border-transparent hover:border-red-200 dark:hover:border-red-800
                                  transition-colors
                                  group flex-shrink-0"
-                        aria-label="Remove item"
+                        aria-label={t('buttons.removeItem')}
                       >
                         <Trash2 className="w-5 h-5 text-gray-400 group-hover:text-red-500" />
                       </button>

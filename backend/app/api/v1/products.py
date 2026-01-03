@@ -1,193 +1,280 @@
-from typing import Any, List, Optional, Dict
-from fastapi import APIRouter, Depends, HTTPException, status, Query, File, UploadFile
+"""
+Products API Endpoints
+
+This module provides REST API endpoints for product management including:
+- List all products with filtering and pagination
+- Get single product by ID
+- Create, update, and delete products (admin only)
+"""
+
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
-from sqlalchemy import func, and_, or_
+from sqlalchemy.exc import SQLAlchemyError
+import logging
 
-from ...core.auth import get_current_active_user, get_current_admin_user
-from ...database import get_db
-from ...models.user import User
-from ...models.product import Product as ProductModel
-from ...schemas.product import Product, ProductCreate, ProductUpdate
-from ...services.recommendation_service import RecommendationService
+from app.database import get_db
+from app.models.product import Product
+from app.schemas.product import ProductCreate, ProductUpdate, ProductResponse
+from app.core.auth import get_current_user, get_current_admin_user
+from app.models.user import User
 
-router = APIRouter()
+# Configure logging
+logger = logging.getLogger(__name__)
 
-@router.get("/", response_model=List[Product])
+router = APIRouter(
+    tags=["products"],
+    responses={404: {"description": "Not found"}},
+)
+
+
+@router.get("/", response_model=List[ProductResponse])
 def read_products(
-    db: Session = Depends(get_db),
-    skip: int = 0,
-    limit: int = 100,
-    category: Optional[str] = Query(None),
-    search: Optional[str] = Query(None),
-    is_active: Optional[bool] = Query(True),
-    is_featured: Optional[bool] = Query(None)
-) -> Any:
-    query = db.query(ProductModel)
+    skip: int = Query(0, ge=0, description="Number of records to skip"),
+    limit: int = Query(100, ge=1, le=1000, description="Maximum number of records to return"),
+    category: Optional[str] = Query(None, description="Filter by category"),
+    featured: Optional[bool] = Query(None, description="Filter by featured status"),
+    min_price: Optional[float] = Query(None, ge=0, description="Minimum price filter"),
+    max_price: Optional[float] = Query(None, ge=0, description="Maximum price filter"),
+    search: Optional[str] = Query(None, description="Search in title and description"),
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve a list of products with optional filtering.
+    
+    - **skip**: Number of records to skip for pagination
+    - **limit**: Maximum number of records to return
+    - **category**: Filter products by category
+    - **featured**: Filter by featured status (true/false)
+    - **min_price**: Minimum price filter
+    - **max_price**: Maximum price filter
+    - **search**: Search term for title/description
+    """
+    try:
+        # Start with base query
+        query = db.query(Product)
+        
+        # Try to filter by is_active, but handle case where column doesn't exist
+        try:
+            query = query.filter(Product.is_active == True)
+        except SQLAlchemyError as e:
+            # Column might not exist in database, log and continue without filter
+            logger.warning(f"Could not filter by is_active: {e}")
+            # Continue without is_active filter
+            query = db.query(Product)
+        
+        # Apply optional filters
+        if category:
+            query = query.filter(Product.category == category)
+        
+        if featured is not None:
+            try:
+                query = query.filter(Product.is_featured == featured)
+            except SQLAlchemyError:
+                logger.warning("Could not filter by is_featured")
+        else:
+            # If featured is not specified, try to filter by is_featured if column exists
+            try:
+                query = query.filter(Product.is_featured == False)
+            except SQLAlchemyError:
+                # Column doesn't exist, skip filter
+                pass
 
-    if category:
-        query = query.filter(ProductModel.category == category)
+        if min_price is not None:
+            query = query.filter(Product.price >= min_price)
+        
+        if max_price is not None:
+            query = query.filter(Product.price <= max_price)
+        
+        if search:
+            search_term = f"%{search}%"
+            query = query.filter(
+                (Product.title.ilike(search_term)) |
+                (Product.description.ilike(search_term))
+            )
+        
+        # Execute query with pagination
+        products = query.offset(skip).limit(limit).all()
+        return products
+        
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in read_products: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error occurred while fetching products. Please run database migration."
+        )
 
-    if search:
-        query = query.filter(ProductModel.title.contains(search))
 
-    if is_active is not None:
-        query = query.filter(ProductModel.is_active == is_active)
+@router.get("/{product_id}", response_model=ProductResponse)
+def read_product(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve a single product by ID.
+    
+    - **product_id**: The unique identifier of the product
+    """
+    try:
+        product = db.query(Product).filter(Product.id == product_id).first()
+        
+        if product is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Product with id {product_id} not found"
+            )
+        
+        # Check if product is active (if column exists)
+        try:
+            if hasattr(product, 'is_active') and not product.is_active:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"Product with id {product_id} not found"
+                )
+        except AttributeError:
+            pass  # Column doesn't exist, skip check
+        
+        return product
+        
+    except HTTPException:
+        raise
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in read_product: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error occurred while fetching product"
+        )
 
-    if is_featured is not None:
-        query = query.filter(ProductModel.is_featured == is_featured)
 
-    products = query.offset(skip).limit(limit).all()
-    return products
-
-@router.post("/", response_model=Product)
+@router.post("/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
 def create_product(
     product: ProductCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
-) -> Any:
-    db_product = ProductModel(
-        **product.dict(),
-        owner_id=current_user.id
-    )
-    db.add(db_product)
-    db.commit()
-    db.refresh(db_product)
-    return db_product
-
-@router.get("/{product_id}", response_model=Product)
-def read_product(
-    product_id: int,
-    db: Session = Depends(get_db)
-) -> Any:
-    product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
-    if not product:
-        raise HTTPException(
-            status_code=404,
-            detail="Product not found"
-        )
-    return product
-
-@router.get("/{product_id}/recommendations",
-            summary="Get smart product recommendations",
-            description="Get related, accessory, upsell, and downsell product recommendations for a specific product")
-async def get_product_recommendations(
-    product_id: int,
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-) -> Dict[str, Any]:
+):
     """
-    Get product recommendations based on the current product and user preferences.
+    Create a new product. Requires admin privileges.
     
-    The endpoint:
-    1. Takes the current product ID
-    2. Uses the authenticated user's history (if available)
-    3. Applies recommendation algorithms
-    4. Returns different types of recommendations with explanations
+    - **product**: Product data to create
     """
     try:
-        # Initialize the recommendation service
-        recommendation_service = RecommendationService(db, current_user.id)
+        db_product = Product(**product.model_dump())
+        db_product.owner_id = current_user.id
         
-        # Get recommendations
-        recommendations = recommendation_service.get_recommendations(product_id)
+        db.add(db_product)
+        db.commit()
+        db.refresh(db_product)
         
-        return recommendations
+        logger.info(f"Product created: {db_product.id} by user {current_user.id}")
+        return db_product
         
-    except HTTPException:
-        # Re-raise HTTP exceptions as-is
-        raise
-    except Exception as e:
-        # Log the error
-        print(f"Error processing recommendations: {str(e)}")
+    except SQLAlchemyError as e:
+        db.rollback()
+        logger.error(f"Database error in create_product: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while processing recommendations"
+            detail="Database error occurred while creating product"
         )
 
 
-@router.post("/search-by-image",
-             summary="Search products by image",
-             description="Upload an image to find similar products in the store")
-async def search_products_by_image(
-    image_data: Dict[str, str],
-    db: Session = Depends(get_db)
-) -> Dict[str, Any]:
-    """
-    Search for products using an image.
-    
-    The endpoint:
-    1. Takes a base64 encoded image
-    2. Analyzes the image with AI Vision
-    3. Extracts product attributes
-    4. Finds similar products in the database
-    5. Returns results with similarity scores
-    """
-    from ...services.image_search_service import ImageSearchService
-    
-    try:
-        # Validate required fields
-        if "image" not in image_data:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Missing image data"
-            )
-        
-        # Initialize the image search service
-        image_search_service = ImageSearchService(db)
-        
-        # Perform the image search
-        results = await image_search_service.search_by_image(image_data["image"])
-        
-        return results
-        
-    except HTTPException:
-        # Re-raise HTTP exceptions as-is
-        raise
-    except Exception as e:
-        # Log the error
-        print(f"Error in image search: {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while processing the image search"
-        )
-
-
-@router.put("/{product_id}", response_model=Product)
+@router.put("/{product_id}", response_model=ProductResponse)
 def update_product(
     product_id: int,
-    product_update: ProductUpdate,
+    product: ProductUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
-) -> Any:
-    product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
-    if not product:
+):
+    """
+    Update an existing product. Requires admin privileges.
+    
+    - **product_id**: The unique identifier of the product to update
+    - **product**: Updated product data
+    """
+    try:
+        db_product = db.query(Product).filter(Product.id == product_id).first()
+        
+        if db_product is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Product with id {product_id} not found"
+            )
+        
+        # Update only provided fields
+        update_data = product.model_dump(exclude_unset=True)
+        for field, value in update_data.items():
+            setattr(db_product, field, value)
+        
+        db.commit()
+        db.refresh(db_product)
+        
+        logger.info(f"Product updated: {product_id} by user {current_user.id}")
+        return db_product
+        
+    except HTTPException:
+        raise
+    except SQLAlchemyError as e:
+        db.rollback()
+        logger.error(f"Database error in update_product: {e}")
         raise HTTPException(
-            status_code=404,
-            detail="Product not found"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error occurred while updating product"
         )
 
-    update_data = product_update.dict(exclude_unset=True)
-    for field, value in update_data.items():
-        setattr(product, field, value)
 
-    db.add(product)
-    db.commit()
-    db.refresh(product)
-    return product
-
-@router.delete("/{product_id}", response_model=Product)
+@router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(
     product_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
-) -> Any:
-    product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
-    if not product:
+):
+    """
+    Delete a product. Requires admin privileges.
+    
+    - **product_id**: The unique identifier of the product to delete
+    """
+    try:
+        db_product = db.query(Product).filter(Product.id == product_id).first()
+        
+        if db_product is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Product with id {product_id} not found"
+            )
+        
+        db.delete(db_product)
+        db.commit()
+        
+        logger.info(f"Product deleted: {product_id} by user {current_user.id}")
+        return None
+        
+    except HTTPException:
+        raise
+    except SQLAlchemyError as e:
+        db.rollback()
+        logger.error(f"Database error in delete_product: {e}")
         raise HTTPException(
-            status_code=404,
-            detail="Product not found"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error occurred while deleting product"
         )
 
-    db.delete(product)
-    db.commit()
-    return product
+
+@router.get("/categories/list", response_model=List[str])
+def get_categories(
+    db: Session = Depends(get_db)
+):
+    """
+    Get a list of all unique product categories.
+    """
+    try:
+        categories = db.query(Product.category).distinct().filter(
+            Product.category.isnot(None)
+        ).all()
+        
+        return [cat[0] for cat in categories if cat[0]]
+        
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in get_categories: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error occurred while fetching categories"
+        )

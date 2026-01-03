@@ -586,11 +586,16 @@
       "address": "123 Luxury Ave, New York, NY 10001",
       "allRightsReserved": "All rights reserved.",
       "company": "Company",
+      "cookiePolicy": "Cookie Policy",
       "customerService": "Customer Service",
       "description": "Premium e-commerce platform offering luxury products with exceptional customer service.",
       "emailAddress": "hello@luxstore.com",
+      "faq": "FAQ",
       "phone": "+1 (234) 567-890",
       "privacyPolicy": "Privacy Policy",
+      "returns": "Returns",
+      "shippingInfo": "Shipping Info",
+      "support": "Support",
       "termsOfService": "Terms of Service"
     },
     "home": {
@@ -687,6 +692,11 @@
     "theme": {
       "switchToDark": "Switch to dark mode",
       "switchToLight": "Switch to light mode"
+    },
+    "footer": {
+      "careers": "Careers",
+      "blog": "Blog",
+      "cookiePolicy": "Cookie Policy"
     }
   }
 }

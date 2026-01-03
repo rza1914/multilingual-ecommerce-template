@@ -191,7 +191,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             {t('common.loading')}
           </>
         ) : (
-          t('auth.login')
+          t('auth.login.title')
         )}
       </button>
 

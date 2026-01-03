@@ -43,7 +43,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
               : 'text-gray-400 cursor-not-allowed')}
           transition-colors focus:outline-none focus:ring-2
         `}
-        aria-label="AI Actions"
+        aria-label={t('buttons.aiActions')}
         tabIndex={isAuthenticated ? 0 : -1}
       >
         <Plus className="w-5 h-5" aria-hidden="true" />
@@ -66,7 +66,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
                 : 'bg-gray-100 text-gray-900 border-gray-200')} // Allow guest users to type
             border focus:outline-none focus:ring-2 focus:ring-orange-500
           `}
-          aria-label="Type your message"
+          aria-label={t('buttons.typeMessage')}
           role="textbox"
           tabIndex={0}
           disabled={false}  // Allow guest users to type
@@ -84,7 +84,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
               : 'text-gray-400'}
           transition-opacity
         `}
-        aria-label="Send message"
+        aria-label={t('buttons.sendMessage')}
         tabIndex={0}  // Allow guest users to send
       >
         <Send className="w-5 h-5" aria-hidden="true" />

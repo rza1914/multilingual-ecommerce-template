@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from app.api.v1 import api_router
-from app.api.v1.websocket_endpoints import router as websocket_router  # Use the proper WebSocket endpoints with JWT auth
 from app.core.config import settings
 
 app = FastAPI(
@@ -41,8 +40,6 @@ app.add_middleware(
 # ═══════════════════════════════════════════════════════════
 
 app.include_router(api_router, prefix="/api/v1")
-# Include WebSocket router with /ws prefix to match frontend expectations
-app.include_router(websocket_router, prefix="/ws")  # Use the router with JWT authentication
 
 # ═══════════════════════════════════════════════════════════
 # HEALTH & ROOT

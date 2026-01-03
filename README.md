@@ -61,10 +61,32 @@ source venv/bin/activate  # On Windows: venv\\Scripts\\activate
 pip install -r requirements.txt
 cp .env.example .env
 # Edit .env with your settings
-alembic upgrade head
-python create_admin.py
+python init_db.py  # Initialize the database
 uvicorn app.main:app --reload
 ```
+
+### Database Migration (if needed)
+If you encounter database schema errors like `no such column: products.is_active`, run the migration script:
+
+```bash
+cd backend
+python run_migration.py
+```
+
+This will:
+1. Check your current database schema
+2. Add any missing columns to the products table
+3. Show you the updated schema
+
+### First-Time Database Setup
+For first-time setup, initialize the database:
+
+```bash
+cd backend
+python init_db.py
+```
+
+This creates all required tables in the database.
 
 ### Frontend Setup
 ```bash
@@ -297,3 +319,34 @@ server {
 
 ## License
 Commercial License - Single Application
+
+## 🌐 Internationalization (i18n)
+
+This project uses [i18next](https://www.i18next.com/) for internationalization with full RTL support for Persian.
+
+### Features
+
+- ✅ Nested translation keys with dot notation (`auth.validation.required`)
+- ✅ TypeScript support with compile-time key validation
+- ✅ RTL/LTR automatic switching
+- ✅ Development-time missing key detection
+- ✅ Language persistence in localStorage
+
+### Quick Start
+
+```typescript
+import { useTranslation } from 'react-i18next';
+
+function LoginForm() {
+  const { t } = useTranslation();
+
+  return (
+    <form>
+      <label>{t('auth.email')}</label>
+      <button>{t('auth.login')}</button>
+    </form>
+  );
+}
+```
+
+See [SETUP.md](./SETUP.md#i18n-configuration) for detailed configuration.

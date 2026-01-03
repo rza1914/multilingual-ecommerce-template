@@ -84,7 +84,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
           <button
             onClick={onClose}
             className="absolute top-4 right-4 glass-orange p-2 rounded-xl hover:scale-110 transition-transform z-10"
-            aria-label="Close modal"
+            aria-label={t('buttons.closeModal')}
           >
             <X className="w-6 h-6 text-orange-600 dark:text-orange-400" />
           </button>
@@ -112,7 +112,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                     : 'text-gray-700 dark:text-gray-300 hover:bg-white/20 dark:hover:bg-black/20'
                 }`}
               >
-                {t('auth.login')}
+                {t('auth.login.title')}
               </button>
               <button
                 onClick={() => setActiveTab('signup')}
@@ -154,7 +154,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                     onClick={() => setActiveTab('login')}
                     className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
                   >
-                    {t('auth.login')}
+                    {t('auth.login.title')}
                   </button>
                 </p>
               )}

@@ -199,7 +199,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               }`}
               onClick={handleQuickAdd}
               disabled={isOutOfStock}
-              aria-label="Add to cart"
+              aria-label={t('buttons.addToCart')}
             >
               <ShoppingCart
                 className="w-6 h-6 text-orange-600 dark:text-orange-400 group-hover/btn:text-orange-700 dark:group-hover/btn:text-orange-300 transition-colors"

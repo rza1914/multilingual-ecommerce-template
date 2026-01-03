@@ -1,0 +1,1519 @@
+# Translation Keys Comparison Report
+
+## Summary
+- Used keys: 412
+- English keys: 894
+- Farsi keys: 890
+- Arabic keys: 890
+
+## Missing Keys in English
+Total missing: 373
+- admin.activeCheckbox
+- admin.addFirstProduct
+- admin.addProduct
+- admin.categoryBeauty
+- admin.categoryBooks
+- admin.categoryClothing
+- admin.categoryElectronics
+- admin.categoryFood
+- admin.categoryHome
+- admin.categoryLabel
+- admin.categorySports
+- admin.categoryToys
+- admin.clearButton
+- admin.createButton
+- admin.createProduct
+- admin.deleteProductConfirm
+- admin.deleteProductError
+- admin.discountPriceLabel
+- admin.editProduct
+- admin.featuredCheckbox
+- admin.imageURLLabel
+- admin.imageURLPlaceholder
+- admin.loadingProducts
+- admin.noProductsFound
+- admin.priceLabel
+- admin.productDescLabel
+- admin.productDescPlaceholder
+- admin.productManagement
+- admin.productManagementDesc
+- admin.productTitleLabel
+- admin.productTitlePlaceholder
+- admin.saveProductError
+- admin.saving
+- admin.searchButton
+- admin.searchProductsPlaceholder
+- admin.selectCategory
+- admin.tagsLabel
+- admin.tagsPlaceholder
+- admin.tryDifferentSearch
+- admin.updateButton
+- auth agreeToTerms
+- auth confirmPassword
+- auth confirmPasswordRequired
+- auth createAccount
+- auth dontHaveAccount
+- auth email
+- auth emailInvalid
+- auth emailRequired
+- auth forgotPassword
+- auth haveAccount
+- auth login
+- auth loginPageTitle
+- auth loginSuccess
+- auth name
+- auth nameMin
+- auth nameRequired
+- auth noAccount
+- auth orContinueWith
+- auth orSignUpWith
+- auth password
+- auth passwordMedium
+- auth passwordMin
+- auth passwordMismatch
+- auth passwordRequired
+- auth passwordStrength
+- auth passwordStrong
+- auth passwordWeak
+- auth register
+- auth registerPageTitle
+- auth signInToAccount
+- auth signupSuccess
+- auth submit
+- auth termsRequired
+- auth welcomeBack
+- buttons aiActions
+- buttons buyNow
+- buttons changeLanguage
+- buttons closeCart
+- buttons closeFilters
+- buttons closeModal
+- buttons closeNotification
+- buttons decreaseQuantity
+- buttons increaseQuantity
+- buttons login
+- buttons menu
+- buttons openCart
+- buttons removeCoupon
+- buttons removeItem
+- buttons search
+- buttons send
+- buttons sendMessage
+- buttons toggleFilters
+- buttons typeMessage
+- cart continueShopping
+- cart empty
+- cart emptyMessage
+- cart insufficientStock
+- cart itemInCart
+- cart itemsInCart
+- cart subtotal
+- cart title
+- cart total
+- chat add_to_cart
+- chat addedToCart
+- chat analyzeImage
+- chat analyzeProduct
+- chat assistant
+- chat assistantName
+- chat attachment
+- chat brand
+- chat cannotAddToCart
+- chat category
+- chat chat_placeholder
+- chat choices
+- chat clear
+- chat closeChat
+- chat compare
+- chat compareProducts
+- chat comparison
+- chat connecting
+- chat copied
+- chat copy
+- chat description
+- chat details
+- chat error
+- chat features
+- chat guest_mode
+- chat imageAlt
+- chat intro
+- chat lowStock
+- chat maxSize
+- chat new_description
+- chat new_title
+- chat noRecommendations
+- chat offline
+- chat online
+- chat options
+- chat outOfStock
+- chat price
+- chat priceEstimation
+- chat productInfo
+- chat productNotFound
+- chat product_details
+- chat properties
+- chat recommendations
+- chat relatedProducts
+- chat retry
+- chat selectOption
+- chat selectProduct
+- chat send
+- chat similarProducts
+- chat specifications
+- chat suggestions
+- chat supportedFormats
+- chat typing
+- chat uploadComplete
+- chat uploadFailed
+- chat user
+- chat welcome
+- checkout.addressPlaceholder
+- checkout.addressRequired
+- checkout.backToCart
+- checkout.browseProducts
+- checkout.cardNumberPlaceholder
+- checkout.cardPayment
+- checkout.cardholderNamePlaceholder
+- checkout.city
+- checkout.cityPlaceholder
+- checkout.cityRequired
+- checkout.codPayment
+- checkout.countries.au
+- checkout.countries.ca
+- checkout.countries.uk
+- checkout.countries.us
+- checkout.country
+- checkout.cvvPlaceholder
+- checkout.emailAddress
+- checkout.emailInvalid
+- checkout.emailPlaceholder
+- checkout.emailRequired
+- checkout.emptyCartMessage
+- checkout.emptyCartTitle
+- checkout.expiryDatePlaceholder
+- checkout.expressShipping
+- checkout.fullName
+- checkout.fullNamePlaceholder
+- checkout.fullNameRequired
+- checkout.itemCount
+- checkout.itemCountSingular
+- checkout.nextDayShipping
+- checkout.phoneNumber
+- checkout.phonePlaceholder
+- checkout.phoneRequired
+- checkout.placeOrder
+- checkout.required
+- checkout.shippingAddress
+- checkout.standardShipping
+- checkout.state
+- checkout.statePlaceholder
+- checkout.stateRequired
+- checkout.steps.delivery
+- checkout.steps.payment
+- checkout.steps.review
+- checkout.steps.shipping
+- checkout.streetAddress
+- checkout.subtotal
+- checkout.total
+- checkout.zipCode
+- checkout.zipPlaceholder
+- checkout.zipRequired
+- common.cancel
+- common.edit
+- common.loadingTranslations
+- contact.emailInvalid
+- contact.emailPlaceholder
+- contact.emailRequired
+- contact.getDirections
+- contact.messageMinLength
+- contact.messagePlaceholder
+- contact.messageRequired
+- contact.messageSent
+- contact.subjectPlaceholder
+- contact.subjectRequired
+- coupon apply
+- coupon applying
+- coupon discountApplied
+- coupon enterCode
+- coupon exampleCodes
+- coupon failed
+- coupon freeShipping
+- coupon invalidCode
+- coupon tryTheseCodes
+- errorBoundary details
+- errorBoundary message
+- errorBoundary title
+- filters active
+- filters applyFilters
+- filters clearAll
+- filters filters
+- filters maxPrice
+- filters minPrice
+- filters placeholderMax
+- filters placeholderMin
+- filters priceFilterTip
+- filters priceRange
+- filters tip
+- footer address
+- footer allRightsReserved
+- footer company
+- footer customerService
+- footer description
+- footer emailAddress
+- footer phone
+- footer privacyPolicy
+- footer termsOfService
+- home
+- home averageRating
+- home badge
+- home ctaButton
+- home ctaSubtitle
+- home ctaTitle
+- home exploreCollection
+- home featuredProducts
+- home featuredProductsSubtitle
+- home freeShipping
+- home freeShippingDesc
+- home happyCustomers
+- home heroSubtitle
+- home heroTitle
+- home learnMore
+- home noFeaturedProducts
+- home premiumProducts
+- home premiumQuality
+- home premiumQualityDesc
+- home securePayment
+- home securePaymentDesc
+- home viewAll
+- image loading
+- image unavailable
+- loading
+- loginFirst
+- nav about
+- nav admin
+- nav cart
+- nav contact
+- nav login
+- nav logout
+- nav products
+- nav profile
+- nav register
+- order.cancelled
+- order.delivered
+- order.pending
+- order.processing
+- order.shipped
+- proceedToCheckout
+- product featured
+- product lowStock
+- product outOfStock
+- productModal addToCart
+- productModal category
+- productModal general
+- productModal inStock
+- productModal off
+- productModal quantity
+- productModal sku
+- profile.cancel
+- profile.cannotBeChanged
+- profile.change
+- profile.changePassword
+- profile.changePasswordError
+- profile.changePasswordHint
+- profile.confirmNewPassword
+- profile.currentPassword
+- profile.delivered
+- profile.edit
+- profile.emailAddress
+- profile.fillAllPasswordFields
+- profile.fullName
+- profile.goHome
+- profile.joined
+- profile.loadingProfile
+- profile.newPassword
+- profile.notFound
+- profile.notSet
+- profile.orderStatistics
+- profile.passwordChanged
+- profile.passwordMinLength
+- profile.passwordsDoNotMatch
+- profile.pending
+- profile.personalInfo
+- profile.phoneNumber
+- profile.phonePlaceholder
+- profile.profileUpdated
+- profile.save
+- profile.saving
+- profile.subtitle
+- profile.title
+- profile.totalOrders
+- profile.totalSpent
+- profile.updatePassword
+- profile.updateProfileError
+- profile.user
+- profile.viewAllOrders
+- protectedRoute authRequired
+- redirecting
+- search clearButton
+- search closeSearch
+- search error_message
+- search generalCategory
+- search hint
+- search loading
+- search new_description
+- search new_title
+- search noResults
+- search no_results
+- search placeholder
+- search popularProducts
+- search recentSearches
+- search searchPlaceholder
+- search searchResults
+- search submit
+- search suggestion1
+- search suggestion2
+- search suggestion3
+- search suggestion4
+- search suggestion5
+- search tryDifferentKeywords
+- shipping free
+- shipping progressText
+- shipping qualified
+- theme switchToDark
+- theme switchToLight
+
+## Missing Keys in Farsi
+Total missing: 373
+- admin.activeCheckbox
+- admin.addFirstProduct
+- admin.addProduct
+- admin.categoryBeauty
+- admin.categoryBooks
+- admin.categoryClothing
+- admin.categoryElectronics
+- admin.categoryFood
+- admin.categoryHome
+- admin.categoryLabel
+- admin.categorySports
+- admin.categoryToys
+- admin.clearButton
+- admin.createButton
+- admin.createProduct
+- admin.deleteProductConfirm
+- admin.deleteProductError
+- admin.discountPriceLabel
+- admin.editProduct
+- admin.featuredCheckbox
+- admin.imageURLLabel
+- admin.imageURLPlaceholder
+- admin.loadingProducts
+- admin.noProductsFound
+- admin.priceLabel
+- admin.productDescLabel
+- admin.productDescPlaceholder
+- admin.productManagement
+- admin.productManagementDesc
+- admin.productTitleLabel
+- admin.productTitlePlaceholder
+- admin.saveProductError
+- admin.saving
+- admin.searchButton
+- admin.searchProductsPlaceholder
+- admin.selectCategory
+- admin.tagsLabel
+- admin.tagsPlaceholder
+- admin.tryDifferentSearch
+- admin.updateButton
+- auth agreeToTerms
+- auth confirmPassword
+- auth confirmPasswordRequired
+- auth createAccount
+- auth dontHaveAccount
+- auth email
+- auth emailInvalid
+- auth emailRequired
+- auth forgotPassword
+- auth haveAccount
+- auth login
+- auth loginPageTitle
+- auth loginSuccess
+- auth name
+- auth nameMin
+- auth nameRequired
+- auth noAccount
+- auth orContinueWith
+- auth orSignUpWith
+- auth password
+- auth passwordMedium
+- auth passwordMin
+- auth passwordMismatch
+- auth passwordRequired
+- auth passwordStrength
+- auth passwordStrong
+- auth passwordWeak
+- auth register
+- auth registerPageTitle
+- auth signInToAccount
+- auth signupSuccess
+- auth submit
+- auth termsRequired
+- auth welcomeBack
+- buttons aiActions
+- buttons buyNow
+- buttons changeLanguage
+- buttons closeCart
+- buttons closeFilters
+- buttons closeModal
+- buttons closeNotification
+- buttons decreaseQuantity
+- buttons increaseQuantity
+- buttons login
+- buttons menu
+- buttons openCart
+- buttons removeCoupon
+- buttons removeItem
+- buttons search
+- buttons send
+- buttons sendMessage
+- buttons toggleFilters
+- buttons typeMessage
+- cart continueShopping
+- cart empty
+- cart emptyMessage
+- cart insufficientStock
+- cart itemInCart
+- cart itemsInCart
+- cart subtotal
+- cart title
+- cart total
+- chat add_to_cart
+- chat addedToCart
+- chat analyzeImage
+- chat analyzeProduct
+- chat assistant
+- chat assistantName
+- chat attachment
+- chat brand
+- chat cannotAddToCart
+- chat category
+- chat chat_placeholder
+- chat choices
+- chat clear
+- chat closeChat
+- chat compare
+- chat compareProducts
+- chat comparison
+- chat connecting
+- chat copied
+- chat copy
+- chat description
+- chat details
+- chat error
+- chat features
+- chat guest_mode
+- chat imageAlt
+- chat intro
+- chat lowStock
+- chat maxSize
+- chat new_description
+- chat new_title
+- chat noRecommendations
+- chat offline
+- chat online
+- chat options
+- chat outOfStock
+- chat price
+- chat priceEstimation
+- chat productInfo
+- chat productNotFound
+- chat product_details
+- chat properties
+- chat recommendations
+- chat relatedProducts
+- chat retry
+- chat selectOption
+- chat selectProduct
+- chat send
+- chat similarProducts
+- chat specifications
+- chat suggestions
+- chat supportedFormats
+- chat typing
+- chat uploadComplete
+- chat uploadFailed
+- chat user
+- chat welcome
+- checkout.addressPlaceholder
+- checkout.addressRequired
+- checkout.backToCart
+- checkout.browseProducts
+- checkout.cardNumberPlaceholder
+- checkout.cardPayment
+- checkout.cardholderNamePlaceholder
+- checkout.city
+- checkout.cityPlaceholder
+- checkout.cityRequired
+- checkout.codPayment
+- checkout.countries.au
+- checkout.countries.ca
+- checkout.countries.uk
+- checkout.countries.us
+- checkout.country
+- checkout.cvvPlaceholder
+- checkout.emailAddress
+- checkout.emailInvalid
+- checkout.emailPlaceholder
+- checkout.emailRequired
+- checkout.emptyCartMessage
+- checkout.emptyCartTitle
+- checkout.expiryDatePlaceholder
+- checkout.expressShipping
+- checkout.fullName
+- checkout.fullNamePlaceholder
+- checkout.fullNameRequired
+- checkout.itemCount
+- checkout.itemCountSingular
+- checkout.nextDayShipping
+- checkout.phoneNumber
+- checkout.phonePlaceholder
+- checkout.phoneRequired
+- checkout.placeOrder
+- checkout.required
+- checkout.shippingAddress
+- checkout.standardShipping
+- checkout.state
+- checkout.statePlaceholder
+- checkout.stateRequired
+- checkout.steps.delivery
+- checkout.steps.payment
+- checkout.steps.review
+- checkout.steps.shipping
+- checkout.streetAddress
+- checkout.subtotal
+- checkout.total
+- checkout.zipCode
+- checkout.zipPlaceholder
+- checkout.zipRequired
+- common.cancel
+- common.edit
+- common.loadingTranslations
+- contact.emailInvalid
+- contact.emailPlaceholder
+- contact.emailRequired
+- contact.getDirections
+- contact.messageMinLength
+- contact.messagePlaceholder
+- contact.messageRequired
+- contact.messageSent
+- contact.subjectPlaceholder
+- contact.subjectRequired
+- coupon apply
+- coupon applying
+- coupon discountApplied
+- coupon enterCode
+- coupon exampleCodes
+- coupon failed
+- coupon freeShipping
+- coupon invalidCode
+- coupon tryTheseCodes
+- errorBoundary details
+- errorBoundary message
+- errorBoundary title
+- filters active
+- filters applyFilters
+- filters clearAll
+- filters filters
+- filters maxPrice
+- filters minPrice
+- filters placeholderMax
+- filters placeholderMin
+- filters priceFilterTip
+- filters priceRange
+- filters tip
+- footer address
+- footer allRightsReserved
+- footer company
+- footer customerService
+- footer description
+- footer emailAddress
+- footer phone
+- footer privacyPolicy
+- footer termsOfService
+- home
+- home averageRating
+- home badge
+- home ctaButton
+- home ctaSubtitle
+- home ctaTitle
+- home exploreCollection
+- home featuredProducts
+- home featuredProductsSubtitle
+- home freeShipping
+- home freeShippingDesc
+- home happyCustomers
+- home heroSubtitle
+- home heroTitle
+- home learnMore
+- home noFeaturedProducts
+- home premiumProducts
+- home premiumQuality
+- home premiumQualityDesc
+- home securePayment
+- home securePaymentDesc
+- home viewAll
+- image loading
+- image unavailable
+- loading
+- loginFirst
+- nav about
+- nav admin
+- nav cart
+- nav contact
+- nav login
+- nav logout
+- nav products
+- nav profile
+- nav register
+- order.cancelled
+- order.delivered
+- order.pending
+- order.processing
+- order.shipped
+- proceedToCheckout
+- product featured
+- product lowStock
+- product outOfStock
+- productModal addToCart
+- productModal category
+- productModal general
+- productModal inStock
+- productModal off
+- productModal quantity
+- productModal sku
+- profile.cancel
+- profile.cannotBeChanged
+- profile.change
+- profile.changePassword
+- profile.changePasswordError
+- profile.changePasswordHint
+- profile.confirmNewPassword
+- profile.currentPassword
+- profile.delivered
+- profile.edit
+- profile.emailAddress
+- profile.fillAllPasswordFields
+- profile.fullName
+- profile.goHome
+- profile.joined
+- profile.loadingProfile
+- profile.newPassword
+- profile.notFound
+- profile.notSet
+- profile.orderStatistics
+- profile.passwordChanged
+- profile.passwordMinLength
+- profile.passwordsDoNotMatch
+- profile.pending
+- profile.personalInfo
+- profile.phoneNumber
+- profile.phonePlaceholder
+- profile.profileUpdated
+- profile.save
+- profile.saving
+- profile.subtitle
+- profile.title
+- profile.totalOrders
+- profile.totalSpent
+- profile.updatePassword
+- profile.updateProfileError
+- profile.user
+- profile.viewAllOrders
+- protectedRoute authRequired
+- redirecting
+- search clearButton
+- search closeSearch
+- search error_message
+- search generalCategory
+- search hint
+- search loading
+- search new_description
+- search new_title
+- search noResults
+- search no_results
+- search placeholder
+- search popularProducts
+- search recentSearches
+- search searchPlaceholder
+- search searchResults
+- search submit
+- search suggestion1
+- search suggestion2
+- search suggestion3
+- search suggestion4
+- search suggestion5
+- search tryDifferentKeywords
+- shipping free
+- shipping progressText
+- shipping qualified
+- theme switchToDark
+- theme switchToLight
+
+## Missing Keys in Arabic
+Total missing: 373
+- admin.activeCheckbox
+- admin.addFirstProduct
+- admin.addProduct
+- admin.categoryBeauty
+- admin.categoryBooks
+- admin.categoryClothing
+- admin.categoryElectronics
+- admin.categoryFood
+- admin.categoryHome
+- admin.categoryLabel
+- admin.categorySports
+- admin.categoryToys
+- admin.clearButton
+- admin.createButton
+- admin.createProduct
+- admin.deleteProductConfirm
+- admin.deleteProductError
+- admin.discountPriceLabel
+- admin.editProduct
+- admin.featuredCheckbox
+- admin.imageURLLabel
+- admin.imageURLPlaceholder
+- admin.loadingProducts
+- admin.noProductsFound
+- admin.priceLabel
+- admin.productDescLabel
+- admin.productDescPlaceholder
+- admin.productManagement
+- admin.productManagementDesc
+- admin.productTitleLabel
+- admin.productTitlePlaceholder
+- admin.saveProductError
+- admin.saving
+- admin.searchButton
+- admin.searchProductsPlaceholder
+- admin.selectCategory
+- admin.tagsLabel
+- admin.tagsPlaceholder
+- admin.tryDifferentSearch
+- admin.updateButton
+- auth agreeToTerms
+- auth confirmPassword
+- auth confirmPasswordRequired
+- auth createAccount
+- auth dontHaveAccount
+- auth email
+- auth emailInvalid
+- auth emailRequired
+- auth forgotPassword
+- auth haveAccount
+- auth login
+- auth loginPageTitle
+- auth loginSuccess
+- auth name
+- auth nameMin
+- auth nameRequired
+- auth noAccount
+- auth orContinueWith
+- auth orSignUpWith
+- auth password
+- auth passwordMedium
+- auth passwordMin
+- auth passwordMismatch
+- auth passwordRequired
+- auth passwordStrength
+- auth passwordStrong
+- auth passwordWeak
+- auth register
+- auth registerPageTitle
+- auth signInToAccount
+- auth signupSuccess
+- auth submit
+- auth termsRequired
+- auth welcomeBack
+- buttons aiActions
+- buttons buyNow
+- buttons changeLanguage
+- buttons closeCart
+- buttons closeFilters
+- buttons closeModal
+- buttons closeNotification
+- buttons decreaseQuantity
+- buttons increaseQuantity
+- buttons login
+- buttons menu
+- buttons openCart
+- buttons removeCoupon
+- buttons removeItem
+- buttons search
+- buttons send
+- buttons sendMessage
+- buttons toggleFilters
+- buttons typeMessage
+- cart continueShopping
+- cart empty
+- cart emptyMessage
+- cart insufficientStock
+- cart itemInCart
+- cart itemsInCart
+- cart subtotal
+- cart title
+- cart total
+- chat add_to_cart
+- chat addedToCart
+- chat analyzeImage
+- chat analyzeProduct
+- chat assistant
+- chat assistantName
+- chat attachment
+- chat brand
+- chat cannotAddToCart
+- chat category
+- chat chat_placeholder
+- chat choices
+- chat clear
+- chat closeChat
+- chat compare
+- chat compareProducts
+- chat comparison
+- chat connecting
+- chat copied
+- chat copy
+- chat description
+- chat details
+- chat error
+- chat features
+- chat guest_mode
+- chat imageAlt
+- chat intro
+- chat lowStock
+- chat maxSize
+- chat new_description
+- chat new_title
+- chat noRecommendations
+- chat offline
+- chat online
+- chat options
+- chat outOfStock
+- chat price
+- chat priceEstimation
+- chat productInfo
+- chat productNotFound
+- chat product_details
+- chat properties
+- chat recommendations
+- chat relatedProducts
+- chat retry
+- chat selectOption
+- chat selectProduct
+- chat send
+- chat similarProducts
+- chat specifications
+- chat suggestions
+- chat supportedFormats
+- chat typing
+- chat uploadComplete
+- chat uploadFailed
+- chat user
+- chat welcome
+- checkout.addressPlaceholder
+- checkout.addressRequired
+- checkout.backToCart
+- checkout.browseProducts
+- checkout.cardNumberPlaceholder
+- checkout.cardPayment
+- checkout.cardholderNamePlaceholder
+- checkout.city
+- checkout.cityPlaceholder
+- checkout.cityRequired
+- checkout.codPayment
+- checkout.countries.au
+- checkout.countries.ca
+- checkout.countries.uk
+- checkout.countries.us
+- checkout.country
+- checkout.cvvPlaceholder
+- checkout.emailAddress
+- checkout.emailInvalid
+- checkout.emailPlaceholder
+- checkout.emailRequired
+- checkout.emptyCartMessage
+- checkout.emptyCartTitle
+- checkout.expiryDatePlaceholder
+- checkout.expressShipping
+- checkout.fullName
+- checkout.fullNamePlaceholder
+- checkout.fullNameRequired
+- checkout.itemCount
+- checkout.itemCountSingular
+- checkout.nextDayShipping
+- checkout.phoneNumber
+- checkout.phonePlaceholder
+- checkout.phoneRequired
+- checkout.placeOrder
+- checkout.required
+- checkout.shippingAddress
+- checkout.standardShipping
+- checkout.state
+- checkout.statePlaceholder
+- checkout.stateRequired
+- checkout.steps.delivery
+- checkout.steps.payment
+- checkout.steps.review
+- checkout.steps.shipping
+- checkout.streetAddress
+- checkout.subtotal
+- checkout.total
+- checkout.zipCode
+- checkout.zipPlaceholder
+- checkout.zipRequired
+- common.cancel
+- common.edit
+- common.loadingTranslations
+- contact.emailInvalid
+- contact.emailPlaceholder
+- contact.emailRequired
+- contact.getDirections
+- contact.messageMinLength
+- contact.messagePlaceholder
+- contact.messageRequired
+- contact.messageSent
+- contact.subjectPlaceholder
+- contact.subjectRequired
+- coupon apply
+- coupon applying
+- coupon discountApplied
+- coupon enterCode
+- coupon exampleCodes
+- coupon failed
+- coupon freeShipping
+- coupon invalidCode
+- coupon tryTheseCodes
+- errorBoundary details
+- errorBoundary message
+- errorBoundary title
+- filters active
+- filters applyFilters
+- filters clearAll
+- filters filters
+- filters maxPrice
+- filters minPrice
+- filters placeholderMax
+- filters placeholderMin
+- filters priceFilterTip
+- filters priceRange
+- filters tip
+- footer address
+- footer allRightsReserved
+- footer company
+- footer customerService
+- footer description
+- footer emailAddress
+- footer phone
+- footer privacyPolicy
+- footer termsOfService
+- home
+- home averageRating
+- home badge
+- home ctaButton
+- home ctaSubtitle
+- home ctaTitle
+- home exploreCollection
+- home featuredProducts
+- home featuredProductsSubtitle
+- home freeShipping
+- home freeShippingDesc
+- home happyCustomers
+- home heroSubtitle
+- home heroTitle
+- home learnMore
+- home noFeaturedProducts
+- home premiumProducts
+- home premiumQuality
+- home premiumQualityDesc
+- home securePayment
+- home securePaymentDesc
+- home viewAll
+- image loading
+- image unavailable
+- loading
+- loginFirst
+- nav about
+- nav admin
+- nav cart
+- nav contact
+- nav login
+- nav logout
+- nav products
+- nav profile
+- nav register
+- order.cancelled
+- order.delivered
+- order.pending
+- order.processing
+- order.shipped
+- proceedToCheckout
+- product featured
+- product lowStock
+- product outOfStock
+- productModal addToCart
+- productModal category
+- productModal general
+- productModal inStock
+- productModal off
+- productModal quantity
+- productModal sku
+- profile.cancel
+- profile.cannotBeChanged
+- profile.change
+- profile.changePassword
+- profile.changePasswordError
+- profile.changePasswordHint
+- profile.confirmNewPassword
+- profile.currentPassword
+- profile.delivered
+- profile.edit
+- profile.emailAddress
+- profile.fillAllPasswordFields
+- profile.fullName
+- profile.goHome
+- profile.joined
+- profile.loadingProfile
+- profile.newPassword
+- profile.notFound
+- profile.notSet
+- profile.orderStatistics
+- profile.passwordChanged
+- profile.passwordMinLength
+- profile.passwordsDoNotMatch
+- profile.pending
+- profile.personalInfo
+- profile.phoneNumber
+- profile.phonePlaceholder
+- profile.profileUpdated
+- profile.save
+- profile.saving
+- profile.subtitle
+- profile.title
+- profile.totalOrders
+- profile.totalSpent
+- profile.updatePassword
+- profile.updateProfileError
+- profile.user
+- profile.viewAllOrders
+- protectedRoute authRequired
+- redirecting
+- search clearButton
+- search closeSearch
+- search error_message
+- search generalCategory
+- search hint
+- search loading
+- search new_description
+- search new_title
+- search noResults
+- search no_results
+- search placeholder
+- search popularProducts
+- search recentSearches
+- search searchPlaceholder
+- search searchResults
+- search submit
+- search suggestion1
+- search suggestion2
+- search suggestion3
+- search suggestion4
+- search suggestion5
+- search tryDifferentKeywords
+- shipping free
+- shipping progressText
+- shipping qualified
+- theme switchToDark
+- theme switchToLight
+
+## Keys Missing in All Languages
+Total missing: 373
+- admin.activeCheckbox
+- admin.addFirstProduct
+- admin.addProduct
+- admin.categoryBeauty
+- admin.categoryBooks
+- admin.categoryClothing
+- admin.categoryElectronics
+- admin.categoryFood
+- admin.categoryHome
+- admin.categoryLabel
+- admin.categorySports
+- admin.categoryToys
+- admin.clearButton
+- admin.createButton
+- admin.createProduct
+- admin.deleteProductConfirm
+- admin.deleteProductError
+- admin.discountPriceLabel
+- admin.editProduct
+- admin.featuredCheckbox
+- admin.imageURLLabel
+- admin.imageURLPlaceholder
+- admin.loadingProducts
+- admin.noProductsFound
+- admin.priceLabel
+- admin.productDescLabel
+- admin.productDescPlaceholder
+- admin.productManagement
+- admin.productManagementDesc
+- admin.productTitleLabel
+- admin.productTitlePlaceholder
+- admin.saveProductError
+- admin.saving
+- admin.searchButton
+- admin.searchProductsPlaceholder
+- admin.selectCategory
+- admin.tagsLabel
+- admin.tagsPlaceholder
+- admin.tryDifferentSearch
+- admin.updateButton
+- auth agreeToTerms
+- auth confirmPassword
+- auth confirmPasswordRequired
+- auth createAccount
+- auth dontHaveAccount
+- auth email
+- auth emailInvalid
+- auth emailRequired
+- auth forgotPassword
+- auth haveAccount
+- auth login
+- auth loginPageTitle
+- auth loginSuccess
+- auth name
+- auth nameMin
+- auth nameRequired
+- auth noAccount
+- auth orContinueWith
+- auth orSignUpWith
+- auth password
+- auth passwordMedium
+- auth passwordMin
+- auth passwordMismatch
+- auth passwordRequired
+- auth passwordStrength
+- auth passwordStrong
+- auth passwordWeak
+- auth register
+- auth registerPageTitle
+- auth signInToAccount
+- auth signupSuccess
+- auth submit
+- auth termsRequired
+- auth welcomeBack
+- buttons aiActions
+- buttons buyNow
+- buttons changeLanguage
+- buttons closeCart
+- buttons closeFilters
+- buttons closeModal
+- buttons closeNotification
+- buttons decreaseQuantity
+- buttons increaseQuantity
+- buttons login
+- buttons menu
+- buttons openCart
+- buttons removeCoupon
+- buttons removeItem
+- buttons search
+- buttons send
+- buttons sendMessage
+- buttons toggleFilters
+- buttons typeMessage
+- cart continueShopping
+- cart empty
+- cart emptyMessage
+- cart insufficientStock
+- cart itemInCart
+- cart itemsInCart
+- cart subtotal
+- cart title
+- cart total
+- chat add_to_cart
+- chat addedToCart
+- chat analyzeImage
+- chat analyzeProduct
+- chat assistant
+- chat assistantName
+- chat attachment
+- chat brand
+- chat cannotAddToCart
+- chat category
+- chat chat_placeholder
+- chat choices
+- chat clear
+- chat closeChat
+- chat compare
+- chat compareProducts
+- chat comparison
+- chat connecting
+- chat copied
+- chat copy
+- chat description
+- chat details
+- chat error
+- chat features
+- chat guest_mode
+- chat imageAlt
+- chat intro
+- chat lowStock
+- chat maxSize
+- chat new_description
+- chat new_title
+- chat noRecommendations
+- chat offline
+- chat online
+- chat options
+- chat outOfStock
+- chat price
+- chat priceEstimation
+- chat productInfo
+- chat productNotFound
+- chat product_details
+- chat properties
+- chat recommendations
+- chat relatedProducts
+- chat retry
+- chat selectOption
+- chat selectProduct
+- chat send
+- chat similarProducts
+- chat specifications
+- chat suggestions
+- chat supportedFormats
+- chat typing
+- chat uploadComplete
+- chat uploadFailed
+- chat user
+- chat welcome
+- checkout.addressPlaceholder
+- checkout.addressRequired
+- checkout.backToCart
+- checkout.browseProducts
+- checkout.cardNumberPlaceholder
+- checkout.cardPayment
+- checkout.cardholderNamePlaceholder
+- checkout.city
+- checkout.cityPlaceholder
+- checkout.cityRequired
+- checkout.codPayment
+- checkout.countries.au
+- checkout.countries.ca
+- checkout.countries.uk
+- checkout.countries.us
+- checkout.country
+- checkout.cvvPlaceholder
+- checkout.emailAddress
+- checkout.emailInvalid
+- checkout.emailPlaceholder
+- checkout.emailRequired
+- checkout.emptyCartMessage
+- checkout.emptyCartTitle
+- checkout.expiryDatePlaceholder
+- checkout.expressShipping
+- checkout.fullName
+- checkout.fullNamePlaceholder
+- checkout.fullNameRequired
+- checkout.itemCount
+- checkout.itemCountSingular
+- checkout.nextDayShipping
+- checkout.phoneNumber
+- checkout.phonePlaceholder
+- checkout.phoneRequired
+- checkout.placeOrder
+- checkout.required
+- checkout.shippingAddress
+- checkout.standardShipping
+- checkout.state
+- checkout.statePlaceholder
+- checkout.stateRequired
+- checkout.steps.delivery
+- checkout.steps.payment
+- checkout.steps.review
+- checkout.steps.shipping
+- checkout.streetAddress
+- checkout.subtotal
+- checkout.total
+- checkout.zipCode
+- checkout.zipPlaceholder
+- checkout.zipRequired
+- common.cancel
+- common.edit
+- common.loadingTranslations
+- contact.emailInvalid
+- contact.emailPlaceholder
+- contact.emailRequired
+- contact.getDirections
+- contact.messageMinLength
+- contact.messagePlaceholder
+- contact.messageRequired
+- contact.messageSent
+- contact.subjectPlaceholder
+- contact.subjectRequired
+- coupon apply
+- coupon applying
+- coupon discountApplied
+- coupon enterCode
+- coupon exampleCodes
+- coupon failed
+- coupon freeShipping
+- coupon invalidCode
+- coupon tryTheseCodes
+- errorBoundary details
+- errorBoundary message
+- errorBoundary title
+- filters active
+- filters applyFilters
+- filters clearAll
+- filters filters
+- filters maxPrice
+- filters minPrice
+- filters placeholderMax
+- filters placeholderMin
+- filters priceFilterTip
+- filters priceRange
+- filters tip
+- footer address
+- footer allRightsReserved
+- footer company
+- footer customerService
+- footer description
+- footer emailAddress
+- footer phone
+- footer privacyPolicy
+- footer termsOfService
+- home
+- home averageRating
+- home badge
+- home ctaButton
+- home ctaSubtitle
+- home ctaTitle
+- home exploreCollection
+- home featuredProducts
+- home featuredProductsSubtitle
+- home freeShipping
+- home freeShippingDesc
+- home happyCustomers
+- home heroSubtitle
+- home heroTitle
+- home learnMore
+- home noFeaturedProducts
+- home premiumProducts
+- home premiumQuality
+- home premiumQualityDesc
+- home securePayment
+- home securePaymentDesc
+- home viewAll
+- image loading
+- image unavailable
+- loading
+- loginFirst
+- nav about
+- nav admin
+- nav cart
+- nav contact
+- nav login
+- nav logout
+- nav products
+- nav profile
+- nav register
+- order.cancelled
+- order.delivered
+- order.pending
+- order.processing
+- order.shipped
+- proceedToCheckout
+- product featured
+- product lowStock
+- product outOfStock
+- productModal addToCart
+- productModal category
+- productModal general
+- productModal inStock
+- productModal off
+- productModal quantity
+- productModal sku
+- profile.cancel
+- profile.cannotBeChanged
+- profile.change
+- profile.changePassword
+- profile.changePasswordError
+- profile.changePasswordHint
+- profile.confirmNewPassword
+- profile.currentPassword
+- profile.delivered
+- profile.edit
+- profile.emailAddress
+- profile.fillAllPasswordFields
+- profile.fullName
+- profile.goHome
+- profile.joined
+- profile.loadingProfile
+- profile.newPassword
+- profile.notFound
+- profile.notSet
+- profile.orderStatistics
+- profile.passwordChanged
+- profile.passwordMinLength
+- profile.passwordsDoNotMatch
+- profile.pending
+- profile.personalInfo
+- profile.phoneNumber
+- profile.phonePlaceholder
+- profile.profileUpdated
+- profile.save
+- profile.saving
+- profile.subtitle
+- profile.title
+- profile.totalOrders
+- profile.totalSpent
+- profile.updatePassword
+- profile.updateProfileError
+- profile.user
+- profile.viewAllOrders
+- protectedRoute authRequired
+- redirecting
+- search clearButton
+- search closeSearch
+- search error_message
+- search generalCategory
+- search hint
+- search loading
+- search new_description
+- search new_title
+- search noResults
+- search no_results
+- search placeholder
+- search popularProducts
+- search recentSearches
+- search searchPlaceholder
+- search searchResults
+- search submit
+- search suggestion1
+- search suggestion2
+- search suggestion3
+- search suggestion4
+- search suggestion5
+- search tryDifferentKeywords
+- shipping free
+- shipping progressText
+- shipping qualified
+- theme switchToDark
+- theme switchToLight
+
+## Keys Missing in Some Languages
+### In English and Farsi but not Arabic: 0
+
+### In English and Arabic but not Farsi: 0
+
+### In Farsi and Arabic but not English: 0
+

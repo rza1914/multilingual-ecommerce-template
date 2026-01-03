@@ -16,8 +16,8 @@ const Footer = () => {
     company: [
       { name: t('nav.about'), path: '/about' },
       { name: t('nav.contact'), path: '/contact' },
-      { name: 'Careers', path: '/careers' },
-      { name: 'Blog', path: '/blog' },
+      { name: t('footer.careers'), path: '/careers' },
+      { name: t('footer.blog'), path: '/blog' },
     ],
     support: [
       { name: t('footer.support'), path: '/help' },
@@ -174,7 +174,7 @@ const Footer = () => {
             {t('footer.termsOfService')}
           </Link>
           <Link to="/cookies" className="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
-            Cookie Policy
+            {t('footer.cookiePolicy')}
           </Link>
         </div>
       </div>

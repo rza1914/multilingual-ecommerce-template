@@ -135,7 +135,7 @@ const Header = () => {
           <button
             onClick={() => setIsSearchModalOpen(true)}
             className="hidden md:flex glass-orange p-2.5 rounded-xl hover:scale-110 transition-transform"
-            aria-label="Search"
+            aria-label={t('buttons.search')}
           >
             <Search className="w-5 h-5 text-orange-600 dark:text-orange-400" />
           </button>
@@ -146,7 +146,7 @@ const Header = () => {
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative glass-orange p-2.5 rounded-xl hover:scale-110 transition-transform glow-orange"
-            aria-label="Open cart"
+            aria-label={t('buttons.openCart')}
           >
             <ShoppingCart className="w-5 h-5 text-orange-600 dark:text-orange-400" />
             {getTotalItems() > 0 && (
@@ -242,7 +242,7 @@ const Header = () => {
                 }}
                 className="hidden md:flex glass-orange px-4 py-2 rounded-xl hover:scale-105 transition-transform text-sm font-semibold text-gray-900 dark:text-white"
               >
-                {t('auth.login')}
+                {t('auth.login.title')}
               </button>
               <button
                 onClick={() => {
@@ -266,7 +266,7 @@ const Header = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden glass-orange p-2.5 rounded-xl hover:scale-110 transition-transform"
-            aria-label="Menu"
+            aria-label={t('buttons.menu')}
           >
             {isMobileMenuOpen ? (
               <X className="w-5 h-5 text-orange-600 dark:text-orange-400" />
@@ -358,7 +358,7 @@ const Header = () => {
                     className="px-4 py-3 rounded-2xl font-medium text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all flex items-center gap-2 w-full text-left"
                   >
                     <User className="w-5 h-5" />
-                    {t('auth.login')}
+                    {t('auth.login.title')}
                   </button>
                   <button
                     onClick={() => {

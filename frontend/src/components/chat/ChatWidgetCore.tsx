@@ -148,7 +148,6 @@ export const ChatWidgetCore: React.FC<ChatWidgetCoreProps> = ({
             )}
             {messages.length > 0 && (
               <>
-                {console.log('Current messages state:', messages)}
                 {messages.map((message, index) => {
                   // Properly format the message to ensure it has the right structure
                   const formattedMessage = typeof message === 'string'

@@ -4,7 +4,7 @@ Defines the input/output schemas for the smart search API
 """
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
-from .product import Product  # Import the existing Product schema
+from .product import ProductResponse as Product  # Import the existing ProductResponse schema as Product
 
 
 class SmartSearchQuery(BaseModel):

@@ -7,7 +7,7 @@ import time
 from ...database import get_db
 from ...services.smart_search_service import SmartSearchService
 from ...schemas.smart_search import SmartSearchQuery, SmartSearchResponse, SmartSearchResultItem, SmartSearchExplanation
-from ...schemas.product import Product
+from ...schemas.product import ProductResponse as Product
 
 router = APIRouter()
 

@@ -2,6 +2,31 @@
 
 All notable changes to the Multilingual E-commerce Template will be documented in this file.
 
+## [v1.0.3] - 2025-01-15
+
+### 🐛 Fixed
+
+- Fixed `no such column: products.is_active` database schema mismatch error
+- Added database migration script to add missing columns to products table
+
+### ✨ Added
+
+- `backend/app/migrations/add_missing_columns.py` - Migration script for database schema updates
+- `backend/run_migration.py` - Easy-to-use migration runner script
+- `backend/seed_db.py` - Database seeding script with multilingual sample data
+
+### 🛠️ Changed
+
+- Updated products API with better error handling for missing columns
+- Added graceful fallback when database schema doesn't match model
+
+## [v1.0.1] - 2025-01-15
+
+### 🐛 Fixed
+
+- Fixed database connection issues
+- Improved error handling in API endpoints
+
 ## [v1.0.0] - 2025-11-30
 
 ### 🎯 Initial Release - Production Ready
@@ -12,7 +37,7 @@ This is the initial production-ready release of the Multilingual E-commerce Temp
 
 - **Multilingual Support**: Full i18n support with English, Persian, and Arabic
 - **RTL/LTR Support**: Dynamic RTL/LTR layout switching with CSS optimization
-- **Complete E-commerce Flow**: 
+- **Complete E-commerce Flow**:
   - Product browsing and search
   - Shopping cart functionality
   - Checkout process
@@ -79,7 +104,7 @@ SENTRY_DSN=your_sentry_dsn
 ### 📦 Deployment Instructions
 
 #### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - Python 3.9+
 - PostgreSQL database
 
@@ -107,3 +132,19 @@ SENTRY_DSN=your_sentry_dsn
 - Initial bundle size: 110.10 kB (gzipped: 28.97 kB)
 - Improved loading times by 60%+
 - Enhanced caching with offline capabilities
+
+## 2026-01-03
+
+### Architecture Decisions
+- **i18n Strategy**: Decided to remove `flattenTranslations` and use native i18next nested key support
+- Root cause identified: `flattenTranslations()` was losing deeply nested keys during processing
+
+### Planned Changes
+- Remove `flattenTranslations` function from `src/config/i18n.ts`
+- Update i18n initialization to pass nested JSON directly
+- Add TypeScript type definitions for translation keys (optional enhancement)
+
+### Technical Details
+- i18next natively supports `t('auth.validation.required')` syntax
+- No custom flattening logic needed
+- Configuration requires: `keySeparator: '.'` and `returnObjects: true`

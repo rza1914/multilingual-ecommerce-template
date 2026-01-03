@@ -54,7 +54,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
       <button
         onClick={onToggle}
         className="lg:hidden fixed bottom-6 right-6 z-40 btn-primary p-4 rounded-full shadow-2xl"
-        aria-label="Toggle filters"
+        aria-label={t('buttons.toggleFilters')}
       >
         <Filter className="w-6 h-6" />
         {hasActiveFilters && (
@@ -104,7 +104,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             <button
               onClick={onToggle}
               className="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Close filters"
+              aria-label={t('buttons.closeFilters')}
             >
               <X className="w-5 h-5" />
             </button>
