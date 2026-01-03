@@ -1,6 +1,6 @@
 /**
  * Products Page
- * Browse and filter products with search functionality
+ * Browse and filter products with Smart Search
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -10,9 +10,7 @@ import { Product } from '../types/product.types';
 import * as productService from '../services/product.service';
 import ProductCard from '../components/products/ProductCard';
 import { ProductSkeletonGrid } from '../components/products/ProductSkeleton';
-import SmartSearchBar from '../components/ai/SmartSearchBar'; // Updated import
-import { LegacyWrapper } from '../components/legacy/LegacyWrapper';
-import { MultilingualSmartSearchBar } from '../components/ai/multilingual/MultilingualSmartSearchBar'; // Legacy version
+import SmartSearchBar from '../components/ai/SmartSearchBar';
 import FiltersSidebar from '../components/products/FiltersSidebar';
 import EmptyState from '../components/EmptyState';
 import { useTranslation } from 'react-i18next';
@@ -28,8 +26,6 @@ const ProductsPage = () => {
   const [minPrice, setMinPrice] = useState<number | undefined>();
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  // const [isSmartSearchActive, setIsSmartSearchActive] = useState(false); // Currently unused
-  const [useLegacy, setUseLegacy] = useState(false);
   const [filterType, setFilterType] = useState<'featured' | 'new' | 'bestsellers' | null>(null);
 
   /**
@@ -40,39 +36,29 @@ const ProductsPage = () => {
     setError(null);
 
     try {
-      // Get search from parameter if no explicit query provided
       const search = query !== undefined ? query : searchQuery;
 
-      // Fetch all products first
       let data = await productService.getProducts({
         search: search || undefined,
         minPrice,
         maxPrice,
       });
 
-      // Apply additional filtering based on current filterType state
+      // Apply filtering based on filterType
       if (filterType === 'new') {
-        // Sort by creation date if available, otherwise by ID (newer IDs are newer)
         data = data.sort((a, b) => {
           if (a.created_at && b.created_at) {
             return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-          } else {
-            // Fallback: sort by ID if no creation date
-            return (b.id || 0) - (a.id || 0);
           }
-        }).slice(0, 20); // Limit to 20 newest
+          return (b.id || 0) - (a.id || 0);
+        }).slice(0, 20);
       } else if (filterType === 'bestsellers') {
-        // In a real implementation, you'd sort by sales/quantity sold
-        // For now, we'll simulate: prioritize featured products as bestsellers
         data = data.sort((a, b) => {
-          // Prioritize featured products
           if (a.is_featured && !b.is_featured) return -1;
           if (!a.is_featured && b.is_featured) return 1;
-          // Then sort by rating if available
           return (b.rating || 0) - (a.rating || 0);
         }).slice(0, 20);
       } else if (filterType === 'featured') {
-        // Filter to featured products only
         data = data.filter(product => product.is_featured === true);
       }
 
@@ -84,10 +70,9 @@ const ProductsPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, minPrice, maxPrice, filterType]);
+  }, [searchQuery, minPrice, maxPrice, filterType, t]);
 
-
-  // Handle URL parameters on component mount and when location changes
+  // Handle URL parameters
   useEffect(() => {
     const newParam = searchParams.get('new');
     const bestsellersParam = searchParams.get('bestsellers');
@@ -107,10 +92,8 @@ const ProductsPage = () => {
       setFilterType(newFilterType);
     }
 
-    // Fetch products based on parameters
     fetchProducts();
   }, [location.search, fetchProducts, filterType]);
-
 
   /**
    * Handle price filter
@@ -118,7 +101,7 @@ const ProductsPage = () => {
   const handleFilterChange = useCallback((min?: number, max?: number) => {
     setMinPrice(min);
     setMaxPrice(max);
-    setIsFiltersOpen(false); // Close on mobile
+    setIsFiltersOpen(false);
   }, []);
 
   /**
@@ -144,7 +127,6 @@ const ProductsPage = () => {
     setIsFiltersOpen(!isFiltersOpen);
   };
 
-  // Check if any filters are active
   const hasActiveFilters = searchQuery || minPrice !== undefined || maxPrice !== undefined;
 
   return (
@@ -165,38 +147,16 @@ const ProductsPage = () => {
         </p>
       </div>
 
-      {/* Toggle between legacy and new versions */}
-      <div className="flex justify-center mb-8">
-        <button
-          onClick={() => setUseLegacy(!useLegacy)}
-          className={`px-6 py-3 rounded-lg ${useLegacy ? 'bg-orange-600' : 'bg-gradient-to-r from-orange-500 to-orange-600'} text-white font-medium hover:opacity-90 transition-opacity`}
-        >
-          {useLegacy ? t('common.use_legacy') : t('common.use_new')}
-        </button>
-      </div>
-
-      {/* Smart Search Bar */}
+      {/* Smart Search Bar - No legacy toggle */}
       <div className="max-w-3xl mx-auto mb-8">
-        {useLegacy ? (
-          <LegacyWrapper 
-            component={MultilingualSmartSearchBar} 
-            legacyProps={{ 
-              onSearch: (results: Product[], query?: string) => {
-                setProducts(results);
-                if (query) {
-                  setSearchQuery(query);
-                }
-              } 
-            }} 
-          />
-        ) : (
-          <SmartSearchBar onSearch={(results: Product[], query?: string) => {
+        <SmartSearchBar
+          onSearch={(results: Product[], query?: string) => {
             setProducts(results);
             if (query) {
               setSearchQuery(query);
             }
-          }} />
-        )}
+          }}
+        />
       </div>
 
       {/* Main Content with Sidebar */}
@@ -220,7 +180,7 @@ const ProductsPage = () => {
                 </span>{' '}
                 {t(products.length === 1 ? 'products.productFound' : 'products.productsFound')}
                 {hasActiveFilters && (
-                  <span className="ml-2 text-sm">
+                  <span className="ms-2 text-sm">
                     ({t('products.filtered')})
                   </span>
                 )}
@@ -252,7 +212,7 @@ const ProductsPage = () => {
                   {error}
                 </p>
                 <button onClick={handleRetry} className="btn-primary">
-                  <RefreshCw className="w-4 h-4 inline mr-2" />
+                  <RefreshCw className="w-4 h-4 inline me-2" />
                   {t('products.tryAgain')}
                 </button>
               </div>

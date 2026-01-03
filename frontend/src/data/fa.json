@@ -225,7 +225,9 @@
     "typeMessage": "پیام خود را تایپ کنید",
     "sendMessage": "ارسال پیام",
     "toggleFilters": "تغییر وضعیت فیلترها",
-    "login": "ورود"
+    "login": "ورود",
+    "cancel": "لغو",
+    "remove": "حذف"
   },
   "cart": {
     "continueShopping": "ادامه خرید",
@@ -237,7 +239,11 @@
     "proceedToCheckout": "رفتن به صندوق",
     "subtotal": "جمع جز",
     "title": "سبد خرید",
-    "total": "کل"
+    "total": "کل",
+    "removeConfirmationTitle": "از سبد حذف شود؟",
+    "removeConfirmationMessage": "آیا مطمئن هستید که می خواهید این مورد را از سبد خرید حذف کنید؟",
+    "shippingNotice": "هزینه ارسال در زمان پرداخت محاسبه می شود",
+    "viewCart": "مشاهده سبد خرید"
   },
   "chat": {
     "add_to_cart": "افزودن به سبد خرید",
@@ -740,6 +746,19 @@
       "save": "ذخیره"
     }
   },
+  "ai": {
+    "quickActions": "اقدامات سریع AI",
+    "quickActionsTitle": "اقدامات سریع هوش مصنوعی",
+    "quickActionsSubtitle": "یک اقدام را انتخاب کنید",
+    "poweredBy": "✨ قدرت‌گرفته از هوش مصنوعی",
+    "actions": {
+      "comparePrices": "مقایسه قیمت‌ها",
+      "findSize": "پیدا کردن سایز من",
+      "summarizeReviews": "خلاصه نظرات",
+      "cheaperAlternatives": "گزینه‌های ارزان‌تر",
+      "budgetSearch": "جستجو با بودجه"
+    }
+  },
   "search": {
     "clearButton": "پاک کردن جستجو",
     "closeSearch": "بستن جستجو",
@@ -762,7 +781,9 @@
     "suggestion3": "هدفون بی‌سیم با کیفیت",
     "suggestion4": "ساعت اپل با قیمت مناسب",
     "suggestion5": "تبلت برای کار و تفریح",
-    "tryDifferentKeywords": "کلمات کلیدی مختلف را امتحان کنید"
+    "tryDifferentKeywords": "کلمات کلیدی مختلف را امتحان کنید",
+    "aiHint": "جستجوی هوشمند با هوش مصنوعی",
+    "processing": "در حال پردازش با هوش مصنوعی..."
   },
   "shipping": {
     "free": "ارسال رایگان",
@@ -789,6 +810,8 @@
     "noProductsAvailableMessage": "در حال حاضر محصولی برای نمایش وجود ندارد",
     "noProductsFound": "محصولی یافت نشد",
     "noProductsFoundMessage": "محصولی مطابق با جستجوی شما یافت نشد",
+    "productsFound": "محصول یافت شد",
+    "productFound": "محصول یافت شد",
     "subtitle": "مشاهده محصولات ما",
     "title": "محصولات",
     "tryAgain": "تلاش مجدد"

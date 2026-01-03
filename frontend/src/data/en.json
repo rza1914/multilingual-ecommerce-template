@@ -225,7 +225,9 @@
     "typeMessage": "Type your message",
     "sendMessage": "Send message",
     "toggleFilters": "Toggle filters",
-    "login": "Login"
+    "login": "Login",
+    "cancel": "Cancel",
+    "remove": "Remove"
   },
   "cart": {
     "continueShopping": "Continue Shopping",
@@ -237,7 +239,11 @@
     "proceedToCheckout": "Proceed to Checkout",
     "subtotal": "Subtotal",
     "title": "Shopping Cart",
-    "total": "Total"
+    "total": "Total",
+    "removeConfirmationTitle": "Remove from cart?",
+    "removeConfirmationMessage": "Are you sure you want to remove this item from your cart?",
+    "shippingNotice": "Shipping calculated at checkout",
+    "viewCart": "View Cart"
   },
   "chat": {
     "add_to_cart": "Add to Cart",
@@ -740,6 +746,19 @@
       "save": "Save"
     }
   },
+  "ai": {
+    "quickActions": "AI Quick Actions",
+    "quickActionsTitle": "AI Quick Actions",
+    "quickActionsSubtitle": "Select an action to get started",
+    "poweredBy": "✨ Powered by AI",
+    "actions": {
+      "comparePrices": "Compare prices",
+      "findSize": "Find my size",
+      "summarizeReviews": "Summarize reviews",
+      "cheaperAlternatives": "Cheaper alternatives",
+      "budgetSearch": "Search by budget"
+    }
+  },
   "search": {
     "clearButton": "Clear search",
     "closeSearch": "Close Search",
@@ -762,7 +781,9 @@
     "suggestion3": "High quality wireless headphones",
     "suggestion4": "Apple watch at a good price",
     "suggestion5": "Tablet for work and entertainment",
-    "tryDifferentKeywords": "Try different keywords"
+    "tryDifferentKeywords": "Try different keywords",
+    "aiHint": "Smart search powered by AI",
+    "processing": "Processing with AI..."
   },
   "shipping": {
     "free": "FREE shipping",
@@ -789,6 +810,8 @@
     "noProductsAvailableMessage": "There are no products to display at this time",
     "noProductsFound": "No products found",
     "noProductsFoundMessage": "No products match your search criteria",
+    "productsFound": "products found",
+    "productFound": "product found",
     "subtitle": "Browse our products",
     "title": "Products",
     "tryAgain": "Try Again"

@@ -225,7 +225,9 @@
     "typeMessage": "اكتب رسالتك",
     "sendMessage": "إرسال الرسالة",
     "toggleFilters": "تبديل المرشحات",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "cancel": "إلغاء",
+    "remove": "إزالة"
   },
   "cart": {
     "continueShopping": "متابعة التسوق",
@@ -237,7 +239,11 @@
     "proceedToCheckout": "الاستمرار إلى الدفع",
     "subtotal": "المجموع الفرعي",
     "title": "سلة التسوق",
-    "total": "المجموع"
+    "total": "المجموع",
+    "removeConfirmationTitle": "إزالة من السلة؟",
+    "removeConfirmationMessage": "هل أنت متأكد أنك تريد إزالة هذا العنصر من سلة التسوق؟",
+    "shippingNotice": "يتم حساب الشحن عند الدفع",
+    "viewCart": "عرض السلة"
   },
   "chat": {
     "add_to_cart": "أضف إلى السلة",
@@ -740,6 +746,19 @@
       "save": "حفظ"
     }
   },
+  "ai": {
+    "quickActions": "إجراءات AI السريعة",
+    "quickActionsTitle": "إجراءات الذكاء الاصطناعي السريعة",
+    "quickActionsSubtitle": "اختر إجراءً للبدء",
+    "poweredBy": "✨ مدعوم بالذكاء الاصطناعي",
+    "actions": {
+      "comparePrices": "مقارنة الأسعار",
+      "findSize": "ابحث عن مقاسي",
+      "summarizeReviews": "تلخيص المراجعات",
+      "cheaperAlternatives": "بدائل أرخص",
+      "budgetSearch": "البحث حسب الميزانية"
+    }
+  },
   "search": {
     "clearButton": "مسح البحث",
     "closeSearch": "إغلاق البحث",
@@ -762,7 +781,9 @@
     "suggestion3": "سماعات لا سلكية عالية الجودة",
     "suggestion4": "ساعة أبل بسعر معقول",
     "suggestion5": "تابلت للعمل والترفيه",
-    "tryDifferentKeywords": "جرب كلمات مفتاحية مختلفة"
+    "tryDifferentKeywords": "جرب كلمات مفتاحية مختلفة",
+    "aiHint": "بحث ذكي مدعوم بالذكاء الاصطناعي",
+    "processing": "جاري المعالجة بالذكاء الاصطناعي..."
   },
   "shipping": {
     "free": "شحن مجاني",
@@ -789,6 +810,8 @@
     "noProductsAvailableMessage": "لا توجد منتجات للعرض في الوقت الحالي",
     "noProductsFound": "لم يتم العثور على منتجات",
     "noProductsFoundMessage": "لا توجد منتجات تطابق معايير البحث",
+    "productsFound": "منتجات موجودة",
+    "productFound": "منتج موجود",
     "subtitle": "تصفح منتجاتنا",
     "title": "المنتجات",
     "tryAgain": "حاول مرة أخرى"

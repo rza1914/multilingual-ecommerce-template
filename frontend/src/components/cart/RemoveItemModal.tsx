@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { X, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Product } from '../../types/product.types';
 import { getProductImage } from '../../utils/imageUtils';
 
@@ -21,6 +22,8 @@ const RemoveItemModal: React.FC<RemoveItemModalProps> = ({
   onClose,
   onConfirm,
 }) => {
+  const { t } = useTranslation();
+
   if (!isOpen || !product) return null;
 
   const handleConfirm = () => {
@@ -62,7 +65,7 @@ const RemoveItemModal: React.FC<RemoveItemModalProps> = ({
 
           {/* Title */}
           <h3 className="text-xl font-bold text-center text-gray-900 dark:text-white mb-4">
-            Remove from cart?
+            {t('cart.removeConfirmationTitle')}
           </h3>
 
           {/* Product Info */}
@@ -84,7 +87,7 @@ const RemoveItemModal: React.FC<RemoveItemModalProps> = ({
 
           {/* Message */}
           <p className="text-center text-gray-600 dark:text-gray-400 mb-6">
-            Are you sure you want to remove this item from your cart?
+            {t('cart.removeConfirmationMessage')}
           </p>
 
           {/* Buttons */}
@@ -93,13 +96,13 @@ const RemoveItemModal: React.FC<RemoveItemModalProps> = ({
               onClick={onClose}
               className="flex-1 btn-glass text-center"
             >
-              Cancel
+              {t('buttons.cancel')}
             </button>
             <button
               onClick={handleConfirm}
               className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 hover:scale-105"
             >
-              Remove
+              {t('buttons.remove')}
             </button>
           </div>
         </div>

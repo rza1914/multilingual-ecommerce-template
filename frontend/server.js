@@ -28,7 +28,7 @@ const getCspConfig = (nonce) => {
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         imgSrc: ["'self'", "data:", "blob:", "https:"],
         fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"],
-        connectSrc: ["'self'", "https://api.ishooop.org", "https://ishooop.org", "https://fonts.googleapis.com", "https://images.pexels.com"],
+        connectSrc: ["'self'", "https://api.ishooop.org", "https://ishooop.org", "https://fonts.googleapis.com", "https://images.pexels.com", "https://images.unsplash.com"],
         frameAncestors: ["'none'"],
         objectSrc: ["'none'"],
         baseUri: ["'self'"],
@@ -44,7 +44,7 @@ const getCspConfig = (nonce) => {
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         imgSrc: ["'self'", "data:", "https:"],
         fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"],
-        connectSrc: ["'self'", "http://localhost:*", "http://127.0.0.1:*", "ws://localhost:*", "ws://127.0.0.1:*", "https://fonts.googleapis.com", "https://images.pexels.com"],
+        connectSrc: ["'self'", "http://localhost:*", "http://127.0.0.1:*", "ws://localhost:*", "ws://127.0.0.1:*", "https://fonts.googleapis.com", "https://images.pexels.com", "https://images.unsplash.com"],
         frameAncestors: ["'none'"],
         objectSrc: ["'none'"]
       }

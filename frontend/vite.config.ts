@@ -9,7 +9,7 @@ import path from 'path'
 function getCSPHeaders(isDev: boolean) {
   if (isDev) {
     // In development, we need more permissive CSP to allow HMR and React DevTools
-    // Plus external resources like Google Fonts and Pexels images
+    // Plus external resources like Google Fonts and Pexels/Unsplash images
     return {
       'Content-Security-Policy': [
         "default-src 'self'",
@@ -17,13 +17,13 @@ function getCSPHeaders(isDev: boolean) {
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "img-src 'self' data: https: blob:",
         "font-src 'self' https: data: https://fonts.gstatic.com",
-        "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://fonts.googleapis.com https://images.pexels.com",
+        "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://fonts.googleapis.com https://images.pexels.com https://images.unsplash.com",
         "frame-ancestors 'none'",
         "object-src 'none'"
       ].join('; '),
     };
   } else {
-    // In production, use stricter CSP but allow external resources like Google Fonts and Pexels
+    // In production, use stricter CSP but allow external resources like Google Fonts and Pexels/Unsplash
     return {
       'Content-Security-Policy': [
         "default-src 'self'",
@@ -31,7 +31,7 @@ function getCSPHeaders(isDev: boolean) {
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", // Unsafe-inline needed for Tailwind CSS
         "img-src 'self' data: https: blob:",
         "font-src 'self' https: data: https://fonts.gstatic.com",
-        "connect-src 'self' https://api.yourdomain.com https://your-backend-url.com https://fonts.googleapis.com https://images.pexels.com", // Replace with your actual API endpoints
+        "connect-src 'self' https://api.yourdomain.com https://your-backend-url.com https://fonts.googleapis.com https://images.pexels.com https://images.unsplash.com", // Replace with your actual API endpoints
         "frame-ancestors 'none'",
         "object-src 'none'"
       ].join('; '),

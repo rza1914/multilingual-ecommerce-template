@@ -57,7 +57,7 @@ const LanguageSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 glass-card rounded-2xl shadow-2xl border-2 border-orange-500/30 animate-scale-in overflow-hidden z-50">
+        <div className="absolute ltr:right-0 rtl:left-0 mt-2 w-56 glass-card rounded-2xl shadow-2xl border-2 border-orange-500/30 animate-scale-in overflow-hidden z-50">
           <div className="p-2">
             {languages.map((lang) => (
               <button

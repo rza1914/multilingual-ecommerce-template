@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
-import { Bot } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useChatWidget } from '../hooks/useChatWidget';
 import { ChatWidgetCore } from './chat/ChatWidgetCore';
 import { useAuth } from '../contexts/AuthContext';
@@ -79,7 +79,7 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
             }
           }}
         >
-          <Bot className="w-6 h-6" aria-hidden="true" />
+          <Sparkles className="w-6 h-6" aria-hidden="true" />
           {unreadCount > 0 && isAuthenticated && (
             <span
               className={`
