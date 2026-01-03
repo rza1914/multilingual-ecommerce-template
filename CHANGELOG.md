@@ -135,6 +135,17 @@ SENTRY_DSN=your_sentry_dsn
 
 ## 2026-01-03
 
+### Changed
+- **Cart Sidebar UI Refinement**
+  - Applied glassmorphism design (semi-transparent blurred background)
+  - Made layout more compact (reduced padding and spacing)
+  - Improved visual hierarchy with clear Header/Items/Footer sections
+  - Added smooth slide-in/out animations
+  - Enhanced RTL/LTR support using CSS logical properties
+  - Added dark mode support
+  - Improved accessibility (keyboard navigation, ARIA labels, focus states)
+  - Added responsive design for mobile devices
+
 ### Architecture Decisions
 - **i18n Strategy**: Decided to remove `flattenTranslations` and use native i18next nested key support
 - Root cause identified: `flattenTranslations()` was losing deeply nested keys during processing

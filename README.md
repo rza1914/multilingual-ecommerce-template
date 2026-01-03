@@ -350,3 +350,30 @@ function LoginForm() {
 ```
 
 See [SETUP.md](./SETUP.md#i18n-configuration) for detailed configuration.
+
+### UI Components
+
+#### Cart Sidebar
+
+The cart sidebar features a modern glassmorphism design:
+
+- **Glass Effect**: Semi-transparent background with blur
+- **Compact Layout**: Optimized spacing for better content density
+- **Animations**: Smooth slide transitions
+- **RTL/LTR**: Full bidirectional text support
+- **Dark Mode**: Automatic theme adaptation
+- **Accessibility**: Keyboard navigation and screen reader support
+
+```jsx
+import { CartSidebar } from ' @/components/cart';
+
+<CartSidebar
+  isOpen={isCartOpen}
+  onClose={closeCart}
+  items={cartItems}
+  total={cartTotal}
+  onUpdateQuantity={handleUpdateQuantity}
+  onRemoveItem={handleRemoveItem}
+  onCheckout={handleCheckout}
+/>
+```
