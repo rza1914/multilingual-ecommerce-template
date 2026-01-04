@@ -756,7 +756,38 @@
       "findSize": "ابحث عن مقاسي",
       "summarizeReviews": "تلخيص المراجعات",
       "cheaperAlternatives": "بدائل أرخص",
-      "budgetSearch": "البحث حسب الميزانية"
+      "budgetSearch": "البحث حسب الميزانية",
+      "analyzeImage": "تحليل الصورة",
+      "generateDescription": "توليد وصف المنتج",
+      "answerQuestions": "الإجابة على أسئلة حول المنتجات",
+      "recommendSimilar": "توصية بمنتجات مشابهة",
+      "translateInfo": "ترجمة معلومات المنتج",
+      "worthBuying": "هل يستحق الشراء؟",
+      "suggestAlternatives": "اقتراح بدائل"
+    },
+    "quickActions": {
+      "title": "المساعد الذكي",
+      "hint": "انقر لفتح المساعد",
+      "comparePrices": "مقارنة الأسعار",
+      "findSize": "ابحث عن مقاسي",
+      "summarizeReviews": "ملخص المراجعات",
+      "worthBuying": "هل يستحق الشراء؟",
+      "suggestAlternatives": "اقتراح بدائل"
+    },
+    "imageAnalysis": {
+      "title": "تحليل الصورة",
+      "description": "قم بتحميل صورة لتحليلها بواسطة الذكاء الاصطناعي",
+      "uploadPrompt": "تحميل صورة المنتج",
+      "analyzing": "جاري تحليل الصورة...",
+      "results": "نتائج التحليل",
+      "error": "فشل في تحليل الصورة"
+    },
+    "features": {
+      "smartSearch": "البحث الذكي",
+      "visualSearch": "البحث المرئي",
+      "productRecommendation": "توصيات المنتجات",
+      "priceComparison": "مقارنة الأسعار",
+      "availabilityChecker": "التحقق من التوفر"
     }
   },
   "search": {

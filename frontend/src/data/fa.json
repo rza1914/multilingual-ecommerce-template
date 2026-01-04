@@ -756,7 +756,38 @@
       "findSize": "پیدا کردن سایز من",
       "summarizeReviews": "خلاصه نظرات",
       "cheaperAlternatives": "گزینه‌های ارزان‌تر",
-      "budgetSearch": "جستجو با بودجه"
+      "budgetSearch": "جستجو با بودجه",
+      "analyzeImage": "تحلیل تصویر",
+      "generateDescription": "تولید توضیحات محصول",
+      "answerQuestions": "پاسخ به سوالات درباره محصولات",
+      "recommendSimilar": "توصیه محصولات مشابه",
+      "translateInfo": "ترجمه اطلاعات محصول",
+      "worthBuying": "آیا ارزش خرید دارد؟",
+      "suggestAlternatives": "پیشنهاد جایگزین"
+    },
+    "quickActions": {
+      "title": "دستیار هوشمند",
+      "hint": "کلیک کنید تا چت‌بات باز شود",
+      "comparePrices": "مقایسه قیمت‌ها",
+      "findSize": "پیدا کردن سایز من",
+      "summarizeReviews": "خلاصه نظرات",
+      "worthBuying": "آیا ارزش خرید دارد؟",
+      "suggestAlternatives": "پیشنهاد جایگزین"
+    },
+    "imageAnalysis": {
+      "title": "تحلیل تصویر",
+      "description": "یک تصویر را برای تحلیل توسط هوش مصنوعی آپلود کنید",
+      "uploadPrompt": "آپلود تصویر محصول",
+      "analyzing": "در حال تحلیل تصویر...",
+      "results": "نتایج تحلیل",
+      "error": "تحلیل تصویر انجام نشد"
+    },
+    "features": {
+      "smartSearch": "جستجوی هوشمند",
+      "visualSearch": "جستجوی تصویری",
+      "productRecommendation": "توصیه محصولات",
+      "priceComparison": "مقایسه قیمت",
+      "availabilityChecker": "بررسی موجودی"
     }
   },
   "search": {

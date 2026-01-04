@@ -756,7 +756,38 @@
       "findSize": "Find my size",
       "summarizeReviews": "Summarize reviews",
       "cheaperAlternatives": "Cheaper alternatives",
-      "budgetSearch": "Search by budget"
+      "budgetSearch": "Search by budget",
+      "analyzeImage": "Analyze image",
+      "generateDescription": "Generate product description",
+      "answerQuestions": "Answer questions about products",
+      "recommendSimilar": "Recommend similar products",
+      "translateInfo": "Translate product information",
+      "worthBuying": "Is It Worth Buying?",
+      "suggestAlternatives": "Suggest Alternatives"
+    },
+    "quickActions": {
+      "title": "Smart Assistant",
+      "hint": "Click to open chat assistant",
+      "comparePrices": "Compare Prices",
+      "findSize": "Find My Size",
+      "summarizeReviews": "Summarize Reviews",
+      "worthBuying": "Is It Worth Buying?",
+      "suggestAlternatives": "Suggest Alternatives"
+    },
+    "imageAnalysis": {
+      "title": "Image Analysis",
+      "description": "Upload an image for AI-powered analysis",
+      "uploadPrompt": "Upload product image",
+      "analyzing": "Analyzing image...",
+      "results": "Analysis Results",
+      "error": "Failed to analyze image"
+    },
+    "features": {
+      "smartSearch": "Smart Search",
+      "visualSearch": "Visual Search",
+      "productRecommendation": "Product Recommendations",
+      "priceComparison": "Price Comparison",
+      "availabilityChecker": "Availability Checker"
     }
   },
   "search": {

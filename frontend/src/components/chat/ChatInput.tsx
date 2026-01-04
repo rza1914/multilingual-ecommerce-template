@@ -31,20 +31,15 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, darkMode, onToggle
     <div className="flex items-center space-x-2 rtl:space-x-reverse">
       <button
         onClick={onToggleAIActions}
-        disabled={!isAuthenticated}
         className={`
           p-2 rounded-full
-          ${isAuthenticated
-            ? (darkMode
-              ? 'text-gray-300 hover:bg-gray-700 focus:ring-orange-500'
-              : 'text-gray-600 hover:bg-gray-100 focus:ring-orange-500')
-            : (darkMode
-              ? 'text-gray-500 cursor-not-allowed'
-              : 'text-gray-400 cursor-not-allowed')}
+          ${darkMode
+            ? 'text-gray-300 hover:bg-gray-700 focus:ring-orange-500'
+            : 'text-gray-600 hover:bg-gray-100 focus:ring-orange-500'}
           transition-colors focus:outline-none focus:ring-2
         `}
         aria-label={t('buttons.aiActions')}
-        tabIndex={isAuthenticated ? 0 : -1}
+        tabIndex={0}
       >
         <Plus className="w-5 h-5" aria-hidden="true" />
       </button>

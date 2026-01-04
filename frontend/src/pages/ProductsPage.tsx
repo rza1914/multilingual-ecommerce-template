@@ -101,8 +101,14 @@ const ProductsPage = () => {
   const handleFilterChange = useCallback((min?: number, max?: number) => {
     setMinPrice(min);
     setMaxPrice(max);
-    setIsFiltersOpen(false);
   }, []);
+
+  // Refetch when price filters change
+  useEffect(() => {
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      fetchProducts();
+    }
+  }, [minPrice, maxPrice, fetchProducts]);
 
   /**
    * Handle clear filters
@@ -121,7 +127,7 @@ const ProductsPage = () => {
   };
 
   /**
-   * Toggle filters sidebar (mobile)
+   * Toggle filters drawer
    */
   const toggleFilters = () => {
     setIsFiltersOpen(!isFiltersOpen);
@@ -147,7 +153,7 @@ const ProductsPage = () => {
         </p>
       </div>
 
-      {/* Smart Search Bar - No legacy toggle */}
+      {/* Smart Search Bar */}
       <div className="max-w-3xl mx-auto mb-8">
         <SmartSearchBar
           onSearch={(results: Product[], query?: string) => {
@@ -159,100 +165,97 @@ const ProductsPage = () => {
         />
       </div>
 
-      {/* Main Content with Sidebar */}
-      <div className="flex gap-8">
-        {/* Filters Sidebar */}
-        <FiltersSidebar
-          onFilterChange={handleFilterChange}
-          onClearFilters={handleClearFilters}
-          isOpen={isFiltersOpen}
-          onToggle={toggleFilters}
-        />
-
-        {/* Products Grid */}
-        <div className="flex-1 min-w-0">
-          {/* Products Count & Status */}
-          {!loading && !error && (
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-gray-600 dark:text-gray-400">
-                <span className="font-semibold text-orange-500">
-                  {products.length}
-                </span>{' '}
-                {t(products.length === 1 ? 'products.productFound' : 'products.productsFound')}
-                {hasActiveFilters && (
-                  <span className="ms-2 text-sm">
-                    ({t('products.filtered')})
-                  </span>
-                )}
-              </p>
-
+      {/* Products Content - Full width now (no sidebar in layout) */}
+      <div>
+        {/* Products Count & Status */}
+        {!loading && !error && (
+          <div className="mb-6 flex items-center justify-between">
+            <p className="text-gray-600 dark:text-gray-400">
+              <span className="font-semibold text-orange-500">
+                {products.length}
+              </span>{' '}
+              {t(products.length === 1 ? 'products.productFound' : 'products.productsFound')}
               {hasActiveFilters && (
-                <button
-                  onClick={handleClearFilters}
-                  className="text-sm text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
-                >
-                  {t('products.clearAllFilters')}
-                </button>
+                <span className="ms-2 text-sm">
+                  ({t('products.filtered')})
+                </span>
               )}
+            </p>
+
+            {hasActiveFilters && (
+              <button
+                onClick={handleClearFilters}
+                className="text-sm text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                {t('products.clearAllFilters')}
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && <ProductSkeletonGrid count={6} />}
+
+        {/* Error State */}
+        {error && !loading && (
+          <div className="text-center py-20">
+            <div className="glass-card p-12 max-w-md mx-auto">
+              <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                {t('products.errorTitle')}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                {error}
+              </p>
+              <button onClick={handleRetry} className="btn-primary">
+                <RefreshCw className="w-4 h-4 inline me-2" />
+                {t('products.tryAgain')}
+              </button>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Loading State */}
-          {loading && <ProductSkeletonGrid count={6} />}
+        {/* Empty State */}
+        {!loading && !error && products.length === 0 && (
+          <EmptyState
+            icon="🔍"
+            title={hasActiveFilters ? t('products.noProductsFound') : t('products.noProductsAvailable')}
+            message={
+              hasActiveFilters
+                ? t('products.noProductsFoundMessage')
+                : t('products.noProductsAvailableMessage')
+            }
+            actionLabel={hasActiveFilters ? t('products.clearFilters') : undefined}
+            onAction={hasActiveFilters ? handleClearFilters : undefined}
+          />
+        )}
 
-          {/* Error State */}
-          {error && !loading && (
-            <div className="text-center py-20">
-              <div className="glass-card p-12 max-w-md mx-auto">
-                <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                  {t('products.errorTitle')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  {error}
-                </p>
-                <button onClick={handleRetry} className="btn-primary">
-                  <RefreshCw className="w-4 h-4 inline me-2" />
-                  {t('products.tryAgain')}
-                </button>
+        {/* Products Grid - Now uses full width */}
+        {!loading && !error && products.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-slide-up">
+            {products.map((product, index) => (
+              <div
+                key={product.id}
+                className="animate-fade-in"
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                  animationFillMode: 'backwards',
+                }}
+              >
+                <ProductCard product={product} />
               </div>
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!loading && !error && products.length === 0 && (
-            <EmptyState
-              icon="🔍"
-              title={hasActiveFilters ? t('products.noProductsFound') : t('products.noProductsAvailable')}
-              message={
-                hasActiveFilters
-                  ? t('products.noProductsFoundMessage')
-                  : t('products.noProductsAvailableMessage')
-              }
-              actionLabel={hasActiveFilters ? t('products.clearFilters') : undefined}
-              onAction={hasActiveFilters ? handleClearFilters : undefined}
-            />
-          )}
-
-          {/* Products Grid */}
-          {!loading && !error && products.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-slide-up">
-              {products.map((product, index) => (
-                <div
-                  key={product.id}
-                  className="animate-fade-in"
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                    animationFillMode: 'backwards',
-                  }}
-                >
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Filters Drawer - Now overlay on all screen sizes */}
+      <FiltersSidebar
+        onFilterChange={handleFilterChange}
+        onClearFilters={handleClearFilters}
+        isOpen={isFiltersOpen}
+        onToggle={toggleFilters}
+      />
     </div>
   );
 };

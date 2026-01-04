@@ -1,3 +1,85 @@
+## 2026-01-04 - Enable AI Actions for Guest Users
+
+### Changed
+- **ChatInput**: Fixed disabled + button for guest users
+  - Removed authentication requirement for AI actions button
+  - Guest users can now access AI Quick Actions menu
+  - Consistent styling for both authenticated and guest users
+
+### Added
+- **AI Translation Keys**: Extended AI functionality translations
+  - Added 'worthBuying' and 'suggestAlternatives' keys to EN, FA, AR locales
+  - Added new 'quickActions' section with detailed AI assistant labels
+  - Enhanced AI features with comprehensive translation support
+
+## 2026-01-04 - Smart Search and Filters Redesign
+
+### Changed
+- **SmartSearchBar**: Complete UX overhaul
+  - Removed redundant search button (was duplicate functionality)
+  - Changed Brain icon to Sparkles for consistent AI branding
+  - Sparkles icon is now clickable and opens Quick Actions menu
+  - Quick Actions now open ChatBot with pre-filled prompt
+  - Added ESC key support to close dropdowns
+  - Updated currency formatting based on locale
+  - Improved RTL support with logical properties
+
+- **FixedFloatingChatBot**: Added event-driven integration
+  - Added event listener for `openChatWithPrompt` custom event
+  - ChatBot now opens with pre-filled prompt from Quick Actions
+  - Enables seamless AI assistant experience
+
+- **FiltersSidebar**: Converted from static sidebar to glass drawer overlay
+  - Now renders as a slide-in drawer on all screen sizes (not just mobile)
+  - Uses existing `glass-card` and `glass-orange` styles for consistency
+  - Added ESC key to close and body scroll lock when open
+  - Improved accessibility with proper ARIA attributes
+
+- **ProductsPage**: Updated layout
+  - Removed sidebar flex layout - products now use full width
+  - Grid updated to show 4 columns on xl screens (sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4)
+  - Filters now appear as overlay drawer instead of side panel
+  - Added effect to refetch products when price filters change
+
+### Added
+- **Custom Event System**: `openChatWithPrompt` event
+  - SmartSearchBar dispatches event when Quick Action is clicked
+  - FixedFloatingChatBot listens and opens with the prompt
+  - Enables seamless AI assistant experience
+
+### Fixed
+- Smart Search now properly integrates with AI ChatBot
+- No more decorative/non-functional AI icons
+- Improved accessibility and keyboard navigation
+- Better RTL/LTR support with logical CSS properties
+
+## 2026-01-04
+### Changed
+- **FiltersSidebar**: Converted from static sidebar to glass drawer overlay
+  - Now slides in from right (LTR) or left (RTL) on all screen sizes
+  - Uses existing `glass-card` and `glass-orange` styles for consistency
+  - Added ESC key to close and body scroll lock when open
+  - Improved accessibility with proper ARIA attributes
+
+- **ProductsPage**: Updated layout
+  - Removed sidebar flex layout - products now use full width
+  - Grid updated to show 4 columns on xl screens
+  - Filter button remains fixed at bottom-right (RTL aware)
+
+## 2026-01-04
+### Fixed
+- **CSP Configuration for Unsplash Images**
+  - Updated CSP in index.html meta tag to allow images.unsplash.com
+  - Updated CSP in vite.config.ts to include images.unsplash.com in connect-src
+  - Updated CSP in csp-prod.config.js to include images.unsplash.com in connect-src
+  - Updated CSP in server.js to include images.unsplash.com in connect-src
+  - All configurations now properly allow Unsplash image loading
+
+### Added
+- **Missing Translation Keys**
+  - Added 'products.productsFound' and 'products.productFound' keys to EN, FA, AR locales
+  - Added fallback translations for product count display
+
 ## 2026-01-03
 ### Changed
 - **MiniCart UI Enhancement**
@@ -75,17 +157,3 @@
 
 ### Translations
 - Added AI Quick Actions labels in EN, FA, AR
-
-## 2026-01-04
-### Fixed
-- **CSP Configuration for Unsplash Images**
-  - Updated CSP in index.html meta tag to allow images.unsplash.com
-  - Updated CSP in vite.config.ts to include images.unsplash.com in connect-src
-  - Updated CSP in csp-prod.config.js to include images.unsplash.com in connect-src
-  - Updated CSP in server.js to include images.unsplash.com in connect-src
-  - All configurations now properly allow Unsplash image loading
-
-### Added
-- **Missing Translation Keys**
-  - Added 'products.productsFound' and 'products.productFound' keys to EN, FA, AR locales
-  - Added fallback translations for product count display

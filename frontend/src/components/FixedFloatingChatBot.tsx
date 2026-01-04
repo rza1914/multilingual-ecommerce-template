@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
 import { Sparkles } from 'lucide-react';
@@ -44,6 +44,24 @@ const FixedFloatingChatBot: React.FC<FixedFloatingChatBotProps> = () => {
     // Refs
     chatContainerRef,
   } = useChatWidget({ positionStyle: 'fixed' }); // Use fixed positioning
+
+  // Listen for openChatWithPrompt event from SmartSearchBar
+  useEffect(() => {
+    const handleOpenWithPrompt = (event: CustomEvent<{ prompt: string; actionId: string }>) => {
+      const { prompt } = event.detail;
+
+      // Open chat and send the prompt
+      setIsOpen(true);
+
+      // Small delay to ensure chat is open before sending
+      setTimeout(() => {
+        handleSendMessage(prompt);
+      }, 100);
+    };
+
+    window.addEventListener('openChatWithPrompt', handleOpenWithPrompt as EventListener);
+    return () => window.removeEventListener('openChatWithPrompt', handleOpenWithPrompt as EventListener);
+  }, [handleSendMessage]);
 
   return (
     <div
