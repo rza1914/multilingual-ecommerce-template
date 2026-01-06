@@ -1,0 +1,4215 @@
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\pages\ProductsPage.tsx
+=====================================
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { useProducts } from '../contexts/ProductsContext';
+import { useCart } from '../contexts/CartContext';
+import ProductCard from '../components/ProductCard';
+import FiltersSidebar from '../components/products/FiltersSidebar';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import EmptyState from '../components/EmptyState';
+import { Product } from '../types/product.types';
+
+const ProductsPage: React.FC = () => {
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const { products, loading, error } = useProducts();
+  const { addToCart } = useCart();
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filters, setFilters] = useState({
+    category: searchParams.get('category') || '',
+    minPrice: searchParams.get('minPrice') || '',
+    maxPrice: searchParams.get('maxPrice') || '',
+    search: searchParams.get('search') || '',
+    sortBy: searchParams.get('sortBy') || 'name',
+    sortOrder: searchParams.get('sortOrder') || 'asc'
+  });
+
+  // Apply filters and sorting
+  useEffect(() => {
+    let result = [...products];
+
+    // Apply category filter
+    if (filters.category) {
+      result = result.filter(product => 
+        product.category.toLowerCase().includes(filters.category.toLowerCase())
+      );
+    }
+
+    // Apply price range filter
+    if (filters.minPrice) {
+      result = result.filter(product => product.price >= Number(filters.minPrice));
+    }
+    if (filters.maxPrice) {
+      result = result.filter(product => product.price <= Number(filters.maxPrice));
+    }
+
+    // Apply search term
+    if (filters.search) {
+      result = result.filter(product =>
+        product.title.toLowerCase().includes(filters.search.toLowerCase()) ||
+        product.description.toLowerCase().includes(filters.search.toLowerCase())
+      );
+    }
+
+    // Apply sorting
+    result.sort((a, b) => {
+      let aValue = a[filters.sortBy as keyof Product];
+      let bValue = b[filters.sortBy as keyof Product];
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (filters.sortOrder === 'asc') {
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      } else {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      }
+    });
+
+    setFilteredProducts(result);
+  }, [products, filters]);
+
+  const handleFilterChange = useCallback((newFilters: any) => {
+    setFilters(prev => ({ ...prev, ...newFilters }));
+  }, []);
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <div className="text-red-500 text-center mt-10">{t('products.error')}</div>;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('products.title')}</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {t('products.description')}
+          </p>
+        </motion.div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="lg:w-1/4">
+            <FiltersSidebar filters={filters} onFilterChange={handleFilterChange} />
+          </aside>
+
+          <main className="lg:w-3/4">
+            {filteredProducts.length === 0 ? (
+              <EmptyState 
+                title={t('products.noProducts')} 
+                description={t('products.noProductsDescription')}
+              />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onAddToCart={addToCart}
+                  />
+                ))}
+              </div>
+            )}
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductsPage;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\ProductCard.tsx
+=====================================
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { Product } from '../types/product.types';
+import LazyImage from './common/LazyImage';
+import { useCart } from '../contexts/CartContext';
+
+interface ProductCardProps {
+  product: Product;
+  onAddToCart: (product: Product) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const { t } = useTranslation();
+  const { cart } = useCart();
+
+  const isInCart = cart.some(item => item.id === product.id);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    >
+      <div className="relative h-48 overflow-hidden">
+        <LazyImage
+          src={product.image_url}
+          alt={product.title}
+          className="w-full h-full object-cover"
+        />
+        {product.is_featured && (
+          <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+            {t('products.featured')}
+          </span>
+        )}
+      </div>
+      <div className="p-4">
+        <h3 className="font-bold text-lg text-gray-900 mb-2">{product.title}</h3>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+        <div className="flex justify-between items-center">
+          <span className="text-lg font-bold text-blue-600">
+            {new Intl.NumberFormat('fa-IR').format(product.price)} {t('currency')}
+          </span>
+          <div className="flex items-center">
+            <span className="text-yellow-500 mr-1">★</span>
+            <span>{product.rating}</span>
+          </div>
+        </div>
+        <button
+          onClick={() => onAddToCart(product)}
+          disabled={isInCart}
+          className={`mt-4 w-full py-2 px-4 rounded-lg font-medium transition-colors ${
+            isInCart
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
+        >
+          {isInCart ? t('cart.inCart') : t('products.addToCart')}
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+export default ProductCard;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\ProductList.tsx
+=====================================
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Product } from '../types/product.types';
+import ProductCard from './ProductCard';
+
+interface ProductListProps {
+  products: Product[];
+  onAddToCart: (product: Product) => void;
+}
+
+const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart }) => {
+  return (
+    <motion.div 
+      layout
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      {products.map((product) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          onAddToCart={onAddToCart}
+        />
+      ))}
+    </motion.div>
+  );
+};
+
+export default ProductList;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\products\ProductCard.test.tsx
+=====================================
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../../config/i18n';
+import ProductCard from './ProductCard';
+
+// Mock the CartContext
+const mockCartContext = {
+  cart: [],
+  addToCart: vi.fn(),
+  removeFromCart: vi.fn(),
+  clearCart: vi.fn(),
+  updateQuantity: vi.fn(),
+};
+
+vi.mock('../../contexts/CartContext', () => ({
+  useCart: () => mockCartContext,
+}));
+
+// Mock the LazyImage component
+vi.mock('../common/LazyImage', () => ({
+  default: ({ src, alt }: { src: string; alt: string }) => (
+    <img src={src} alt={alt} data-testid="lazy-image" />
+  ),
+}));
+
+describe('ProductCard', () => {
+  const mockProduct = {
+    id: 1,
+    title: 'Test Product',
+    description: 'Test Description',
+    price: 100,
+    image_url: '/test-image.jpg',
+    rating: 4.5,
+    is_featured: false,
+  };
+
+  const renderWithProviders = (ui: React.ReactElement) => {
+    return render(
+      <MemoryRouter>
+        <I18nextProvider i18n={i18n}>
+          {ui}
+        </I18nextProvider>
+      </MemoryRouter>
+    );
+  };
+
+  it('renders product information correctly', () => {
+    renderWithProviders(<ProductCard product={mockProduct} onAddToCart={() => {}} />);
+
+    expect(screen.getByText('Test Product')).toBeInTheDocument();
+    expect(screen.getByText('Test Description')).toBeInTheDocument();
+    expect(screen.getByText('100')).toBeInTheDocument();
+    expect(screen.getByTestId('lazy-image')).toBeInTheDocument();
+  });
+
+  it('calls onAddToCart when add to cart button is clicked', () => {
+    const handleAddToCart = vi.fn();
+    renderWithProviders(
+      <ProductCard product={mockProduct} onAddToCart={handleAddToCart} />
+    );
+
+    const addToCartButton = screen.getByText('products.addToCart');
+    fireEvent.click(addToCartButton);
+
+    expect(handleAddToCart).toHaveBeenCalledWith(mockProduct);
+  });
+
+  it('disables add to cart button when product is in cart', () => {
+    // Update mock to simulate product in cart
+    vi.mocked(mockCartContext).cart = [mockProduct];
+
+    renderWithProviders(<ProductCard product={mockProduct} onAddToCart={() => {}} />);
+
+    const addToCartButton = screen.getByText('cart.inCart');
+    expect(addToCartButton).toBeDisabled();
+  });
+});
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\products\ProductCard.tsx
+=====================================
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { Product } from '../../types/product.types';
+import LazyImage from '../common/LazyImage';
+import { useCart } from '../../contexts/CartContext';
+
+interface ProductCardProps {
+  product: Product;
+  onAddToCart: (product: Product) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const { t } = useTranslation();
+  const { cart } = useCart();
+
+  const isInCart = cart.some(item => item.id === product.id);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    >
+      <div className="relative h-48 overflow-hidden">
+        <LazyImage
+          src={product.image_url}
+          alt={product.title}
+          className="w-full h-full object-cover"
+        />
+        {product.is_featured && (
+          <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+            {t('products.featured')}
+          </span>
+        )}
+      </div>
+      <div className="p-4">
+        <h3 className="font-bold text-lg text-gray-900 mb-2">{product.title}</h3>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+        <div className="flex justify-between items-center">
+          <span className="text-lg font-bold text-blue-600">
+            {new Intl.NumberFormat('fa-IR').format(product.price)} {t('currency')}
+          </span>
+          <div className="flex items-center">
+            <span className="text-yellow-500 mr-1">★</span>
+            <span>{product.rating}</span>
+          </div>
+        </div>
+        <button
+          onClick={() => onAddToCart(product)}
+          disabled={isInCart}
+          className={`mt-4 w-full py-2 px-4 rounded-lg font-medium transition-colors ${
+            isInCart
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
+        >
+          {isInCart ? t('cart.inCart') : t('products.addToCart')}
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+export default ProductCard;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\products\ProductImage.tsx
+=====================================
+import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+
+interface ProductImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+}
+
+const ProductImage: React.FC<ProductImageProps> = ({ src, alt, className = '' }) => {
+  const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setIsLoading(false);
+    img.onerror = () => {
+      setIsLoading(false);
+      setHasError(true);
+    };
+    img.src = src;
+  }, [src]);
+
+  if (hasError) {
+    return (
+      <div className={`flex items-center justify-center bg-gray-100 ${className}`}>
+        <span className="text-gray-500">{t('image.error')}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      <motion.img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoading ? 0 : 1 }}
+        transition={{ duration: 0.3 }}
+      />
+    </div>
+  );
+};
+
+export default ProductImage;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\products\ProductModal.tsx
+=====================================
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { Product } from '../../types/product.types';
+import ProductImage from './ProductImage';
+import { useCart } from '../../contexts/CartContext';
+
+interface ProductModalProps {
+  product: Product | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onAddToCart: (product: Product) => void;
+}
+
+const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, onAddToCart }) => {
+  const { t } = useTranslation();
+  const { cart } = useCart();
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen || !product) return null;
+
+  const isInCart = cart.some(item => item.id === product.id);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
+          <motion.div
+            className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h2 className="text-2xl font-bold text-gray-900">{product.title}</h2>
+                <button
+                  onClick={onClose}
+                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  aria-label={t('modal.close')}
+                >
+                  &times;
+                </button>
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="md:w-1/2">
+                  <ProductImage
+                    src={product.image_url}
+                    alt={product.title}
+                    className="w-full h-64 object-cover rounded-lg"
+                  />
+                </div>
+
+                <div className="md:w-1/2">
+                  <p className="text-gray-600 mb-4">{product.description}</p>
+                  
+                  <div className="mb-4">
+                    <span className="text-lg font-bold text-blue-600">
+                      {new Intl.NumberFormat('fa-IR').format(product.price)} {t('currency')}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center mb-4">
+                    <span className="text-yellow-500 mr-1">★</span>
+                    <span>{product.rating} ({product.reviews} {t('reviews')})</span>
+                  </div>
+
+                  <div className="mb-6">
+                    <h3 className="font-medium text-gray-900 mb-2">{t('product.category')}:</h3>
+                    <span className="inline-block bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+                      {product.category}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => onAddToCart(product)}
+                    disabled={isInCart}
+                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
+                      isInCart
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
+                  >
+                    {isInCart ? t('cart.inCart') : t('products.addToCart')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default ProductModal;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\products\ProductSkeleton.tsx
+=====================================
+import React from 'react';
+
+const ProductSkeleton: React.FC = () => {
+  return (
+    <div className="bg-white rounded-xl shadow-md overflow-hidden animate-pulse">
+      <div className="h-48 bg-gray-200"></div>
+      <div className="p-4">
+        <div className="h-6 bg-gray-200 rounded mb-2"></div>
+        <div className="h-4 bg-gray-200 rounded mb-3"></div>
+        <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+        <div className="h-10 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductSkeleton;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\contexts\ProductsContext.tsx
+=====================================
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Product } from '../types/product.types';
+
+interface ProductsContextType {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+  addProduct: (product: Product) => void;
+  updateProduct: (id: number, updatedProduct: Partial<Product>) => void;
+  deleteProduct: (id: number) => void;
+}
+
+const ProductsContext = createContext<ProductsContextType | undefined>(undefined);
+
+export const ProductsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Simulate fetching products from an API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Mock data - in a real app, this would come from an API
+        const mockProducts: Product[] = [
+          {
+            id: 1,
+            title: 'گوشی هوشمند پیشرفته',
+            title_en: 'Advanced Smart Phone',
+            price: 12000000,
+            image_url: '/images/phone.jpg',
+            category: 'Electronics',
+            description: 'گوشی هوشمند با ویژگی‌های پیشرفته و دوربین عالی',
+            stock: 15,
+            rating: 4.5,
+            is_featured: true,
+          },
+          {
+            id: 2,
+            title: 'لپ تاپ گیمینگ قدرتمند',
+            title_en: 'Powerful Gaming Laptop',
+            price: 35000000,
+            image_url: '/images/laptop.jpg',
+            category: 'Computers',
+            description: 'لپ تاپ گیمینگ با پردازنده قدرتمند و کارت گرافیک مخصوص',
+            stock: 8,
+            rating: 4.8,
+            is_featured: true,
+          },
+          {
+            id: 3,
+            title: 'هدفون بی‌سیم',
+            title_en: 'Wireless Headphones',
+            price: 3500000,
+            image_url: '/images/headphones.jpg',
+            category: 'Audio',
+            description: 'هدفون بی‌سیم با کیفیت صدای عالی و باتری قوی',
+            stock: 25,
+            rating: 4.2,
+            is_featured: false,
+          },
+          {
+            id: 4,
+            title: 'ساعت هوشمند',
+            title_en: 'Smart Watch',
+            price: 8000000,
+            image_url: '/images/watch.jpg',
+            category: 'Wearables',
+            description: 'ساعت هوشمند با قابلیت‌های متنوع و طراحی زیبا',
+            stock: 12,
+            rating: 4.0,
+            is_featured: false,
+          },
+          {
+            id: 5,
+            title: 'دوربین دیجیتال',
+            title_en: 'Digital Camera',
+            price: 22000000,
+            image_url: '/images/camera.jpg',
+            category: 'Photography',
+            description: 'دوربین دیجیتال با کیفیت بالا برای عکاسی حرفه‌ای',
+            stock: 5,
+            rating: 4.7,
+            is_featured: true,
+          },
+          {
+            id: 6,
+            title: 'تبلت پیشرفته',
+            title_en: 'Advanced Tablet',
+            price: 15000000,
+            image_url: '/images/tablet.jpg',
+            category: 'Electronics',
+            description: 'تبلت با صفحه نمایش بزرگ و عملکرد عالی',
+            stock: 10,
+            rating: 4.3,
+            is_featured: false,
+          },
+        ];
+
+        setProducts(mockProducts);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch products');
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const addProduct = (product: Product) => {
+    setProducts(prev => [...prev, { ...product, id: Date.now() }]);
+  };
+
+  const updateProduct = (id: number, updatedProduct: Partial<Product>) => {
+    setProducts(prev => 
+      prev.map(product => 
+        product.id === id ? { ...product, ...updatedProduct } : product
+      )
+    );
+  };
+
+  const deleteProduct = (id: number) => {
+    setProducts(prev => prev.filter(product => product.id !== id));
+  };
+
+  return (
+    <ProductsContext.Provider value={{ products, loading, error, addProduct, updateProduct, deleteProduct }}>
+      {children}
+    </ProductsContext.Provider>
+  );
+};
+
+export const useProducts = () => {
+  const context = useContext(ProductsContext);
+  if (context === undefined) {
+    throw new Error('useProducts must be used within a ProductsProvider');
+  }
+  return context;
+};
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\pages\admin\AdminProducts.tsx
+=====================================
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { useProducts } from '../../contexts/ProductsContext';
+import { Product } from '../../types/product.types';
+
+const AdminProducts: React.FC = () => {
+  const { t } = useTranslation();
+  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const [formData, setFormData] = useState<Omit<Product, 'id'>>({
+    title: '',
+    title_en: '',
+    price: 0,
+    image_url: '',
+    category: '',
+    description: '',
+    stock: 0,
+    rating: 0,
+    is_featured: false,
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
+               name === 'price' || name === 'stock' || name === 'rating' ? Number(value) : value;
+    
+    setFormData(prev => ({ ...prev, [name]: val }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (currentProduct) {
+      updateProduct(currentProduct.id, formData);
+    } else {
+      addProduct(formData as Product);
+    }
+    
+    setIsModalOpen(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      title_en: '',
+      price: 0,
+      image_url: '',
+      category: '',
+      description: '',
+      stock: 0,
+      rating: 0,
+      is_featured: false,
+    });
+    setCurrentProduct(null);
+  };
+
+  const openAddModal = () => {
+    resetForm();
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (product: Product) => {
+    setCurrentProduct(product);
+    setFormData({
+      title: product.title,
+      title_en: product.title_en,
+      price: product.price,
+      image_url: product.image_url,
+      category: product.category,
+      description: product.description,
+      stock: product.stock,
+      rating: product.rating,
+      is_featured: product.is_featured,
+    });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    resetForm();
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-6xl mx-auto"
+      >
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">{t('admin.products.title')}</h1>
+          <button
+            onClick={openAddModal}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {t('admin.products.addProduct')}
+          </button>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.products.image')}</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.products.title')}</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.products.category')}</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.products.price')}</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.products.stock')}</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('admin.products.actions')}</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <img src={product.image_url} alt={product.title} className="w-12 h-12 object-cover rounded" />
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">{product.title}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">{product.category}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Intl.NumberFormat('fa-IR').format(product.price)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {product.stock}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button
+                      onClick={() => openEditModal(product)}
+                      className="text-blue-600 hover:text-blue-900 mr-4"
+                    >
+                      {t('admin.edit')}
+                    </button>
+                    <button
+                      onClick={() => deleteProduct(product.id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      {t('admin.delete')}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
+
+      {/* Modal for adding/editing products */}
+      {isModalOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <motion.div
+            className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+          >
+            <div className="p-6">
+              <h2 className="text-xl font-bold mb-4">
+                {currentProduct ? t('admin.products.editProduct') : t('admin.products.addProduct')}
+              </h2>
+              
+              <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.title')}</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.title_en')}</label>
+                    <input
+                      type="text"
+                      name="title_en"
+                      value={formData.title_en}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.price')}</label>
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.category')}</label>
+                    <input
+                      type="text"
+                      name="category"
+                      value={formData.category}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.image')}</label>
+                  <input
+                    type="text"
+                    name="image_url"
+                    value={formData.image_url}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    required
+                  />
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.description')}</label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    rows={3}
+                    required
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.stock')}</label>
+                    <input
+                      type="number"
+                      name="stock"
+                      value={formData.stock}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.products.rating')}</label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      name="rating"
+                      value={formData.rating}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="is_featured"
+                      checked={formData.is_featured}
+                      onChange={handleInputChange}
+                      className="h-4 w-4 text-blue-600 rounded"
+                    />
+                    <label className="ml-2 block text-sm text-gray-700">{t('admin.products.featured')}</label>
+                  </div>
+                </div>
+                
+                <div className="flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  >
+                    {t('admin.cancel')}
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  >
+                    {currentProduct ? t('admin.update') : t('admin.save')}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+export default AdminProducts;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\pages\ProductDetailPage.tsx
+=====================================
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { useProducts } from '../contexts/ProductsContext';
+import { useCart } from '../contexts/CartContext';
+import ProductImage from '../components/products/ProductImage';
+import { Product } from '../types/product.types';
+
+const ProductDetailPage: React.FC = () => {
+  const { t } = useTranslation();
+  const { id } = useParams<{ id: string }>();
+  const { products } = useProducts();
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  
+  const product = products.find(p => p.id.toString() === id);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl text-gray-600">{t('product.notFound')}</p>
+      </div>
+    );
+  }
+
+  const handleAddToCart = () => {
+    // Create a temporary product with the selected quantity
+    const productWithQuantity = { ...product, quantity };
+    addToCart(productWithQuantity);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-xl shadow-md overflow-hidden"
+        >
+          <div className="p-6">
+            <button className="text-blue-600 hover:text-blue-800 mb-4">
+              ← {t('product.backToProducts')}
+            </button>
+            
+            <div className="flex flex-col lg:flex-row gap-8">
+              <div className="lg:w-1/2">
+                <ProductImage
+                  src={product.image_url}
+                  alt={product.title}
+                  className="w-full h-96 object-contain rounded-lg"
+                />
+              </div>
+              
+              <div className="lg:w-1/2">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
+                
+                <div className="flex items-center mb-4">
+                  <div className="flex text-yellow-500">
+                    {'★'.repeat(Math.floor(product.rating))}
+                    {'☆'.repeat(5 - Math.floor(product.rating))}
+                  </div>
+                  <span className="ml-2 text-gray-600">({product.rating})</span>
+                </div>
+                
+                <p className="text-2xl font-bold text-blue-600 mb-4">
+                  {new Intl.NumberFormat('fa-IR').format(product.price)} {t('currency')}
+                </p>
+                
+                <p className="text-gray-600 mb-6">{product.description}</p>
+                
+                <div className="mb-6">
+                  <h3 className="font-medium text-gray-900 mb-2">{t('product.category')}:</h3>
+                  <span className="inline-block bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+                    {product.category}
+                  </span>
+                </div>
+                
+                <div className="flex items-center mb-6">
+                  <label className="mr-3 text-gray-700">{t('product.quantity')}:</label>
+                  <div className="flex items-center border border-gray-300 rounded">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="px-3 py-1 text-lg font-bold"
+                    >
+                      -
+                    </button>
+                    <span className="px-4 py-1">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="px-3 py-1 text-lg font-bold"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={handleAddToCart}
+                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                >
+                  {t('products.addToCart')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetailPage;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\services\product.service.ts
+=====================================
+import { Product } from '../types/product.types';
+
+class ProductService {
+  private apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
+  async getProducts(): Promise<Product[]> {
+    try {
+      const response = await fetch(`${this.apiUrl}/products`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      throw error;
+    }
+  }
+
+  async getProductById(id: number): Promise<Product> {
+    try {
+      const response = await fetch(`${this.apiUrl}/products/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching product with id ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async createProduct(productData: Omit<Product, 'id'>): Promise<Product> {
+    try {
+      const response = await fetch(`${this.apiUrl}/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating product:', error);
+      throw error;
+    }
+  }
+
+  async updateProduct(id: number, productData: Partial<Product>): Promise<Product> {
+    try {
+      const response = await fetch(`${this.apiUrl}/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Error updating product with id ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteProduct(id: number): Promise<void> {
+    try {
+      const response = await fetch(`${this.apiUrl}/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(`Error deleting product with id ${id}:`, error);
+      throw error;
+    }
+  }
+}
+
+export const productService = new ProductService();
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\types\product.types.ts
+=====================================
+export interface Product {
+  id: number;
+  title: string;
+  title_en: string;
+  price: number;
+  image_url: string;
+  category: string;
+  description: string;
+  stock: number;
+  rating: number;
+  is_featured: boolean;
+  quantity?: number; // Added for cart functionality
+  reviews?: number; // Added for display purposes
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\products\FiltersSidebar.tsx
+=====================================
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+interface Filters {
+  category: string;
+  minPrice: string;
+  maxPrice: string;
+  search: string;
+  sortBy: string;
+  sortOrder: string;
+}
+
+interface FiltersSidebarProps {
+  filters: Filters;
+  onFilterChange: (filters: Partial<Filters>) => void;
+}
+
+const FiltersSidebar: React.FC<FiltersSidebarProps> = ({ filters, onFilterChange }) => {
+  const { t } = useTranslation();
+  const [localFilters, setLocalFilters] = useState<Filters>(filters);
+  const [expandedSections, setExpandedSections] = useState({
+    category: true,
+    price: true,
+    sort: true
+  });
+
+  const categories = [
+    { value: '', label: t('filters.allCategories') },
+    { value: 'Electronics', label: t('categories.electronics') },
+    { value: 'Computers', label: t('categories.computers') },
+    { value: 'Audio', label: t('categories.audio') },
+    { value: 'Wearables', label: t('categories.wearables') },
+    { value: 'Photography', label: t('categories.photography') },
+  ];
+
+  const sortOptions = [
+    { value: 'name', label: t('sort.name') },
+    { value: 'price', label: t('sort.price') },
+    { value: 'rating', label: t('sort.rating') },
+    { value: 'date', label: t('sort.date') },
+  ];
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setLocalFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleApplyFilters = () => {
+    onFilterChange(localFilters);
+  };
+
+  const handleResetFilters = () => {
+    const resetFilters = {
+      category: '',
+      minPrice: '',
+      maxPrice: '',
+      search: '',
+      sortBy: 'name',
+      sortOrder: 'asc'
+    };
+    setLocalFilters(resetFilters);
+    onFilterChange(resetFilters);
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-md h-fit">
+      <h2 className="text-xl font-bold text-gray-900 mb-6">{t('filters.title')}</h2>
+      
+      {/* Search Filter */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {t('filters.search')}
+        </label>
+        <input
+          type="text"
+          name="search"
+          value={localFilters.search}
+          onChange={handleInputChange}
+          placeholder={t('filters.searchPlaceholder')}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Category Filter */}
+      <div className="mb-6">
+        <button
+          type="button"
+          className="w-full flex justify-between items-center text-left font-medium text-gray-900"
+          onClick={() => toggleSection('category')}
+        >
+          <span>{t('filters.category')}</span>
+          <span>{expandedSections.category ? '▲' : '▼'}</span>
+        </button>
+        
+        {expandedSections.category && (
+          <div className="mt-2">
+            <select
+              name="category"
+              value={localFilters.category}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              {categories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+      </div>
+
+      {/* Price Range Filter */}
+      <div className="mb-6">
+        <button
+          type="button"
+          className="w-full flex justify-between items-center text-left font-medium text-gray-900"
+          onClick={() => toggleSection('price')}
+        >
+          <span>{t('filters.priceRange')}</span>
+          <span>{expandedSections.price ? '▲' : '▼'}</span>
+        </button>
+        
+        {expandedSections.price && (
+          <div className="mt-2 space-y-4">
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">{t('filters.minPrice')}</label>
+              <input
+                type="number"
+                name="minPrice"
+                value={localFilters.minPrice}
+                onChange={handleInputChange}
+                placeholder={t('filters.minPricePlaceholder')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">{t('filters.maxPrice')}</label>
+              <input
+                type="number"
+                name="maxPrice"
+                value={localFilters.maxPrice}
+                onChange={handleInputChange}
+                placeholder={t('filters.maxPricePlaceholder')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Sorting Options */}
+      <div className="mb-6">
+        <button
+          type="button"
+          className="w-full flex justify-between items-center text-left font-medium text-gray-900"
+          onClick={() => toggleSection('sort')}
+        >
+          <span>{t('filters.sortBy')}</span>
+          <span>{expandedSections.sort ? '▲' : '▼'}</span>
+        </button>
+        
+        {expandedSections.sort && (
+          <div className="mt-2 space-y-4">
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">{t('filters.sortBy')}</label>
+              <select
+                name="sortBy"
+                value={localFilters.sortBy}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">{t('filters.sortOrder')}</label>
+              <select
+                name="sortOrder"
+                value={localFilters.sortOrder}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="asc">{t('filters.ascending')}</option>
+                <option value="desc">{t('filters.descending')}</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex space-x-3">
+        <button
+          onClick={handleApplyFilters}
+          className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+        >
+          {t('filters.apply')}
+        </button>
+        <button
+          onClick={handleResetFilters}
+          className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+        >
+          {t('filters.reset')}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default FiltersSidebar;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\ai\SmartSearchBar.tsx
+=====================================
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search as SearchIcon, X as CloseIcon } from 'lucide-react';
+import { Product } from '../../types/product.types';
+
+interface SmartSearchBarProps {
+  products: Product[];
+  onSearch: (query: string) => void;
+  onProductSelect: (product: Product) => void;
+}
+
+const SmartSearchBar: React.FC<SmartSearchBarProps> = ({ products, onSearch, onProductSelect }) => {
+  const { t } = useTranslation();
+  const [query, setQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Filter products based on query
+  useEffect(() => {
+    if (query.trim()) {
+      const filtered = products.filter(product =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase())
+      );
+      setSuggestions(filtered.slice(0, 5)); // Limit to 5 suggestions
+      setIsOpen(true);
+    } else {
+      setSuggestions([]);
+      setIsOpen(false);
+    }
+    setSelectedIndex(-1);
+  }, [query, products]);
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      handleSelectProduct(suggestions[selectedIndex]);
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
+  const handleSelectProduct = (product: Product) => {
+    setQuery(product.title);
+    setIsOpen(false);
+    onProductSelect(product);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    onSearch(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setQuery('');
+    setIsOpen(false);
+    onSearch('');
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <div className="relative">
+        <SearchIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => query && setIsOpen(true)}
+          placeholder={t('search.placeholder')}
+          className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        {query && (
+          <button
+            onClick={clearSearch}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <CloseIcon className="w-5 h-5" />
+          </button>
+        )}
+      </div>
+
+      <AnimatePresence>
+        {isOpen && suggestions.length > 0 && (
+          <motion.ul
+            className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.1 }}
+          >
+            {suggestions.map((product, index) => (
+              <motion.li
+                key={product.id}
+                className={`p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0 ${
+                  index === selectedIndex ? 'bg-blue-50' : ''
+                }`}
+                onClick={() => handleSelectProduct(product)}
+                whileHover={{ backgroundColor: '#f9fafb' }}
+              >
+                <div className="font-medium text-gray-900">{product.title}</div>
+                <div className="text-sm text-gray-500 truncate">{product.description}</div>
+                <div className="text-sm text-gray-500">{product.category}</div>
+              </motion.li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default SmartSearchBar;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\ai\multilingual\MultilingualSmartSearchBar.tsx
+=====================================
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search as SearchIcon, X as CloseIcon, Globe } from 'lucide-react';
+import { Product } from '../../../types/product.types';
+
+interface MultilingualSmartSearchBarProps {
+  products: Product[];
+  onSearch: (query: string) => void;
+  onProductSelect: (product: Product) => void;
+}
+
+const MultilingualSmartSearchBar: React.FC<MultilingualSmartSearchBarProps> = ({ 
+  products, 
+  onSearch, 
+  onProductSelect 
+}) => {
+  const { t, i18n } = useTranslation();
+  const [query, setQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Filter products based on query with multilingual support
+  useEffect(() => {
+    if (query.trim()) {
+      const filtered = products.filter(product => {
+        // Search in both Persian and English titles/descriptions
+        const searchFields = [
+          product.title,           // Persian title
+          product.title_en,        // English title
+          product.description,     // Persian description
+          product.category         // Category
+        ];
+        
+        return searchFields.some(field => 
+          field.toLowerCase().includes(query.toLowerCase())
+        );
+      });
+      setSuggestions(filtered.slice(0, 5)); // Limit to 5 suggestions
+      setIsOpen(true);
+    } else {
+      setSuggestions([]);
+      setIsOpen(false);
+    }
+    setSelectedIndex(-1);
+  }, [query, products]);
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      handleSelectProduct(suggestions[selectedIndex]);
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
+  const handleSelectProduct = (product: Product) => {
+    setQuery(i18n.language.startsWith('en') ? product.title_en : product.title);
+    setIsOpen(false);
+    onProductSelect(product);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    onSearch(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setQuery('');
+    setIsOpen(false);
+    onSearch('');
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <div className="relative">
+        <Globe className="absolute right-10 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <SearchIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => query && setIsOpen(true)}
+          placeholder={t('search.placeholder')}
+          className="w-full pl-14 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        {query && (
+          <button
+            onClick={clearSearch}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <CloseIcon className="w-5 h-5" />
+          </button>
+        )}
+      </div>
+
+      <AnimatePresence>
+        {isOpen && suggestions.length > 0 && (
+          <motion.ul
+            className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.1 }}
+          >
+            {suggestions.map((product, index) => (
+              <motion.li
+                key={product.id}
+                className={`p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0 ${
+                  index === selectedIndex ? 'bg-blue-50' : ''
+                }`}
+                onClick={() => handleSelectProduct(product)}
+                whileHover={{ backgroundColor: '#f9fafb' }}
+              >
+                <div className="font-medium text-gray-900">
+                  {i18n.language.startsWith('en') ? product.title_en : product.title}
+                </div>
+                <div className="text-sm text-gray-500 truncate">
+                  {i18n.language.startsWith('en') ? product.description : product.description}
+                </div>
+                <div className="text-sm text-gray-500">{product.category}</div>
+              </motion.li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default MultilingualSmartSearchBar;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\legacy\ImageSearchModal.tsx
+=====================================
+import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Upload, X, Search } from 'lucide-react';
+
+interface ImageSearchModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onImageUpload: (file: File) => void;
+}
+
+const ImageSearchModal: React.FC<ImageSearchModalProps> = ({ isOpen, onClose, onImageUpload }) => {
+  const { t } = useTranslation();
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedImage(null);
+      setPreviewUrl(null);
+    }
+  }, [isOpen]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleImageUpload = () => {
+    if (selectedImage) {
+      onImageUpload(selectedImage);
+      onClose();
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      setSelectedImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="bg-white rounded-xl shadow-xl w-full max-w-md"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-900">{t('imageSearch.title')}</h2>
+              <button
+                onClick={onClose}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div
+              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                selectedImage ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-blue-500'
+              }`}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+              
+              {previewUrl ? (
+                <div className="flex flex-col items-center">
+                  <img 
+                    src={previewUrl} 
+                    alt={t('imageSearch.preview')} 
+                    className="max-h-40 rounded-lg mb-4"
+                  />
+                  <p className="text-green-600 font-medium">{t('imageSearch.imageSelected')}</p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <Upload className="w-12 h-12 text-gray-400 mb-2" />
+                  <p className="text-gray-600">{t('imageSearch.dragDrop')}</p>
+                  <p className="text-sm text-gray-500 mt-1">{t('imageSearch.supportedFormats')}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                {t('imageSearch.cancel')}
+              </button>
+              <button
+                onClick={handleImageUpload}
+                disabled={!selectedImage}
+                className={`px-4 py-2 rounded-md text-white flex items-center ${
+                  selectedImage 
+                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    : 'bg-gray-400 cursor-not-allowed'
+                }`}
+              >
+                <Search className="w-4 h-4 mr-2" />
+                {t('imageSearch.search')}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+export default ImageSearchModal;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\legacy\SmartSearchBar.tsx
+=====================================
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search as SearchIcon, X as CloseIcon } from 'lucide-react';
+import { Product } from '../../types/product.types';
+
+interface SmartSearchBarProps {
+  products: Product[];
+  onSearch: (query: string) => void;
+  onProductSelect: (product: Product) => void;
+}
+
+const SmartSearchBar: React.FC<SmartSearchBarProps> = ({ products, onSearch, onProductSelect }) => {
+  const { t } = useTranslation();
+  const [query, setQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Filter products based on query
+  useEffect(() => {
+    if (query.trim()) {
+      const filtered = products.filter(product =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase())
+      );
+      setSuggestions(filtered.slice(0, 5)); // Limit to 5 suggestions
+      setIsOpen(true);
+    } else {
+      setSuggestions([]);
+      setIsOpen(false);
+    }
+    setSelectedIndex(-1);
+  }, [query, products]);
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex(prev => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      handleSelectProduct(suggestions[selectedIndex]);
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
+  const handleSelectProduct = (product: Product) => {
+    setQuery(product.title);
+    setIsOpen(false);
+    onProductSelect(product);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    onSearch(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setQuery('');
+    setIsOpen(false);
+    onSearch('');
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <div className="relative">
+        <SearchIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => query && setIsOpen(true)}
+          placeholder={t('search.placeholder')}
+          className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        {query && (
+          <button
+            onClick={clearSearch}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <CloseIcon className="w-5 h-5" />
+          </button>
+        )}
+      </div>
+
+      <AnimatePresence>
+        {isOpen && suggestions.length > 0 && (
+          <motion.ul
+            className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.1 }}
+          >
+            {suggestions.map((product, index) => (
+              <motion.li
+                key={product.id}
+                className={`p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0 ${
+                  index === selectedIndex ? 'bg-blue-50' : ''
+                }`}
+                onClick={() => handleSelectProduct(product)}
+                whileHover={{ backgroundColor: '#f9fafb' }}
+              >
+                <div className="font-medium text-gray-900">{product.title}</div>
+                <div className="text-sm text-gray-500 truncate">{product.description}</div>
+                <div className="text-sm text-gray-500">{product.category}</div>
+              </motion.li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default SmartSearchBar;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\search\SearchBar.tsx
+=====================================
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Search, X } from 'lucide-react';
+
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+  placeholder?: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
+  const { t } = useTranslation();
+  const [query, setQuery] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch(query);
+  };
+
+  const clearSearch = () => {
+    setQuery('');
+    onSearch('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="relative">
+      <div className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={placeholder || t('search.placeholder')}
+          className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        <button
+          type="submit"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+          <Search className="w-5 h-5" />
+        </button>
+        {query && (
+          <button
+            type="button"
+            onClick={clearSearch}
+            className="absolute left-10 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
+      </div>
+    </form>
+  );
+};
+
+export default SearchBar;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\search\SearchModal.tsx
+=====================================
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, X } from 'lucide-react';
+import { Product } from '../../types/product.types';
+
+interface SearchModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  products: Product[];
+  onProductSelect: (product: Product) => void;
+}
+
+const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, products, onProductSelect }) => {
+  const { t } = useTranslation();
+  const [query, setQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (query.trim()) {
+      const results = products.filter(product =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredProducts(results);
+    } else {
+      setFilteredProducts([]);
+    }
+  }, [query, products]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setQuery('');
+    }
+  }, [isOpen]);
+
+  const handleSelectProduct = (product: Product) => {
+    onProductSelect(product);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col"
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="p-4 border-b">
+            <div className="relative">
+              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t('search.placeholder')}
+                className="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                autoFocus
+              />
+              <button
+                onClick={onClose}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          <div className="overflow-y-auto flex-1 p-4">
+            {query ? (
+              filteredProducts.length > 0 ? (
+                <div className="space-y-2">
+                  {filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"
+                      onClick={() => handleSelectProduct(product)}
+                    >
+                      <h3 className="font-medium text-gray-900">{product.title}</h3>
+                      <p className="text-sm text-gray-600 truncate">{product.description}</p>
+                      <div className="text-sm text-gray-500">{product.category}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  {t('search.noResults')}
+                </div>
+              )
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                {t('search.startTyping')}
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+export default SearchModal;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\types\smart-search.ts
+=====================================
+export interface SmartSearchResult {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  score: number; // Relevance score
+  type: 'product' | 'category' | 'brand';
+}
+
+export interface SmartSearchQuery {
+  query: string;
+  filters?: {
+    category?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    brand?: string;
+  };
+  limit?: number;
+  offset?: number;
+}
+
+export interface SmartSearchSuggestion {
+  query: string;
+  score: number;
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\ai\AIQuickActions.tsx
+=====================================
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { 
+  Search, 
+  Filter, 
+  ShoppingCart, 
+  Star, 
+  TrendingUp, 
+  DollarSign,
+  Bot
+} from 'lucide-react';
+
+interface AIQuickActionsProps {
+  onAction: (action: string) => void;
+}
+
+const AIQuickActions: React.FC<AIQuickActionsProps> = ({ onAction }) => {
+  const { t } = useTranslation();
+
+  const actions = [
+    { id: 'search', icon: Search, label: t('ai.quickActions.search'), color: 'blue' },
+    { id: 'filter', icon: Filter, label: t('ai.quickActions.filter'), color: 'green' },
+    { id: 'cart', icon: ShoppingCart, label: t('ai.quickActions.cart'), color: 'purple' },
+    { id: 'trending', icon: TrendingUp, label: t('ai.quickActions.trending'), color: 'orange' },
+    { id: 'bestRated', icon: Star, label: t('ai.quickActions.bestRated'), color: 'yellow' },
+    { id: 'bestDeals', icon: DollarSign, label: t('ai.quickActions.bestDeals'), color: 'red' },
+  ];
+
+  return (
+    <div className="bg-white rounded-xl shadow-md p-4 mb-6">
+      <div className="flex items-center mb-3">
+        <Bot className="w-5 h-5 text-blue-500 mr-2" />
+        <h3 className="font-medium text-gray-900">{t('ai.quickActions.title')}</h3>
+      </div>
+      
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+        {actions.map((action) => {
+          const IconComponent = action.icon;
+          return (
+            <button
+              key={action.id}
+              onClick={() => onAction(action.id)}
+              className={`flex flex-col items-center justify-center p-3 rounded-lg border hover:bg-${action.color}-50 hover:border-${action.color}-300 transition-colors`}
+            >
+              <IconComponent className={`w-6 h-6 text-${action.color}-500`} />
+              <span className="mt-1 text-xs text-center text-gray-700">{action.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default AIQuickActions;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\chat\AIActionsMenu.tsx
+=====================================
+import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { 
+  Bot, 
+  Search, 
+  Filter, 
+  ShoppingCart, 
+  Star, 
+  TrendingUp, 
+  DollarSign,
+  X
+} from 'lucide-react';
+
+interface AIActionsMenuProps {
+  onAction: (action: string) => void;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const AIActionsMenu: React.FC<AIActionsMenuProps> = ({ onAction, isOpen, onClose }) => {
+  const { t } = useTranslation();
+  const [selectedAction, setSelectedAction] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const actions = [
+    { id: 'search', icon: Search, label: t('ai.quickActions.search') },
+    { id: 'filter', icon: Filter, label: t('ai.quickActions.filter') },
+    { id: 'cart', icon: ShoppingCart, label: t('ai.quickActions.cart') },
+    { id: 'trending', icon: TrendingUp, label: t('ai.quickActions.trending') },
+    { id: 'bestRated', icon: Star, label: t('ai.quickActions.bestRated') },
+    { id: 'bestDeals', icon: DollarSign, label: t('ai.quickActions.bestDeals') },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
+  const handleActionClick = (actionId: string) => {
+    setSelectedAction(actionId);
+    onAction(actionId);
+    
+    // Reset selection after a short delay
+    setTimeout(() => setSelectedAction(null), 300);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed bottom-24 right-6 z-40">
+      <div 
+        ref={menuRef}
+        className="bg-white rounded-xl shadow-xl border border-gray-200 w-80 max-h-96 overflow-y-auto"
+      >
+        <div className="p-4 border-b flex justify-between items-center">
+          <div className="flex items-center">
+            <Bot className="w-5 h-5 text-blue-500 mr-2" />
+            <h3 className="font-medium text-gray-900">{t('ai.quickActions.title')}</h3>
+          </div>
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="p-3">
+          <div className="grid grid-cols-2 gap-2">
+            {actions.map((action) => {
+              const IconComponent = action.icon;
+              return (
+                <button
+                  key={action.id}
+                  onClick={() => handleActionClick(action.id)}
+                  disabled={selectedAction === action.id}
+                  className={`flex flex-col items-center justify-center p-3 rounded-lg border transition-all ${
+                    selectedAction === action.id
+                      ? 'bg-blue-100 border-blue-300'
+                      : 'hover:bg-gray-50 border-gray-200'
+                  }`}
+                >
+                  <IconComponent className={`w-6 h-6 ${
+                    selectedAction === action.id ? 'text-blue-500' : 'text-gray-600'
+                  }`} />
+                  <span className="mt-1 text-xs text-center text-gray-700">{action.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AIActionsMenu;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\hooks\useAIChatSSE.ts
+=====================================
+import { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+
+interface AIChatSSEOptions {
+  url: string;
+  onMessage?: (message: string) => void;
+  onError?: (error: Error) => void;
+  onOpen?: () => void;
+}
+
+interface AIChatSSE {
+  sendMessage: (message: string) => void;
+  isConnected: boolean;
+  error: Error | null;
+  messages: string[];
+  clearMessages: () => void;
+}
+
+export const useAIChatSSE = (options: AIChatSSEOptions): AIChatSSE => {
+  const { t } = useTranslation();
+  const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [messages, setMessages] = useState<string[]>([]);
+  const [eventSource, setEventSource] = useState<EventSource | null>(null);
+
+  const clearMessages = useCallback(() => {
+    setMessages([]);
+  }, []);
+
+  const sendMessage = useCallback((message: string) => {
+    if (eventSource && isConnected) {
+      // In a real implementation, you would send the message to the SSE endpoint
+      // For now, we'll just add it to the messages array
+      setMessages(prev => [...prev, `User: ${message}`]);
+    } else {
+      setError(new Error(t('ai.errors.notConnected')));
+    }
+  }, [eventSource, isConnected, t]);
+
+  useEffect(() => {
+    if (!options.url) {
+      setError(new Error(t('ai.errors.noUrl')));
+      return;
+    }
+
+    const es = new EventSource(options.url);
+    setEventSource(es);
+
+    es.onopen = () => {
+      setIsConnected(true);
+      setError(null);
+      options.onOpen?.();
+    };
+
+    es.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        setMessages(prev => [...prev, `AI: ${data.message || event.data}`]);
+        options.onMessage?.(data.message || event.data);
+      } catch (e) {
+        // If parsing fails, treat the entire message as text
+        setMessages(prev => [...prev, `AI: ${event.data}`]);
+        options.onMessage?.(event.data);
+      }
+    };
+
+    es.onerror = (err) => {
+      setIsConnected(false);
+      setError(new Error(t('ai.errors.connectionError')));
+      options.onError?.(new Error(t('ai.errors.connectionError')));
+      console.error('SSE error:', err);
+    };
+
+    return () => {
+      es.close();
+      setEventSource(null);
+      setIsConnected(false);
+    };
+  }, [options.url, options.onMessage, options.onError, options.onOpen, t]);
+
+  return {
+    sendMessage,
+    isConnected,
+    error,
+    messages,
+    clearMessages
+  };
+};
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\hooks\useAIChatWebSocket.ts
+=====================================
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+
+interface AIChatWebSocketOptions {
+  url: string;
+  onMessage?: (message: string) => void;
+  onError?: (error: Error) => void;
+  onOpen?: () => void;
+  onClose?: () => void;
+}
+
+interface AIChatWebSocket {
+  sendMessage: (message: string) => void;
+  isConnected: boolean;
+  error: Error | null;
+  messages: string[];
+  clearMessages: () => void;
+}
+
+export const useAIChatWebSocket = (options: AIChatWebSocketOptions): AIChatWebSocket => {
+  const { t } = useTranslation();
+  const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [messages, setMessages] = useState<string[]>([]);
+  const wsRef = useRef<WebSocket | null>(null);
+
+  const clearMessages = useCallback(() => {
+    setMessages([]);
+  }, []);
+
+  const sendMessage = useCallback((message: string) => {
+    if (wsRef.current && isConnected) {
+      const messageData = {
+        type: 'message',
+        content: message,
+        timestamp: new Date().toISOString()
+      };
+      wsRef.current.send(JSON.stringify(messageData));
+      setMessages(prev => [...prev, `User: ${message}`]);
+    } else {
+      setError(new Error(t('ai.errors.notConnected')));
+    }
+  }, [isConnected, t]);
+
+  useEffect(() => {
+    if (!options.url) {
+      setError(new Error(t('ai.errors.noUrl')));
+      return;
+    }
+
+    const ws = new WebSocket(options.url);
+    wsRef.current = ws;
+
+    ws.onopen = () => {
+      setIsConnected(true);
+      setError(null);
+      options.onOpen?.();
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        setMessages(prev => [...prev, `AI: ${data.content || event.data}`]);
+        options.onMessage?.(data.content || event.data);
+      } catch (e) {
+        // If parsing fails, treat the entire message as text
+        setMessages(prev => [...prev, `AI: ${event.data}`]);
+        options.onMessage?.(event.data);
+      }
+    };
+
+    ws.onclose = () => {
+      setIsConnected(false);
+      options.onClose?.();
+    };
+
+    ws.onerror = (err) => {
+      setError(new Error(t('ai.errors.connectionError')));
+      options.onError?.(new Error(t('ai.errors.connectionError')));
+      console.error('WebSocket error:', err);
+    };
+
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [options.url, options.onMessage, options.onError, options.onOpen, options.onClose, t]);
+
+  return {
+    sendMessage,
+    isConnected,
+    error,
+    messages,
+    clearMessages
+  };
+};
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\data\ar.json
+=====================================
+{
+  "rtl": true,
+  "home": {
+    "welcome": "مرحبا بكم في متجرنا",
+    "featuredProducts": "منتجات مميزة",
+    "latestProducts": "أحدث المنتجات",
+    "specialOffers": "عروض خاصة",
+    "viewAll": "عرض الكل",
+    "addToCart": "أضف إلى السلة",
+    "buyNow": "اشتر الآن"
+  },
+  "products": {
+    "title": "منتجات",
+    "description": "اكتشف منتجاتنا المتنوعة",
+    "noProducts": "لا توجد منتجات",
+    "noProductsDescription": "لم نتمكن من العثور على منتجات تطابق معايير البحث الخاصة بك.",
+    "error": "حدث خطأ أثناء تحميل المنتجات",
+    "featured": "مميز",
+    "addToCart": "أضف إلى السلة",
+    "outOfStock": "غير متوفر",
+    "inStock": "متوفر"
+  },
+  "cart": {
+    "title": "السلة",
+    "empty": "السلة فارغة",
+    "total": "الإجمالي",
+    "checkout": "الدفع",
+    "remove": "إزالة",
+    "inCart": "في السلة",
+    "quantity": "الكمية",
+    "subtotal": "المجموع الفرعي"
+  },
+  "checkout": {
+    "title": "الدفع",
+    "billingAddress": "عنوان الفواتير",
+    "shippingAddress": "عنوان الشحن",
+    "paymentMethod": "طريقة الدفع",
+    "orderSummary": "ملخص الطلب",
+    "placeOrder": "تقديم الطلب",
+    "success": "تم تقديم الطلب بنجاح!"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "editProfile": "تعديل الملف الشخصي",
+    "myOrders": "طلباتي",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل"
+  },
+  "search": {
+    "placeholder": "البحث عن منتجات...",
+    "noResults": "لا توجد نتائج",
+    "startTyping": "ابدأ بالكتابة للبحث",
+    "resultsFor": "نتائج البحث عن"
+  },
+  "filters": {
+    "title": "الفلاتر",
+    "category": "الفئة",
+    "priceRange": "نطاق السعر",
+    "minPrice": "السعر الأدنى",
+    "maxPrice": "السعر الأعلى",
+    "minPricePlaceholder": "السعر الأدنى",
+    "maxPricePlaceholder": "السعر الأعلى",
+    "allCategories": "جميع الفئات",
+    "apply": "تطبيق",
+    "reset": "إعادة تعيين",
+    "search": "البحث",
+    "searchPlaceholder": "البحث...",
+    "sortBy": "ترتيب حسب",
+    "sortOrder": "اتجاه الترتيب",
+    "ascending": "تصاعدي",
+    "descending": "تنازلي"
+  },
+  "categories": {
+    "electronics": "إلكترونيات",
+    "computers": "كمبيوترات",
+    "audio": "صوتيات",
+    "wearables": "القابلات للارتداء",
+    "photography": "التصوير"
+  },
+  "sort": {
+    "name": "الاسم",
+    "price": "السعر",
+    "rating": "التقييم",
+    "date": "التاريخ"
+  },
+  "product": {
+    "category": "الفئة",
+    "quantity": "الكمية",
+    "backToProducts": "العودة إلى المنتجات",
+    "notFound": "المنتج غير موجود"
+  },
+  "currency": "ر.س",
+  "image": {
+    "error": "خطأ في تحميل الصورة"
+  },
+  "modal": {
+    "close": "إغلاق"
+  },
+  "reviews": "مراجعات",
+  "admin": {
+    "title": "لوحة التحكم",
+    "dashboard": "لوحة التحكم",
+    "products": {
+      "title": "المنتجات",
+      "addProduct": "إضافة منتج",
+      "editProduct": "تعديل المنتج",
+      "image": "الصورة",
+      "title": "العنوان",
+      "category": "الفئة",
+      "price": "السعر",
+      "stock": "المخزون",
+      "actions": "الإجراءات",
+      "featured": "مميز"
+    },
+    "orders": {
+      "title": "الطلبات",
+      "orderId": "رقم الطلب",
+      "customer": "العميل",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "total": "الإجمالي"
+    },
+    "edit": "تعديل",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "update": "تحديث"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "إجراءات ذكية",
+      "search": "البحث",
+      "filter": "الفلترة",
+      "cart": "السلة",
+      "trending": "شائع",
+      "bestRated": "الأعلى تقييماً",
+      "bestDeals": "أفضل العروض"
+    },
+    "errors": {
+      "notConnected": "غير متصل بخدمة الذكاء الاصطناعي",
+      "noUrl": "لم يتم تعيين عنوان URL للذكاء الاصطناعي",
+      "connectionError": "خطأ في الاتصال بخدمة الذكاء الاصطناعي"
+    }
+  },
+  "imageSearch": {
+    "title": "البحث بالصورة",
+    "dragDrop": "اسحب وأفلت الصورة هنا أو انقر للاختيار",
+    "supportedFormats": "الصيغ المدعومة: JPG, PNG, GIF",
+    "imageSelected": "تم اختيار الصورة",
+    "cancel": "إلغاء",
+    "search": "بحث",
+    "preview": "معاينة"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\data\fa.json
+=====================================
+{
+  "rtl": true,
+  "home": {
+    "welcome": "به فروشگاه ما خوش آمدید",
+    "featuredProducts": "محصولات ویژه",
+    "latestProducts": "جدیدترین محصولات",
+    "specialOffers": "پیشنهادهای ویژه",
+    "viewAll": "مشاهده همه",
+    "addToCart": "افزودن به سبد",
+    "buyNow": "همین الان بخر"
+  },
+  "products": {
+    "title": "محصولات",
+    "description": "محصولات متنوع ما را کشف کنید",
+    "noProducts": "محصولی یافت نشد",
+    "noProductsDescription": "هیچ محصولی مطابق با معیارهای جستجوی شما پیدا نشد.",
+    "error": "هنگام بارگذاری محصولات خطایی رخ داد",
+    "featured": "ویژه",
+    "addToCart": "افزودن به سبد",
+    "outOfStock": "ناموجود",
+    "inStock": "موجود"
+  },
+  "cart": {
+    "title": "سبد خرید",
+    "empty": "سبد خرید خالی است",
+    "total": "مجموع",
+    "checkout": "پرداخت",
+    "remove": "حذف",
+    "inCart": "در سبد",
+    "quantity": "تعداد",
+    "subtotal": "جمع جز"
+  },
+  "checkout": {
+    "title": "پرداخت",
+    "billingAddress": "آدرس صورتحساب",
+    "shippingAddress": "آدرس ارسال",
+    "paymentMethod": "روش پرداخت",
+    "orderSummary": "خلاصه سفارش",
+    "placeOrder": "ثبت سفارش",
+    "success": "سفارش شما با موفقیت ثبت شد!"
+  },
+  "profile": {
+    "title": "پروفایل",
+    "editProfile": "ویرایش پروفایل",
+    "myOrders": "سفارش‌های من",
+    "logout": "خروج",
+    "login": "ورود",
+    "register": "ثبت نام"
+  },
+  "search": {
+    "placeholder": "جستجوی محصولات...",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "startTyping": "برای جستجو تایپ کنید",
+    "resultsFor": "نتایج برای"
+  },
+  "filters": {
+    "title": "فیلترها",
+    "category": "دسته‌بندی",
+    "priceRange": "محدوده قیمت",
+    "minPrice": "حداقل قیمت",
+    "maxPrice": "حداکثر قیمت",
+    "minPricePlaceholder": "حداقل قیمت",
+    "maxPricePlaceholder": "حداکثر قیمت",
+    "allCategories": "همه دسته‌ها",
+    "apply": "اعمال",
+    "reset": "بازنشانی",
+    "search": "جستجو",
+    "searchPlaceholder": "جستجو...",
+    "sortBy": "مرتب‌سازی بر اساس",
+    "sortOrder": "ترتیب مرتب‌سازی",
+    "ascending": "صعودی",
+    "descending": "نزولی"
+  },
+  "categories": {
+    "electronics": "الکترونیک",
+    "computers": "رایانه‌ها",
+    "audio": "صوتی",
+    "wearables": "پوشیدنی‌ها",
+    "photography": "عکاسی"
+  },
+  "sort": {
+    "name": "نام",
+    "price": "قیمت",
+    "rating": "امتیاز",
+    "date": "تاریخ"
+  },
+  "product": {
+    "category": "دسته‌بندی",
+    "quantity": "تعداد",
+    "backToProducts": "بازگشت به محصولات",
+    "notFound": "محصول یافت نشد"
+  },
+  "currency": "تومان",
+  "image": {
+    "error": "خطا در بارگذاری تصویر"
+  },
+  "modal": {
+    "close": "بستن"
+  },
+  "reviews": "بررسی‌ها",
+  "admin": {
+    "title": "پنل مدیریت",
+    "dashboard": "داشبورد",
+    "products": {
+      "title": "محصولات",
+      "addProduct": "افزودن محصول",
+      "editProduct": "ویرایش محصول",
+      "image": "تصویر",
+      "title": "عنوان",
+      "category": "دسته‌بندی",
+      "price": "قیمت",
+      "stock": "موجودی",
+      "actions": "عملیات",
+      "featured": "ویژه"
+    },
+    "orders": {
+      "title": "سفارش‌ها",
+      "orderId": "شماره سفارش",
+      "customer": "مشتری",
+      "date": "تاریخ",
+      "status": "وضعیت",
+      "total": "مجموع"
+    },
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "update": "به‌روزرسانی"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "اقدامات هوشمند",
+      "search": "جستجو",
+      "filter": "فیلتر",
+      "cart": "سبد خرید",
+      "trending": "پرطرفدار",
+      "bestRated": "بهترین امتیاز",
+      "bestDeals": "بهترین پیشنهادها"
+    },
+    "errors": {
+      "notConnected": "به سرویس هوش مصنوعی متصل نیست",
+      "noUrl": "آدرس سرویس هوش مصنوعی تنظیم نشده است",
+      "connectionError": "خطا در اتصال به سرویس هوش مصنوعی"
+    }
+  },
+  "imageSearch": {
+    "title": "جستجوی تصویری",
+    "dragDrop": "تصویر را اینجا بکشید و رها کنید یا برای انتخاب کلیک کنید",
+    "supportedFormats": "فرمت‌های پشتیبانی شده: JPG، PNG، GIF",
+    "imageSelected": "تصویر انتخاب شد",
+    "cancel": "لغو",
+    "search": "جستجو",
+    "preview": "پیش‌نمایش"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\data\en.json
+=====================================
+{
+  "rtl": false,
+  "home": {
+    "welcome": "Welcome to our store",
+    "featuredProducts": "Featured Products",
+    "latestProducts": "Latest Products",
+    "specialOffers": "Special Offers",
+    "viewAll": "View All",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now"
+  },
+  "products": {
+    "title": "Products",
+    "description": "Discover our diverse range of products",
+    "noProducts": "No products found",
+    "noProductsDescription": "No products match your search criteria.",
+    "error": "An error occurred while loading products",
+    "featured": "Featured",
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "inCart": "In Cart",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "billingAddress": "Billing Address",
+    "shippingAddress": "Shipping Address",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "success": "Your order has been placed successfully!"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "myOrders": "My Orders",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "search": {
+    "placeholder": "Search for products...",
+    "noResults": "No results found",
+    "startTyping": "Start typing to search",
+    "resultsFor": "Results for"
+  },
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "priceRange": "Price Range",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "minPricePlaceholder": "Min Price",
+    "maxPricePlaceholder": "Max Price",
+    "allCategories": "All Categories",
+    "apply": "Apply",
+    "reset": "Reset",
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "sortBy": "Sort By",
+    "sortOrder": "Sort Order",
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
+  "categories": {
+    "electronics": "Electronics",
+    "computers": "Computers",
+    "audio": "Audio",
+    "wearables": "Wearables",
+    "photography": "Photography"
+  },
+  "sort": {
+    "name": "Name",
+    "price": "Price",
+    "rating": "Rating",
+    "date": "Date"
+  },
+  "product": {
+    "category": "Category",
+    "quantity": "Quantity",
+    "backToProducts": "Back to Products",
+    "notFound": "Product not found"
+  },
+  "currency": "$",
+  "image": {
+    "error": "Error loading image"
+  },
+  "modal": {
+    "close": "Close"
+  },
+  "reviews": "Reviews",
+  "admin": {
+    "title": "Admin Panel",
+    "dashboard": "Dashboard",
+    "products": {
+      "title": "Products",
+      "addProduct": "Add Product",
+      "editProduct": "Edit Product",
+      "image": "Image",
+      "title": "Title",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "actions": "Actions",
+      "featured": "Featured"
+    },
+    "orders": {
+      "title": "Orders",
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total"
+    },
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "update": "Update"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "Smart Actions",
+      "search": "Search",
+      "filter": "Filter",
+      "cart": "Cart",
+      "trending": "Trending",
+      "bestRated": "Best Rated",
+      "bestDeals": "Best Deals"
+    },
+    "errors": {
+      "notConnected": "Not connected to AI service",
+      "noUrl": "AI service URL not set",
+      "connectionError": "Error connecting to AI service"
+    }
+  },
+  "imageSearch": {
+    "title": "Visual Search",
+    "dragDrop": "Drag & drop image here or click to select",
+    "supportedFormats": "Supported formats: JPG, PNG, GIF",
+    "imageSelected": "Image selected",
+    "cancel": "Cancel",
+    "search": "Search",
+    "preview": "Preview"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\en.json
+=====================================
+{
+  "rtl": false,
+  "home": {
+    "welcome": "Welcome to our store",
+    "featuredProducts": "Featured Products",
+    "latestProducts": "Latest Products",
+    "specialOffers": "Special Offers",
+    "viewAll": "View All",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now"
+  },
+  "products": {
+    "title": "Products",
+    "description": "Discover our diverse range of products",
+    "noProducts": "No products found",
+    "noProductsDescription": "No products match your search criteria.",
+    "error": "An error occurred while loading products",
+    "featured": "Featured",
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "inCart": "In Cart",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "billingAddress": "Billing Address",
+    "shippingAddress": "Shipping Address",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "success": "Your order has been placed successfully!"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "myOrders": "My Orders",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "search": {
+    "placeholder": "Search for products...",
+    "noResults": "No results found",
+    "startTyping": "Start typing to search",
+    "resultsFor": "Results for"
+  },
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "priceRange": "Price Range",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "minPricePlaceholder": "Min Price",
+    "maxPricePlaceholder": "Max Price",
+    "allCategories": "All Categories",
+    "apply": "Apply",
+    "reset": "Reset",
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "sortBy": "Sort By",
+    "sortOrder": "Sort Order",
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
+  "categories": {
+    "electronics": "Electronics",
+    "computers": "Computers",
+    "audio": "Audio",
+    "wearables": "Wearables",
+    "photography": "Photography"
+  },
+  "sort": {
+    "name": "Name",
+    "price": "Price",
+    "rating": "Rating",
+    "date": "Date"
+  },
+  "product": {
+    "category": "Category",
+    "quantity": "Quantity",
+    "backToProducts": "Back to Products",
+    "notFound": "Product not found"
+  },
+  "currency": "$",
+  "image": {
+    "error": "Error loading image"
+  },
+  "modal": {
+    "close": "Close"
+  },
+  "reviews": "Reviews",
+  "admin": {
+    "title": "Admin Panel",
+    "dashboard": "Dashboard",
+    "products": {
+      "title": "Products",
+      "addProduct": "Add Product",
+      "editProduct": "Edit Product",
+      "image": "Image",
+      "title": "Title",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "actions": "Actions",
+      "featured": "Featured"
+    },
+    "orders": {
+      "title": "Orders",
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total"
+    },
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "update": "Update"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "Smart Actions",
+      "search": "Search",
+      "filter": "Filter",
+      "cart": "Cart",
+      "trending": "Trending",
+      "bestRated": "Best Rated",
+      "bestDeals": "Best Deals"
+    },
+    "errors": {
+      "notConnected": "Not connected to AI service",
+      "noUrl": "AI service URL not set",
+      "connectionError": "Error connecting to AI service"
+    }
+  },
+  "imageSearch": {
+    "title": "Visual Search",
+    "dragDrop": "Drag & drop image here or click to select",
+    "supportedFormats": "Supported formats: JPG, PNG, GIF",
+    "imageSelected": "Image selected",
+    "cancel": "Cancel",
+    "search": "Search",
+    "preview": "Preview"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\fa.json
+=====================================
+{
+  "rtl": true,
+  "home": {
+    "welcome": "به فروشگاه ما خوش آمدید",
+    "featuredProducts": "محصولات ویژه",
+    "latestProducts": "جدیدترین محصولات",
+    "specialOffers": "پیشنهادهای ویژه",
+    "viewAll": "مشاهده همه",
+    "addToCart": "افزودن به سبد",
+    "buyNow": "همین الان بخر"
+  },
+  "products": {
+    "title": "محصولات",
+    "description": "محصولات متنوع ما را کشف کنید",
+    "noProducts": "محصولی یافت نشد",
+    "noProductsDescription": "هیچ محصولی مطابق با معیارهای جستجوی شما پیدا نشد.",
+    "error": "هنگام بارگذاری محصولات خطایی رخ داد",
+    "featured": "ویژه",
+    "addToCart": "افزودن به سبد",
+    "outOfStock": "ناموجود",
+    "inCart": "در سبد",
+    "quantity": "تعداد",
+    "subtotal": "جمع جز"
+  },
+  "cart": {
+    "title": "سبد خرید",
+    "empty": "سبد خرید خالی است",
+    "total": "مجموع",
+    "checkout": "پرداخت",
+    "remove": "حذف",
+    "inCart": "در سبد",
+    "quantity": "تعداد",
+    "subtotal": "جمع جز"
+  },
+  "checkout": {
+    "title": "پرداخت",
+    "billingAddress": "آدرس صورتحساب",
+    "shippingAddress": "آدرس ارسال",
+    "paymentMethod": "روش پرداخت",
+    "orderSummary": "خلاصه سفارش",
+    "placeOrder": "ثبت سفارش",
+    "success": "سفارش شما با موفقیت ثبت شد!"
+  },
+  "profile": {
+    "title": "پروفایل",
+    "editProfile": "ویرایش پروفایل",
+    "myOrders": "سفارش‌های من",
+    "logout": "خروج",
+    "login": "ورود",
+    "register": "ثبت نام"
+  },
+  "search": {
+    "placeholder": "جستجوی محصولات...",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "startTyping": "برای جستجو تایپ کنید",
+    "resultsFor": "نتایج برای"
+  },
+  "filters": {
+    "title": "فیلترها",
+    "category": "دسته‌بندی",
+    "priceRange": "محدوده قیمت",
+    "minPrice": "حداقل قیمت",
+    "maxPrice": "حداکثر قیمت",
+    "minPricePlaceholder": "حداقل قیمت",
+    "maxPricePlaceholder": "حداکثر قیمت",
+    "allCategories": "همه دسته‌ها",
+    "apply": "اعمال",
+    "reset": "بازنشانی",
+    "search": "جستجو",
+    "searchPlaceholder": "جستجو...",
+    "sortBy": "مرتب‌سازی بر اساس",
+    "sortOrder": "ترتیب مرتب‌سازی",
+    "ascending": "صعودی",
+    "descending": "نزولی"
+  },
+  "categories": {
+    "electronics": "الکترونیک",
+    "computers": "رایانه‌ها",
+    "audio": "صوتی",
+    "wearables": "پوشیدنی‌ها",
+    "photography": "عکاسی"
+  },
+  "sort": {
+    "name": "نام",
+    "price": "قیمت",
+    "rating": "امتیاز",
+    "date": "تاریخ"
+  },
+  "product": {
+    "category": "دسته‌بندی",
+    "quantity": "تعداد",
+    "backToProducts": "بازگشت به محصولات",
+    "notFound": "محصول یافت نشد"
+  },
+  "currency": "تومان",
+  "image": {
+    "error": "خطا در بارگذاری تصویر"
+  },
+  "modal": {
+    "close": "بستن"
+  },
+  "reviews": "بررسی‌ها",
+  "admin": {
+    "title": "پنل مدیریت",
+    "dashboard": "داشبورد",
+    "products": {
+      "title": "محصولات",
+      "addProduct": "افزودن محصول",
+      "editProduct": "ویرایش محصول",
+      "image": "تصویر",
+      "title": "عنوان",
+      "category": "دسته‌بندی",
+      "price": "قیمت",
+      "stock": "موجودی",
+      "actions": "عملیات",
+      "featured": "ویژه"
+    },
+    "orders": {
+      "title": "سفارش‌ها",
+      "orderId": "شماره سفارش",
+      "customer": "مشتری",
+      "date": "تاریخ",
+      "status": "وضعیت",
+      "total": "مجموع"
+    },
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "update": "به‌روزرسانی"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "اقدامات هوشمند",
+      "search": "جستجو",
+      "filter": "فیلتر",
+      "cart": "سبد خرید",
+      "trending": "پرطرفدار",
+      "bestRated": "بهترین امتیاز",
+      "bestDeals": "بهترین پیشنهادها"
+    },
+    "errors": {
+      "notConnected": "به سرویس هوش مصنوعی متصل نیست",
+      "noUrl": "آدرس سرویس هوش مصنوعی تنظیم نشده است",
+      "connectionError": "خطا در اتصال به سرویس هوش مصنوعی"
+    }
+  },
+  "imageSearch": {
+    "title": "جستجوی تصویری",
+    "dragDrop": "تصویر را اینجا بکشید و رها کنید یا برای انتخاب کلیک کنید",
+    "supportedFormats": "فرمت‌های پشتیبانی شده: JPG، PNG، GIF",
+    "imageSelected": "تصویر انتخاب شد",
+    "cancel": "لغو",
+    "search": "جستجو",
+    "preview": "پیش‌نمایش"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\config\i18n.ts
+=====================================
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import en from '../data/en.json';
+import fa from '../data/fa.json';
+import ar from '../data/ar.json';
+
+// Detect user's preferred language
+const detectedLanguage = localStorage.getItem('language') || 
+                        navigator.language.split('-')[0] || 
+                        'en';
+
+// Ensure the detected language is supported
+const supportedLanguages = ['en', 'fa', 'ar'];
+const defaultLanguage = supportedLanguages.includes(detectedLanguage) 
+  ? detectedLanguage 
+  : 'en';
+
+// Set RTL/LTR based on language
+const isRTL = ['fa', 'ar'].includes(defaultLanguage);
+document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+document.documentElement.lang = defaultLanguage;
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: { translation: en },
+      fa: { translation: fa },
+      ar: { translation: ar },
+    },
+    lng: defaultLanguage,
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false, // React already escapes by default
+    },
+    react: {
+      useSuspense: false, // Don't use suspense
+    }
+  });
+
+export default i18n;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\pages\I18nDebug.tsx
+=====================================
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+
+const I18nDebug: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    setSelectedLanguage(lang);
+    // Update document direction based on language
+    const isRTL = ['fa', 'ar'].includes(lang);
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+  };
+
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'fa', name: 'فارسی' },
+    { code: 'ar', name: 'العربية' },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="min-h-screen bg-gray-50 p-6"
+    >
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">i18n Debug Page</h1>
+        
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">Current Language: {selectedLanguage}</h2>
+          <div className="flex flex-wrap gap-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => changeLanguage(lang.code)}
+                className={`px-4 py-2 rounded-lg ${
+                  selectedLanguage === lang.code
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                {lang.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-medium text-gray-800 mb-3">Translation Keys</h3>
+            <ul className="space-y-2">
+              <li><strong>home.welcome:</strong> {t('home.welcome')}</li>
+              <li><strong>products.title:</strong> {t('products.title')}</li>
+              <li><strong>cart.title:</strong> {t('cart.title')}</li>
+              <li><strong>checkout.title:</strong> {t('checkout.title')}</li>
+              <li><strong>profile.title:</strong> {t('profile.title')}</li>
+              <li><strong>search.placeholder:</strong> {t('search.placeholder')}</li>
+              <li><strong>filters.title:</strong> {t('filters.title')}</li>
+              <li><strong>admin.title:</strong> {t('admin.title')}</li>
+              <li><strong>ai.quickActions.title:</strong> {t('ai.quickActions.title')}</li>
+              <li><strong>imageSearch.title:</strong> {t('imageSearch.title')}</li>
+            </ul>
+          </div>
+
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-medium text-gray-800 mb-3">Language Direction</h3>
+            <p><strong>Current Direction:</strong> {document.documentElement.dir}</p>
+            <p><strong>Is RTL:</strong> {['fa', 'ar'].includes(selectedLanguage) ? 'Yes' : 'No'}</p>
+            
+            <h3 className="text-lg font-medium text-gray-800 mt-4 mb-3">Sample Texts</h3>
+            <div className="space-y-2">
+              <p><strong>Welcome:</strong> {t('home.welcome')}</p>
+              <p><strong>Products:</strong> {t('products.title')}</p>
+              <p><strong>Cart:</strong> {t('cart.title')}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+          <h3 className="text-lg font-medium text-blue-800 mb-2">Language Detection Info</h3>
+          <p><strong>Detected Browser Language:</strong> {navigator.language}</p>
+          <p><strong>Current i18n Language:</strong> {i18n.language}</p>
+          <p><strong>Stored Language in Local Storage:</strong> {localStorage.getItem('language') || 'Not set'}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default I18nDebug;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\components\LanguageSwitcher.tsx
+=====================================
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Globe } from 'lucide-react';
+
+const LanguageSwitcher: React.FC = () => {
+  const { i18n, t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'fa', name: 'فارسی', flag: '🇮🇷' },
+    { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  ];
+
+  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+
+  const changeLanguage = (langCode: string) => {
+    i18n.changeLanguage(langCode);
+    localStorage.setItem('language', langCode);
+    
+    // Update document direction based on language
+    const isRTL = ['fa', 'ar'].includes(langCode);
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = langCode;
+    
+    setIsOpen(false);
+  };
+
+  // Set initial direction based on current language
+  useEffect(() => {
+    const isRTL = ['fa', 'ar'].includes(i18n.language);
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+        aria-label={t('profile.languageSwitcher')}
+      >
+        <Globe className="w-5 h-5 text-gray-600" />
+        <span className="text-gray-700">{currentLanguage.flag} {currentLanguage.name}</span>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.1 }}
+          >
+            <ul>
+              {languages.map((lang) => (
+                <li key={lang.code}>
+                  <button
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`flex items-center space-x-3 w-full px-4 py-2 text-left hover:bg-gray-100 ${
+                      i18n.language === lang.code ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                    }`}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default LanguageSwitcher;
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\data\ar_complete.json
+=====================================
+{
+  "rtl": true,
+  "home": {
+    "welcome": "مرحبا بكم في متجرنا",
+    "featuredProducts": "منتجات مميزة",
+    "latestProducts": "أحدث المنتجات",
+    "specialOffers": "عروض خاصة",
+    "viewAll": "عرض الكل",
+    "addToCart": "أضف إلى السلة",
+    "buyNow": "اشتر الآن"
+  },
+  "products": {
+    "title": "منتجات",
+    "description": "اكتشف منتجاتنا المتنوعة",
+    "noProducts": "لا توجد منتجات",
+    "noProductsDescription": "لم نتمكن من العثور على منتجات تطابق معايير البحث الخاصة بك.",
+    "error": "حدث خطأ أثناء تحميل المنتجات",
+    "featured": "مميز",
+    "addToCart": "أضف إلى السلة",
+    "outOfStock": "غير متوفر",
+    "inStock": "متوفر"
+  },
+  "cart": {
+    "title": "السلة",
+    "empty": "السلة فارغة",
+    "total": "الإجمالي",
+    "checkout": "الدفع",
+    "remove": "إزالة",
+    "inCart": "في السلة",
+    "quantity": "الكمية",
+    "subtotal": "المجموع الفرعي"
+  },
+  "checkout": {
+    "title": "الدفع",
+    "billingAddress": "عنوان الفواتير",
+    "shippingAddress": "عنوان الشحن",
+    "paymentMethod": "طريقة الدفع",
+    "orderSummary": "ملخص الطلب",
+    "placeOrder": "تقديم الطلب",
+    "success": "تم تقديم الطلب بنجاح!"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "editProfile": "تعديل الملف الشخصي",
+    "myOrders": "طلباتي",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "languageSwitcher": "مفتاح تبديل اللغة"
+  },
+  "search": {
+    "placeholder": "البحث عن منتجات...",
+    "noResults": "لا توجد نتائج",
+    "startTyping": "ابدأ بالكتابة للبحث",
+    "resultsFor": "نتائج البحث عن"
+  },
+  "filters": {
+    "title": "الفلاتر",
+    "category": "الفئة",
+    "priceRange": "نطاق السعر",
+    "minPrice": "السعر الأدنى",
+    "maxPrice": "السعر الأعلى",
+    "minPricePlaceholder": "السعر الأدنى",
+    "maxPricePlaceholder": "السعر الأعلى",
+    "allCategories": "جميع الفئات",
+    "apply": "تطبيق",
+    "reset": "إعادة تعيين",
+    "search": "البحث",
+    "searchPlaceholder": "البحث...",
+    "sortBy": "ترتيب حسب",
+    "sortOrder": "اتجاه الترتيب",
+    "ascending": "تصاعدي",
+    "descending": "تنازلي"
+  },
+  "categories": {
+    "electronics": "إلكترونيات",
+    "computers": "كمبيوترات",
+    "audio": "صوتيات",
+    "wearables": "القابلات للارتداء",
+    "photography": "التصوير"
+  },
+  "sort": {
+    "name": "الاسم",
+    "price": "السعر",
+    "rating": "التقييم",
+    "date": "التاريخ"
+  },
+  "product": {
+    "category": "الفئة",
+    "quantity": "الكمية",
+    "backToProducts": "العودة إلى المنتجات",
+    "notFound": "المنتج غير موجود"
+  },
+  "currency": "ر.س",
+  "image": {
+    "error": "خطأ في تحميل الصورة"
+  },
+  "modal": {
+    "close": "إغلاق"
+  },
+  "reviews": "مراجعات",
+  "admin": {
+    "title": "لوحة التحكم",
+    "dashboard": "لوحة التحكم",
+    "products": {
+      "title": "المنتجات",
+      "addProduct": "إضافة منتج",
+      "editProduct": "تعديل المنتج",
+      "image": "الصورة",
+      "title": "العنوان",
+      "category": "الفئة",
+      "price": "السعر",
+      "stock": "المخزون",
+      "actions": "الإجراءات",
+      "featured": "مميز"
+    },
+    "orders": {
+      "title": "الطلبات",
+      "orderId": "رقم الطلب",
+      "customer": "العميل",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "total": "الإجمالي"
+    },
+    "edit": "تعديل",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "update": "تحديث"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "إجراءات ذكية",
+      "search": "البحث",
+      "filter": "الفلترة",
+      "cart": "السلة",
+      "trending": "شائع",
+      "bestRated": "الأعلى تقييماً",
+      "bestDeals": "أفضل العروض"
+    },
+    "errors": {
+      "notConnected": "غير متصل بخدمة الذكاء الاصطناعي",
+      "noUrl": "لم يتم تعيين عنوان URL للذكاء الاصطناعي",
+      "connectionError": "خطأ في الاتصال بخدمة الذكاء الاصطناعي"
+    }
+  },
+  "imageSearch": {
+    "title": "البحث بالصورة",
+    "dragDrop": "اسحب وأفلت الصورة هنا أو انقر للاختيار",
+    "supportedFormats": "الصيغ المدعومة: JPG, PNG, GIF",
+    "imageSelected": "تم اختيار الصورة",
+    "cancel": "إلغاء",
+    "search": "بحث",
+    "preview": "معاينة"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\data\en_complete.json
+=====================================
+{
+  "rtl": false,
+  "home": {
+    "welcome": "Welcome to our store",
+    "featuredProducts": "Featured Products",
+    "latestProducts": "Latest Products",
+    "specialOffers": "Special Offers",
+    "viewAll": "View All",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now"
+  },
+  "products": {
+    "title": "Products",
+    "description": "Discover our diverse range of products",
+    "noProducts": "No products found",
+    "noProductsDescription": "No products match your search criteria.",
+    "error": "An error occurred while loading products",
+    "featured": "Featured",
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "inCart": "In Cart",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "billingAddress": "Billing Address",
+    "shippingAddress": "Shipping Address",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "success": "Your order has been placed successfully!"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "myOrders": "My Orders",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "languageSwitcher": "Language Switcher"
+  },
+  "search": {
+    "placeholder": "Search for products...",
+    "noResults": "No results found",
+    "startTyping": "Start typing to search",
+    "resultsFor": "Results for"
+  },
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "priceRange": "Price Range",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "minPricePlaceholder": "Min Price",
+    "maxPricePlaceholder": "Max Price",
+    "allCategories": "All Categories",
+    "apply": "Apply",
+    "reset": "Reset",
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "sortBy": "Sort By",
+    "sortOrder": "Sort Order",
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
+  "categories": {
+    "electronics": "Electronics",
+    "computers": "Computers",
+    "audio": "Audio",
+    "wearables": "Wearables",
+    "photography": "Photography"
+  },
+  "sort": {
+    "name": "Name",
+    "price": "Price",
+    "rating": "Rating",
+    "date": "Date"
+  },
+  "product": {
+    "category": "Category",
+    "quantity": "Quantity",
+    "backToProducts": "Back to Products",
+    "notFound": "Product not found"
+  },
+  "currency": "$",
+  "image": {
+    "error": "Error loading image"
+  },
+  "modal": {
+    "close": "Close"
+  },
+  "reviews": "Reviews",
+  "admin": {
+    "title": "Admin Panel",
+    "dashboard": "Dashboard",
+    "products": {
+      "title": "Products",
+      "addProduct": "Add Product",
+      "editProduct": "Edit Product",
+      "image": "Image",
+      "title": "Title",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "actions": "Actions",
+      "featured": "Featured"
+    },
+    "orders": {
+      "title": "Orders",
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total"
+    },
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "update": "Update"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "Smart Actions",
+      "search": "Search",
+      "filter": "Filter",
+      "cart": "Cart",
+      "trending": "Trending",
+      "bestRated": "Best Rated",
+      "bestDeals": "Best Deals"
+    },
+    "errors": {
+      "notConnected": "Not connected to AI service",
+      "noUrl": "AI service URL not set",
+      "connectionError": "Error connecting to AI service"
+    }
+  },
+  "imageSearch": {
+    "title": "Visual Search",
+    "dragDrop": "Drag & drop image here or click to select",
+    "supportedFormats": "Supported formats: JPG, PNG, GIF",
+    "imageSelected": "Image selected",
+    "cancel": "Cancel",
+    "search": "Search",
+    "preview": "Preview"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\data\fa_complete.json
+=====================================
+{
+  "rtl": true,
+  "home": {
+    "welcome": "به فروشگاه ما خوش آمدید",
+    "featuredProducts": "محصولات ویژه",
+    "latestProducts": "جدیدترین محصولات",
+    "specialOffers": "پیشنهادهای ویژه",
+    "viewAll": "مشاهده همه",
+    "addToCart": "افزودن به سبد",
+    "buyNow": "همین الان بخر"
+  },
+  "products": {
+    "title": "محصولات",
+    "description": "محصولات متنوع ما را کشف کنید",
+    "noProducts": "محصولی یافت نشد",
+    "noProductsDescription": "هیچ محصولی مطابق با معیارهای جستجوی شما پیدا نشد.",
+    "error": "هنگام بارگذاری محصولات خطایی رخ داد",
+    "featured": "ویژه",
+    "addToCart": "افزودن به سبد",
+    "outOfStock": "ناموجود",
+    "inCart": "در سبد",
+    "quantity": "تعداد",
+    "subtotal": "جمع جز"
+  },
+  "cart": {
+    "title": "سبد خرید",
+    "empty": "سبد خرید خالی است",
+    "total": "مجموع",
+    "checkout": "پرداخت",
+    "remove": "حذف",
+    "inCart": "در سبد",
+    "quantity": "تعداد",
+    "subtotal": "جمع جز"
+  },
+  "checkout": {
+    "title": "پرداخت",
+    "billingAddress": "آدرس صورتحساب",
+    "shippingAddress": "آدرس ارسال",
+    "paymentMethod": "روش پرداخت",
+    "orderSummary": "خلاصه سفارش",
+    "placeOrder": "ثبت سفارش",
+    "success": "سفارش شما با موفقیت ثبت شد!"
+  },
+  "profile": {
+    "title": "پروفایل",
+    "editProfile": "ویرایش پروفایل",
+    "myOrders": "سفارش‌های من",
+    "logout": "خروج",
+    "login": "ورود",
+    "register": "ثبت نام",
+    "languageSwitcher": "تغییر زبان"
+  },
+  "search": {
+    "placeholder": "جستجوی محصولات...",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "startTyping": "برای جستجو تایپ کنید",
+    "resultsFor": "نتایج برای"
+  },
+  "filters": {
+    "title": "فیلترها",
+    "category": "دسته‌بندی",
+    "priceRange": "محدوده قیمت",
+    "minPrice": "حداقل قیمت",
+    "maxPrice": "حداکثر قیمت",
+    "minPricePlaceholder": "حداقل قیمت",
+    "maxPricePlaceholder": "حداکثر قیمت",
+    "allCategories": "همه دسته‌ها",
+    "apply": "اعمال",
+    "reset": "بازنشانی",
+    "search": "جستجو",
+    "searchPlaceholder": "جستجو...",
+    "sortBy": "مرتب‌سازی بر اساس",
+    "sortOrder": "ترتیب مرتب‌سازی",
+    "ascending": "صعودی",
+    "descending": "نزولی"
+  },
+  "categories": {
+    "electronics": "الکترونیک",
+    "computers": "رایانه‌ها",
+    "audio": "صوتی",
+    "wearables": "پوشیدنی‌ها",
+    "photography": "عکاسی"
+  },
+  "sort": {
+    "name": "نام",
+    "price": "قیمت",
+    "rating": "امتیاز",
+    "date": "تاریخ"
+  },
+  "product": {
+    "category": "دسته‌بندی",
+    "quantity": "تعداد",
+    "backToProducts": "بازگشت به محصولات",
+    "notFound": "محصول یافت نشد"
+  },
+  "currency": "تومان",
+  "image": {
+    "error": "خطا در بارگذاری تصویر"
+  },
+  "modal": {
+    "close": "بستن"
+  },
+  "reviews": "بررسی‌ها",
+  "admin": {
+    "title": "پنل مدیریت",
+    "dashboard": "داشبورد",
+    "products": {
+      "title": "محصولات",
+      "addProduct": "افزودن محصول",
+      "editProduct": "ویرایش محصول",
+      "image": "تصویر",
+      "title": "عنوان",
+      "category": "دسته‌بندی",
+      "price": "قیمت",
+      "stock": "موجودی",
+      "actions": "عملیات",
+      "featured": "ویژه"
+    },
+    "orders": {
+      "title": "سفارش‌ها",
+      "orderId": "شماره سفارش",
+      "customer": "مشتری",
+      "date": "تاریخ",
+      "status": "وضعیت",
+      "total": "مجموع"
+    },
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "update": "به‌روزرسانی"
+  },
+  "ai": {
+    "quickActions": {
+      "title": "اقدامات هوشمند",
+      "search": "جستجو",
+      "filter": "فیلتر",
+      "cart": "سبد خرید",
+      "trending": "پرطرفدار",
+      "bestRated": "بهترین امتیاز",
+      "bestDeals": "بهترین پیشنهادها"
+    },
+    "errors": {
+      "notConnected": "به سرویس هوش مصنوعی متصل نیست",
+      "noUrl": "آدرس سرویس هوش مصنوعی تنظیم نشده است",
+      "connectionError": "خطا در اتصال به سرویس هوش مصنوعی"
+    }
+  },
+  "imageSearch": {
+    "title": "جستجوی تصویری",
+    "dragDrop": "تصویر را اینجا بکشید و رها کنید یا برای انتخاب کلیک کنید",
+    "supportedFormats": "فرمت‌های پشتیبانی شده: JPG، PNG، GIF",
+    "imageSelected": "تصویر انتخاب شد",
+    "cancel": "لغو",
+    "search": "جستجو",
+    "preview": "پیش‌نمایش"
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\tailwind.config.js
+=====================================
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        }
+      }
+    },
+  },
+  plugins: [],
+  // Enable RTL support
+  future: {
+    purgeLayersByDefault: true,
+  },
+  corePlugins: {
+    // Disable preflight to avoid conflicts with existing styles
+    preflight: false,
+  }
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\tests\fixtures\data\mockProducts.json
+=====================================
+[
+  {"id": 1, "title": "محصول تست ۱", "title_en": "Test Product 1", "price": 99000, "image_url": "/images/placeholder.jpg", "category": "Electronics", "description": "A test product for automation testing", "stock": 10, "rating": 4.5, "is_featured": true},
+  {"id": 2, "title": "محصول تست ۲", "title_en": "Test Product 2", "price": 149000, "image_url": "/images/placeholder.jpg", "category": "Accessories", "description": "Another test product for automation testing", "stock": 5, "rating": 4.2, "is_featured": false}
+]

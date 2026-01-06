@@ -1,0 +1,436 @@
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\tailwind.config.js
+=====================================
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: 'class',
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  theme: {
+    extend: {
+      // iPhone 17 Orange Color Palette
+      colors: {
+        orange: {
+          50: '#FFF5F0',
+          100: '#FFE8DC',
+          200: '#FFD1BA',
+          300: '#FFB499',
+          400: '#FF8C61',
+          500: '#FF6B35', // Main iPhone 17 Orange
+          600: '#FF4500',
+          700: '#E63900',
+          800: '#CC3200',
+          900: '#B32C00',
+        },
+        glass: {
+          light: 'rgba(255, 255, 255, 0.1)',
+          dark: 'rgba(0, 0, 0, 0.2)',
+        }
+      },
+      // Advanced Animations
+      animation: {
+        'fade-in': 'fadeIn 0.6s ease-in-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+        'slide-down': 'slideDown 0.5s ease-out',
+        'scale-in': 'scaleIn 0.4s ease-out',
+        'shimmer': 'shimmer 2s infinite',
+        'float': 'float 3s ease-in-out infinite',
+        'glow': 'glow 2s ease-in-out infinite',
+        'ripple': 'ripple 0.6s ease-out',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-slow': 'bounce 2s infinite',
+        'spin-slow': 'spin 3s linear infinite',
+        'tilt': 'tilt 10s infinite linear',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(-20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0.9)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-1000px 0' },
+          '100%': { backgroundPosition: '1000px 0' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        glow: {
+          '0%, 100%': { boxShadow: '0 0 20px rgba(255, 107, 53, 0.5)' },
+          '50%': { boxShadow: '0 0 40px rgba(255, 107, 53, 0.8)' },
+        },
+        ripple: {
+          '0%': { transform: 'scale(0)', opacity: '1' },
+          '100%': { transform: 'scale(4)', opacity: '0' },
+        },
+        tilt: {
+          '0%, 50%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(1deg)' },
+          '75%': { transform: 'rotate(-1deg)' },
+        },
+      },
+      // Backdrop Blur for Glass Effect
+      backdropBlur: {
+        xs: '2px',
+        '3xl': '64px',
+      },
+      // Box Shadows for Depth
+      boxShadow: {
+        'glass': '0 8px 32px 0 rgba(255, 107, 53, 0.1)',
+        'glass-hover': '0 8px 32px 0 rgba(255, 107, 53, 0.2)',
+        'glass-orange': '0 8px 32px 0 rgba(255, 107, 53, 0.3)',
+        'inner-glow': 'inset 0 0 20px rgba(255, 107, 53, 0.1)',
+        'neon': '0 0 5px theme("colors.orange.400"), 0 0 20px theme("colors.orange.500")',
+      },
+      // Border Radius
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '2.5rem',
+      },
+      // Background Images for Gradients
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-orange': 'linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%)',
+        'gradient-orange-dark': 'linear-gradient(135deg, #FF4500 0%, #FF6B35 100%)',
+        'mesh-orange': 'radial-gradient(at 40% 20%, rgba(255, 107, 53, 0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(255, 140, 97, 0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(255, 69, 0, 0.2) 0px, transparent 50%)',
+      },
+    },
+  },
+  plugins: [],
+}
+
+=====================================
+FILE: E:\template1\multilingual-ecommerce-template\frontend\src\index.css
+=====================================
+/* Import Legacy Component Styles */
+@import './components/legacy/legacy-styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  /* RTL Support */
+  html[dir='rtl'] {
+    direction: rtl;
+  }
+
+  html[dir='rtl'] body {
+    text-align: right;
+  }
+
+  body {
+    @apply antialiased;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-orange-500 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-orange-600;
+  }
+}
+
+@layer components {
+  /* ==================== LIQUID GLASS EFFECTS ==================== */
+
+  /* Basic Liquid Glass */
+  .glass {
+    @apply bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20 dark:border-white/10;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.05)
+    );
+  }
+
+  /* Premium Liquid Glass with Orange Tint */
+  .glass-orange {
+    @apply backdrop-blur-2xl border border-orange-500/30;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 107, 53, 0.1),
+      rgba(255, 140, 97, 0.05)
+    );
+    box-shadow: 0 8px 32px 0 rgba(255, 107, 53, 0.15),
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Glossy Glass Card */
+  .glass-card {
+    @apply backdrop-blur-xl rounded-3xl border border-white/20 dark:border-white/10;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.05)
+    );
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    @apply border-orange-500/40;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 107, 53, 0.15),
+      rgba(255, 140, 97, 0.08)
+    );
+    box-shadow: 0 12px 48px 0 rgba(255, 107, 53, 0.2),
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+    transform: translateY(-4px);
+  }
+
+  /* Floating Glass Panel */
+  .glass-panel {
+    @apply backdrop-blur-3xl rounded-3xl border-2 border-white/30 dark:border-white/20;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.1)
+    );
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  }
+
+  /* ==================== BUTTONS ==================== */
+
+  /* Primary Orange Button */
+  .btn-primary {
+    @apply relative overflow-hidden bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold px-8 py-3 rounded-2xl transition-all duration-300;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+  }
+
+  .btn-primary:hover {
+    @apply from-orange-600 to-orange-700 scale-105;
+    box-shadow: 0 6px 25px rgba(255, 107, 53, 0.6);
+  }
+
+  .btn-primary:active {
+    @apply scale-95;
+  }
+
+  /* Glass Button */
+  .btn-glass {
+    @apply glass-orange text-orange-500 dark:text-orange-400 font-semibold px-6 py-3 rounded-2xl transition-all duration-300 hover:scale-105;
+  }
+
+  /* ==================== INPUTS ==================== */
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300;
+    @apply focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20;
+  }
+
+  /* ==================== TEXT EFFECTS ==================== */
+
+  /* Orange Gradient Text */
+  .text-gradient-orange {
+    @apply bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 bg-clip-text text-transparent;
+  }
+
+  /* Glowing Text */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 107, 53, 0.5),
+                 0 0 40px rgba(255, 107, 53, 0.3);
+  }
+
+  /* ==================== BADGES & TAGS ==================== */
+
+  .badge-orange {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-500 text-white;
+    box-shadow: 0 2px 10px rgba(255, 107, 53, 0.4);
+  }
+
+  .badge-glass {
+    @apply glass-orange inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-orange-500;
+  }
+
+  /* ==================== SPECIAL EFFECTS ==================== */
+
+  /* Shimmer Effect for Loading */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 107, 53, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Floating Animation */
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Glow Effect */
+  .glow-orange {
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.4),
+                0 0 40px rgba(255, 107, 53, 0.2);
+  }
+
+  .glow-orange:hover {
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.6),
+                0 0 60px rgba(255, 107, 53, 0.3);
+  }
+
+  /* ==================== UTILITY CLASSES ==================== */
+
+  /* Smooth Transitions */
+  .transition-smooth {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 3D Tilt Effect */
+  .tilt-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+  }
+
+  .tilt-3d:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  }
+
+  /* Backdrop Blur Overlay */
+  .overlay-blur {
+    @apply fixed inset-0 backdrop-blur-md bg-black/30 z-40;
+  }
+
+  /* ==================== RESPONSIVE TEXT SIZES ==================== */
+
+  .text-display {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+  }
+
+  .text-hero {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+
+  /* ==================== LOADING SKELETON ==================== */
+
+  .skeleton {
+    @apply bg-gray-200 dark:bg-gray-700 rounded-2xl animate-pulse;
+  }
+
+  .skeleton-shimmer {
+    @apply skeleton shimmer;
+  }
+}
+
+@layer utilities {
+  /* Hide Scrollbar but keep functionality */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Performance Optimization */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  /* Shimmer Animation for Loading Skeleton */
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  /* Float Animation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Toast Animation */
+  @keyframes shrink {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+  }
+
+  .animate-shrink {
+    animation: shrink 0.3s linear forwards;
+  }
+
+  /* Slide In Right Animation for MiniCart */
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slideInRight {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+  }
+}

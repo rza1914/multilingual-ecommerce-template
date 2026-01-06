@@ -1,0 +1,107 @@
+# Database Schema Report
+
+## User Model
+- **Table Name**: users
+- **Columns**:
+  - id: Integer (Primary Key, Index)
+  - email: String (Unique, Index, Not Null)
+  - username: String (Unique, Index, Not Null)
+  - full_name: String (Nullable)
+  - hashed_password: String (Not Null)
+  - is_active: Boolean (Default: True)
+  - role: String (Default: "user") - Changed from Enum to String for PostgreSQL compatibility
+  - created_at: DateTime (Timezone, Server Default: now())
+  - updated_at: DateTime (Timezone, On Update: now())
+- **Role Field**: role (String, Default: "user")
+
+## Product Model
+- **Table Name**: products
+- **Columns**:
+  - id: Integer (Primary Key, Index)
+  - title: String (Index, Not Null)
+  - description: Text (Nullable)
+  - price: Float (Not Null)
+  - discount_price: Float (Nullable)
+  - discount: Float (Default: 0.0) - Discount percentage
+  - stock: Integer (Default: 100) - Stock quantity
+  - rating: Float (Default: 0.0) - Product rating
+  - is_active: Boolean (Default: True)
+  - is_featured: Boolean (Default: False)
+  - image_url: String (Nullable)
+  - category: String (Nullable) - Using string instead of foreign key for demo
+  - tags: String (Nullable)
+  - title_en: String (Nullable) - Multilingual field
+  - title_ar: String (Nullable) - Multilingual field
+  - title_fa: String (Nullable) - Multilingual field
+  - description_en: Text (Nullable) - Multilingual field
+  - description_ar: Text (Nullable) - Multilingual field
+  - description_fa: Text (Nullable) - Multilingual field
+  - created_at: DateTime (Timezone, Server Default: now())
+  - updated_at: DateTime (Timezone, On Update: now())
+  - owner_id: Integer (Foreign Key to users.id)
+- **Category Relation**: category (String field, not foreign key in this implementation)
+
+## Order Model
+- **Table Name**: orders
+- **Columns**:
+  - id: Integer (Primary Key, Index)
+  - user_id: Integer (Foreign Key to users.id)
+  - full_name: String (Not Null) - Shipping Information
+  - email: String (Not Null) - Shipping Information
+  - phone: String (Not Null) - Shipping Information
+  - address: String (Not Null) - Shipping Information
+  - city: String (Not Null) - Shipping Information
+  - state: String (Not Null) - Shipping Information
+  - zip_code: String (Not Null) - Shipping Information
+  - country: String (Default: "United States") - Shipping Information
+  - shipping_method: String (Not Null) - standard, express, nextday
+  - payment_method: String (Not Null) - card, cod
+  - subtotal: Float (Not Null) - Pricing
+  - shipping_cost: Float (Not Null) - Pricing
+  - tax: Float (Not Null) - Pricing
+  - discount: Float (Default: 0) - Pricing
+  - total: Float (Not Null) - Pricing
+  - status: String (Default: "pending") - Changed from Enum to String
+  - created_at: DateTime (Timezone, Server Default: now())
+  - updated_at: DateTime (Timezone, On Update: now())
+- **Relationships with User**: user (relationship back_populates "orders")
+- **Relationships with Products**: items (relationship to OrderItem)
+
+## OrderItem Model
+- **Table Name**: order_items
+- **Columns**:
+  - id: Integer (Primary Key, Index)
+  - order_id: Integer (Foreign Key to orders.id)
+  - product_id: Integer (Foreign Key to products.id)
+  - quantity: Integer (Not Null)
+  - price_at_time: Float (Not Null) - Price when ordered (in case price changes later)
+- **Relationships**: order (back_populates "items"), product
+
+## Category Model
+- **Table Name**: categories
+- **Columns**:
+  - id: Integer (Primary Key, Index)
+  - name: String (Index, Not Null)
+  - description: Text (Nullable)
+  - is_active: Boolean (Default: True)
+  - parent_id: Integer (Nullable) - For hierarchical categories (can be implemented later)
+  - image_url: String (Nullable)
+  - name_en: String (Nullable) - Multilingual field
+  - name_ar: String (Nullable) - Multilingual field
+  - name_fa: String (Nullable) - Multilingual field
+  - description_en: Text (Nullable) - Multilingual field
+  - description_ar: Text (Nullable) - Multilingual field
+  - description_fa: Text (Nullable) - Multilingual field
+  - created_at: DateTime (Timezone, Server Default: now())
+  - updated_at: DateTime (Timezone, On Update: now())
+
+## Database Configuration
+- **Base Class**: declarative_base() from sqlalchemy.ext.declarative
+- **Engine**: Created with settings.DATABASE_URL
+- **Session**: SessionLocal created with autocommit=False, autoflush=False
+- **Connection**: Uses check_same_thread=False for SQLite compatibility
+
+## Model Import Structure
+- Models are imported in backend/app/models/__init__.py
+- Includes: User, Product, Translation, Order, OrderItem, OrderStatus, BotApiKey
+- Category is commented out for demo simplification
