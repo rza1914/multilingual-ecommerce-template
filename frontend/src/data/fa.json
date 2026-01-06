@@ -156,6 +156,9 @@
     "updateStatus": "به‌روزرسانی وضعیت",
     "updateStatusError": "خطا در به‌روزرسانی وضعیت",
     "updating": "در حال به‌روزرسانی...",
+    "newThisMonth": "جدید در این ماه: {{count}}",
+    "ordersCount": "{{count}} سفارش",
+    "revenueThisMonth": "درآمد این ماه: {{amount}}",
     "viewAll": "مشاهده همه",
     "viewDetails": "مشاهده جزئیات",
     "welcomeMessage": "به پنل مدیریت خوش آمدید"

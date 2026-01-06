@@ -55,7 +55,8 @@ self.addEventListener('fetch', (event) => {
   if (url.hostname.includes('googleapis.com') ||
       url.hostname.includes('gstatic.com') ||
       url.hostname.includes('pexels.com') ||
-      url.hostname.includes('via.placeholder.com')) {
+      url.hostname.includes('via.placeholder.com') ||
+      url.hostname.includes('placehold.co')) {
     return; // Don't intercept - let fetch proceed normally and let CSP handle it
   }
 
@@ -136,6 +137,16 @@ async function handleImageRequest(request) {
 
 // Handle API requests - Network First Strategy (with cache fallback)
 async function handleApiRequest(request) {
+  // Only cache GET requests - POST, PUT, DELETE, etc. cannot be cached
+  if (request.method !== 'GET') {
+    try {
+      return await fetch(request);
+    } catch (error) {
+      console.error('Non-GET API request failed:', error);
+      return new Response('Network Error', { status: 500 });
+    }
+  }
+
   try {
     const networkResponse = await fetch(request);
 

@@ -255,7 +255,7 @@ export default function AdminDashboard() {
               {t('admin.ordersByStatus')}
             </h2>
             <div className="space-y-4">
-              {Object.entries(stats.orders_by_status).length > 0 ? (
+              {stats.orders_by_status && Object.entries(stats.orders_by_status).length > 0 ? (
                 Object.entries(stats.orders_by_status).map(([status, count]) => (
                   <div key={status} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">

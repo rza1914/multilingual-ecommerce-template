@@ -156,6 +156,9 @@
     "updateStatus": "Update Status",
     "updateStatusError": "Error updating status",
     "updating": "Updating...",
+    "newThisMonth": "New this month: {{count}}",
+    "ordersCount": "{{count}} orders",
+    "revenueThisMonth": "Revenue this month: {{amount}}",
     "viewAll": "View All",
     "viewDetails": "View Details",
     "welcomeMessage": "Welcome to Admin Panel"

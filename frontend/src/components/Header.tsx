@@ -15,8 +15,6 @@ import { Product } from '../types/product.types';
 
 const Header = () => {
   const { t, ready } = useTranslation();
-  console.log('COMPONENT (Header): useTranslation ready status:', ready);
-  console.log('COMPONENT (Header): t("common.storeName") returns:', t('common.storeName'));
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);

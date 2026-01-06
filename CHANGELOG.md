@@ -1,3 +1,17 @@
+## 2026-01-06
+### Fixed
+- Fixed `Toast.tsx` ReferenceError: `t is not defined` - added missing `useTranslation` import and hook
+- Added fallback text for `aria-label` in case translation key is missing
+- Fixed 500 Internal Server Error in `/api/v1/admin/dashboard/stats` endpoint
+- Added safe type conversion functions (`safe_float`, `safe_int`, `safe_str`) to handle None values from database
+- Fixed TypeError when `func.sum()` returns None (no orders in database)
+- Fixed status enum to string conversion for orders_by_status
+
+### Added
+- Created `backend/app/schemas/admin.py` with Pydantic models for admin API
+- Added comprehensive error logging in admin endpoints
+- Added graceful fallback for top_products query if OrderItem model doesn't exist
+
 ## 2026-01-04 - Enable AI Actions for Guest Users
 
 ### Changed

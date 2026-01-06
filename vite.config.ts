@@ -5,26 +5,24 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  
-  // Path aliases for cleaner imports
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@services': path.resolve(__dirname, './src/services'),
-      '@config': path.resolve(__dirname, './src/config'),
-      '@types': path.resolve(__dirname, './src/types'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@utils': path.resolve(__dirname, './src/utils')
-    }
-  },
-  
-  // Development server configuration
+
+  // Add CSP headers for development
   server: {
     port: 5173,
     host: true,
-    
+    // Add headers to development server
+    headers: {
+      'Content-Security-Policy': [
+        "default-src 'self';",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval';",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+        "font-src 'self' https://fonts.gstatic.com data:;",
+        "img-src 'self' data: https://images.unsplash.com https://images.pexels.com https://placehold.co https://* blob:;",
+        "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://fonts.googleapis.com https://images.pexels.com https://images.unsplash.com https://placehold.co;",
+        "frame-src 'self' https:;"
+      ].join(' ')
+    },
+
     // Proxy API requests to FastAPI backend
     proxy: {
       '/api': {
@@ -43,7 +41,7 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Build configuration
   build: {
     outDir: 'dist',
@@ -55,6 +53,20 @@ export default defineConfig({
           ui: ['lucide-react']
         }
       }
+    }
+  },
+
+  // Path aliases for cleaner imports
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@config': path.resolve(__dirname, './src/config'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@utils': path.resolve(__dirname, './src/utils')
     }
   }
 });

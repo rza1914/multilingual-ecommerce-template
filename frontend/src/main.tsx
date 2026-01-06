@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, createRoutesFromChildren, matchRoutes, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import App from './App.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
@@ -37,7 +37,7 @@ if (i18n.isInitialized) {
   // Render the main app using the SAME root instance
   root.render(
     <React.StrictMode>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <I18nextProvider i18n={i18n}>
           <ThemeProvider>
             <App />
@@ -61,7 +61,7 @@ if (i18n.isInitialized) {
     // Re-render the main app using the SAME root instance (no new createRoot call)
     root.render(
       <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <I18nextProvider i18n={i18n}>
             <ThemeProvider>
               <App />
@@ -74,9 +74,13 @@ if (i18n.isInitialized) {
     console.error('MAIN: i18n.init() failed with error:', err);
     // Re-use the same root instance
     root.render(
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 text-red-500">
-        Error loading application translations. Please refresh.
-      </div>
+      <React.StrictMode>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 text-red-500">
+            Error loading application translations. Please refresh.
+          </div>
+        </BrowserRouter>
+      </React.StrictMode>
     );
   });
 }
