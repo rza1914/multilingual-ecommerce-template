@@ -11,7 +11,7 @@ export const login = async (data: LoginData): Promise<LoginResponse> => {
   formData.append('username', data.email); // OAuth2 uses 'username' field
   formData.append('password', data.password);
 
-  const response = await api.post<any, LoginResponse>(
+  const response = await api.post<LoginResponse>(
     API_CONFIG.ENDPOINTS.AUTH.LOGIN,
     formData,
     {
@@ -29,7 +29,7 @@ export const login = async (data: LoginData): Promise<LoginResponse> => {
  * Uses JSON format
  */
 export const register = async (data: RegisterData): Promise<User> => {
-  const response = await api.post<any, User>(
+  const response = await api.post<User>(
     API_CONFIG.ENDPOINTS.AUTH.REGISTER,
     data
   );
@@ -42,7 +42,7 @@ export const register = async (data: RegisterData): Promise<User> => {
  * Requires valid token in Authorization header
  */
 export const getCurrentUser = async (): Promise<User> => {
-  const response = await api.get<any, User>(API_CONFIG.ENDPOINTS.USERS.ME);
+  const response = await api.get<User>(API_CONFIG.ENDPOINTS.USERS.ME);
   return response;
 };
 
